@@ -56,7 +56,7 @@
                 v-model="csv"
                 headers
                 canIgnore
-                autoMatchFieldsÏ
+                autoMatchFields
                 loadBtnText="Load"
                 :map-fields="map_fields">
 
