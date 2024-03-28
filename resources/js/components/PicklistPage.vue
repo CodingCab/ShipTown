@@ -50,10 +50,13 @@
             </div>
         </div>
 
-        <b-modal id="quick-actions-modal" no-fade hide-footer hide-header
-                 @shown="setFocusElementById('stocktake-input',)"
-                 @hidden="setFocusOnBarcodeInput">
+        <b-modal id="quick-actions-modal" no-fade hide-header @shown="setFocusElementById('stocktake-input',)" @hidden="setFocusOnBarcodeInput">
             <stocktake-input></stocktake-input>
+            <template #modal-footer>
+                <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                    Cancel
+                </b-button>
+            </template>
         </b-modal>
 
     </div>

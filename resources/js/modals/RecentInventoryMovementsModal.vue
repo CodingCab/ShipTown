@@ -25,7 +25,7 @@
 
         <template #modal-footer>
             <b-button v-show="!isLoading" variant="secondary" class="float-right" @click="$bvModal.hide('recent-inventory-movements-modal')">
-                Close
+                Cancel
             </b-button>
         </template>
     </b-modal>
