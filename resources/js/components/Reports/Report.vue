@@ -29,7 +29,7 @@
                 <table class="table-hover w-100 text-left small text-nowrap" style="transform: rotateX(180deg);">
                     <thead>
                     <tr>
-                        <template v-for="field in fields">
+                        <template v-for="field in visibleFields">
                             <th class="small pr-2">
                                 <div class="dropdown">
                                     <button class="btn btn-link dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,7 +54,7 @@
                     </thead>
                     <tbody>
                     <tr class="table-hover" v-for="record in records">
-                        <template v-for="field in fields">
+                        <template v-for="field in visibleFields">
                             <td class="pr-3" v-if="field.type === 'datetime'">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
                             <td class="pr-3" v-else-if="field.type === 'date'">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
                             <td class="pr-3 text-right" v-else-if="field.type === 'numeric'">{{ record[field.name] }}</td>
@@ -239,7 +239,6 @@
                 this.setFilterAdding(field.name);
             },
 
-
             setFilterAdding(fieldName = null) {
                 let selectedField = fieldName ? this.fields.find(f => f.name === fieldName) : this.fields[0];
                 let existingFilter = this.filters.find(f => f.name === selectedField.name);
@@ -417,12 +416,21 @@
 
                 location.href = this.buildUrl();
             },
+
+            findFieldMetaData(fieldName) {
+                return this.fields.find(f => f.name === fieldName);
+            }
         },
 
         computed: {
             perPageOptions(){
                 return [...new Set([this.pagination.per_page, 10, 25, 50, 100])].sort((a, b) => a - b);
-            }
+            },
+
+            visibleFields() {
+                return Object.keys(this.records[0])
+                    .map(this.findFieldMetaData);
+            },
         }
     }
 </script>
