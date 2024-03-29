@@ -112,7 +112,7 @@
 
     <b-modal id="filter-box-modal" size="md" no-fade hide-header @shown="focusFilterBoxInput">
         <div v-if="filterAdding">
-            <div class="d-flex flex-column p-2" style="gap: 5px; background-color: #efefef">
+            <div class="d-flex flex-column p-2" style="gap: 5px;">
                 <div v-show="filterAdding.operators.length > 1">
                     <select v-model="filterAdding.selectedOperator" @change="focusFilterBoxInput" class="form-control form-control-sm">
                         <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">
@@ -133,7 +133,7 @@
             </div>
         </div>
         <template #modal-footer>
-            <b-button b-button variant="secondary" class="float-right" @click="$bvModal.hide('filter-box-modal')">Cancel</b-button>
+            <b-button variant="secondary" class="float-right" @click="$bvModal.hide('filter-box-modal')">Cancel</b-button>
             <b-button variant="primary" class="float-right" @click="addFilter">Apply</b-button>
         </template>
     </b-modal>
