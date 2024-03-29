@@ -422,4 +422,19 @@
     cursor: pointer;
 }
 
+::-webkit-scrollbar{
+    height: 4px;
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb:horizontal{
+    background: lightgray;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar:horizontal{
+    height: 8px;
+    background: none;
+}
+
 </style>
