@@ -27,6 +27,9 @@
                 <b-button variant="secondary" class="float-right" @click="$bvModal.hide('configuration-modal');">
                     Cancel
                 </b-button>
+                <b-button variant="primary" class="float-right" @click="$bvModal.hide('configuration-modal');">
+                    OK
+                </b-button>
             </template>
         </b-modal>
 
