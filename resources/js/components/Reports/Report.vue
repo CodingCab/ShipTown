@@ -177,6 +177,7 @@
     import ModalDateBetweenSelector from "../Widgets/ModalDateBetweenSelector.vue";
     import SearchFilter from "./SearchFilter.vue";
     import ReportHead from "./ReportHead.vue";
+    import moment from "moment";
 
     export default {
 
@@ -245,46 +246,47 @@
                 let selectedField = fieldName ? this.fields.find(f => f.name === fieldName) : this.fields[0];
                 let existingFilter = this.filters.find(f => f.name === selectedField.name);
                 let defaultOperator = selectedField.operators[0];
-                let defaultValue = '';
+                let defaultFilterValueMin = '';
+                let defaultFilterValueMax = '';
 
                 switch (selectedField.type) {
                     case 'numeric':
                         defaultOperator = 'btwn';
-                        defaultValue = 0;
+                        defaultFilterValueMin = 0;
+                        defaultFilterValueMax = 0;
                         break;
                     case 'string':
                         defaultOperator = 'contains';
-                        defaultValue = '';
+                        defaultFilterValueMin = '';
+                        defaultFilterValueMax = '';
+                        break;
+                    case 'date':
+                        defaultOperator = 'btwn';
+                        defaultFilterValueMin = moment().startOf("year").format('YYYY-MM-DD HH:mm');
+                        defaultFilterValueMax = moment().endOf("day").format('YYYY-MM-DD HH:mm');
+                        break;
+                    case 'datetime':
+                        defaultOperator = 'btwn';
+                        defaultFilterValueMin = moment().startOf("day").format('YYYY-MM-DD HH:mm');
+                        defaultFilterValueMax = moment().endOf("day").format('YYYY-MM-DD HH:mm');
                         break;
                     default:
                         defaultOperator = 'contains';
-                        defaultValue = '';
+                        defaultFilterValueMin = '';
+                        defaultFilterValueMax = '';
                 }
 
                 let selectedOperator = existingFilter ? existingFilter.selectedOperator : defaultOperator;
-
-                let value = existingFilter ? existingFilter.value : defaultValue;
-
-                let valueBetween = existingFilter ? existingFilter.valueBetween : defaultValue;
-
-                if(selectedField.type === 'date' && value === '') {
-                    let today = new Date();
-                    value = today.toISOString().split('T')[0];
-                }
-
-                if(selectedField.type === 'datetime' && value === '') {
-                    let today = new Date();
-                    value = today.toISOString().split('T')[0] + 'T00:00';
-                    valueBetween = today.toISOString().split('T')[0] + 'T23:59';
-                }
+                let filterValueMin = existingFilter ? existingFilter.value : defaultFilterValueMin;
+                let filterValueMax = existingFilter ? existingFilter.valueBetween : defaultFilterValueMax;
 
                 this.filterAdding = {
                     fields: this.fields,
                     selectedField: selectedField,
                     operators: selectedField.operators,
                     selectedOperator: selectedOperator,
-                    value: value,
-                    valueBetween: valueBetween,
+                    value: filterValueMin,
+                    valueBetween: filterValueMax,
                 }
             },
 
