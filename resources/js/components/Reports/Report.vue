@@ -111,26 +111,27 @@
     </template>
 
     <b-modal id="filter-box-modal" size="md" no-fade hide-header @shown="focusFilterBoxInput">
-        <div v-if="filterAdding">
-            <div class="d-flex flex-column p-2" style="gap: 5px;">
-                <div v-show="filterAdding.operators.length > 1">
-                    <select v-model="filterAdding.selectedOperator" @change="focusFilterBoxInput" class="form-control form-control-sm">
-                        <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">
-                            {{ operator === 'btwn' ? 'between' : operator }}
-                        </option>
-                    </select>
-                </div>
-                <form @submit.prevent="addFilter" @keyup.enter="addFilter" class="d-flex flex-row" style="grid-gap: 5px;">
-                    <template v-if="filterAdding.selectedField.type === 'numeric'">
-                        <input ref="inputAddValue" v-model="filterAdding.value" type="number" class="form-control form-control-sm">
-                        <input v-show="filterAdding.selectedOperator === 'btwn'" v-model="filterAdding.valueBetween" type="number" class="form-control form-control-sm" style="margin-left: 5px;">
-                    </template>
-                    <template v-else>
-                        <input ref="inputAddValue" v-model="filterAdding.value" type="text" class="form-control form-control-sm">
-                        <input v-show="filterAdding.selectedOperator === 'btwn'" v-model="filterAdding.valueBetween" type="text" class="form-control form-control-sm" style="margin-left: 5px;">
-                    </template>
-                </form>
-            </div>
+        <div v-if="filterAdding" class="d-flex flex-column p-2" style="gap: 5px;">
+            <select v-model="filterAdding.selectedOperator" @change="focusFilterBoxInput" class="form-control form-control-sm">
+                <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">{{ operator === 'btwn' ? 'between' : operator }}</option>
+            </select>
+            <form @submit.prevent="addFilter" @keyup.enter="addFilter" class="d-flex flex-row" style="grid-gap: 5px;">
+                <!-- contains filter inputs -->
+                <template v-if="filterAdding.selectedOperator === 'contains'">
+                    <input v-model="filterAdding.value" id='inputFilterContains' type="text" class="form-control form-control-sm">
+                </template>
+
+                <!-- equal filter inputs -->
+                <template v-else-if="filterAdding.selectedOperator === 'equals'">
+                    <input v-model="filterAdding.value" id='inputFilterEquals' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
+                </template>
+
+                <!-- between filter inputs -->
+                <template v-else-if="filterAdding.selectedOperator === 'btwn'">
+                    <input v-model="filterAdding.value" id='inputFilterBetweenValueFrom' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
+                    <input v-model="filterAdding.valueBetween" id='inputFilterBetweenValueTo' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
+                </template>
+            </form>
         </div>
         <template #modal-footer>
             <b-button variant="secondary" class="float-right" @click="$bvModal.hide('filter-box-modal')">Cancel</b-button>
@@ -212,9 +213,20 @@
         },
 
         methods: {
-
             focusFilterBoxInput() {
-                this.$refs.inputAddValue.focus();
+                process.nextTick(() => {
+                    switch (this.filterAdding.selectedOperator) {
+                        case 'btwn':
+                            this.setFocusElementById('inputFilterBetweenValueFrom', true)
+                            break;
+                        case 'contains':
+                            this.setFocusElementById('inputFilterContains', true)
+                            break;
+                        case 'equals':
+                            this.setFocusElementById('inputFilterEquals', true)
+                            break;
+                    }
+                })
             },
 
             showFilterBox(field){
@@ -232,10 +244,28 @@
             setFilterAdding(fieldName = null) {
                 let selectedField = fieldName ? this.fields.find(f => f.name === fieldName) : this.fields[0];
                 let existingFilter = this.filters.find(f => f.name === selectedField.name);
-                let selectedOperator = existingFilter ? existingFilter.selectedOperator : selectedField.operators[0];
+                let defaultOperator = selectedField.operators[0];
+                let defaultValue = '';
 
-                let value = existingFilter ? existingFilter.value : '';
-                let valueBetween = existingFilter ? existingFilter.valueBetween : '';
+                switch (selectedField.type) {
+                    case 'numeric':
+                        defaultOperator = 'btwn';
+                        defaultValue = 0;
+                        break;
+                    case 'string':
+                        defaultOperator = 'contains';
+                        defaultValue = '';
+                        break;
+                    default:
+                        defaultOperator = 'contains';
+                        defaultValue = '';
+                }
+
+                let selectedOperator = existingFilter ? existingFilter.selectedOperator : defaultOperator;
+
+                let value = existingFilter ? existingFilter.value : defaultValue;
+
+                let valueBetween = existingFilter ? existingFilter.valueBetween : defaultValue;
 
                 if(selectedField.type === 'date' && value === '') {
                     let today = new Date();
