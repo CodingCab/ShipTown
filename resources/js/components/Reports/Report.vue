@@ -5,6 +5,7 @@
         <div class="row mb-2 pl-1 pr-1">
             <div class="flex-fill">
                 <barcode-input-field @barcodeScanned="searchForProductSku"
+                                     url_param_name="filter[product_sku]"
                                      ref="barcode"
                                      placeholder="Search"
 
@@ -215,6 +216,10 @@
 
         methods: {
             searchForProductSku(barcode) {
+                if (barcode === '') {
+                    this.removeUrlParameterAndGo('filter[product_sku]');
+                    return;
+                }
                 this.setUrlParameterAngGo('filter[product_sku]', barcode);
             },
 
@@ -421,7 +426,7 @@
                 location.href = this.buildUrl();
             },
 
-            findFieldMetaData(fieldName) {
+            findField(fieldName) {
                 return this.fields.find(f => f.name === fieldName);
             }
         },
@@ -433,7 +438,7 @@
 
             visibleFields() {
                 return Object.keys(this.records[0])
-                    .map(this.findFieldMetaData);
+                    .map(this.findField);
             },
         }
     }
