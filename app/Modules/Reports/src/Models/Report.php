@@ -506,7 +506,7 @@ class Report extends Model
     {
         return match ($this->casts[$field] ?? null) {
             'float', 'integer' => 'numeric',
-            default => $this->casts[$field] ?? 'no_cast',
+            default => $this->casts[$field] ?? 'string',
         };
     }
 
