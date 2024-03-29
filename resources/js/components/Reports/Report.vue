@@ -1,9 +1,18 @@
 <template>
 
 <container>
-    <top-nav-bar>
-        <search-filter @search="addSearchFilter" />
-    </top-nav-bar>
+    <template v-if="getUrlParameter('hide_nav_bar', false) === false">
+        <div class="row mb-3 pl-1 pr-1">
+            <div class="flex-fill">
+                <barcode-input-field url_param_name='filter[search]'
+                                     ref="barcode"
+                                     placeholder="Search"
+                />
+            </div>
+
+            <button type="button" v-b-modal="'quick-actions-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
+        </div>
+    </template>
 
     <report-head :report-name="reportName" :filters="filters" @remove-filter="(filter) => removeFilter(filter)"></report-head>
 
