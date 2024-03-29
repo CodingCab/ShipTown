@@ -18,6 +18,10 @@
 
     <card>
         <template v-if="records.length">
+            <!--
+            style="transform: rotateX(180deg);"
+            this is used twice to move scrollbar to the top of the table
+            -->
             <div class="table-responsive py-2" style="transform: rotateX(180deg);">
                 <table class="table-hover w-100 text-left small text-nowrap" style="transform: rotateX(180deg);">
                     <thead>
