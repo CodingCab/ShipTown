@@ -51,7 +51,11 @@
                     </thead>
                     <tbody>
                     <tr class="table-hover" v-for="record in records">
-                        <td class="pr-3" v-for="field in fields">{{ getCell(record, field) }}</td>
+                        <template v-for="field in fields">
+                            <td class="pr-3" v-if="field.type === 'datetime'">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
+                            <td class="pr-3" v-else-if="field.type === 'date'">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
+                            <td class="pr-3" v-else >{{ record[field.name] }}</td>
+                        </template>
                     </tr>
                     </tbody>
                 </table>
@@ -211,24 +215,6 @@
 
             focusFilterBoxInput() {
                 this.$refs.inputAddValue.focus();
-            },
-
-            getCell(record, field) {
-                if (record[field.name] === null) {
-                    return '';
-                }
-
-                if (field.type === 'datetime') {
-                    // todo - extract to a helper function if not already done
-                    return record[field.name].replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}).*/, '$3/$2/$1 $4:$5');
-                }
-
-                if (field.type === 'date') {
-                    // todo - extract to a helper function if not already done
-                    return record[field.name].replace(/(\d{4})-(\d{2})-(\d{2}).*/, '$3/$2/$1');
-                }
-
-                return record[field.name];
             },
 
             showFilterBox(field){
