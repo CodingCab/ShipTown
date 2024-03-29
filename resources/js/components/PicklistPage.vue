@@ -56,6 +56,9 @@
                 <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                     Cancel
                 </b-button>
+                <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                    OK
+                </b-button>
             </template>
         </b-modal>
 
