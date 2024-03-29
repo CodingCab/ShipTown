@@ -54,6 +54,7 @@
                         <template v-for="field in fields">
                             <td class="pr-3" v-if="field.type === 'datetime'">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
                             <td class="pr-3" v-else-if="field.type === 'date'">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
+                            <td class="pr-3 text-right" v-else-if="field.type === 'numeric'">{{ record[field.name] }}</td>
                             <td class="pr-3" v-else >{{ record[field.name] }}</td>
                         </template>
                     </tr>
