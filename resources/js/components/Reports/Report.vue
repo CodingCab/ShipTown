@@ -16,8 +16,11 @@
 
     <report-head :report-name="reportName" :filters="filters" @remove-filter="(filter) => removeFilter(filter)"></report-head>
 
-    <card>
-        <template v-if="records.length">
+    <div v-if="records === null || records.length === 0" class="text-secondary small text-center">
+        No records found
+    </div>
+    <template v-else>
+        <card>
             <!--
             style="transform: rotateX(180deg);"
             this is used twice to move scrollbar to the top of the table
@@ -104,11 +107,8 @@
                     <p class="float-right mr-1 mr-sm-0">{{ pagination.total }} records</p>
                 </div>
             </div>
-        </template>
-        <div v-else class="text-secondary small text-center">
-            No records found
-        </div>
-    </card>
+        </card>
+    </template>
 
     <b-modal id="filter-box-modal" size="md" no-fade hide-header @shown="focusFilterBoxInput">
         <div v-if="filterAdding">
