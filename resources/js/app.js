@@ -49,7 +49,7 @@ import {
     faArchive,
     faCopy,
     faCartPlus, faAtom, faChartBar, faChartLine, faBox, faBars, faArrowRight,
-    faFileDownload
+    faFileDownload, faCaretDown, faCaretUp
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -95,6 +95,8 @@ library.add(faArchive);
 library.add(faCopy);
 library.add(faCartPlus);
 library.add(faArrowRight);
+library.add(faCaretDown);
+library.add(faCaretUp);
 library.add(faFileDownload);
 
 Vue.config.productionTip = false;

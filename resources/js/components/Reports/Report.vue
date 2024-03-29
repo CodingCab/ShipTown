@@ -26,24 +26,27 @@
                 <table class="table-hover w-100 text-left small text-nowrap" style="transform: rotateX(180deg);">
                     <thead>
                     <tr>
-                        <th class="small pr-3" v-for="field in fields">
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ field.display_name }} <span class="small" v-if="field.is_current">{{ field.is_desc ? '▼' : '▲' }}</span>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <button class="dropdown-item" type="button" @click="applySort('asc', field)">
-                                        <icon-sort-asc/>&nbsp; Sort Ascending
+                        <template v-for="field in fields">
+                            <th class="small pr-2">
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ field.display_name }}
+                                        <font-awesome-icon v-if="field.is_current" :icon="field.is_desc ? 'caret-down' : 'caret-up'" class="fa-xs" role="button"></font-awesome-icon>
                                     </button>
-                                    <button class="dropdown-item" type="button" @click="applySort('desc', field)">
-                                        <icon-sort-desc/>&nbsp; Sort Descending
-                                    </button>
-                                    <button class="dropdown-item" type="button" @click="showFilterBox(field)">
-                                        <icon-filter/>&nbsp; Filter by value
-                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <button class="dropdown-item" type="button" @click="applySort('asc', field)">
+                                            <icon-sort-asc/>&nbsp; Sort Ascending
+                                        </button>
+                                        <button class="dropdown-item" type="button" @click="applySort('desc', field)">
+                                            <icon-sort-desc/>&nbsp; Sort Descending
+                                        </button>
+                                        <button class="dropdown-item" type="button" @click="showFilterBox(field)">
+                                            <icon-filter/>&nbsp; Filter by value
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </th>
+                            </th>
+                        </template>
                     </tr>
                     </thead>
                     <tbody>
