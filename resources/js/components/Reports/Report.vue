@@ -110,8 +110,8 @@
         </card>
     </template>
 
-    <b-modal id="filter-box-modal" size="md" no-fade hide-header @shown="focusFilterBoxInput">
-        <div v-if="filterAdding" class="d-flex flex-column p-2" style="gap: 5px;">
+    <b-modal id="filter-box-modal" size="sm" no-fade hide-header @shown="focusFilterBoxInput">
+        <div v-if="filterAdding" class="d-flex flex-column" style="gap: 5px;">
             <select v-model="filterAdding.selectedOperator" @change="focusFilterBoxInput" class="form-control form-control-sm">
                 <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">{{ operator === 'btwn' ? 'between' : operator }}</option>
             </select>
@@ -215,19 +215,17 @@
 
         methods: {
             focusFilterBoxInput() {
-                process.nextTick(() => {
-                    switch (this.filterAdding.selectedOperator) {
-                        case 'btwn':
-                            this.setFocusElementById('inputFilterBetweenValueFrom', true)
-                            break;
-                        case 'contains':
-                            this.setFocusElementById('inputFilterContains', true)
-                            break;
-                        case 'equals':
-                            this.setFocusElementById('inputFilterEquals', true)
-                            break;
-                    }
-                })
+                switch (this.filterAdding.selectedOperator) {
+                    case 'btwn':
+                        this.setFocusElementById('inputFilterBetweenValueFrom', true)
+                        break;
+                    case 'contains':
+                        this.setFocusElementById('inputFilterContains', true)
+                        break;
+                    case 'equals':
+                        this.setFocusElementById('inputFilterEquals', true)
+                        break;
+                }
             },
 
             showFilterBox(field){
