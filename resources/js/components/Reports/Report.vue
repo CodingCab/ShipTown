@@ -4,9 +4,10 @@
     <template v-if="getUrlParameter('hide_nav_bar', false) === false">
         <div class="row mb-2 pl-1 pr-1">
             <div class="flex-fill">
-                <barcode-input-field url_param_name='filter[search]'
+                <barcode-input-field @barcodeScanned="searchForProductSku"
                                      ref="barcode"
                                      placeholder="Search"
+
                 />
             </div>
 
@@ -180,7 +181,6 @@
     import moment from "moment";
 
     export default {
-
         mixins: [loadingOverlay, url, api, helpers],
 
         components: {IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, SearchFilter, ReportHead},
@@ -214,6 +214,10 @@
         },
 
         methods: {
+            searchForProductSku(barcode) {
+                this.setUrlParameterAngGo('filter[product_sku]', barcode);
+            },
+
             focusFilterBoxInput() {
                 switch (this.filterAdding.selectedOperator) {
                     case 'btwn':
