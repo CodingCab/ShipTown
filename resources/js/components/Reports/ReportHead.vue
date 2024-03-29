@@ -7,8 +7,8 @@
             <div class="flex-grow-1">
                 <div class="filter-container d-none d-lg-flex" ref="filterContainer">
                     <p class="text-primary small" v-for="filter in filters" :key="filter.id">
-                        {{ filter.displayName }} <span v-html="filterExtendedOverview(filter)"></span><!--
-                        --><button @click="handleClick(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
+                        <span v-html="filterToHumanString(filter)"></span>
+                        <button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
                     </p>
                 </div>
                 <a href="#" @click.prevent="showFilters = !showFilters" class="float-right d-lg-none small">
@@ -19,8 +19,8 @@
 
         <div class="filter-container d-flex d-lg-none" ref="filterContainer">
             <p v-if="showFilters" class="text-primary small" v-for="filter in filters" :key="filter.id">
-                {{ filter.displayName }} <span v-html="filterExtendedOverview(filter)"></span><!--
-            --><button @click="handleClick(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
+                {{ filter.displayName }} <span v-html="filterToHumanString(filter)"></span><!--
+            --><button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
             </p>
         </div>
     </div>
@@ -41,15 +41,16 @@ export default {
     },
 
     methods: {
-        handleClick(filter, event) {
+        removeFilter(filter, event) {
             this.$emit('remove-filter', filter);
         },
 
-        filterExtendedOverview(filter) {
-            if(filter.selectedOperator === 'btwn') {
-                return `between ${filter.value} <b>&</b> ${filter.valueBetween}`;
+        filterToHumanString(filter) {
+            if (filter.selectedOperator === 'btwn') {
+                return `${filter.displayName} between ${filter.value} <b>&</b> ${filter.valueBetween}`;
+            } else {
+                return `${filter.displayName} ${filter.selectedOperator} "${filter.value}"`;
             }
-            return `${filter.selectedOperator} ${filter.value}`;
         },
     }
 }
