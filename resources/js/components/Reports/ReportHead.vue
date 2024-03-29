@@ -19,8 +19,8 @@
 
         <div class="filter-container d-flex d-lg-none" ref="filterContainer">
             <p v-if="showFilters" class="text-primary small" v-for="filter in filters" :key="filter.id">
-                {{ filter.displayName }} <span v-html="filterToHumanString(filter)"></span><!--
-            --><button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
+                {{ filter.displayName }} <span v-html="filterToHumanString(filter)"></span>
+                <button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
             </p>
         </div>
     </div>
