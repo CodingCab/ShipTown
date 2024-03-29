@@ -2,7 +2,7 @@
 
 <container>
     <template v-if="getUrlParameter('hide_nav_bar', false) === false">
-        <div class="row mb-3 pl-1 pr-1">
+        <div class="row mb-2 pl-1 pr-1">
             <div class="flex-fill">
                 <barcode-input-field url_param_name='filter[search]'
                                      ref="barcode"
