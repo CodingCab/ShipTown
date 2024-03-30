@@ -58,7 +58,9 @@ export default {
             .replaceAll('_lower_than','')
             .replaceAll('_greater_than','');
 
-          let filterOperator = filterName.replaceAll(fieldName, '').replaceAll('_', ' ').trim();
+          let filterOperator = filterName.replaceAll(fieldName, '')
+              .replaceAll('_', ' ')
+              .trim();
 
           if (filterOperator === "") {
             filterOperator = 'equals';
@@ -66,6 +68,8 @@ export default {
 
           // uppercase first letter of each word
           let fieldNameFormatted = fieldName.replaceAll('_', ' ').replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+
+          // we wrap it in inverted commas to better visualize filters with spaces at the start or end "Blue "
           let filterValueFormatted = ['"', filterValue, '"'].join('');
 
           if (filterOperator === 'between') {
