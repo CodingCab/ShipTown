@@ -118,11 +118,6 @@
                 <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">{{ operator === 'btwn' ? 'between' : operator }}</option>
             </select>
             <form @submit.prevent="addFilter" @keyup.enter="addFilter" class="d-flex flex-row" style="grid-gap: 5px;">
-                <!-- equal filter inputs -->
-                <template v-if="['contains', 'equals', 'greater than', 'lower than'].includes(filterAdding.selectedOperator)">
-                    <input v-model="filterAdding.value" id='inputFilterEquals' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
-                </template>
-
                 <!-- between filter inputs -->
                 <template v-else-if="filterAdding.selectedOperator === 'btwn'">
                     <input v-model="filterAdding.value" id='inputFilterBetweenValueFrom' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
@@ -131,7 +126,7 @@
 
                 <!-- other filters -->
                 <template v-else>
-                  Filter not supported
+                  <input v-model="filterAdding.value" id='inputFilterValue' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
                 </template>
             </form>
         </div>
@@ -228,11 +223,8 @@
                     case 'btwn':
                         this.setFocusElementById('inputFilterBetweenValueFrom', true)
                         break;
-                    case 'contains':
-                        this.setFocusElementById('inputFilterContains', true)
-                        break;
-                    case 'equals':
-                        this.setFocusElementById('inputFilterEquals', true)
+                    default:
+                        this.setFocusElementById('inputFilterValue', true)
                         break;
                 }
             },
