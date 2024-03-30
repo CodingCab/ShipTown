@@ -119,7 +119,7 @@
             </select>
             <form @submit.prevent="addFilter" @keyup.enter="addFilter" class="d-flex flex-row" style="grid-gap: 5px;">
                 <!-- between filter inputs -->
-                <template v-else-if="filterAdding.selectedOperator === 'btwn'">
+                <template v-if="filterAdding.selectedOperator === 'btwn'">
                     <input v-model="filterAdding.value" id='inputFilterBetweenValueFrom' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
                     <input v-model="filterAdding.valueBetween" id='inputFilterBetweenValueTo' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
                 </template>
