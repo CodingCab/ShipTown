@@ -60,6 +60,10 @@ export default {
 
           let filterOperator = filterName.replaceAll(fieldName, '').replaceAll('_', ' ').trim();
 
+          if (filterOperator === "") {
+            filterOperator = 'equals';
+          }
+
           // uppercase first letter of each word
           let fieldNameFormatted = fieldName.replaceAll('_', ' ').replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
           let filterValueFormatted = ['"', filterValue, '"'].join('');
