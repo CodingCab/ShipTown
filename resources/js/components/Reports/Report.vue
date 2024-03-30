@@ -19,7 +19,7 @@
     <report-head :report-name="reportName"></report-head>
 
     <div v-if="records === null || records.length === 0" class="text-secondary small text-center">
-        No records found
+        No records found with filters specified
     </div>
     <template v-else>
         <card>
