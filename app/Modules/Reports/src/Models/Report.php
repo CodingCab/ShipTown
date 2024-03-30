@@ -513,8 +513,8 @@ class Report extends Model
     private function getFieldTypeOperators($field): array
     {
         return match ($this->getFieldType($field)) {
-            'string' => ['equals', 'btwn', 'contains'],
-            'numeric' => ['equals', 'btwn'],
+            'string' => ['equals', 'btwn', 'contains', 'greater than', 'lower than'],
+            'numeric' => ['equals', 'btwn', 'greater than', 'lower than'],
             'date' => ['btwn'],
             'datetime' => ['btwn'],
             default => ['contains', 'equals'],

@@ -16,7 +16,7 @@
         </div>
     </template>
 
-    <report-head :report-name="reportName" :filters="filters" @remove-filter="(filter) => removeFilter(filter)"></report-head>
+    <report-head :report-name="reportName"></report-head>
 
     <div v-if="records === null || records.length === 0" class="text-secondary small text-center">
         No records found
@@ -39,10 +39,10 @@
                                         <font-awesome-icon v-if="field.is_current" :icon="field.is_desc ? 'caret-down' : 'caret-up'" class="fa-xs" role="button"></font-awesome-icon>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button" @click="applySort('asc', field)">
+                                        <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', field.name)">
                                             <icon-sort-asc/>&nbsp; Sort Ascending
                                         </button>
-                                        <button class="dropdown-item" type="button" @click="applySort('desc', field)">
+                                        <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', ['-', field.name].join(''))">
                                             <icon-sort-desc/>&nbsp; Sort Descending
                                         </button>
                                         <button class="dropdown-item" type="button" @click="showFilterBox(field)">
@@ -118,13 +118,8 @@
                 <option v-for="operator in filterAdding.operators" :key="operator" :value="operator">{{ operator === 'btwn' ? 'between' : operator }}</option>
             </select>
             <form @submit.prevent="addFilter" @keyup.enter="addFilter" class="d-flex flex-row" style="grid-gap: 5px;">
-                <!-- contains filter inputs -->
-                <template v-if="filterAdding.selectedOperator === 'contains'">
-                    <input v-model="filterAdding.value" id='inputFilterContains' type="text" class="form-control form-control-sm">
-                </template>
-
                 <!-- equal filter inputs -->
-                <template v-else-if="filterAdding.selectedOperator === 'equals'">
+                <template v-if="['contains', 'equals', 'greater than', 'lower than'].includes(filterAdding.selectedOperator)">
                     <input v-model="filterAdding.value" id='inputFilterEquals' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
                 </template>
 
@@ -132,6 +127,11 @@
                 <template v-else-if="filterAdding.selectedOperator === 'btwn'">
                     <input v-model="filterAdding.value" id='inputFilterBetweenValueFrom' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
                     <input v-model="filterAdding.valueBetween" id='inputFilterBetweenValueTo' :type="filterAdding.selectedField.type === 'numeric' ? 'number' : 'text'" class="form-control form-control-sm">
+                </template>
+
+                <!-- other filters -->
+                <template v-else>
+                  Filter not supported
                 </template>
             </form>
         </div>
@@ -299,30 +299,55 @@
             buildFiltersFromUrl() {
                 const urlParams = new URLSearchParams(window.location.search);
 
+                this.getUrlFilter()
                 for (const [key, value] of urlParams.entries()) {
-
                     if(key.startsWith('filter')) {
+                        let filterName = key.split('[')[1].split(']')[0];
 
-                        let fieldInput = key.split('[')[1].split(']')[0];
-                        let fieldName = fieldInput;
-                        let operator = 'equals';
+                        let fieldName = filterName;
+                        fieldName = fieldName.replaceAll('_equal','');
+                        fieldName = fieldName.replaceAll('_contains','');
+                        fieldName = fieldName.replaceAll('_between','');
+                        fieldName = fieldName.replaceAll('_lower_than','');
+                        fieldName = fieldName.replaceAll('_greater_than','');
 
-                        if(fieldInput.endsWith('contains') || fieldInput.endsWith('between')) {
-                            fieldName = fieldInput.split('_').slice(0, -1).join('_');
-                            operator = fieldInput.split('_').slice(-1)[0];
+                        let filterOperator = filterName.replace(fieldName, '');
+                        let filterOperatorHumanString = filterOperator;
+
+                        let field = this.findField(fieldName);
+
+                        switch (filterOperator) {
+                          case '':
+                            filterOperatorHumanString = 'equals'
+                            break;
+                          case '_equal':
+                            filterOperatorHumanString = 'equals'
+                            break;
+                          case '_contains':
+                            filterOperatorHumanString = 'contains'
+                            break;
+                          case '_between':
+                            filterOperatorHumanString = 'between'
+                            break;
+                          case '_greater_than':
+                            filterOperatorHumanString = 'greater than'
+                            break;
+                          case '_lower_than':
+                            filterOperatorHumanString = 'lower than'
+                            break;
+                          default:
+                            filterOperatorHumanString = filterOperator
                         }
-
-                        let field = this.fields.find(f => f.name === fieldName);
 
                         let filter = {
                             name: fieldName,
                             displayName: field.display_name,
-                            selectedOperator: operator === 'between' ? 'btwn' : operator,
+                            selectedOperator: filterOperator === '_between' ? 'btwn' : filterOperatorHumanString,
                             value: value,
                             valueBetween: '',
                         }
 
-                        if(operator === 'between') {
+                        if(filterOperator === '_between') {
                             let values = Array.isArray(value) ? value : value.split(',');
                             filter.value = values[0];
                             filter.valueBetween = values[1];
@@ -333,42 +358,31 @@
                 }
             },
 
-            addSearchFilter(searchInput) {
-                this.filters = this.filters.filter(f => f.name !== 'search');
-                this.filters.push({
-                    name: 'search',
-                    displayName: 'Search',
-                    selectedOperator: 'equals',
-                    value: searchInput,
-                    valueBetween: '',
-                });
-
-                this.pagination.current_page = 1;
-                location.href = this.buildUrl();
-            },
-
             addFilter() {
                 const { value, selectedOperator, valueBetween, selectedField } = this.filterAdding;
 
-                this.filters = this.filters.filter(f => f.name !== selectedField.name);
+                let filterName = '';
+                let filterValue = '';
 
-                this.filters.push({
-                    name: selectedField.name,
-                    displayName: selectedField.display_name,
-                    selectedOperator,
-                    value,
-                    valueBetween
-                });
+                switch (selectedOperator) {
+                  case 'btwn':
+                    filterName = ['filter[', selectedField.name, '_between]'].join('');
+                    filterValue = `${value},${valueBetween}`;
+                    break;
+                  case 'greater than':
+                    filterName = `filter[${selectedField.name}_greater_than]`;
+                    filterValue = value;
+                    break;
+                  case 'lower than':
+                    filterName = `filter[${selectedField.name}_lower_than]`;
+                    filterValue = value;
+                    break;
+                  default:
+                    filterName = `filter[${selectedField.name}_${selectedOperator}]`;
+                    filterValue = value;
+                }
 
-                // reset pagination
-                this.pagination.current_page = 1;
-
-                location.href = this.buildUrl();
-            },
-
-            removeFilter(field) {
-                this.filters = this.filters.filter(f => f !== field);
-                location.href = this.buildUrl();
+                this.setUrlParameterAngGo(filterName, filterValue)
             },
 
             buildUrl() {
@@ -387,19 +401,6 @@
 
                 const params = [paginationParams, sortParam, filterParams].filter(p => p).join('&');
                 return `${baseUrl}?${params}`;
-            },
-
-            applySort(direction, field) {
-                this.fields.forEach(f => {
-                    f.is_current = false;
-                    f.is_desc = false;
-                    if (f.name === field.name) {
-                        f.is_current = true;
-                        f.is_desc = direction === 'desc';
-                    }
-                });
-
-                location.href = this.buildUrl();
             },
 
             customChangePagination: _.debounce(function() {

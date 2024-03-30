@@ -105,7 +105,7 @@
 
                 // we setting url twice because sometimes when only parameter is updated
                 // but path stays NavigationDuplicated error might occur
-                this.pushUrl('/');
+                // this.pushUrl('/');
                 this.pushUrl(url);
 
                 return this;

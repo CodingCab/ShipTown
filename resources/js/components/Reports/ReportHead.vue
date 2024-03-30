@@ -6,32 +6,35 @@
             </div>
             <div class="flex-grow-1">
                 <div class="filter-container d-none d-lg-flex" ref="filterContainer">
-                    <p class="text-primary small" v-for="filter in filters" :key="filter.id">
-                        <span v-html="filterToHumanString(filter)"></span>
-                        <button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
+                    <p class="text-primary small" v-for="filter in urlFilters">
+                        <span v-html="urlFiltersToHumanString(filter)"></span>
+                        <button @click="removeFilter(filter)" class="btn btn-link p-0 ml-1 mb-1">x</button>
                     </p>
                 </div>
                 <a href="#" @click.prevent="showFilters = !showFilters" class="float-right d-lg-none small">
-                    {{ showFilters ? 'HIDE' : 'FILTERS' }} <span v-show="!showFilters">({{ filters.length }})</span>
+                    {{ showFilters ? 'HIDE' : 'FILTERS' }} <span v-show="!showFilters">({{ urlFilters.length }})</span>
                 </a>
             </div>
         </div>
 
-        <div class="filter-container d-flex d-lg-none" ref="filterContainer">
-            <p v-if="showFilters" class="text-primary small" v-for="filter in filters" :key="filter.id">
-                {{ filter.displayName }} <span v-html="filterToHumanString(filter)"></span>
-                <button @click="removeFilter(filter, $event)" class="btn btn-link p-0 ml-1 mb-1">x</button>
-            </p>
+        <div class="filter-container d-flex d-lg-none" ref="filterContainer" v-if="showFilters" >
+          <p class="text-primary small" v-for="filter in urlFilters">
+            <span v-html="urlFiltersToHumanString(filter)"></span>
+            <button @click="removeFilter(filter)" class="btn btn-link p-0 ml-1 mb-1">x</button>
+          </p>
         </div>
     </div>
 </template>
 
 <script>
+
+import url from "../../mixins/url.vue";
+
 export default {
+  mixins: [url],
 
     props: {
         reportName: String,
-        filters: Array,
     },
 
     data() {
@@ -41,17 +44,39 @@ export default {
     },
 
     methods: {
-        removeFilter(filter, event) {
-            this.$emit('remove-filter', filter);
+        removeFilter(filter) {
+          this.removeUrlParameterAndGo(filter);
         },
 
-        filterToHumanString(filter) {
-            if (filter.selectedOperator === 'btwn') {
-                return `${filter.displayName} between ${filter.value} <b>&</b> ${filter.valueBetween}`;
-            } else {
-                return `${filter.displayName} ${filter.selectedOperator} "${filter.value}"`;
-            }
+        urlFiltersToHumanString(urlParameter) {
+          let filterName = urlParameter.split('[')[1].split(']')[0];
+          let filterValue = this.getUrlParameter(urlParameter);
+
+          let fieldName = filterName.replaceAll('_equal','')
+            .replaceAll('_contains','')
+            .replaceAll('_between','')
+            .replaceAll('_lower_than','')
+            .replaceAll('_greater_than','');
+
+          let filterOperator = filterName.replaceAll(fieldName, '').replaceAll('_', ' ').trim();
+
+          // uppercase first letter of each word
+          let fieldNameFormatted = fieldName.replaceAll('_', ' ').replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
+          let filterValueFormatted = ['"', filterValue, '"'].join('');
+
+          if (filterOperator === 'between') {
+            filterValueFormatted = filterValue.replaceAll(',' , ' & ');
+          }
+
+          return [fieldNameFormatted, filterOperator, filterValueFormatted].join(' ');
         },
+    },
+
+    computed: {
+        urlFilters() {
+          return Object.keys(this.$router.currentRoute.query)
+              .filter(aFilter => aFilter.startsWith('filter['));
+        }
     }
 }
 </script>
