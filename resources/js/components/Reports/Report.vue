@@ -359,7 +359,7 @@
                 switch (selectedOperator) {
                   case 'equals':
                     filterName = ['filter[', selectedField.name, ']'].join('');
-                    filterValue = `${value},${valueBetween}`;
+                    filterValue = `${value}`;
                     break;
                   case 'btwn':
                     filterName = ['filter[', selectedField.name, '_between]'].join('');
