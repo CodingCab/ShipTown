@@ -4,10 +4,8 @@
             <div class="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
                 <product-info-card :product="record['product']"/>
             </div>
-            <div class="small col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
-                <div class="sd-block lg:sd-none">
-                    warehouse: <b>{{ record['warehouse_code'] }}</b>
-                </div>
+            <div class="mt-1 small col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3">
+                <div @click="expanded = !expanded">warehouse: <b>{{ record['warehouse_code'] }}</b></div>
                 <div :class="{'bg-warning': record['warehouse_quantity'] <= 0 }" @click="expanded = !expanded">warehouse quantity: <b>{{ record['warehouse_quantity'] }}</b></div>
                 <div @click="expanded = !expanded">reorder point: <b>{{ record['reorder_point'] }}</b></div>
                 <div @click="expanded = !expanded">restock level: <b>{{ record['restock_level'] }}</b></div>
