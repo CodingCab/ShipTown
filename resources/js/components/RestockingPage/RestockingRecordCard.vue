@@ -19,7 +19,7 @@
                     <div @click="expanded = !expanded" class="d-inline">last received at:</div>
                     <strong @click="showInventoryMovementModal" class="text-primary cursor-pointer">{{ formatDateTime(record['last_received_at']) }}</strong>
                 </div>
-                <div @click="expanded = !expanded">last counted at: <b>{{ formatDateTime(record['last_counted_at'],'D MMM HH:MM') }}</b></div>
+                <div @click="expanded = !expanded">last counted at: <b>{{ formatDateTime(record['last_counted_at']) }}</b></div>
                 <div @click="expanded = !expanded">sale price: <b>{{ pricing['sale_price'] }} ({{ formatDateTime(pricing['sale_price_start_date'], 'D MMM Y') }} - {{ formatDateTime(pricing['sale_price_end_date'], 'D MMM Y') }})</b></div>
             </div>
             <div class="text-lg-center sd-none lg:sd-block lg:col-span-1">
@@ -107,11 +107,11 @@
                             <button tabindex="-1" @click="plusRestockLevel" class="btn btn-success ml-3" type="button" id="button-addon4" style="min-width: 45px">+</button>
                         </div>
                     </div>
-                    <template @click="expanded = !expanded" v-if="expanded">
-                        <div @click="expanded = !expanded">last movement at: <b>{{ formatDateTime(record['last_movement_at'],'D MMM HH:MM') }}</b></div>
-                        <div @click="expanded = !expanded">first received at: <b>{{ formatDateTime(record['first_received_at'],'D MMM HH:MM') }}</b></div>
+                    <div class="small" @click="expanded = !expanded" v-if="expanded">
+                        <div @click="expanded = !expanded">last movement at: <b>{{ formatDateTime(record['last_movement_at']) }}</b></div>
+                        <div @click="expanded = !expanded">first received at: <b>{{ formatDateTime(record['first_received_at']) }}</b></div>
                         <div @click="expanded = !expanded">location: <b>{{ record['warehouse_code'] }}</b></div>
-                    </template>
+                    </div>
                     <div class="row-col text-center align-bottom pb-2 m-0 font-weight-bold text-uppercase small text-secondary">
                         Incoming
                     </div>
