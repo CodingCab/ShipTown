@@ -111,7 +111,8 @@
                         <div @click="expanded = !expanded">last movement at: <b>{{ formatDateTime(record['last_movement_at']) }}</b></div>
                         <div @click="expanded = !expanded">first received at: <b>{{ formatDateTime(record['first_received_at']) }}</b></div>
                     </div>
-                    <div class="row-col text-center align-bottom pb-2 m-0 font-weight-bold text-uppercase small text-secondary">
+
+                    <div class="mt-3 row-col text-center align-bottom pb-2 m-0 font-weight-bold text-uppercase small text-secondary">
                         Incoming
                     </div>
 
