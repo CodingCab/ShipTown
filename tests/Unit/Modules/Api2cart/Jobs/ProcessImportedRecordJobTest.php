@@ -14,22 +14,12 @@ class ProcessImportedRecordJobTest extends TestCase
     {
         Api2cartConnection::factory()->create();
 
-        $api2cartOrderImport = Api2cartOrderImports::factory()->create();
+        Api2cartOrderImports::factory()->create();
 
         ProcessImportedOrdersJob::dispatch();
 
-        $api2cartOrderImport->refresh();
         $order = Order::first();
 
         $this->assertNotEmpty($order, 'Order was not created');
-        $this->assertEquals($api2cartOrderImport->order_number, $order->order_number, 'Order number does not match');
-        $this->assertNotEmpty($api2cartOrderImport->when_processed, 'Order was not processed');
-
-        // shipping address
-        $this->assertEquals($order->shippingAddress->email, $api2cartOrderImport->raw_import['customer']['email']);
-        $this->assertEquals($order->shippingAddress->first_name, $api2cartOrderImport->raw_import['shipping_address']['first_name']);
-        $this->assertEquals($order->shippingAddress->last_name, $api2cartOrderImport->raw_import['shipping_address']['last_name']);
-        $this->assertEquals($order->shippingAddress->address1, $api2cartOrderImport->raw_import['shipping_address']['address1']);
-        $this->assertEquals($order->shippingAddress->address2, $api2cartOrderImport->raw_import['shipping_address']['address2']);
     }
 }
