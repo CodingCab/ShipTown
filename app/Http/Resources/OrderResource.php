@@ -55,7 +55,7 @@ class OrderResource extends JsonResource
 
             'activities' => ActivityResource::collection($this->whenLoaded('activities')),
             'shipping_address' => OrderAddressResource::make($this->whenLoaded('shippingAddress')),
-            'billing_address' => OrderBillingAddressResource::make($this->whenLoaded('billingAddress')),
+            'billing_address' => OrderAddressResource::make($this->whenLoaded('billingAddress')),
             'order_shipments' => new JsonResource($this->whenLoaded('orderShipments')),
             'order_products' => new JsonResource($this->whenLoaded('orderProducts')),
             'packer' => new UserResource($this->whenLoaded('packer')),

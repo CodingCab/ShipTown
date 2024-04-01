@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use App\Models\OrderAddress;
-use App\Models\OrderBillingAddress;
 use App\Models\OrderStatus;
 use App\User;
 use Carbon\Carbon;
@@ -17,7 +16,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $shippingAddress = OrderAddress::factory()->create();
-        $billingAddress = OrderBillingAddress::factory()->create();
+        $billingAddress = OrderAddress::factory()->create();
 
         /** @var OrderStatus $orderStatus */
         $orderStatus = OrderStatus::query()->inRandomOrder()->first() ?? OrderStatus::factory()->create();

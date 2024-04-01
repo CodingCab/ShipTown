@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->foreignId('billing_address_id')->nullable()->after('shipping_address_id');
             $table->foreign('billing_address_id')
-                ->on('orders_billing_addresses')
+                ->on('orders_addresses')
                 ->references('id')
                 ->onDelete('set null');
         });

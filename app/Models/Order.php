@@ -533,7 +533,7 @@ class Order extends BaseModel
      */
     public function billingAddress(): BelongsTo
     {
-        return $this->belongsTo(OrderBillingAddress::class);
+        return $this->belongsTo(OrderAddress::class);
     }
 
     /**
