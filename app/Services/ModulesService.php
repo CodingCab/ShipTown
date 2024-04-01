@@ -40,6 +40,7 @@ class ModulesService
         \App\Modules\ScurriAnpost\src\ScurriServiceProvider::class,
         \App\Modules\DpdUk\src\DpdUkServiceProvider::class,
         \App\Modules\AddressLabel\src\AddressLabelServiceProvider::class,
+        \App\Modules\AddressLabel\src\BillingAddressLabelServiceProvider::class,
         \App\Modules\DpdIreland\src\DpdIrelandServiceProvider::class,
         \App\Modules\PrintNode\src\PrintNodeServiceProvider::class,
     ];
