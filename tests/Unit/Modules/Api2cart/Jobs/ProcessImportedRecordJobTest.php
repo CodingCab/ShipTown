@@ -19,7 +19,9 @@ class ProcessImportedRecordJobTest extends TestCase
         ProcessImportedOrdersJob::dispatch();
 
         $api2cartOrderImport->refresh();
-        $order = Order::first();
+        $order = Order::query()->with(['shippingAddress', 'billingAddress'])->first();
+
+        ray($api2cartOrderImport->raw_import, $order);
 
         $this->assertNotEmpty($order, 'Order was not created');
         $this->assertEquals($api2cartOrderImport->order_number, $order->order_number, 'Order number does not match');

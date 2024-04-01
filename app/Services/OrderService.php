@@ -8,9 +8,7 @@ use App\Models\Order;
 use App\Models\OrderAddress;
 use App\Models\OrderProduct;
 use App\Modules\Api2cart\src\Jobs\ImportShippingAddressJob;
-use App\Modules\InventoryReservations\src\Models\Configuration;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class OrderService
@@ -79,6 +77,7 @@ class OrderService
         $order = Order::updateOrCreate(['order_number' => $attributes['order_number']], $attributes);
 
         self::updateOrCreateShippingAddress($order, $attributes['shipping_address']);
+        self::updateOrCreateBillingAddress($order, $attributes['billing_address']);
 
         $order = self::syncOrderProducts($attributes['order_products'], $order);
 
@@ -101,6 +100,20 @@ class OrderService
 
         return $order;
     }
+
+
+    public static function updateOrCreateBillingAddress(Order $order, mixed $attributes): Order
+    {
+        $billing_address = OrderAddress::query()->findOrNew($order->billing_address_id ?: 0);
+        $billing_address->fill($attributes);
+        $billing_address->save();
+
+        $order->billingAddress()->associate($billing_address);
+        $order->save();
+
+        return $order;
+    }
+
 
     /**
      * @param array $orderProductAttributes

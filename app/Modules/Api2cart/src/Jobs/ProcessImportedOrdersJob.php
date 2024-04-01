@@ -50,6 +50,8 @@ class ProcessImportedOrdersJob extends UniqueJob
             'raw_import'                 => $data,
         ];
 
+        ray($orderAttributes);
+
         return OrderService::updateOrCreate($orderAttributes);
     }
 }
