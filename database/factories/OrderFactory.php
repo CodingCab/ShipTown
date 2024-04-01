@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use App\Models\OrderAddress;
+use App\Models\OrderBillingAddress;
 use App\Models\OrderStatus;
 use App\User;
 use Carbon\Carbon;
@@ -16,6 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         $shippingAddress = OrderAddress::factory()->create();
+        $billingAddress = OrderBillingAddress::factory()->create();
 
         /** @var OrderStatus $orderStatus */
         $orderStatus = OrderStatus::query()->inRandomOrder()->first() ?? OrderStatus::factory()->create();
@@ -35,6 +37,7 @@ class OrderFactory extends Factory
             'total_products'       => $this->faker->randomNumber(2),
             'total_shipping'       => $this->faker->randomElement([5, 10, 15, 20]),
             'shipping_address_id'  => $shippingAddress->getKey(),
+            'billing_address_id'   => $billingAddress->getKey(),
             'shipping_method_code' => $this->faker->randomElement(['next_day', 'store_pickup', 'express']),
             'shipping_method_name' => $this->faker->randomElement(['method_name_1', 'method_name_2', 'method_name_3']),
             'order_placed_at'      => $dateTime,
