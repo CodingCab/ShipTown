@@ -3,10 +3,10 @@
         <div class="row card p-2" >
             <div class="col pl-1">
                 <div class="row text-left">
-                    <div class="col-md-6 col-lg-7 mb-2">
+                    <div class="col-md-6 col-lg-5 mb-2">
                         <product-info-card :product= "product"></product-info-card>
                     </div>
-                    <div class="col-md-6 col-lg-5">
+                    <div class="col-md-6 col-lg-7">
                         <div class="table-responsive small" @click="toggle">
                             <table class="table table-borderless mb-0 w-100 text-right">
                                <thead>
