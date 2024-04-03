@@ -66,49 +66,6 @@
                     </tbody>
                 </table>
             </div>
-            <hr>
-            <div class="row mx-2 small" v-if="pagination">
-                <div class="col col-sm-4">
-                    <p>
-                        show
-                        <select v-model="pagination.per_page" @change="changePagination('perPage')">
-                            <option v-for="option in perPageOptions" :value="option">{{ option }}</option>
-                        </select>
-                        records
-                    </p>
-                </div>
-                <div class="col col-sm-4">
-                    <div class="d-flex justify-content-end justify-content-sm-center">
-                        <div>
-                            <button class="no-style-button mr-md-3" @click="changePagination('decrementPage')">
-                                <icon-arrow-left/>
-                            </button>
-                        </div>
-                        <div>
-                            <p class="pb-0" style="margin-top: 0.1rem">Page</p>
-                        </div>
-                        <div>
-                            <input type="text"
-                                   v-on:input="customChangePagination"
-                                   v-model.number="pagination.current_page"
-                                   style="max-width: 30px; height: 19px; margin-top: 0.1rem;"
-                                   class="mx-1 text-center"
-                            />
-                        </div>
-                        <div>
-                            <p class="pb-0" style="margin-top: 0.1rem">of {{ pagination.last_page }}</p>
-                        </div>
-                        <div>
-                            <button class="no-style-button ml-md-3" @click="changePagination('incrementPage')">
-                                <icon-arrow-right/>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <p class="float-right mr-1 mr-sm-0">{{ pagination.total }} records</p>
-                </div>
-            </div>
         </card>
     </template>
 
@@ -165,7 +122,6 @@
     import loadingOverlay from '../../mixins/loading-overlay';
     import url from "../../mixins/url";
     import api from "../../mixins/api";
-    import helpers from "../../mixins/helpers";
     import IconSortAsc from "../UI/Icons/IconSortAsc.vue";
     import IconSortDesc from "../UI/Icons/IconSortDesc.vue";
     import IconFilter from "../UI/Icons/IconFilter.vue";
@@ -175,6 +131,7 @@
     import SearchFilter from "./SearchFilter.vue";
     import ReportHead from "./ReportHead.vue";
     import moment from "moment";
+    import helpers from "../../helpers";
 
     export default {
         mixins: [loadingOverlay, url, api, helpers],
@@ -194,10 +151,13 @@
             return {
                 records: JSON.parse(this.recordString),
                 fields: JSON.parse(this.fieldsString),
-                pagination: JSON.parse(this.paginationString),
                 filters: [],
                 filterAdding: null,
                 showFilters: true,
+                perPage: Number(JSON.parse(this.paginationString).per_page),
+                page: Number(JSON.parse(this.paginationString).page),
+                hasMoreRecords: true,
+                isLoadingMoreRecords: false,
             }
         },
 
@@ -207,6 +167,7 @@
 
         mounted() {
             this.buildFiltersFromUrl()
+            window.onscroll = () => this.loadMoreRecords();
         },
 
         methods: {
@@ -381,58 +342,34 @@
                 this.setUrlParameterAngGo(filterName, filterValue)
             },
 
-            buildUrl() {
-                let baseUrl = window.location.pathname;
-
-                const paginationParams = `per_page=${this.pagination.per_page}&page=${this.pagination.current_page}`;
-
-                const sortField = this.fields.find(f => f.is_current);
-                const sortParam = sortField ? `sort=${sortField.is_desc ? '-' : ''}${sortField.name}` : '';
-
-                const filterParams = this.filters.map(filter => {
-                    const operator = filter.selectedOperator === 'btwn' ? 'between' : filter.selectedOperator;
-                    const value = filter.selectedOperator === 'btwn' ? `${filter.value},${filter.valueBetween}` : filter.value;
-                    return `filter[${filter.name}${operator === 'equals' ? '' : `_${operator}`}]=${value}`;
-                }).join('&');
-
-                const params = [paginationParams, sortParam, filterParams].filter(p => p).join('&');
-                return `${baseUrl}?${params}`;
-            },
-
-            customChangePagination: _.debounce(function() {
-                if(this.pagination.current_page < 1) {
-                    this.pagination.current_page = 1;
-                }else if(this.pagination.current_page > this.pagination.last_page) {
-                    this.pagination.current_page = this.pagination.last_page;
-                }
-                this.changePagination();
-            }, 800),
-
-            changePagination(changeType = null) {
-                if (changeType === 'perPage') {
-                    this.pagination.current_page = 1;
-                    location.href = this.buildUrl();
-                } else if (changeType === 'incrementPage' && this.pagination.current_page < this.pagination.last_page) {
-                    this.pagination.current_page++;
-                    location.href = this.buildUrl();
-                } else if (changeType === 'decrementPage' && this.pagination.current_page > 1) {
-                    this.pagination.current_page--;
-                    location.href = this.buildUrl();
-                }
-
-                location.href = this.buildUrl();
-            },
-
             findField(fieldName) {
                 return this.fields.find(f => f.name === fieldName);
+            },
+
+            loadMoreRecords(){
+
+                if (helpers.isMoreThanPercentageScrolled(70) && this.hasMoreRecords && !this.isLoadingMoreRecords) {
+
+                    this.isLoadingMoreRecords = true;
+                    this.page++;
+
+                    let urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('page', this.page);
+                    urlParams.set('per_page', this.perPage);
+
+                    let reportName = this.reportName.toLowerCase().replace(' ', '-');
+
+                    // make call to reports/inventory and append current params changing only the page
+                    axios.get(`/api/reports/${reportName}?` + urlParams.toString()).then(response => {
+                        this.records = this.records.concat(response.data.data);
+                        this.hasMoreRecords = response.data.data.length === this.perPage;
+                        this.isLoadingMoreRecords = false;
+                    });
+                }
             }
         },
 
         computed: {
-            perPageOptions(){
-                return [...new Set([this.pagination.per_page, 10, 25, 50, 100])].sort((a, b) => a - b);
-            },
-
             visibleFields() {
                 return Object.keys(this.records[0])
                     .map(this.findField);
@@ -457,13 +394,6 @@
 
 .dropdown-toggle::after {
     display: none;
-}
-
-.no-style-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
 }
 
 ::-webkit-scrollbar{

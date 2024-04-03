@@ -88,9 +88,11 @@ class Report extends Model
 
     private function view(): mixed
     {
+        $limit = request('per_page', $this->perPage);
+        $offset = request('page', 0) * $limit;
+
         try {
-            $queryBuilder = $this->queryBuilder()
-                ->paginate(request('per_page', $this->perPage));
+            $queryBuilder = $this->queryBuilder()->offset($offset)->limit($limit)->get();
         } catch (InvalidFilterQuery | InvalidSelectException $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
@@ -102,10 +104,8 @@ class Report extends Model
             'fields' =>  array_keys($this->fields),
             'data' => $resource,
             'pagination' => [
-                'total' => $queryBuilder->total(),
-                'per_page' => $queryBuilder->perPage(),
-                'current_page' => $queryBuilder->currentPage(),
-                'last_page' => $queryBuilder->lastPage(),
+                'per_page' => $limit,
+                'page' => request('page', 0),
             ]
         ];
 
