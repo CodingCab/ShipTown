@@ -359,8 +359,7 @@
 
                     let reportName = this.reportName.toLowerCase().replace(' ', '-');
 
-                    // make call to reports/inventory and append current params changing only the page
-                    axios.get(`/api/reports/${reportName}?` + urlParams.toString()).then(response => {
+                    this.getReportsXYZ(reportName, urlParams).then(response => {
                         this.records = this.records.concat(response.data.data);
                         this.hasMoreRecords = response.data.data.length === this.perPage;
                         this.isLoadingMoreRecords = false;
