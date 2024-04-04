@@ -1,11 +1,11 @@
 <template>
-    <div :class="showCardBorder ? 'card p-2':'row p-1'" >
+    <div :class="!forModal ? 'card p-2':'row p-1'" >
         <div class="col pl-1">
             <div class="row text-left">
-                <div class="col-md-6 col-lg-5 mb-2">
+                <div class="col-lg-5 mb-2" :class="forModal ? '': 'col-md-6'">
                     <product-info-card :product= "product"></product-info-card>
                 </div>
-                <div class="col-md-6 col-lg-7">
+                <div class="col-lg-7" :class="forModal ? '': 'col-md-6'">
                     <div class="table-responsive small" @click="toggle">
                         <table class="table table-borderless mb-0 w-100 text-right">
                             <thead>
@@ -246,9 +246,9 @@
             product: Object,
             expanded: false,
             ordered: 0,
-            showCardBorder: {
+            forModal: {
                 type: Boolean,
-                default: true
+                default: false
             }
         },
 
