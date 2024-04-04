@@ -5,8 +5,11 @@ namespace App\Modules\Reports\src\Models;
 use App\Exceptions\InvalidSelectException;
 use App\Helpers\CsvBuilder;
 use App\Modules\Reports\src\Http\Resources\ReportResource;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 
 class Report extends ReportBase
@@ -86,7 +89,7 @@ class Report extends ReportBase
             ->get());
     }
 
-    public function csvDownload()
+    public function csvDownload(): Response|Application|ResponseFactory
     {
         $csv = CsvBuilder::fromQueryBuilder(
             $this->queryBuilder(),

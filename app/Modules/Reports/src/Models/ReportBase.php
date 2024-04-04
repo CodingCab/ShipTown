@@ -36,7 +36,7 @@ class ReportBase extends Model
 
     private array $allowedFilters = [];
     public array $allowedIncludes = [];
-    private array $fieldAliases = [];
+    protected array $fieldAliases = [];
 
     public function queryBuilder(): QueryBuilder
     {
