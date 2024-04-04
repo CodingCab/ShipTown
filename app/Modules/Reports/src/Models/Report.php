@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -62,6 +63,14 @@ class Report extends Model
         return $this->queryBuilder()
             ->simplePaginate(request()->get('per_page', $this->perPage))
             ->appends(request()->query());
+    }
+
+    public static function toJsonResource(): JsonResource
+    {
+        return JsonResource::make((new static())->queryBuilder()
+            ->offset(request('page') * request('per_page'))
+            ->limit(request('per_page'))
+            ->get());
     }
 
     public function queryBuilder(): QueryBuilder

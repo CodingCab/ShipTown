@@ -9,13 +9,6 @@ class StockTakeSuggestionsController
 {
     public function index()
     {
-        $data = (new StoctakeSuggestionReport())
-            ->queryBuilder()
-            ->offset(request('page') * request('per_page'))
-            ->limit(request('per_page'))
-            ->get()
-        ;
-
-        return JsonResource::collection($data);
+        return StoctakeSuggestionReport::toJsonResource();
     }
 }

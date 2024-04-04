@@ -9,13 +9,6 @@ class PicksController
 {
     public function index()
     {
-        $data = (new PicksReport())
-            ->queryBuilder()
-            ->offset(request('page') * request('per_page'))
-            ->limit(request('per_page'))
-            ->get()
-        ;
-
-        return JsonResource::collection($data);
+        return PicksReport::toJsonResource();
     }
 }

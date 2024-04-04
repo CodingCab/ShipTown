@@ -9,13 +9,6 @@ class InventoryController
 {
     public function index()
     {
-        $data = (new InventoryReport())
-            ->queryBuilder()
-            ->offset(request('page') * request('per_page'))
-            ->limit(request('per_page'))
-            ->get()
-        ;
-
-        return JsonResource::collection($data);
+        return InventoryReport::toJsonResource();
     }
 }
