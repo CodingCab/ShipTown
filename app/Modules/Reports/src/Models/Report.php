@@ -24,7 +24,7 @@ class Report extends ReportBase
         $request = $request ?? request();
 
         if ($request->has('filename')) {
-            return $this->csvDownload();
+            return $this->toCsvFileDownload();
         }
 
         return $this->view();
@@ -89,7 +89,7 @@ class Report extends ReportBase
             ->get());
     }
 
-    public function csvDownload(): Response|Application|ResponseFactory
+    public function toCsvFileDownload(): Response|Application|ResponseFactory
     {
         $csv = CsvBuilder::fromQueryBuilder(
             $this->queryBuilder(),
