@@ -68,7 +68,7 @@ class Report extends Model
     public static function toJsonResource(): JsonResource
     {
         return JsonResource::make((new static())->queryBuilder()
-            ->offset(request('page') * request('per_page'))
+            ->offset(request('page', 1) * request('per_page', 100))
             ->limit(request('per_page'))
             ->get());
     }

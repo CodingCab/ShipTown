@@ -26,7 +26,8 @@ class IndexTest extends TestCase
                 'reason' => 'test',
             ]
         );
-        $response = $this->actingAs($user, 'api')->getJson(route('api/reports/stocktake-suggestion/index', []));
+        $response = $this->actingAs($user, 'api')
+            ->getJson(route('/api/reports/stocktake-suggestion',['page' => 1, 'per_page' => 1]));
 
         $response->assertOk();
     }
