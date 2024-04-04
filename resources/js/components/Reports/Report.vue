@@ -66,7 +66,15 @@
                     </tbody>
                 </table>
             </div>
+            <div v-if="!hasMoreRecords" class="text-secondary small text-center mt-3">
+                No more records found.
+            </div>
         </card>
+        <div class="row">
+            <div class="col">
+                <div ref="loadingContainerOverride" style="height: 32px"></div>
+            </div>
+        </div>
     </template>
 
     <b-modal id="filter-box-modal" size="sm" no-fade hide-header @shown="focusFilterBoxInput">
@@ -157,7 +165,6 @@
                 perPage: Number(JSON.parse(this.paginationString).per_page),
                 page: Number(JSON.parse(this.paginationString).page),
                 hasMoreRecords: true,
-                isLoadingMoreRecords: false,
             }
         },
 
@@ -348,9 +355,10 @@
 
             loadMoreRecords(){
 
-                if (helpers.isMoreThanPercentageScrolled(70) && this.hasMoreRecords && !this.isLoadingMoreRecords) {
+                if (helpers.isMoreThanPercentageScrolled(70) && this.hasMoreRecords && !this.isLoading) {
 
-                    this.isLoadingMoreRecords = true;
+                    this.showLoading();
+
                     this.page++;
 
                     let urlParams = new URLSearchParams(window.location.search);
@@ -362,7 +370,13 @@
                     this.getReportsXYZ(reportName, urlParams).then(response => {
                         this.records = this.records.concat(response.data.data);
                         this.hasMoreRecords = response.data.data.length === this.perPage;
-                        this.isLoadingMoreRecords = false;
+                        this.isLoading = false;
+                    })
+                    .catch(error => {
+                        this.displayApiCallError(error);
+                    })
+                    .finally(() => {
+                        this.hideLoading();
                     });
                 }
             }
