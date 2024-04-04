@@ -69,13 +69,6 @@ class Report extends ReportBase
         return view($this->view, $data);
     }
 
-    public function toArray(): Paginator|array
-    {
-        return $this->queryBuilder()
-            ->simplePaginate(request()->get('per_page', $this->perPage))
-            ->appends(request()->query());
-    }
-
     public static function toJsonResource(): JsonResource
     {
         return JsonResource::make((new static())->queryBuilder()
