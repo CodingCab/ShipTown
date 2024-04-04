@@ -14,12 +14,7 @@ use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 
 class Report extends ReportBase
 {
-    public function response($request): mixed
-    {
-        return $this->toView($request);
-    }
-
-    public function toView($request = null): mixed
+    public function response($request = null): mixed
     {
         $request = $request ?? request();
 
