@@ -50,7 +50,6 @@ Route::resource('order/packsheet', Order\PacksheetController::class)->only(['sho
 
 Route::name('reports.')->as('reports.')->group(function () {
     Route::resource('reports/inventory', Reports\InventoryController::class);
-
     Route::resource('reports/stocktake-suggestions', Reports\StocktakeSuggestionsController::class)->only('index');
     Route::get('reports/inventory-dashboard', [Reports\InventoryDashboardController::class, 'index'])->name('inventory-dashboard');
     Route::get('reports/picks', [Reports\PickController::class, 'index'])->name('picks');
