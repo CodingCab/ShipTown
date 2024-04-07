@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Reports;
 
-use App\Modules\StocktakeSuggestions\src\Reports\StoctakeSuggestionReport;
+use App\Modules\StocktakeSuggestions\src\Reports\StocktakeSuggestionReport;
 
 class StockTakeSuggestionsController
 {
     public function index()
     {
-        return StoctakeSuggestionReport::toJsonResource();
+        return StocktakeSuggestionReport::toJsonResource();
     }
 }
