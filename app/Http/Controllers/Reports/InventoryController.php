@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class InventoryController extends ReportController
 {
-    public function response(Request $request): mixed
+    public function index(Request $request): mixed
     {
         $report = new InventoryReport();
 
