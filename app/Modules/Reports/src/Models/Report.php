@@ -6,10 +6,10 @@ use App\Exceptions\InvalidSelectException;
 use App\Helpers\CsvBuilder;
 use App\Modules\Reports\src\Http\Resources\ReportResource;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use League\Csv\Exception;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 
 class Report extends ReportBase
@@ -77,12 +77,12 @@ class Report extends ReportBase
             ->get());
     }
 
+    /**
+     * @throws Exception
+     */
     public function toCsvFileDownload(): Response|Application|ResponseFactory
     {
-        $csv = CsvBuilder::fromQueryBuilder(
-            $this->queryBuilder(),
-            $this->fieldAliases
-        );
+        $csv = CsvBuilder::fromQueryBuilder($this->queryBuilder());
 
         return response((string)$csv, 200, [
             'Content-Type' => 'text/csv',
