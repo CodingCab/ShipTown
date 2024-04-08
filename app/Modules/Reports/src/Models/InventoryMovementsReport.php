@@ -3,7 +3,6 @@
 namespace App\Modules\Reports\src\Models;
 
 use App\Models\InventoryMovement;
-use App\Models\Warehouse;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class InventoryMovementsReport extends Report
@@ -11,6 +10,8 @@ class InventoryMovementsReport extends Report
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
+        $this->view = 'reports.inventory-movements';
 
         $this->report_name = 'Stocktakes Report';
 

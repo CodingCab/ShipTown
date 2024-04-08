@@ -27,8 +27,9 @@ class Report extends ReportBase
 
     protected function view(): mixed
     {
+        $view = request('view', $this->view);
         $limit = request('per_page', $this->perPage);
-        $offset = (request('page', 1) - 1) * $limit;
+        $offset = request('page', 1) * $limit - $limit;
 
         try {
             $queryBuilder = $this->queryBuilder()->offset($offset)->limit($limit)->get();
@@ -66,7 +67,7 @@ class Report extends ReportBase
             ];
         });
 
-        return view($this->view, $data);
+        return view($view, $data);
     }
 
     public static function toJsonResource(): JsonResource
