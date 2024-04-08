@@ -2,9 +2,9 @@
 @section('content')
 
     @foreach($labels as $label)
-        <h1 style="text-align: center; font-size: 90px; margin-top: 0;">{{ $label }}</h1>
-        <br>
-        <img style="width: 180px; height: 180px; margin-left: 85px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG($label, 'QRCODE') }}" alt="barcode" />
+        <h1 style="text-align: center; font-size: 85px; margin-top: 10px;">{{ $label }}</h1>
+        <img style="width: 180px; height: 180px; margin-top:100px; margin-left: 88px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG($label, 'QRCODE') }}" alt="barcode" />
+        <p style="text-align: center; font-size: 24px; margin-top: 20px;">self:{{ $label }}</p>
         @if(!$loop->last)
             <div class="page-break"></div>
         @endif
