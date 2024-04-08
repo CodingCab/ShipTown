@@ -69,6 +69,9 @@ Route::prefix('modules')->name('api.modules.')->group(function () {
 
 Route::put('print/order/{order_number}/{view}', [Api\PrintOrderController::class, 'update']);
 
+Route::post('print/shelf-label-pdf', [Api\PrintShelfLabelController::class, 'update']);
+Route::post('preview/shelf-label-pdf', [Api\PreviewShelfLabelController::class, 'update']);
+
 Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
 
 Route::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class)->names('csv-import-data-collections')->only(['store']);
