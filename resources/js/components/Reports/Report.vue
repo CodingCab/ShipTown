@@ -371,17 +371,18 @@
                     urlParams.set('page', this.page);
                     urlParams.set('per_page', this.getUrlParameter('per_page', 50));
 
-                    this.getReportData(this.$router.currentRoute.path, urlParams).then(response => {
-                        this.records = this.records.concat(response.data.data);
-                        this.hasMoreRecords = response.data.data.length === this.perPage;
-                        this.isLoading = false;
-                    })
-                    .catch(error => {
-                        this.displayApiCallError(error);
-                    })
-                    .finally(() => {
-                        this.hideLoading();
-                    });
+                    this.getReportData(this.$router.currentRoute.path, urlParams)
+                        .then(response => {
+                            this.records = this.records.concat(response.data.data);
+                            this.hasMoreRecords = response.data.data.length === this.perPage;
+                            this.isLoading = false;
+                        })
+                        .catch(error => {
+                            this.displayApiCallError(error);
+                        })
+                        .finally(() => {
+                            this.hideLoading();
+                        });
                 }
             },
 

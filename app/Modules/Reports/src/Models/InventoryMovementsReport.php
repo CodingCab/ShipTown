@@ -11,7 +11,7 @@ class InventoryMovementsReport extends Report
     {
         parent::__construct($attributes);
 
-        $this->view = 'reports.inventory-movements';
+//        $this->view = 'reports.inventory-movements';
 
         $this->report_name = 'Stocktakes Report';
 
