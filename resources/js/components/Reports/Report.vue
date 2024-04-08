@@ -369,7 +369,7 @@
                     let urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('filename', 'data.json');
                     urlParams.set('page', this.page);
-                    urlParams.set('per_page', this.perPage);
+                    urlParams.set('per_page', this.getUrlParameter('per_page', 50));
 
                     this.getReportData(this.$router.currentRoute.path, urlParams).then(response => {
                         this.records = this.records.concat(response.data.data);

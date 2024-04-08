@@ -28,6 +28,8 @@ class Report extends ReportBase
             }
         }
 
+        $this->perPage = $request->input('per_page', 50);
+
         return $this->view();
     }
 
