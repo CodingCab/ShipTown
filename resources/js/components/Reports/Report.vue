@@ -16,7 +16,7 @@
         </div>
     </template>
 
-    <report-head :report-name="reportName"></report-head>
+    <report-head :report-name="breadcrumbs"></report-head>
 
     <div v-if="records === null || records.length === 0" class="text-secondary small text-center">
         No records found with filters specified
@@ -165,6 +165,8 @@
                 perPage: Number(JSON.parse(this.paginationString).per_page),
                 page: Number(JSON.parse(this.paginationString).page),
                 hasMoreRecords: true,
+
+                breadcrumbs: '',
             }
         },
 
@@ -175,6 +177,11 @@
         mounted() {
             this.buildFiltersFromUrl()
             window.onscroll = () => this.loadMoreRecords();
+
+            this.breadcrumbs = this.$router.currentRoute.path
+                .replace('/', '')
+                .replaceAll('/', ' > ')
+                .replaceAll('-', ' ');
         },
 
         methods: {
@@ -354,9 +361,7 @@
             },
 
             loadMoreRecords(){
-
                 if (helpers.isMoreThanPercentageScrolled(70) && this.hasMoreRecords && !this.isLoading) {
-
                     this.showLoading();
 
                     this.page++;
