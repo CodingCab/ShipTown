@@ -33,12 +33,12 @@
             <div>
                 <header-upper class="text-center d-none d-md-block mb-4">PREVIEW</header-upper>
                 <div class="d-flex justify-content-center">
-                    <iframe
+                    <object
                         id="shelf_label_preview"
                         title="Shelf Label Preview"
-                        :src="pdfUrl"
+                        :data="pdfUrl"
                     >
-                    </iframe>
+                    </object>
                 </div>
             </div>
 
