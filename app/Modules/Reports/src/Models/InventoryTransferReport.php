@@ -33,7 +33,6 @@ class InventoryTransferReport extends Report
         ];
 
         $this->defaultSelects = [
-            'warehouse_id',
             'warehouse_code',
             'department',
             'category',
@@ -46,7 +45,6 @@ class InventoryTransferReport extends Report
         ];
 
         $this->fields = [
-            'warehouse_id'          => 'data_collections.warehouse_id',
             'warehouse_code'        => 'warehouses.code',
             'department'            => 'products.department',
             'category'              => 'products.category',
@@ -59,7 +57,7 @@ class InventoryTransferReport extends Report
         ];
 
         $this->casts = [
-            'warehouse_id'          => 'integer',
+            'warehouse_code'        => 'string',
             'department'            => 'string',
             'category'              => 'string',
             'transfer_name'         => 'string',
