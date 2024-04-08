@@ -17,28 +17,11 @@ class InventoryTransferReport extends Report
         $this->baseQuery = DataCollectionRecord::query()
             ->leftJoin('data_collections', 'data_collections.id', '=', 'data_collection_records.data_collection_id')
             ->leftJoin('products', 'products.id', '=', 'data_collection_records.product_id')
-            ->leftJoin('tags as department_tag', function ($join) {
-                $join->where('department_tag.type', '=', 'rms_department_name')
-                    ->whereIn('department_tag.id', function ($query) {
-                        $query->select('tag_id')
-                            ->from('taggables')
-                            ->where('taggables.taggable_id', '=', DB::raw('data_collection_records.product_id'))
-                            ->where('taggables.taggable_type', '=', 'App\\Models\\Product');
-                    });
-            })
-            ->leftJoin('tags as category_tag', function ($join) {
-                $join->where('category_tag.type', '=', 'rms_category_name')
-                    ->whereIn('category_tag.id', function ($query) {
-                        $query->select('tag_id')
-                            ->from('taggables')
-                            ->where('taggables.taggable_id', '=', DB::raw('data_collection_records.product_id'))
-                            ->where('taggables.taggable_type', '=', 'App\\Models\\Product');
-                    });
-            })
             ->leftJoin('products_prices', function ($join) {
                 $join->on('products_prices.product_id', '=', 'data_collection_records.product_id')
                     ->whereColumn('products_prices.warehouse_id', 'data_collections.warehouse_id');
-            });
+            })
+            ->leftJoin('warehouses', 'warehouses.id', '=', 'data_collections.warehouse_id');
 
         $this->allowedIncludes = [
             'product',
@@ -51,6 +34,7 @@ class InventoryTransferReport extends Report
 
         $this->defaultSelects = [
             'warehouse_id',
+            'warehouse_code',
             'department',
             'category',
             'transfer_name',
@@ -63,8 +47,9 @@ class InventoryTransferReport extends Report
 
         $this->fields = [
             'warehouse_id'          => 'data_collections.warehouse_id',
-            'department'            => 'department_tag.name',
-            'category'              => 'category_tag.name',
+            'warehouse_code'        => 'warehouses.code',
+            'department'            => 'products.department',
+            'category'              => 'products.category',
             'transfer_name'         => 'data_collections.name',
             'product_sku'           => 'products.sku',
             'product_name'          => 'products.name',
