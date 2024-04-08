@@ -85,19 +85,23 @@ export default {
             fromLetter: 'A',
             fromNumber: 1,
             toLetter: 'A',
-            toNumber: 2,
+            toNumber: 3,
             numOfCopies: 1,
             labelsPerPage: 1,
             labelFilename: 'label_preview',
             pdfUrl: '',
         }
     },
-    onMounted() {
-        this.loadPdfIntoIframe();
+    mounted() {
+        this.$nextTick(() => {
+            this.loadPdfIntoIframe();
+        });
     },
     methods: {
 
         loadPdfIntoIframe() {
+
+            console.log('getting pdf');
 
             let templateTypes = {1: 'full', 2: 'half', 3: 'third'};
 
@@ -123,7 +127,9 @@ export default {
             let labels = [];
 
             if(this.customLabelText) {
-                labels.push(this.customLabelText);
+                for(let i = 0; i < this.numOfCopies; i++) {
+                    labels.push(this.customLabelText);
+                }
                 return labels;
             }
 
@@ -131,14 +137,16 @@ export default {
                 return labels;
             }
 
-            let fromLetter = this.fromLetter.charCodeAt(0);
-            let toLetter = this.toLetter.charCodeAt(0);
+            let fromLetter = this.fromLetter.toUpperCase().charCodeAt(0);
+            let toLetter = this.toLetter.toUpperCase().charCodeAt(0);
             let fromNumber = this.fromNumber;
             let toNumber = this.toNumber;
             for (let i = fromLetter; i <= toLetter; i++) {
                 for (let j = fromNumber; j <= toNumber; j++) {
                     labels.push(String.fromCharCode(i) + j);
                 }
+                // Reset the fromNumber to 1 after the first letter
+                fromNumber = 1;
             }
 
             if(this.numOfCopies > 1) {
