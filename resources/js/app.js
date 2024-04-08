@@ -169,6 +169,7 @@ Vue.component('data-collector-quantity-request-modal', require('./components/Dat
 Vue.component('date-selector-widget', require('./components/Widgets/DateSelectorWidget.vue').default);
 Vue.component('dpd-configuration', require('./components/Settings/DpdConfiguration.vue').default);
 Vue.component('dpd-uk-configuration', require('./components/Settings/DpdUkConfiguration.vue').default);
+Vue.component('header-upper', require('./components/UI/HeaderUpper.vue').default);
 Vue.component('heartbeats', require('./components/Heartbeats.vue').default);
 Vue.component('inventory-movements-report-page', require('./components/InventoryMovementsReportPage.vue').default);
 Vue.component('active-orders-inventory-reservations-page', require('./components/Settings/Modules/ActiveOrdersInventoryReservationsConfigurationPage.vue').default);
@@ -198,6 +199,7 @@ Vue.component('quick-connect-magento-page', require('./components/QuickConnectMa
 Vue.component('restocking-page', require('./components/RestockingPage.vue').default);
 Vue.component('restocking-record-card', require('./components/RestockingPage/RestockingRecordCard.vue').default);
 Vue.component('rmsapi-configuration', require('./components/Settings/RmsapiiConfiguration.vue').default);
+Vue.component('shelf-label-printing-page', require('./components/Tools/ShelfLabelPrintingPage.vue').default);
 Vue.component('stocktake-input', require('./components/SharedComponents/StocktakeInput.vue').default);
 Vue.component('stocktaking-page', require('./components/StocktakingPage.vue').default);
 Vue.component('swiping-card', require('./components/SharedComponents/SwipingCard.vue').default);
