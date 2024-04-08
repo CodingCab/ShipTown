@@ -5,6 +5,7 @@ namespace App\Modules\Reports\src\Models;
 use App\Exceptions\InvalidSelectException;
 use App\Helpers\CsvBuilder;
 use App\Modules\Reports\src\Http\Resources\ReportResource;
+use File;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +20,12 @@ class Report extends ReportBase
         $request = $request ?? request();
 
         if ($request->has('filename')) {
-            return $this->toCsvFileDownload();
+            switch (File::extension($request->input('filename'))) {
+                case 'csv':
+                    return $this->toCsvFileDownload();
+                case 'json':
+                    return $this->toJsonResource();
+            }
         }
 
         return $this->view();

@@ -367,12 +367,11 @@
                     this.page++;
 
                     let urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('filename', 'data.json');
                     urlParams.set('page', this.page);
                     urlParams.set('per_page', this.perPage);
 
-                    let reportName = this.reportName.toLowerCase().replace(' ', '-');
-
-                    this.getReportsXYZ(reportName, urlParams).then(response => {
+                    this.getReportData(this.$router.currentRoute.path, urlParams).then(response => {
                         this.records = this.records.concat(response.data.data);
                         this.hasMoreRecords = response.data.data.length === this.perPage;
                         this.isLoading = false;
@@ -384,7 +383,11 @@
                         this.hideLoading();
                     });
                 }
-            }
+            },
+
+            getReportData: function(url, params) {
+                return axios.get(url, {params: params})
+            },
         },
 
         computed: {
