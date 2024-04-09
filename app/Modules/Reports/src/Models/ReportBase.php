@@ -7,9 +7,9 @@ use App\Traits\HasTagsTrait;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
@@ -43,7 +43,7 @@ class ReportBase extends Model
 
     protected $casts = [];
 
-    public function getRecords(): \Illuminate\Database\Eloquent\Collection|array
+    public function getRecords(): Collection|array
     {
         $records = $this->getFinalQuery()->get();
 
@@ -82,10 +82,12 @@ class ReportBase extends Model
             $queryBuilder = $queryBuilder->defaultSort($this->defaultSort);
         }
 
-        return $queryBuilder
+        $queryBuilder = $queryBuilder
             ->allowedFilters($this->getAllowedFilters())
             ->allowedSorts($this->fieldAliases)
             ->allowedIncludes($this->allowedIncludes);
+
+        return $queryBuilder;
     }
 
     /**
