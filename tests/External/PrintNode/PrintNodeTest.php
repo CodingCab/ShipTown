@@ -22,7 +22,7 @@ class PrintNodeTest extends TestCase
     public function test_if_api_key_set()
     {
         $actual = config('printnode.test_api_key');
-        $this->assertNotEmpty($actual, 'PRINTNODE_TEST_API_KEY env key is not set');
+        $this->assertNotEmpty($actual, 'TEST_MODULES_PRINTNODE_API_KEY env key is not set');
     }
 
     public function test_get_clients()
