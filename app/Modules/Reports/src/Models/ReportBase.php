@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -69,6 +70,29 @@ class ReportBase extends Model
             ->limit($perPage);
     }
 
+    /**
+     * @param $fields
+     * @return Collection
+     */
+    public function getFieldLinks($fields): Collection
+    {
+        return collect($fields)->map(function ($field) {
+            $sortIsDesc = request()->has('sort') && str_starts_with(request()->sort, '-');
+            $currentSortName = str_replace('-', '', request()->sort);
+            $isCurrent = $currentSortName === $field;
+            $url = request()->fullUrlWithQuery(['sort' => $isCurrent && !$sortIsDesc ? "-" . $field : $field]);
+
+            return [
+                'name' => $field,
+                'url' => $url,
+                'is_current' => $isCurrent,
+                'is_desc' => $sortIsDesc,
+                'display_name' => str_replace('_', ' ', ucwords($field, '_')),
+                'type' => $this->getFieldType($field),
+                'operators' => $this->getFieldTypeOperators($field),
+            ];
+        });
+    }
     public function addFilter(AllowedFilter $filter): self
     {
         $this->allowedFilters[] = $filter;

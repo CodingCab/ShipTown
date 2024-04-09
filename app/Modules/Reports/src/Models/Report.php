@@ -9,7 +9,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 use League\Csv\Exception;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
 
@@ -83,29 +82,5 @@ class Report extends ReportBase
             'Content-Transfer-Encoding' => 'binary',
             'Content-Disposition' => 'attachment; filename="' . request('filename', 'report.csv') . '"',
         ]);
-    }
-
-    /**
-     * @param $fields
-     * @return Collection
-     */
-    public function getFieldLinks($fields): Collection
-    {
-        return collect($fields)->map(function ($field) {
-            $sortIsDesc = request()->has('sort') && str_starts_with(request()->sort, '-');
-            $currentSortName = str_replace('-', '', request()->sort);
-            $isCurrent = $currentSortName === $field;
-            $url = request()->fullUrlWithQuery(['sort' => $isCurrent && !$sortIsDesc ? "-" . $field : $field]);
-
-            return [
-                'name' => $field,
-                'url' => $url,
-                'is_current' => $isCurrent,
-                'is_desc' => $sortIsDesc,
-                'display_name' => str_replace('_', ' ', ucwords($field, '_')),
-                'type' => $this->getFieldType($field),
-                'operators' => $this->getFieldTypeOperators($field),
-            ];
-        });
     }
 }
