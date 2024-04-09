@@ -39,6 +39,27 @@ class ReportBase extends Model
     public array $allowedIncludes = [];
     protected array $fieldAliases = [];
 
+    public function getRecords(): \Illuminate\Database\Eloquent\Collection|array
+    {
+        $records = $this->getFinalQuery()->get();
+
+        if (empty($this->fields) && $records->isNotEmpty()) {
+            $this->fields = $records->first()->toArray();
+        }
+
+        return $records;
+    }
+
+    public function getFinalQuery(): QueryBuilder
+    {
+        $perPage = request('per_page', 100);
+        $pageNumber = request('page', 1);
+
+        return $this->queryBuilder()
+            ->offset(($pageNumber - 1) * $perPage)
+            ->limit($perPage);
+    }
+
     public function queryBuilder(): QueryBuilder
     {
         $this->fieldAliases = [];
@@ -59,15 +80,6 @@ class ReportBase extends Model
             ->allowedFilters($this->getAllowedFilters())
             ->allowedSorts($this->fieldAliases)
             ->allowedIncludes($this->allowedIncludes);
-    }
-    public function getFinalQuery(): QueryBuilder
-    {
-        $perPage = request('per_page', 100);
-        $pageNumber = request('page', 1);
-
-        return $this->queryBuilder()
-            ->offset(($pageNumber - 1) * $perPage)
-            ->limit($perPage);
     }
 
     /**

@@ -31,11 +31,7 @@ class Report extends ReportBase
         try {
             $this->perPage = request('per_page', 50);
 
-            $records = $this->getFinalQuery()->get();
-
-            if (empty($this->fields) && $records->isNotEmpty()) {
-                $this->fields = $records->first()->toArray();
-            }
+            $records = $this->getRecords();
 
             $view = request('view', $this->view);
 
@@ -50,7 +46,7 @@ class Report extends ReportBase
 
     public function toJsonResource(): JsonResource
     {
-        return JsonResource::make($this->getFinalQuery()->get());
+        return JsonResource::make($this->getRecords());
     }
 
     public static function json(): JsonResource
