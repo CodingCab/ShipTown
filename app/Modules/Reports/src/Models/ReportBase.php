@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -113,14 +114,12 @@ class ReportBase extends Model
             $sortIsDesc = request()->has('sort') && str_starts_with(request()->sort, '-');
             $currentSortName = str_replace('-', '', request()->sort);
             $isCurrent = $currentSortName === $field;
-            $url = request()->fullUrlWithQuery(['sort' => $isCurrent && !$sortIsDesc ? "-" . $field : $field]);
 
             return [
                 'name' => $field,
-                'url' => $url,
                 'is_current' => $isCurrent,
                 'is_desc' => $sortIsDesc,
-                'display_name' => str_replace('_', ' ', ucwords($field, '_')),
+                'display_name' => Str::headline($field),
                 'type' => $this->getFieldType($field),
                 'operators' => $this->getFieldTypeOperators($field),
             ];
