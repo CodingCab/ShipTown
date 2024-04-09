@@ -6,7 +6,7 @@
             <div class="half_{{ $index === 0 ? 'first' : 'second'}}">
                 <h1 style="text-align: center; font-size: 60px; margin-top: 5px;">{{ $label }}</h1>
                 <img style="width: 120px; height: 120px; margin-left: 75px; margin-top: 30px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG($label, 'QRCODE') }}" alt="barcode" />
-                <p style="text-align: center; font-size: 18px; margin-top: 20px;">self:{{ $label }}</p>
+                <p style="text-align: center; font-size: 18px; margin-top: 20px;">{{ $label }}</p>
             </div>
         @endforeach
         @if(!$loop->last)
