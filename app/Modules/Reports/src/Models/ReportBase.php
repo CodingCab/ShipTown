@@ -99,25 +99,16 @@ class ReportBase extends Model
                 'per_page' => $this->perPage,
                 'page' => request('page', 1),
             ],
-            'field_links' => $this->getFieldLinks(array_keys($this->fields))
+            'field_links' => collect(array_keys($this->fields))
+                ->map(fn ($field) => [
+                    'name' => $field,
+                    'display_name' => Str::headline($field),
+                    'type' => $this->getFieldType($field),
+                    'operators' => $this->getFieldTypeOperators($field),
+                ])
         ];
     }
 
-    /**
-     * @param $fields
-     * @return Collection
-     */
-    public function getFieldLinks($fields): Collection
-    {
-        return collect($fields)->map(function ($field) {
-            return [
-                'name' => $field,
-                'display_name' => Str::headline($field),
-                'type' => $this->getFieldType($field),
-                'operators' => $this->getFieldTypeOperators($field),
-            ];
-        });
-    }
     public function addFilter(AllowedFilter $filter): self
     {
         $this->allowedFilters[] = $filter;
