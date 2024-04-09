@@ -111,14 +111,8 @@ class ReportBase extends Model
     public function getFieldLinks($fields): Collection
     {
         return collect($fields)->map(function ($field) {
-            $sortIsDesc = request()->has('sort') && str_starts_with(request()->sort, '-');
-            $currentSortName = str_replace('-', '', request()->sort);
-            $isCurrent = $currentSortName === $field;
-
             return [
                 'name' => $field,
-                'is_current' => $isCurrent,
-                'is_desc' => $sortIsDesc,
                 'display_name' => Str::headline($field),
                 'type' => $this->getFieldType($field),
                 'operators' => $this->getFieldTypeOperators($field),
