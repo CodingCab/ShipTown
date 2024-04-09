@@ -56,7 +56,7 @@ class ReportBase extends Model
 
     public function getFinalQuery(): QueryBuilder
     {
-        $limit = request('per_page', 100);
+        $limit = request('per_page', 50);
         $page = request('page', 1);
 
         $offset = ($page - 1) * $limit;
