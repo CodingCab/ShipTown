@@ -34,7 +34,7 @@ class ReportBase extends Model
 
     public mixed $baseQuery;
 
-    private array $allowedFilters = [];
+    public array $allowedFilters = [];
     public array $allowedIncludes = [];
     protected array $fieldAliases = [];
 
@@ -60,22 +60,14 @@ class ReportBase extends Model
             ->allowedIncludes($this->allowedIncludes);
     }
 
-    /**
-     * @param AllowedFilter $filter
-     * @return $this
-     */
-    public function addFilter(AllowedFilter $filter): Report
+    public function addFilter(AllowedFilter $filter): self
     {
         $this->allowedFilters[] = $filter;
 
         return $this;
     }
 
-    /**
-     * @param $include
-     * @return $this
-     */
-    public function addAllowedInclude($include): Report
+    public function addAllowedInclude($include): self
     {
         $this->allowedIncludes[] = $include;
 
@@ -139,9 +131,6 @@ class ReportBase extends Model
         return $queryBuilder;
     }
 
-    /**
-     * @return array
-     */
     private function addExactFilters(): array
     {
 
@@ -158,10 +147,6 @@ class ReportBase extends Model
         return $allowedFilters;
     }
 
-
-    /**
-     * @return array
-     */
     private function addContainsFilters(): array
     {
         $allowedFilters = [];
@@ -181,9 +166,6 @@ class ReportBase extends Model
         return $allowedFilters;
     }
 
-    /**
-     * @return array
-     */
     private function addBetweenFloatFilters(): array
     {
         $allowedFilters = [];
@@ -218,7 +200,6 @@ class ReportBase extends Model
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     private function addBetweenDatesFilters(): array
@@ -257,7 +238,6 @@ class ReportBase extends Model
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     private function addGreaterThan(): array
@@ -303,9 +283,6 @@ class ReportBase extends Model
         return $allowedFilters;
     }
 
-    /**
-     * @return array
-     */
     private function addLowerThan(): array
     {
         $allowedFilters = [];
@@ -334,15 +311,9 @@ class ReportBase extends Model
     {
         $allowedFilters = [];
 
-//        collect($this->fields)
-//            ->each(function ($record, $alias) use (&$allowedFilters) {
-//                $filterName = 'null';
-
-//                InvalidFilterValue::make($filterName);
         $allowedFilters[] = AllowedFilter::callback('null', function ($query, $value) {
             $query->whereNull($this->fields[$value]);
         });
-//            });
 
         return $allowedFilters;
     }

@@ -17,7 +17,7 @@ class Report extends ReportBase
 {
     public function response($request = null): mixed
     {
-        $request = $request ?? request();
+        $request = request();
 
         if ($request->has('filename')) {
             switch (File::extension($request->input('filename'))) {
@@ -43,6 +43,10 @@ class Report extends ReportBase
             $queryBuilder = $this->queryBuilder()->offset($offset)->limit($limit)->get();
         } catch (InvalidFilterQuery | InvalidSelectException $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
+        }
+
+        if (empty($this->fields) && $queryBuilder->isNotEmpty()) {
+            $this->fields = $queryBuilder->first()->toArray();
         }
 
         $resource = ReportResource::collection($queryBuilder);
@@ -78,9 +82,9 @@ class Report extends ReportBase
         return view($view, $data);
     }
 
-    public static function toJsonResource(): JsonResource
+    public function toJsonResource(): JsonResource
     {
-        return JsonResource::make((new static())->queryBuilder()
+        return JsonResource::make($this->queryBuilder()
             ->offset(( request('page', 1) - 1) * request('per_page', 100))
             ->limit(request('per_page', 100))
             ->get());
@@ -99,5 +103,10 @@ class Report extends ReportBase
             'Content-Transfer-Encoding' => 'binary',
             'Content-Disposition' => 'attachment; filename="' . request('filename', 'report.csv') . '"',
         ]);
+    }
+
+    public function addCasts(array $getCasts)
+    {
+        $this->casts = $getCasts;
     }
 }
