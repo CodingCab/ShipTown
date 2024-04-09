@@ -3,7 +3,6 @@
 namespace App\Modules\Reports\src\Models;
 
 use App\Helpers\CsvBuilder;
-use App\Modules\Reports\src\Http\Resources\ReportResource;
 use File;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -31,12 +30,10 @@ class Report extends ReportBase
         try {
             $this->perPage = request('per_page', 50);
 
-            $records = $this->getRecords();
-
             $view = request('view', $this->view);
 
             return view($view, [
-                'data' => ReportResource::collection($records),
+                'data' => $this->getRecords(),
                 'meta' => $this->getMetaData(),
             ]);
         } catch (InvalidFilterQuery $ex) {
@@ -46,7 +43,12 @@ class Report extends ReportBase
 
     public function toJsonResource(): JsonResource
     {
-        return JsonResource::make($this->getRecords());
+        $data = [
+            'data' => $this->getRecords(),
+            'meta' => $this->getMetaData(),
+        ];
+
+        return JsonResource::make($data);
     }
 
     public static function json(): JsonResource
