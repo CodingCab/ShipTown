@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use League\Csv\Exception;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class Report extends ReportBase
 {
@@ -19,18 +20,15 @@ class Report extends ReportBase
     {
         $request = request();
 
-        if ($request->has('filename')) {
-            switch (File::extension($request->input('filename'))) {
-                case 'csv':
-                    return $this->toCsvFileDownload();
-                case 'json':
-                    return $this->toJsonResource();
-            }
+        switch (File::extension($request->input('filename', ''))) {
+            case 'csv':
+                return $this->toCsvFileDownload();
+            case 'json':
+                return $this->toJsonResource();
+            default:
+                $this->perPage = $request->input('per_page', 50);
+                return $this->view();
         }
-
-        $this->perPage = $request->input('per_page', 50);
-
-        return $this->view();
     }
 
     protected function view(): mixed
@@ -40,7 +38,7 @@ class Report extends ReportBase
 
         try {
             $queryBuilder = $this->getFinalQuery()->get();
-        } catch (InvalidFilterQuery | InvalidSelectException $ex) {
+        } catch (InvalidFilterQuery $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
 
@@ -107,13 +105,13 @@ class Report extends ReportBase
         ]);
     }
 
-    /**
-     * @return \Spatie\QueryBuilder\QueryBuilder
-     */
-    public function getFinalQuery(): \Spatie\QueryBuilder\QueryBuilder
+    public function getFinalQuery(): QueryBuilder
     {
+        $perPage = request('per_page', 100);
+        $pageNumber = request('page', 1);
+
         return $this->queryBuilder()
-            ->offset((request('page', 1) - 1) * request('per_page', 100))
-            ->limit(request('per_page', 100));
+            ->offset(($pageNumber - 1) * $perPage)
+            ->limit($perPage);
     }
 }
