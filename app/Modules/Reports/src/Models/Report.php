@@ -17,46 +17,46 @@ class Report extends ReportBase
 {
     public function response($request = null): mixed
     {
-        $request = request();
-
-        switch (File::extension($request->input('filename', ''))) {
+        switch (File::extension(request('filename'))) {
             case 'csv':
                 return $this->toCsvFileDownload();
             case 'json':
                 return $this->toJsonResource();
             default:
-                $this->perPage = $request->input('per_page', 50);
                 return $this->view();
         }
     }
 
     protected function view(): mixed
     {
-        $view = request('view', $this->view);
-        $limit = request('per_page', $this->perPage);
-
         try {
+            $this->perPage = request('per_page', 50);
+
             $records = $this->getFinalQuery()->get();
+
+            if (empty($this->fields) && $records->isNotEmpty()) {
+                $this->fields = $records->first()->toArray();
+            }
+
+            $data = [
+                'data' => ReportResource::collection($records),
+                'meta' => [
+                    'report_name' => $this->report_name ?? $this->table,
+                    'fields' =>  array_keys($this->fields),
+                    'pagination' => [
+                        'per_page' => $this->perPage,
+                        'page' => request('page', 1),
+                    ],
+                    'field_links' => $this->getFieldLinks(array_keys($this->fields))
+                ],
+            ];
+
+            $view = request('view', $this->view);
+
+            return view($view, $data);
         } catch (InvalidFilterQuery $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
-
-        if (empty($this->fields) && $records->isNotEmpty()) {
-            $this->fields = $records->first()->toArray();
-        }
-
-        $data = [
-            'data' => ReportResource::collection($records),
-            'report_name' => $this->report_name ?? $this->table,
-            'fields' =>  array_keys($this->fields),
-            'pagination' => [
-                'per_page' => $limit,
-                'page' => request('page', 1),
-            ],
-            'field_links' => $this->getFieldLinks(array_keys($this->fields))
-        ];
-
-        return view($view, $data);
     }
 
     public function toJsonResource(): JsonResource
