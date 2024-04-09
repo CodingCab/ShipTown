@@ -71,6 +71,22 @@ class ReportBase extends Model
     }
 
     /**
+     * @return array
+     */
+    public function getMetaData(): array
+    {
+        return [
+            'report_name' => $this->report_name ?? $this->table,
+            'fields' => array_keys($this->fields),
+            'pagination' => [
+                'per_page' => $this->perPage,
+                'page' => request('page', 1),
+            ],
+            'field_links' => $this->getFieldLinks(array_keys($this->fields))
+        ];
+    }
+
+    /**
      * @param $fields
      * @return Collection
      */

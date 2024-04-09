@@ -39,15 +39,7 @@ class Report extends ReportBase
 
             $data = [
                 'data' => ReportResource::collection($records),
-                'meta' => [
-                    'report_name' => $this->report_name ?? $this->table,
-                    'fields' =>  array_keys($this->fields),
-                    'pagination' => [
-                        'per_page' => $this->perPage,
-                        'page' => request('page', 1),
-                    ],
-                    'field_links' => $this->getFieldLinks(array_keys($this->fields))
-                ],
+                'meta' => $this->getMetaData(),
             ];
 
             $view = request('view', $this->view);
