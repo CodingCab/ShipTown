@@ -37,10 +37,9 @@ class Report extends ReportBase
     {
         $view = request('view', $this->view);
         $limit = request('per_page', $this->perPage);
-        $offset = request('page', 1) * $limit - $limit;
 
         try {
-            $queryBuilder = $this->queryBuilder()->offset($offset)->limit($limit)->get();
+            $queryBuilder = $this->getFinalQuery()->get();
         } catch (InvalidFilterQuery | InvalidSelectException $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
@@ -84,12 +83,15 @@ class Report extends ReportBase
 
     public function toJsonResource(): JsonResource
     {
-        return JsonResource::make($this->queryBuilder()
-            ->offset(( request('page', 1) - 1) * request('per_page', 100))
-            ->limit(request('per_page', 100))
-            ->get());
+        return JsonResource::make($this->getFinalQuery()->get());
     }
 
+    public static function json(): JsonResource
+    {
+        $report = new static();
+
+        return $report->toJsonResource();
+    }
     /**
      * @throws Exception
      */
@@ -105,8 +107,13 @@ class Report extends ReportBase
         ]);
     }
 
-    public function addCasts(array $getCasts)
+    /**
+     * @return \Spatie\QueryBuilder\QueryBuilder
+     */
+    public function getFinalQuery(): \Spatie\QueryBuilder\QueryBuilder
     {
-        $this->casts = $getCasts;
+        return $this->queryBuilder()
+            ->offset((request('page', 1) - 1) * request('per_page', 100))
+            ->limit(request('per_page', 100));
     }
 }
