@@ -28,8 +28,6 @@ class Report extends ReportBase
     protected function view(): mixed
     {
         try {
-            $this->perPage = request('per_page', 50);
-
             $view = request('view', $this->view);
 
             return view($view, [
@@ -43,12 +41,10 @@ class Report extends ReportBase
 
     public function toJsonResource(): JsonResource
     {
-        $data = [
+        return JsonResource::make([
             'data' => $this->getRecords(),
             'meta' => $this->getMetaData(),
-        ];
-
-        return JsonResource::make($data);
+        ]);
     }
 
     public static function json(): JsonResource

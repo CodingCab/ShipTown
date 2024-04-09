@@ -21,23 +21,26 @@ class ReportBase extends Model
     use HasTagsTrait;
 
     public $table = 'report';
+
     public string $report_name = 'Report';
+
     public string $view = 'report-default';
 
     public string $defaultSelect = '';
+
     public ?string $defaultSort = null;
 
-    public array $toSelect = [];
-
     public array $fields = [];
-
-    public array $initial_data = [];
 
     public mixed $baseQuery;
 
     public array $allowedFilters = [];
+
     public array $allowedIncludes = [];
+
     protected array $fieldAliases = [];
+
+    protected $casts = [];
 
     public function getRecords(): \Illuminate\Database\Eloquent\Collection|array
     {
