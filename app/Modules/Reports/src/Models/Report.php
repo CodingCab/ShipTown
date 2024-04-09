@@ -37,14 +37,12 @@ class Report extends ReportBase
                 $this->fields = $records->first()->toArray();
             }
 
-            $data = [
-                'data' => ReportResource::collection($records),
-                'meta' => $this->getMetaData(),
-            ];
-
             $view = request('view', $this->view);
 
-            return view($view, $data);
+            return view($view, [
+                'data' => ReportResource::collection($records),
+                'meta' => $this->getMetaData(),
+            ]);
         } catch (InvalidFilterQuery $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
