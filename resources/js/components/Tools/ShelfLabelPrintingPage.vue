@@ -1,14 +1,7 @@
 <template>
     <container>
         <top-nav-bar>
-            <input id="custom-label"
-                   placeholder="custom label text"
-                   type=text
-                   class="form-control"
-                   autocomplete="off"
-                   autocapitalize="off"
-                   v-model.trim="customLabelText"
-            />
+            <barcode-input-field :input_id="'barcode-input'"  :url_param_name="'search'" @barcodeScanned="findText" placeholder="Search orders using number, sku, alias or command" ref="barcode"/>
         </top-nav-bar>
         <div class="row pl-2 p-1">
             <div class="col-12 col-sm-6">
@@ -19,123 +12,135 @@
                     <div class="small">
                         FROM:
                     </div>
-                    <input type="text" v-model="fromLetter" class="mx-1 inline-input px-1 text-center"/>
-                    <input type="text" v-model.number="fromNumber" class="mx-1 inline-input px-1 text-center"/>
+                    <input type="text" v-model="fromLetter" @keyup="changeNonSearchValue" class="mx-1 inline-input px-1 text-center"/>
+                    <input type="text" v-model.number="fromNumber" @keyup="changeNonSearchValue" class="mx-1 inline-input px-1 text-center"/>
                     <div class="small">
                         TO
                     </div>
-                    <input type="text" v-model="toLetter" class="mx-1 inline-input px-1 text-center"/>
-                    <input type="text" v-model.number="toNumber" class="mx-1 inline-input px-1 text-center"/>
+                    <input type="text" v-model="toLetter" @keyup="changeNonSearchValue" class="mx-1 inline-input px-1 text-center"/>
+                    <input type="text" v-model.number="toNumber" @keyup="changeNonSearchValue" class="mx-1 inline-input px-1 text-center"/>
                 </div>
             </div>
         </div>
-        <card class="mt-2">
-            <div>
-                <header-upper class="text-center d-none d-md-block mb-4">PREVIEW</header-upper>
-                <div class="d-flex justify-content-center">
-                    <object
-                        id="shelf_label_preview"
-                        title="Shelf Label Preview"
-                        :data="pdfUrl"
-                    >
-                    </object>
-                </div>
-            </div>
-
+        <card class="mt-2 bg-dark p-4">
+            <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>
+        </card>
+        <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
             <div class="row mt-2">
                 <div class="col-6">
-                    <div class="d-flex">
-                        <div class="small">
-                            <p style="margin-top: 4.5px">Labels Per Page:</p>
-                        </div>
-                        <button
-                            v-for="num in [1,2,3]"
-                            class="btn mx-1"
-                            :class="labelsPerPage === num ? 'btn-primary' : 'btn-outline-primary'"
-                            style="height: 30px; padding: 0 6px 0 6px"
-                            @click="labelsPerPage = num"
-                        >
-                            {{ num }}
+                    <div class="dropdown">
+                        <button class="btn btn-sm dropdown-toggle text-primary font-weight-bold" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ templateSelected }}
                         </button>
-                    </div>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <div class="d-flex">
-                        <div class="small">
-                            <p style="margin-top: 4.5px">NUM OF COPIES:</p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownTemplates">
+                            <a class="dropdown-item" v-for="templateOption in templates" @click.prevent="templateSelected = templateOption">
+                                {{ templateOption }}
+                            </a>
                         </div>
-                        <input v-model.number="numOfCopies" style="width: 30px; height: 30px" type="text" class="mx-1 px-1 text-center">
-                        <button class="btn btn-primary" style="height: 30px; padding: 0 6px 0 6px">Print</button>
                     </div>
                 </div>
             </div>
-        </card>
+            <!-- added br so dropdown does not overflow the modal -->
+            <br><br>
+            <template #modal-footer>
+                <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                    Cancel
+                </b-button>
+                <b-button variant="primary" class="float-right" @click="printPDF">
+                    Print
+                </b-button>
+            </template>
+        </b-modal>
     </container>
 </template>
 
 <script>
 
 import url from "../../mixins/url.vue";
+import helpers  from "../../helpers";
+import VuePdfEmbed from 'vue-pdf-embed/dist/vue2-pdf-embed'
 
 export default {
     mixins: [url],
+    components: {
+        VuePdfEmbed
+    },
     data() {
         return {
-            customLabelText: '',
-            fromLetter: 'A',
-            fromNumber: 1,
-            toLetter: 'A',
-            toNumber: 3,
-            numOfCopies: 1,
-            labelsPerPage: 1,
-            labelFilename: 'label_preview',
+            customLabelText: this.getUrlParameter('search', ''),
+            fromLetter: this.getUrlParameter('from-letter', 'A'),
+            fromNumber: this.getUrlParameter('from-number', 1),
+            toLetter: this.getUrlParameter('to-letter', 'A'),
+            toNumber: this.getUrlParameter('to-number', 3),
+            templates:[
+                'shelf-labels/6x4-1-per-page',
+                'shelf-labels/4x6-2-per-page',
+                'shelf-labels/6x4-3-per-page',
+            ],
+            templateSelected: this.getUrlParameter('template-selected', helpers.getCookie('templateSelected', 'shelf-labels/6x4-3-per-page') ),
             pdfUrl: '',
         }
     },
     mounted() {
-        this.$nextTick(() => {
-            this.loadPdfIntoIframe();
-        });
+        this.loadPdfIntoIframe();
     },
     methods: {
+        findText(text) {
+            this.customLabelText = text;
+        },
+        printPDF() {
+            // window.print();
+        },
+
+        changeNonSearchValue() {
+            this.customLabelText = '';
+            this.loadPdfIntoIframe();
+        },
 
         loadPdfIntoIframe() {
 
-            console.log('getting pdf');
-
-            let templateTypes = {1: 'full', 2: 'half', 3: 'third'};
-
             let data = {
-                labels: this.labelStingArray,
-                templateType: templateTypes[this.labelsPerPage],
+                labels: this.getLabelArray(),
+                template: this.templateSelected,
             };
 
             axios.post('/api/preview/shelf-label-pdf', data, { responseType: 'arraybuffer' })
                 .then(response => {
                     let blob = new Blob([response.data], { type: 'application/pdf' });
-                    this.pdfUrl = URL.createObjectURL(blob)+"#toolbar=0";
+                    this.pdfUrl = URL.createObjectURL(blob);
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-    },
-    computed: {
 
-        labelStingArray() {
-
-            let labels = [];
+        buildUrl() {
 
             if(this.customLabelText) {
-                for(let i = 0; i < this.numOfCopies; i++) {
-                    labels.push(this.customLabelText);
-                }
-                return labels;
+                this.updateUrl({'search': this.customLabelText});
+                return;
             }
 
-            if(!this.allNumbersAndLettersFilled || this.numOfCopies < 1) {
-                return labels;
+            this.updateUrl({
+                'from-letter': this.fromLetter,
+                'from-number': this.fromNumber,
+                'to-letter': this.toLetter,
+                'to-number': this.toNumber,
+                'template-selected': this.templateSelected,
+            });
+        },
+
+        getLabelArray() {
+
+            if(!this.allNumbersAndLettersFilled) {
+                return [];
             }
+
+            if(this.customLabelText) {
+                return [this.customLabelText];
+            }
+
+            let labels = [];
 
             let fromLetter = this.fromLetter.toUpperCase().charCodeAt(0);
             let toLetter = this.toLetter.toUpperCase().charCodeAt(0);
@@ -149,35 +154,27 @@ export default {
                 fromNumber = 1;
             }
 
-            if(this.numOfCopies > 1) {
-                let temp = [];
-                for(let i = 0; i < this.numOfCopies; i++) {
-                    temp = temp.concat(labels);
-                }
-                labels = temp;
-            }
-
             return labels;
         },
-
+    },
+    computed: {
         allNumbersAndLettersFilled() {
             return this.fromLetter && this.fromNumber && this.toLetter && this.toNumber;
         }
     },
-
     watch: {
-
-        labelStingArray(labels) {
-            if(labels.length > 0) {
-                this.loadPdfIntoIframe();
-            }
+        customLabelText() {
+            this.loadPdfIntoIframe();
         },
 
-        labelsPerPage() {
-            if(this.labelStingArray.length > 0) {
-                this.loadPdfIntoIframe();
-            }
+        templateSelected() {
+            helpers.setCookie('templateSelected', this.templateSelected);
+            this.loadPdfIntoIframe();
         },
+
+        pdfUrl() {
+            this.buildUrl();
+        }
     },
 }
 </script>
@@ -188,21 +185,9 @@ export default {
     height: 19px;
 }
 
-#shelf_label_preview {
-    width: 220px;
-    height: 330px;
-}
-@media (min-width: 576px) {
-    #shelf_label_preview {
-        width: 320px;
-        height: 480px;
-    }
+.vue-pdf-embed > div {
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.1);
 }
 
-@media (min-width: 992px) {
-    #shelf_label_preview {
-        width: 400px;
-        height: 600px;
-    }
-}
 </style>
