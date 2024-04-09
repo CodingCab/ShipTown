@@ -2,7 +2,6 @@
 
 namespace App\Modules\Reports\src\Models;
 
-use App\Exceptions\InvalidSelectException;
 use App\Helpers\CsvBuilder;
 use App\Modules\Reports\src\Http\Resources\ReportResource;
 use File;
@@ -12,7 +11,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use League\Csv\Exception;
 use Spatie\QueryBuilder\Exceptions\InvalidFilterQuery;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class Report extends ReportBase
 {
@@ -103,15 +101,5 @@ class Report extends ReportBase
             'Content-Transfer-Encoding' => 'binary',
             'Content-Disposition' => 'attachment; filename="' . request('filename', 'report.csv') . '"',
         ]);
-    }
-
-    public function getFinalQuery(): QueryBuilder
-    {
-        $perPage = request('per_page', 100);
-        $pageNumber = request('page', 1);
-
-        return $this->queryBuilder()
-            ->offset(($pageNumber - 1) * $perPage)
-            ->limit($perPage);
     }
 }

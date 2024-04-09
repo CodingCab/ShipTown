@@ -59,6 +59,15 @@ class ReportBase extends Model
             ->allowedSorts($this->fieldAliases)
             ->allowedIncludes($this->allowedIncludes);
     }
+    public function getFinalQuery(): QueryBuilder
+    {
+        $perPage = request('per_page', 100);
+        $pageNumber = request('page', 1);
+
+        return $this->queryBuilder()
+            ->offset(($pageNumber - 1) * $perPage)
+            ->limit($perPage);
+    }
 
     public function addFilter(AllowedFilter $filter): self
     {
