@@ -36,21 +36,19 @@ class Report extends ReportBase
         $limit = request('per_page', $this->perPage);
 
         try {
-            $queryBuilder = $this->getFinalQuery()->get();
+            $records = $this->getFinalQuery()->get();
         } catch (InvalidFilterQuery $ex) {
             return response($ex->getMessage(), $ex->getStatusCode());
         }
 
-        if (empty($this->fields) && $queryBuilder->isNotEmpty()) {
-            $this->fields = $queryBuilder->first()->toArray();
+        if (empty($this->fields) && $records->isNotEmpty()) {
+            $this->fields = $records->first()->toArray();
         }
 
-        $resource = ReportResource::collection($queryBuilder);
-
         $data = [
+            'data' => ReportResource::collection($records),
             'report_name' => $this->report_name ?? $this->table,
             'fields' =>  array_keys($this->fields),
-            'data' => $resource,
             'pagination' => [
                 'per_page' => $limit,
                 'page' => request('page', 1),
