@@ -7,26 +7,26 @@
                 <top-nav-button @click.native="printPDF" icon="print"/>
             </template>
         </top-nav-bar>
-        <div class="row pl-2 p-1">
-            <div class="col-12 col-sm-6">
-                <header-upper>TOOLS > SHELF LABEL PRINTER</header-upper>
+        <div class="grid-col-12 pl-2 p-1">
+            <div class="col-span-12 xs:col-span-6 md:col-span-4 xl:col-span-6 mb-2 mb-sm-0">
+                <header-upper><span class="xs:sd-none sm:sd-inline-block">TOOLS >&nbsp;</span>SHELF LABEL PRINTER</header-upper>
             </div>
-            <div class="col-12 pt-1 pt-sm-0 col-sm-6 d-flex flex-column flex-md-row justify-content-sm-end">
-                <div class="d-flex justify-content-sm-end">
-                    <div class="small">FROM:</div>
+            <div class="col-span-12 xs:col-span-6 md:col-span-4 xl:col-span-4">
+                <div class="col-span-8 d-flex justify-content-end justify-content-md-center justify-content-xl-end">
+                    <div class="small xs:sd-none sm:sd-block">FROM:</div>
                     <input type="text" v-model="fromLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
                     <input type="text" v-model.number="fromNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
                     <div class="small">TO</div>
                     <input type="text" v-model="toLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
                     <input type="text" v-model.number="toNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
                 </div>
-                <div class="d-flex justify-content-sm-end">
-                    <array-dropdown-select class="ml-0 ml-sm-2 mt-1 mt-md-0" :items="templates" :item-selected.sync="templateSelected" :align-menu-right="true"/>
-                </div>
+            </div>
+            <div class="col-span-12 xs:col-span-12 md:col-span-4 xl:col-span-2 d-flex justify-content-end">
+                <array-dropdown-select class="ml-0 ml-sm-2 mt-1 mt-md-0" :items="templates" :item-selected.sync="templateSelected" :align-menu-right="true"/>
             </div>
         </div>
         <card class="mt-sm-2 bg-dark">
-            <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>
+<!--            <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>-->
         </card>
 
         <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
