@@ -22,7 +22,7 @@
             </div>
         </div>
         <card class="mt-sm-2 bg-dark">
-<!--            <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>-->
+            <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>
         </card>
         <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
             <div class="row mt-2">
