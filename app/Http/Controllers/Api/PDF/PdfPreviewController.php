@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\PDF;
 
 use App\Http\Controllers\Controller;
 use App\Services\PdfService;
@@ -11,21 +11,13 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class PrintOrderController.
  */
-class PreviewShelfLabelController extends Controller
+class PdfPreviewController extends Controller
 {
     /**
      * @throws Exception
      */
     public function update(Request $request)
     {
-
-        Log::info('PreviewShelfLabelController@update', ['request' => $request->all()]);
-
-
-        $view = 'pdf/'.$request->template;
-
-        Log::info('PreviewShelfLabelController@update', ['view' => $view]);
-
-        return PdfService::fromView($view, ['labels' => $request->labels]);
+        return PdfService::fromView('pdf/'.$request->template, $request->data);
     }
 }

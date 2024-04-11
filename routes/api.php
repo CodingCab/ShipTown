@@ -69,8 +69,8 @@ Route::prefix('modules')->name('api.modules.')->group(function () {
 
 Route::put('print/order/{order_number}/{view}', [Api\PrintOrderController::class, 'update']);
 
-Route::post('print/shelf-label-pdf', [Api\PrintShelfLabelController::class, 'update']);
-Route::post('preview/shelf-label-pdf', [Api\PreviewShelfLabelController::class, 'update']);
+Route::post('pdf/print', [Api\PDF\PdfPrintController::class, 'update']);
+Route::post('pdf/preview', [Api\PDF\PdfPreviewController::class, 'update']);
 
 Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
 

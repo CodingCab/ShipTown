@@ -40,8 +40,13 @@
                   <span class="text-danger font-weight-bold">Close</span><span>- scan twice to close</span>
               </div>
           </div>
-      </b-modal>
 
+          <!-- Todo - For now i have not added the print shelf label button in footer as will overwrite the existing buttons and not sure exactly what functionality I should be assigning to cancel and ok buttons -->
+          <div class="mt-2">
+              <hr>
+              <b-button variant="primary" :href="`/tools/shelf-label-printing?search=${command['value']}`">Print Shelf Label</b-button>
+          </div>
+      </b-modal>
     </div>
 </template>
 

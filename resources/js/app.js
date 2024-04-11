@@ -154,6 +154,8 @@ Vue.component('admin-modules-slack-config-page', require('./components/admin/mod
 Vue.component('api', require('./mixins/api.vue').default);
 Vue.component('api2cart-configuration', require('./components/Settings/Api2cartConnections.vue').default);
 Vue.component('apt-configuration-modal', require('./components/Widgets/APT/ConfigurationModal.vue').default);
+Vue.component('array-dropdown-select', require('./components/UI/ArrayDropdownSelect.vue').default);
+
 Vue.component('auto-pilot-tuning-section', require('./components/Settings/AutoPilotTuningSection.vue').default);
 Vue.component('automation-table', require('./components/Settings/AutomationTable.vue').default);
 Vue.component('autopilot-packlist-page', require('./components/AutopilotPacklistPage.vue').default);
@@ -208,8 +210,14 @@ Vue.component('report', require('./components/Reports/Report.vue').default);
 Vue.component('card', require('./components/UI/Card.vue').default);
 Vue.component('container', require('./components/UI/Container.vue').default);
 Vue.component('top-nav-bar', require('./components/UI/TopNavBar.vue').default);
+Vue.component('top-nav-button', require('./components/UI/TopNavButton.vue').default);
 
 Vue.prototype.$eventBus = new Vue();
+
+// global helpers that we can use directly in our templates
+Vue.prototype.$selectAllInputText = function(event) {
+    event.target.select();
+}
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

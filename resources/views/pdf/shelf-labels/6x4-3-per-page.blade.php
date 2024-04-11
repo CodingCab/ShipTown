@@ -4,12 +4,20 @@
     @foreach(collect($labels)->chunk(3) as $chunk)
         @foreach($chunk as $index => $label)
             <div class="label_box">
-                <div style="width: 29%; height:100%; display: inline-block">
-                    <img style="width: 100px; height: 100px; margin-left: 2px; margin-top: 40px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG($label, 'QRCODE') }}" alt="barcode" />
-                    <p style="text-align: center; font-size: 16px; margin-top: 5px;">{{ $label }}</p>
+                <div style="width: 32%; height: 99%; display: inline-block">
+                    <img style="width: 100px; height: 100px; margin-left: 15px; margin-top: 40px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('shelf:'.$label, 'QRCODE') }}" alt="barcode" />
+                    <p style="text-align: center; word-wrap: anywhere; font-size: 13px; margin-left: 15px; margin-top: 5px;">shelf:{{ $label }}</p>
                 </div>
-                <div style="width: 66%; float: right; display: inline-block">
-                    <h1 style="text-align: center; font-size: 60px; margin-top: 50px;">{{ $label }}</h1>
+                <div style="width: 65%; height: 99%; float: right;">
+                    <table style="border: black; width: 100%" >
+                        <tbody>
+                        <tr>
+                            <td style="height: 100%; vertical-align:middle; text-align: center; margin: 0; padding: 0">
+                                <h1 style="font-size: 50px; word-wrap: anywhere; line-height: 90%">{{ $label }}</h1>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         @endforeach
@@ -19,6 +27,11 @@
     @endforeach
 
     <style>
+        h1, p, img, table, tbody, tr, td {
+            margin: 0;
+            padding: 0;
+        }
+
         @page {
             size:101.6mm 152.4mm;
             margin: 3mm;
@@ -29,7 +42,8 @@
         }
 
         .label_box {
-            height: 33.3%;
+            height: 33%;
+            clear: bottom;
         }
 
     </style>
