@@ -14,7 +14,7 @@
                     <input type="text" v-model.number="fromNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
                     <header-upper class="small">TO</header-upper>
                     <input type="text" v-model="toLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
-                    <input type="text" v-model.number="toNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
+                    <input type="text" v-model.number="toNumber" @keydown.enter="setFocusElementById('barcode-input')" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
                 </div>
             </div>
             <div class="col-span-12 xs:col-span-12 md:col-span-4 xl:col-span-2 d-flex justify-content-end">
