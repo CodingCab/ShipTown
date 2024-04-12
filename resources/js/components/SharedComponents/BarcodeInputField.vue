@@ -40,6 +40,16 @@
                   <span class="text-danger font-weight-bold">Close</span><span>- scan twice to close</span>
               </div>
           </div>
+
+          <template #modal-footer>
+              <b-button class="mr-auto" variant="primary" :href="`/tools/shelf-label-printing?search=${command['value']}`">Print Shelf Label</b-button>
+              <b-button variant="secondary" class="float-right" @click="$bvModal.hide(getModalID)">
+                  Cancel
+              </b-button>
+              <b-button variant="primary" class="float-right" @click="$bvModal.hide(getModalID)">
+                  OK
+              </b-button>
+          </template>
       </b-modal>
 
     </div>
