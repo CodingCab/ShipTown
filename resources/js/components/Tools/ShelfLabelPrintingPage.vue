@@ -25,22 +25,10 @@
             <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>
         </card>
         <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
-            <div class="row mt-2">
-                <div class="col-6">
-                    <div class="dropdown">
-                        <button class="btn btn-sm dropdown-toggle text-primary font-weight-bold" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ templateSelected }}
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownTemplates">
-                            <a class="dropdown-item" v-for="templateOption in templates" @click.prevent="templateSelected = templateOption">
-                                {{ templateOption }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- added br so dropdown does not overflow the modal -->
-            <br><br>
+            <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
+
+            <hr>
+            <b-button variant="primary" block @click="downloadPDF">Download PDF</b-button>
             <template #modal-footer>
                 <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                     Cancel
@@ -87,6 +75,28 @@ export default {
         findText(text) {
             this.customLabelText = text;
         },
+
+        downloadPDF() {
+            this.showLoading();
+            this.buildUrl();
+
+            let data = {
+                data: { labels: this.getLabelArray() },
+                template: this.templateSelected,
+            };
+
+            this.apiPostPdfSave(data).then(response => {
+                let a = document.createElement('a');
+                a.href = response.data.download_url;
+                a.download = response.data.filename;
+                a.click();
+            }).catch(error => {
+                this.displayApiCallError(error);
+            }).finally(() => {
+                this.hideLoading();
+            });
+        },
+
         printPDF() {
             this.showLoading();
             this.buildUrl();
