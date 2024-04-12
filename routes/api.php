@@ -71,6 +71,7 @@ Route::put('print/order/{order_number}/{view}', [Api\PrintOrderController::class
 
 Route::post('pdf/print', [Api\PDF\PdfPrintController::class, 'update']);
 Route::post('pdf/preview', [Api\PDF\PdfPreviewController::class, 'update']);
+Route::post('pdf/save', [Api\PDF\PdfSaveController::class, 'update']);
 
 Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
 

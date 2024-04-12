@@ -412,6 +412,10 @@ export default {
             apiPostPdfPrint: function (data) {
                 return axios.post('/api/pdf/print', data);
             },
+
+            apiPostPdfSave: function (data) {
+                return axios.post('/api/pdf/save', data);
+            },
         }
     }
 </script>

@@ -31,6 +31,9 @@
 
         <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
             <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
+
+            <hr>
+            <b-button variant="primary" block @click="downloadPDF">Download PDF</b-button>
             <template #modal-footer>
                 <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                     Cancel
@@ -82,6 +85,27 @@ export default {
         setCustomLabelText(text) {
             this.customLabelText = text;
             this.loadPdfIntoIframe();
+        },
+
+        downloadPDF() {
+            this.showLoading();
+            this.buildUrl();
+
+            let data = {
+                data: { labels: this.getLabelArray() },
+                template: this.templateSelected,
+            };
+
+            this.apiPostPdfSave(data).then(response => {
+                let a = document.createElement('a');
+                a.href = response.data.download_url;
+                a.download = response.data.filename;
+                a.click();
+            }).catch(error => {
+                this.displayApiCallError(error);
+            }).finally(() => {
+                this.hideLoading();
+            });
         },
 
         printPDF() {
