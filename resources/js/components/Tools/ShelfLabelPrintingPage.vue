@@ -94,7 +94,7 @@ export default {
             };
 
             this.apiPostPdfPrint(data).then(response => {
-                console.log(response);
+                this.notifySuccess('PDF sent to printer');
             }).catch(error => {
                 this.displayApiCallError(error);
             }).finally(() => {
