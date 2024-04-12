@@ -112,6 +112,7 @@ export default {
                 this.displayApiCallError(error);
             }).finally(() => {
                 this.hideLoading();
+                this.setFocusElementById('barcode-input')
             });
         },
 
