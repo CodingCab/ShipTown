@@ -88,7 +88,21 @@ export default {
             this.customLabelText = text;
         },
         printPDF() {
-            // window.print();
+            this.showLoading();
+            this.buildUrl();
+
+            let data = {
+                data: { labels: this.getLabelArray() },
+                template: this.templateSelected,
+            };
+
+            this.apiPostPdfPrint(data).then(response => {
+                this.notifySuccess('PDF sent to printer');
+            }).catch(error => {
+                this.displayApiCallError(error);
+            }).finally(() => {
+                this.hideLoading();
+            });
         },
 
         changeNonSearchValue() {
