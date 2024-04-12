@@ -4,21 +4,21 @@
             <barcode-input-field :input_id="'barcode-input'"  :url_param_name="'search'" @barcodeScanned="findText" placeholder="Search orders using number, sku, alias or command" ref="barcode"/>
         </top-nav-bar>
         <div class="grid-col-12 pl-2 p-1">
-            <div class="col-span-12 xs:col-span-6 md:col-span-4 xl:col-span-6 mb-2 mb-sm-0">
-                <header-upper><span class="xs:sd-none sm:sd-inline-block">TOOLS >&nbsp;</span>SHELF LABEL PRINTER</header-upper>
+            <div class="col-span-6 md:col-span-4 xl:col-span-6 mb-2 mb-sm-0">
+                <header-upper>TOOLS > PRINTER</header-upper>
             </div>
-            <div class="col-span-12 xs:col-span-6 md:col-span-4 xl:col-span-4">
+            <div class="col-span-6 md:col-span-4 xl:col-span-4">
                 <div class="col-span-8 d-flex justify-content-end justify-content-md-center justify-content-xl-end">
-                    <div class="small xs:sd-none sm:sd-block">FROM:</div>
-                    <input type="text" v-model="fromLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
-                    <input type="text" v-model.number="fromNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
-                    <div class="small">TO</div>
-                    <input type="text" v-model="toLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
-                    <input type="text" v-model.number="toNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="mx-1 inline-input-sm px-1 text-center"/>
+                    <header-upper class="small sd-none xs:sd-block">FROM:</header-upper>
+                    <input type="text" v-model="fromLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
+                    <input type="text" v-model.number="fromNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
+                    <header-upper class="small">TO</header-upper>
+                    <input type="text" v-model="toLetter" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
+                    <input type="text" v-model.number="toNumber" @keyup="changeNonSearchValue" @focus="$selectAllInputText" class="form-control mx-1 inline-input-sm px-1 text-center"/>
                 </div>
             </div>
             <div class="col-span-12 xs:col-span-12 md:col-span-4 xl:col-span-2 d-flex justify-content-end">
-                <array-dropdown-select class="ml-0 ml-sm-2 mt-1 mt-md-0" :items="templates" :item-selected.sync="templateSelected" :align-menu-right="true"/>
+                <array-dropdown-select class="ml-0 ml-sm-2" :items="templates" :item-selected.sync="templateSelected" :align-menu-right="true"/>
             </div>
         </div>
         <card class="mt-sm-2 bg-dark">
@@ -68,7 +68,7 @@ export default {
             pdfUrl: '',
         }
     },
-    mounted() {
+    created() {
         this.loadPdfIntoIframe();
     },
     methods: {

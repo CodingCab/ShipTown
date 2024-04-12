@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="bg-warning">
+        <div>
             <input :id="getInputId"
                    :placeholder="placeholder"
                    type=text
