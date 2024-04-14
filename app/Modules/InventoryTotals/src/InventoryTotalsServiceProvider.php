@@ -8,6 +8,7 @@ use App\Events\Inventory\InventoryUpdatedEvent;
 use App\Events\Inventory\RecalculateInventoryRequestEvent;
 use App\Events\Product\ProductCreatedEvent;
 use App\Events\Warehouse\WarehouseTagAttachedEvent;
+use App\Models\ManualRequestJob;
 use App\Modules\BaseModuleServiceProvider;
 
 /**
@@ -60,4 +61,14 @@ class InventoryTotalsServiceProvider extends BaseModuleServiceProvider
             Listeners\WarehouseTagAttachedEventListener::class,
         ],
     ];
+
+    public static function enabling(): bool
+    {
+        ManualRequestJob::query()->upsert([
+            'job_name' => 'Inventory Totals - EnsureInventoryTotalsByWarehouseTagRecordsExistJob',
+            'job_class' => Jobs\EnsureInventoryTotalsByWarehouseTagRecordsExistJob::class,
+        ], ['job_class'], ['job_name']);
+
+        return true;
+    }
 }
