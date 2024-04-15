@@ -45,6 +45,7 @@ Route::name('api.')->group(function () {
     Route::apiResource('reports/inventory', Api\Reports\InventoryController::class)->only(['index']);
     Route::apiResource('reports/inventory-transfers', Api\Reports\InventoryTransfersController::class)->only(['index']);
     Route::apiResource('reports/picks', Api\Reports\PicksController::class)->only(['index']);
+    Route::apiResource('reports/shipments', Api\Reports\ShipmentsController::class)->only(['index']);
     Route::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class)->only(['index']);
 });
 
