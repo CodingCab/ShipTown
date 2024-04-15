@@ -10,19 +10,18 @@ use Illuminate\Http\Request;
 /**
  * Class PrintOrderController.
  */
-class PdfSaveController extends Controller
+class PdfDownloadController extends Controller
 {
     /**
      * @throws Exception
      */
     public function update(Request $request)
     {
-        $template = $request->template;
-        $pdfOutput = PdfService::fromView('pdf/'.$template, $request->data);
+        $pdfOutput = PdfService::fromView('pdf/'.$request->template, $request->data, true);
+        $templateName = str_replace('/', '_', $request->template);
 
-        return response()->make($pdfOutput, 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="filename.pdf"'
-        ]);
+        return response()->streamDownload(function () use ($pdfOutput, $templateName) {
+            echo $pdfOutput->output();
+        }, $templateName.'.pdf', ['Content-Type' => 'application/pdf']);
     }
 }
