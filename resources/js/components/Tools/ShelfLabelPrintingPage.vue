@@ -27,13 +27,16 @@
         </div>
         <card class="mt-sm-2 bg-dark">
             <vue-pdf-embed ref="pdfRef" :source="pdfUrl" :page="null"/>
+            <div v-if="previewLimited" class="text-center text-white">Preview limited to 25 labels</div>
         </card>
 
         <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
             <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
 
             <hr>
-            <b-button variant="primary" block @click="downloadPDF">Download PDF</b-button>
+            <b-button variant="primary" block @click="downloadPDF" :disabled="downloadInProgress">
+                {{ downloadInProgress ? 'Please Wait...' : 'Download PDF' }}
+            </b-button>
             <template #modal-footer>
                 <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                     Cancel
@@ -75,6 +78,8 @@ export default {
             ],
             templateSelected: this.getUrlParameter('template-selected', helpers.getCookie('templateSelected', 'shelf-labels/6x4-3-per-page') ),
             pdfUrl: '',
+            previewLimited: false,
+            downloadInProgress: false,
         }
     },
     created() {
@@ -88,7 +93,7 @@ export default {
         },
 
         downloadPDF() {
-            this.showLoading();
+            this.downloadInProgress = true;
             this.buildUrl();
 
             let data = {
@@ -96,15 +101,16 @@ export default {
                 template: this.templateSelected,
             };
 
-            this.apiPostPdfSave(data).then(response => {
+            this.apiPostPdfDownload(data).then(response => {
                 let a = document.createElement('a');
-                a.href = response.data.download_url;
-                a.download = response.data.filename;
+                a.href =  window.URL.createObjectURL(new Blob([response.data]));
+                a.download = this.templateSelected.replace('/', '_') + '.pdf';
                 a.click();
+                a.remove();
             }).catch(error => {
                 this.displayApiCallError(error);
             }).finally(() => {
-                this.hideLoading();
+                this.downloadInProgress = false;
             });
         },
 
@@ -117,7 +123,7 @@ export default {
                 template: this.templateSelected,
             };
 
-            this.apiPostPdfPrint(data).then(response => {
+            this.apiPostPdfPrint(data).then(() => {
                 this.notifySuccess('PDF sent to printer');
             }).catch(error => {
                 this.displayApiCallError(error);
@@ -135,9 +141,17 @@ export default {
         loadPdfIntoIframe() {
             this.showLoading();
             this.buildUrl();
+            this.previewLimited = false;
+
+            // clone label array and limit label array to 25 labels
+            let labels = _.cloneDeep(this.getLabelArray());
+            if (labels.length > 25) {
+                this.previewLimited = true;
+                labels = labels.slice(0, 25);
+            }
 
             let data = {
-                data: { labels: this.getLabelArray() },
+                data: { labels: labels },
                 template: this.templateSelected,
             };
 
@@ -202,5 +216,6 @@ export default {
 .inline-input-sm{
     max-width: 30px;
     height: 19px;
+    padding: 0;
 }
 </style>

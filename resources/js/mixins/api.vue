@@ -413,8 +413,8 @@ export default {
                 return axios.post('/api/pdf/print', data);
             },
 
-            apiPostPdfSave: function (data) {
-                return axios.post('/api/pdf/save', data);
+            apiPostPdfDownload: function (data) {
+                return axios.post('/api/pdf/download', data, { responseType: 'blob' });
             },
         }
     }
