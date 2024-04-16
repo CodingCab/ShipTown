@@ -104,12 +104,18 @@ export default {
         },
 
         printPDF() {
+            if(this.currentUser().printer_id === null){
+                this.notifyError('Please set your printer in your profile');
+                return;
+            }
+
             this.showLoading();
             this.buildUrl();
 
             let data = {
                 data: { labels: this.getLabelArray() },
                 template: this.templateSelected,
+                printer_id: this.currentUser().printer_id,
             };
 
             this.apiPostPdfPrint(data).then(() => {

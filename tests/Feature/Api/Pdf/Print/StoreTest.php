@@ -11,7 +11,7 @@ class StoreTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function store_returns_an_ok_response()
+    public function store_returns_user_printer_id_missing_error()
     {
         $user = User::factory()->create();
 
@@ -22,11 +22,24 @@ class StoreTest extends TestCase
             'template'  => 'shelf-labels/6x4-1-per-page',
         ]);
 
-        $response->assertOk();
-        $response->assertJsonStructure([
+        $response->assertStatus(422);
+    }
+
+    /** @test */
+    public function store_returns_an_ok_response()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user, 'api')->postJson('api/pdf/print', [
             'data' => [
-                '*' => [],
+                'labels'  => ['label1', 'label2'],
             ],
+            'template'  => 'shelf-labels/6x4-1-per-page',
+            'printer_id' => 1,
         ]);
+
+        $this->assertDatabaseCount('modules_printnode_print_jobs', 1);
+
+        $response->assertSuccessful();
     }
 }
