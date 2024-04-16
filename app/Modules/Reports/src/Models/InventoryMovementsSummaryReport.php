@@ -21,13 +21,12 @@ class InventoryMovementsSummaryReport extends Report
         $this->defaultSelect = implode(',', [
             'type',
             'warehouse_code',
-            'created_at',
             'count'
         ]);
 
         $this->baseQuery = InventoryMovement::query()
             ->leftJoin('inventory', 'inventory.id', '=', 'inventory_movements.inventory_id')
-            ->groupByRaw('inventory_movements.type, inventory.warehouse_code, inventory_movements.created_at');
+            ->groupByRaw('inventory_movements.type, inventory.warehouse_code');
 
         $this->fields = [
             'type' => DB::raw('IFNULL(inventory_movements.type, "")'),
