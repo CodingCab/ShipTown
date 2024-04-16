@@ -13,8 +13,8 @@ class OrderShipmentReport extends Report
         $this->report_name = 'Order Shipments';
 
         $this->baseQuery = OrderShipment::query()
-            ->leftJoin('orders as order', 'order_shipments.order_id', '=', 'order.id')
-            ->leftJoin('users as user', 'order.user_id', '=', 'user.id');
+            ->leftJoin('orders as order', 'orders_shipments.order_id', '=', 'order.id')
+            ->leftJoin('users as user', 'orders_shipments.user_id', '=', 'user.id');
 
         $this->defaultSelect = implode(',', [
             'user_name',
@@ -25,9 +25,9 @@ class OrderShipmentReport extends Report
 
         $this->fields = [
             'user_name' => 'user.name',
-            'shipping_number' => 'order_shipments.shipping_number',
+            'shipping_number' => 'orders_shipments.shipping_number',
             'order_number' => 'order.order_number',
-            'created_at' => 'order_shipments.created_at',
+            'created_at' => 'orders_shipments.created_at',
         ];
 
         $this->casts = [
