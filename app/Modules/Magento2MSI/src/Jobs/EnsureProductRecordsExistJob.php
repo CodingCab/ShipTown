@@ -42,7 +42,7 @@ class EnsureProductRecordsExistJob extends UniqueJob
 
                 LEFT JOIN modules_magento2msi_inventory_source_items
                     ON modules_magento2msi_inventory_source_items.connection_id = modules_magento2msi_connections.id
-                    AND modules_magento2msi_inventory_source_items.product_id = inventory_totals_by_warehouse_tag.product_id
+                    AND modules_magento2msi_inventory_source_items.sku = products.sku
 
                 INNER JOIN taggables as available_online_tag
                     ON available_online_tag.tag_id IN (SELECT ID FROM `tags` WHERE JSON_EXTRACT(name, '$.en') = ?)
