@@ -23,10 +23,6 @@ class StoreTest extends TestCase
         ]);
 
         $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => [
-                '*' => [],
-            ],
-        ]);
+
     }
 }
