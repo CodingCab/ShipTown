@@ -13,7 +13,7 @@ class Report extends ReportBase
     {
         switch (File::extension(request('filename'))) {
             case 'csv':
-                return CsvStreamedResponse::fromQueryBuilder($this->queryBuilder(), request('filename', 'ShipTown.csv'));
+                return CsvStreamedResponse::fromQueryBuilder($this->queryBuilder(), request('filename'));
             case 'json':
                 return $this->toJsonResource();
             default:
