@@ -17,6 +17,7 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 import { BootstrapVue } from 'bootstrap-vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+    faAnglesUp,
     faCog,
     faQuestionCircle,
     faUsers,
@@ -53,6 +54,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 import VueTippy, { TippyComponent } from "vue-tippy";
 import Snotify from 'vue-snotify';
 import VueCountdownTimer from 'vuejs-countdown-timer';
@@ -98,6 +100,7 @@ library.add(faArrowRight);
 library.add(faCaretDown);
 library.add(faCaretUp);
 library.add(faFileDownload);
+library.add(faAnglesUp);
 
 Vue.config.productionTip = false;
 
@@ -206,6 +209,7 @@ Vue.component('report', require('./components/Reports/Report.vue').default);
 Vue.component('card', require('./components/UI/Card.vue').default);
 Vue.component('container', require('./components/UI/Container.vue').default);
 Vue.component('top-nav-bar', require('./components/UI/TopNavBar.vue').default);
+Vue.component('top-nav-bar-sticky-observer', require('./components/UI/TopNavBarStickyObserver.vue').default);
 
 Vue.prototype.$eventBus = new Vue();
 

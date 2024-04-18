@@ -21,6 +21,7 @@
                 <order-details :order="order" />
             </div>
 
+            <top-nav-bar-sticky-observer/>
             <top-nav-bar :isSticky="true">
                 <barcode-input-field :input_id="'barcode-input'" @barcodeScanned="packBarcode" placeholder="Enter sku or alias to ship 1 piece" ref="barcode"/>
                 <template v-slot:buttons>

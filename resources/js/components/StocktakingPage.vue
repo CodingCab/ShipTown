@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <stocktake-input @stocktakeSubmitted="reloadData"></stocktake-input>
             <template v-slot:buttons>

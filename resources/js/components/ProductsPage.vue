@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <barcode-input-field
                 :input_id="'barcode_input'"

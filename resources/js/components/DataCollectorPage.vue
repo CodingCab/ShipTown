@@ -18,7 +18,7 @@
             </template>
         </swiping-card>
 
-
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <div class="d-flex flex-nowrap">
                 <div class="flex-fill">

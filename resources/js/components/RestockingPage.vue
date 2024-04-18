@@ -1,6 +1,6 @@
 <template>
     <div class="container dashboard-widgets">
-
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <barcode-input-field
                 placeholder='Search products using name, sku, alias or command'

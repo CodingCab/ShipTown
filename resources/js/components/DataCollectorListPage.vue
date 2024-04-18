@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <barcode-input-field placeholder="Search" :url_param_name="'filter[name_contains]'" @barcodeScanned="loadData(1)"></barcode-input-field>
             <template v-slot:buttons>

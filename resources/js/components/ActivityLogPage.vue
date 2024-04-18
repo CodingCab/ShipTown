@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <barcode-input-field placeholder="Search activity" ref="barcode" @refreshRequest="reloadProducts" @barcodeScanned="findText"/>
             <template v-slot:buttons>

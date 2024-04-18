@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true">
             <barcode-input-field :input_id="'barcode-input'"  :url_param_name="'search'" @barcodeScanned="findText" placeholder="Search orders using number, sku, alias or command" ref="barcode"/>
             <template v-slot:buttons>

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <top-nav-bar-sticky-observer/>
         <top-nav-bar :isSticky="true" style="z-index: 10;">
             <barcode-input-field
                 placeholder="Search products using name, sku, alias or command"
