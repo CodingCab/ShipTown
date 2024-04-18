@@ -75,7 +75,7 @@ class Magento2MsiServiceProvider extends BaseModuleServiceProvider
         ], ['job_class'], ['job_name']);
 
         ManualRequestJob::query()->upsert([
-            'job_name' => 'Magento 2 MSI - EnsureInventoryGroupIdIsNotNull',
+            'job_name' => 'Magento 2 MSI - EnsureInventoryGroupIdIsNotNullJob',
             'job_class' => Jobs\EnsureProductRecordsExistJob::class,
         ], ['job_class'], ['job_name']);
 
