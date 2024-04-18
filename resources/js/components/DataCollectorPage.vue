@@ -18,8 +18,8 @@
             </template>
         </swiping-card>
 
-        <top-nav-bar-sticky-observer/>
-        <top-nav-bar :isSticky="true">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isSticky="true">
             <div class="d-flex flex-nowrap">
                 <div class="flex-fill">
                     <barcode-input-field :input_id="'barcode_input'" @barcodeScanned="onBarcodeScanned" placeholder="Scan sku or alias" class="text-center font-weight-bold"></barcode-input-field>
@@ -39,7 +39,7 @@
             <template v-slot:buttons>
                 <button id="showConfigurationButton" v-b-modal="'configuration-modal'" type="button" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
             </template>
-        </top-nav-bar>
+        </search-and-option-bar>
 
         <div v-show="manuallyExpandComments" class="row mb-2 mt-1 my-1">
             <input id="comment-input" ref="newCommentInput" v-model="input_comment" class="form-control" placeholder="Add comment here" @keypress.enter="addComment"/>

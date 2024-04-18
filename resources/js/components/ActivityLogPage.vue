@@ -1,12 +1,12 @@
 <template>
     <div>
-        <top-nav-bar-sticky-observer/>
-        <top-nav-bar :isSticky="true">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isSticky="true">
             <barcode-input-field placeholder="Search activity" ref="barcode" @refreshRequest="reloadProducts" @barcodeScanned="findText"/>
             <template v-slot:buttons>
                 <button disabled type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#filterConfigurationModal"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
             </template>
-        </top-nav-bar>
+        </search-and-option-bar>
 
         <div class="row pl-0 p-0">
             <div class="col-12 col-md-6 col-lg-6 text-nowrap text-left align-bottom pb-0 m-0 font-weight-bold text-uppercase small text-secondary">

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <top-nav-bar-sticky-observer/>
-        <top-nav-bar :isSticky="true" style="z-index: 10;">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isSticky="true" style="z-index: 10;">
             <barcode-input-field
                 placeholder="Search products using name, sku, alias or command"
                 ref="barcode"
@@ -11,7 +11,7 @@
             <template v-slot:buttons>
                 <button type="button" v-b-modal="'quick-actions-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
             </template>
-        </top-nav-bar>
+        </search-and-option-bar>
 
         <div class="row pl-2 p-0">
             <div class="col-12 col-md-6 col-lg-6 text-nowrap text-left align-bottom pb-0 m-0 font-weight-bold text-uppercase small text-secondary">

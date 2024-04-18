@@ -1,7 +1,7 @@
 <template>
     <div>
-        <top-nav-bar-sticky-observer/>
-        <top-nav-bar :isSticky="true">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isSticky="true">
             <div class="d-flex flex-nowrap">
                 <div class="flex-fill">
                     <barcode-input-field
@@ -24,7 +24,7 @@
             <template v-slot:buttons>
                 <button v-b-modal="'quick-actions-modal'" type="button" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
             </template>
-        </top-nav-bar>
+        </search-and-option-bar>
 
 
         <div class="row pl-2 p-1 font-weight-bold text-uppercase small text-secondary">

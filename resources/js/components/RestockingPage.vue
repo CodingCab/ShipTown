@@ -1,7 +1,7 @@
 <template>
     <div class="container dashboard-widgets">
-        <top-nav-bar-sticky-observer/>
-        <top-nav-bar :isSticky="true">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isSticky="true">
             <barcode-input-field
                 placeholder='Search products using name, sku, alias or command'
                 :url_param_name="'filter[search]'"
@@ -10,7 +10,7 @@
             <template v-slot:buttons>
                 <button v-b-modal="'configuration-modal'"  id="config-button" type="button" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
             </template>
-        </top-nav-bar>
+        </search-and-option-bar>
 
         <div class="row mb-1 pb-2 p-1 sticky-top bg-light" style="z-index: 10;" v-if="currentUser['warehouse'] !== null">
             <div class="flex-fill">

@@ -21,13 +21,13 @@
                 <order-details :order="order" />
             </div>
 
-            <top-nav-bar-sticky-observer/>
-            <top-nav-bar :isSticky="true">
+            <search-and-option-bar-observer/>
+            <search-and-option-bar :isSticky="true">
                 <barcode-input-field :input_id="'barcode-input'" @barcodeScanned="packBarcode" placeholder="Enter sku or alias to ship 1 piece" ref="barcode"/>
                 <template v-slot:buttons>
                     <button type="button" v-b-modal="'filtersModal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
                 </template>
-            </top-nav-bar>
+            </search-and-option-bar>
 
             <div v-show="manuallyExpandComments" class="row mx-1 my-2">
                 <input id="comment-input" ref="newCommentInput" v-model="input_comment" class="form-control" placeholder="Add comment here" @keypress.enter="addComment"/>

@@ -208,8 +208,8 @@ Vue.component('webhooks-subscription-page', require('../../app/Modules/Webhooks/
 Vue.component('report', require('./components/Reports/Report.vue').default);
 Vue.component('card', require('./components/UI/Card.vue').default);
 Vue.component('container', require('./components/UI/Container.vue').default);
-Vue.component('top-nav-bar', require('./components/UI/TopNavBar.vue').default);
-Vue.component('top-nav-bar-sticky-observer', require('./components/UI/TopNavBarStickyObserver.vue').default);
+Vue.component('search-and-option-bar', require('./components/UI/SearchAndOptionBar.vue').default);
+Vue.component('search-and-option-bar-observer', require('./components/UI/SearchAndOptionBarObserver.vue').default);
 
 Vue.prototype.$eventBus = new Vue();
 

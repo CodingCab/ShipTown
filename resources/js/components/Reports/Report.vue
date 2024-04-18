@@ -1,13 +1,13 @@
 <template>
 
 <container>
-    <top-nav-bar-sticky-observer/>
-    <top-nav-bar :isSticky="true">
+    <search-and-option-bar-observer/>
+    <search-and-option-bar :isSticky="true">
         <barcode-input-field @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
         <template v-slot:buttons>
             <button type="button" v-b-modal="'quick-actions-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
         </template>
-    </top-nav-bar>
+    </search-and-option-bar>
 
     <report-head :report-name="breadcrumbs"></report-head>
 
