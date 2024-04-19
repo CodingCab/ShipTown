@@ -1,11 +1,11 @@
 <template>
 <div>
     <div class="card my-1">
-        <div class="card-body">
-            <text-card label="transaction number" :text="transaction['transaction_number']"></text-card>
-            <number-card label="total_to_pay" :number="transaction['total_to_pay']"></number-card>
-            <number-card label="total paid" :number="transaction['total_paid']"></number-card>
-            <number-card label="total_outstanding" :number="transaction['total_outstanding']"></number-card>
+        <div class="card-body m-auto p-0 row">
+<!--            <text-card label="transaction number" :text="transaction['transaction_number']"></text-card>-->
+            <div class="col-4"><number-card label="total_to_pay" :number="transaction['total_to_pay']"></number-card></div>
+            <div class="col-4"><number-card label="total paid" :number="transaction['total_paid']"></number-card></div>
+            <div class="col-4"><number-card label="total_outstanding" :number="transaction['total_outstanding']"></number-card></div>
         </div>
     </div>
 
