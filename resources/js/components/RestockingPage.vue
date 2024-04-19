@@ -1,7 +1,7 @@
 <template>
     <div class="container dashboard-widgets">
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <barcode-input-field
                 placeholder='Search products using name, sku, alias or command'
                 :url_param_name="'filter[search]'"

@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <div class="d-flex flex-nowrap">
                 <div class="flex-fill">
                     <barcode-input-field

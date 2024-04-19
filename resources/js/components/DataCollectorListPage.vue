@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <barcode-input-field placeholder="Search" :url_param_name="'filter[name_contains]'" @barcodeScanned="loadData(1)"></barcode-input-field>
             <template v-slot:buttons>
                 <button id="new_data_collection" dusk="new_data_collection" v-b-modal="'new-collection-modal'" type="button" class="btn btn-primary ml-2"><font-awesome-icon icon="plus" class="fa-lg"></font-awesome-icon></button>

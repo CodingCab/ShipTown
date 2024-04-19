@@ -19,7 +19,7 @@
         </swiping-card>
 
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <div class="d-flex flex-nowrap">
                 <div class="flex-fill">
                     <barcode-input-field :input_id="'barcode_input'" @barcodeScanned="onBarcodeScanned" placeholder="Scan sku or alias" class="text-center font-weight-bold"></barcode-input-field>

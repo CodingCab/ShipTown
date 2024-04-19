@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <barcode-input-field
                 :input_id="'barcode_input'"
                 placeholder="Search products using name, sku, alias or command"

@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true" style="z-index: 10;">
+        <search-and-option-bar :isStickable="true" style="z-index: 10;">
             <barcode-input-field
                 placeholder="Search products using name, sku, alias or command"
                 ref="barcode"

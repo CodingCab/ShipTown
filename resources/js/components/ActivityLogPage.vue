@@ -1,7 +1,7 @@
 <template>
     <div>
         <search-and-option-bar-observer/>
-        <search-and-option-bar :isSticky="true">
+        <search-and-option-bar :isStickable="true">
             <barcode-input-field placeholder="Search activity" ref="barcode" @refreshRequest="reloadProducts" @barcodeScanned="findText"/>
             <template v-slot:buttons>
                 <button disabled type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#filterConfigurationModal"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
