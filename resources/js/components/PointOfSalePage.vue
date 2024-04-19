@@ -148,7 +148,7 @@ export default {
         printReceipt() {
             this.apiPostPrintJob({
                     'printer_id': this.currentUser().printer_id,
-                    'content': 'receipt content'
+                    'content': this.transaction
                 })
                 .then(response => {
                     this.notifySuccess('Receipt printed', false);
