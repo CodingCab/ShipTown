@@ -117,19 +117,20 @@ export default {
     },
     methods: {
         addProductToTransaction(barcode) {
-            this.apiGetProducts({
-                    'filter[sku_or_alias]' : barcode
-                })
+            this.apiGetProducts({'filter[sku_or_alias]' : barcode})
                 .then(response => {
-                    if (response.data.data.length > 0) {
-                        const product = response.data.data[0];
-                        this.transaction['entries'].push({
-                            barcode: product.sku,
-                            quantity: 1,
-                            full_price: 0,
-                            current_price: 0
-                        });
+                    if (response.data.data.length === 0) {
+                        this.notifyError('Product "'+ barcode +'" not found');
+                        return;
                     }
+
+                    const product = response.data.data[0];
+                    this.transaction['entries'].push({
+                        barcode: product.sku,
+                        quantity: 1,
+                        full_price: 0,
+                        current_price: 0
+                    });
                 }).catch(error => {
                     this.displayApiCallError(error);
                 });
