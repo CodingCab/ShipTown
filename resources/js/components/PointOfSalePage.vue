@@ -43,7 +43,7 @@
         </table>
     </div>
 
-    <b-modal id="payments-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
+    <b-modal id="payments-modal" no-fade hide-header @hidden="setFocusElementById('barcode_input')">
         <card>
             <template v-for="payment in transaction['payments']">
                 {{ payment['name'] }} {{ payment['amount'] }} <br>
@@ -54,19 +54,16 @@
         </card>
     </b-modal>
 
-    <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
+    <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode_input')">
         <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
         <hr>
         <button type="button" class="btn btn-primary m-1 col" @click="printReceipt">Print Receipt</button>
         <button type="button" class="btn btn-primary m-1 col" @click="saveTransaction">Save Transaction</button>
         <button type="button" class="btn btn-primary m-1 col" @click="clearTransaction">Clear Transaction</button>
+        <button type="button" class="btn btn-primary m-1 col" @click="clearTransaction" disabled>Return</button>
         <template #modal-footer>
-            <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
-                Cancel
-            </b-button>
-            <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
-                OK
-            </b-button>
+            <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">Cancel</b-button>
+            <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">OK</b-button>
         </template>
     </b-modal>
 </div>
@@ -148,7 +145,7 @@ export default {
         printReceipt() {
             this.apiPostPrintJob({
                     'printer_id': this.currentUser().printer_id,
-                    'content': this.transaction
+                    'content': JSON.stringify(this.transaction)
                 })
                 .then(response => {
                     this.notifySuccess('Receipt printed', false);
