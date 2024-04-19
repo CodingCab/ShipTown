@@ -164,6 +164,7 @@ export default {
         },
 
         saveTransaction() {
+            this.apiPostTransaction({'raw_data': this.transaction});
             // we should post the transaction to the server for immediate save only
             // this should be best way to make a backup of the transaction in case of any failures
             // /api/transactions/in-progress ??

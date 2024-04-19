@@ -404,6 +404,10 @@ export default {
             apiPostActiveOrdersInventoryReservationsConfig: function (id, params) {
                 return axios.put('/api/modules/active-orders-inventory-reservations/configuration/' + id, params)
             },
+
+            apiPostTransaction: function (transaction) {
+                return axios.post('/api/transactions/', transaction);
+            },
         }
     }
 </script>
