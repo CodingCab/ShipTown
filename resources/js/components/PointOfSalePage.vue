@@ -179,7 +179,7 @@ export default {
             }
 
             this.apiGetTransactions({
-                    'filter[transaction_id]' : this.currentUser().active_transaction_id
+                    'filter[id]' : this.currentUser().active_transaction_id
                 })
                 .then(response => {
                     this.transaction = response.data.data[0]['raw_data'];
