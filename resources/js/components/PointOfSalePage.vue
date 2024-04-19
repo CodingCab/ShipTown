@@ -129,14 +129,15 @@ export default {
         addProductToTransaction(barcode) {
             this.apiGetProducts({'filter[sku_or_alias]' : barcode})
                 .then(response => {
-                    this.beep();
-
                     if (response.data.data.length === 0) {
                         this.notifyError('Product "'+ barcode +'" not found');
                         return;
                     }
 
+                    this.beep();
+
                     const product = response.data.data[0];
+
                     this.transaction['entries'].unshift({
                         barcode: product.sku,
                         quantity: 1,
