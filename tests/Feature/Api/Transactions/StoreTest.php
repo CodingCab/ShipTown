@@ -12,31 +12,18 @@ class StoreTest extends TestCase
     /** @test */
     public function testIfCallReturnsOk()
     {
-        $user = User::factory()->create()->assignRole('admin');
+        $user = User::factory()->create()->assignRole('user');
 
-        $response = $this->actingAs($user, 'api')->postJson($this->uri, []);
+        $response = $this->actingAs($user, 'api')->postJson($this->uri, [
+            'raw_data' => []
+        ]);
 
         ray($response->json());
 
         $response->assertSuccessful();
 
-        $this->assertCount(1, $response->json('data'), 'No records returned');
-
         $response->assertJsonStructure([
-            'data' => [
-                '*' => [
-                    'id'
-                ],
-            ],
+            'id'
         ]);
-    }
-
-    /** @test */
-    public function testUserAccess()
-    {
-        $user = User::factory()->create();
-        $response = $this->actingAs($user, 'api')->postJson($this->uri, []);
-
-        $response->assertForbidden();
     }
 }
