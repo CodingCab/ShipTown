@@ -104,12 +104,12 @@ export default {
                 payments: [
                     {
                         'name': 'cash',
-                        'amount': 1251
+                        'amount': 100
                     }
                 ],
-                total_to_pay: 12.51,
-                total_paid: 12.51,
-                total_outstanding: 3.45
+                total_to_pay: 135,
+                total_paid: 100,
+                total_outstanding: 35
             }
         }
     },
@@ -224,7 +224,7 @@ export default {
                 return;
             }
 
-            this.apiPostTransaction(this.transaction)
+            this.apiPostTransaction({'raw_data': this.transaction})
                 .catch(error => {
                     this.displayApiCallError(error);
                 });
