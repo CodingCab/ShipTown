@@ -49,7 +49,7 @@ import {
     faWarehouse,
     faArchive,
     faCopy,
-    faCartPlus, faAtom, faChartBar, faChartLine, faBox, faBars, faArrowRight,
+    faCartPlus, faAtom, faChartBar, faChartLine, faChartColumn, faBox, faBars, faArrowRight,
     faFileDownload, faCaretDown, faCaretUp
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -81,6 +81,7 @@ library.add(faDesktop);
 library.add(faClipboardList);
 library.add(faChartBar);
 library.add(faChartLine);
+library.add(faChartColumn);
 library.add(faPuzzlePiece);
 library.add(faBoxOpen);
 library.add(faEdit);
