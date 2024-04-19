@@ -150,6 +150,16 @@ export default {
         },
 
         printReceipt() {
+            this.apiPostPrintJob({
+                    'printer_id': this.currentUser().printer_id,
+                    'content': 'receipt content'
+                })
+                .then(response => {
+                    this.notifySuccess('Receipt printed', false);
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                })
             // Please use RAW PRINT from printnode for this functionality
             // this.notifyError('Implement print receipt functionality');
         },
