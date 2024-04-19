@@ -1,13 +1,15 @@
 <template>
 <div>
-    <card>
-        <text-card label="transaction number" :text="transaction['transaction_number']"></text-card>
-        <number-card label="total_to_pay" :number="transaction['total_to_pay']"></number-card>
-        <number-card label="total paid" :number="transaction['total_paid']"></number-card>
-        <number-card label="total_outstanding" :number="transaction['total_outstanding']"></number-card>
-    </card>
+    <div class="card my-1">
+        <div class="card-body">
+            <text-card label="transaction number" :text="transaction['transaction_number']"></text-card>
+            <number-card label="total_to_pay" :number="transaction['total_to_pay']"></number-card>
+            <number-card label="total paid" :number="transaction['total_paid']"></number-card>
+            <number-card label="total_outstanding" :number="transaction['total_outstanding']"></number-card>
+        </div>
+    </div>
 
-    <div class="row mb-2 pl-1 pr-1">
+    <div class="row my-2">
         <div class="flex-fill">
             <barcode-input-field id="barcode_input" @barcodeScanned="addProductToTransaction" placeholder="Scan or type sku or product barcode" ref="barcode_input"/>
         </div>
