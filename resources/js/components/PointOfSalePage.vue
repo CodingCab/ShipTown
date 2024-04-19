@@ -120,12 +120,6 @@ export default {
             },
             deep: true
         },
-        // 'transaction.entries': {
-        //     handler: function (val, oldVal) {
-        //         this.notifyError('Implement update total functionality');
-        //     },
-        //     deep: true
-        // }
     },
     methods: {
         addProductToTransaction(barcode) {
@@ -225,6 +219,15 @@ export default {
             }
 
             this.apiPostTransaction({'raw_data': this.transaction})
+                .then(response => {
+                    console.log(response.data)
+                    this.currentUser().active_transaction_id = response.data.data.id;
+
+                    this.apiPostUserUpdate(this.currentUser().id, {'active_transaction_id': response.data.data.id})
+                        .catch(error => {
+                            this.displayApiCallError(error);
+                        });
+                })
                 .catch(error => {
                     this.displayApiCallError(error);
                 });
