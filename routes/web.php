@@ -48,6 +48,10 @@ Route::get('shipping-labels/{shipping_label}', [ShippingLabelController::class, 
 Route::view('autopilot/packlist', 'autopilot/packlist')->name('autopilot.packlist');
 Route::resource('order/packsheet', Order\PacksheetController::class)->only(['show']);
 
+Route::as('tools.')->group(function () {
+    Route::view('tools/point-of-sale', 'tools/point-of-sale');
+});
+
 Route::as('reports.')->group(function () {
     Route::resource('reports/inventory', Reports\InventoryController::class)->only('index');
     Route::resource('reports/stocktake-suggestions', Reports\StocktakeSuggestionsController::class)->only('index');
