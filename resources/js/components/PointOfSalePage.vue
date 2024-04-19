@@ -170,6 +170,9 @@ export default {
             // this.notifyError('Implement save transaction functionality');
 
             // we might develop a way to retrieve the transaction from the server later too
+
+           // $response =  this.apiPostTransaciotn(response->transaction_id, transaction);
+           // user->update(['active_transafgion_id' => response->transaction_id]);
         },
     }
 
