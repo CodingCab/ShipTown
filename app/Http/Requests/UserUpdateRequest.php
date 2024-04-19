@@ -50,7 +50,7 @@ class UserUpdateRequest extends FormRequest
             ],
 
             'role_id' => Rule::when($updatedUserId !== $this->user()->id, [
-                'required',
+                'sometimes',
                 'integer',
                 Rule::exists('roles', 'id'),
             ]),

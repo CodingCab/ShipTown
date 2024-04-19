@@ -104,6 +104,7 @@ class User extends Authenticatable
         'ask_for_shipping_number',
         'two_factor_code',
         'two_factor_expires_at',
+        'active_transaction_id',
     ];
 
     protected $hidden = [

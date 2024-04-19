@@ -164,7 +164,11 @@ export default {
         },
 
         saveTransaction() {
-            this.apiPostTransaction({'raw_data': this.transaction});
+            this.apiPostTransaction({'raw_data': this.transaction})
+                .then(response => {
+                    this.currentUser().active_transaction_id = response.data.id;
+                    this.apiPostUserUpdate(this.currentUser().id, {'active_transaction_id': response.data.id});
+                })
             // we should post the transaction to the server for immediate save only
             // this should be best way to make a backup of the transaction in case of any failures
             // /api/transactions/in-progress ??
