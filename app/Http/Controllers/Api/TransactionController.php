@@ -14,7 +14,6 @@ class TransactionController extends Controller
     {
         ReportService::fromQuery(Transaction::query());
 
-
         return JsonResource::collection(Transaction::all());
     }
 
@@ -25,5 +24,16 @@ class TransactionController extends Controller
         $transaction = Transaction::create($attributes);
 
         return response()->json($transaction, 201);
+    }
+
+    public function update(Request $request, int $transaction_id)
+    {
+        $transaction = Transaction::query()->findOrFail($transaction_id);
+
+        $attributes = $request->all();
+
+        $transaction->update($attributes);
+
+        return response()->json($transaction);
     }
 }
