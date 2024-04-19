@@ -72,7 +72,7 @@ class AppInstall extends Command
         $this->createDefaultMailTemplateOversoldProduct();
 
         $this->createNewToPaidAutomation();
-        $this->createPaidToPickingAutomation();
+//        $this->createPaidToPickingAutomation();
         $this->createPickingToPackingAutomation();
         $this->createPackingToShippedAutomation();
 
