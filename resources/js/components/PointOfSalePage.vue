@@ -6,48 +6,58 @@
         <number-card label="total paid" :number="transaction['total_paid']"></number-card>
         <number-card label="total_outstanding" :number="transaction['total_outstanding']"></number-card>
     </card>
-    <card>
-        <template v-for="payment in transaction['payments']">
-            {{ payment['name'] }} {{ payment['amount'] }} <br>
-        </template>
-        <input id="payment_amount" class="form-control"  placeholder="Payment amount">
-        <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCash">Add Payment Cash</button>
-        <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCard">Add Payment Clover</button>
-    </card>
+
     <div class="row mb-2 pl-1 pr-1">
         <div class="flex-fill">
             <barcode-input-field id="barcode_input" @barcodeScanned="addProductToTransaction" placeholder="Scan or type sku or product barcode" ref="barcode_input"/>
         </div>
 
         <button type="button" v-b-modal="'quick-actions-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
+        <button type="button" v-b-modal="'payments-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="credit-card" class="fa-lg"></font-awesome-icon></button>
     </div>
 
-    <table>
-        <tr>
-            <th>Barcode</th>
-            <th>Quantity</th>
-            <th>Full Price</th>
-            <th>Current Price</th>
-            <th>Total</th>
-        </tr>
-        <template v-for="transactionEntry in transaction['entries']" >
-            <tr>
-                <td>{{ transactionEntry['barcode'] }}</td>
-                <td>{{ transactionEntry['quantity'] }}</td>
-                <td>{{ transactionEntry['full_price'] }}</td>
-                <td>{{ transactionEntry['current_price'] }}</td>
-                <td>{{ transactionEntry['total'] }}</td>
-            </tr>
-        </template>
-    </table>
+    <div class="table-responsive">
+        <table class="table-hover w-100">
+            <thead>
+                <tr>
+                    <th>Barcode</th>
+                    <th>Quantity</th>
+                    <th>Full Price</th>
+                    <th>Current Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="transactionEntry in transaction['entries']" >
+                    <tr>
+                        <td>{{ transactionEntry['barcode'] }}</td>
+                        <td>{{ transactionEntry['quantity'] }}</td>
+                        <td>{{ transactionEntry['full_price'] }}</td>
+                        <td>{{ transactionEntry['current_price'] }}</td>
+                        <td>{{ transactionEntry['total'] }}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
 
+    <b-modal id="payments-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
+        <card>
+            <template v-for="payment in transaction['payments']">
+                {{ payment['name'] }} {{ payment['amount'] }} <br>
+            </template>
+            <input id="payment_amount" class="form-control"  placeholder="Payment amount">
+            <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCash">Add Payment Cash</button>
+            <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCard">Add Payment Clover</button>
+        </card>
+    </b-modal>
 
     <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
         <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
         <hr>
-        <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="printReceipt">Print Receipt</button>
-        <button type="button" class="btn btn-primary fa-pull-right m-1 col" @click="saveTransaction">Save Transaction</button>
-        <button type="button" class="btn btn-primary fa-pull-right m-1 col" @click="clearTransaction">Clear Transaction</button>
+        <button type="button" class="btn btn-primary m-1 col" @click="printReceipt">Print Receipt</button>
+        <button type="button" class="btn btn-primary m-1 col" @click="saveTransaction">Save Transaction</button>
+        <button type="button" class="btn btn-primary m-1 col" @click="clearTransaction">Clear Transaction</button>
         <template #modal-footer>
             <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                 Cancel
