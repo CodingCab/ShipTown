@@ -56,6 +56,7 @@ use Thomasjohnkane\Snooze\Traits\SnoozeNotifiable;
  * @property-read int|null $tokens_count
  * @property-read Collection|Session[] $sessions
  * @property-read int|null $sessions_count
+ * @property mixed $active_transaction_id
  *
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()

@@ -67,6 +67,14 @@ import api from "../mixins/api.vue";
 export default {
     mixins: [helpers, api],
 
+    mounted() {
+        this.setFocusElementById('barcode-input');
+
+        if (this.currentUser().active_transaction_id) {
+            this.loadUsersActiveTransaction();
+        }
+    },
+
     data() {
         return {
             transaction: {
@@ -112,6 +120,12 @@ export default {
         }
     },
     methods: {
+        loadUsersActiveTransaction() {
+            this.apiGetTransactions({'filter[id]': this.currentUser().active_transaction_id})
+                .then(response => {
+                    this.transaction = response.data[0].raw_data;
+                });
+        },
         addProductToTransaction(barcode) {
             this.transaction['entries'].push({
                 barcode: barcode,

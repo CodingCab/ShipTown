@@ -64,6 +64,11 @@ class UserUpdateRequest extends FormRequest
                 'nullable',
                 'exists:warehouses,id'
             ],
+
+            'active_transaction_id' => [
+                'nullable',
+                'exists:transactions,id'
+            ],
         ];
     }
 }
