@@ -14,6 +14,7 @@ class TransactionController extends Controller
     {
         ReportService::fromQuery(Transaction::query());
 
+
         return JsonResource::collection(Transaction::all());
     }
 
