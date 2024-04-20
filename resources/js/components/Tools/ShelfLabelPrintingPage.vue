@@ -1,12 +1,12 @@
 <template>
     <container>
-        <top-nav-bar>
+<!--        <search-and-option-bar>-->
             <barcode-input-field :input_id="'barcode-input'" :url_param_name="'search'" @barcodeScanned="setCustomLabelText" placeholder="Custom Label Text" ref="barcode"/>
-            <template v-slot:buttons>
+<!--            <template v-slot:buttons>-->
                 <top-nav-button v-b-modal="'quick-actions-modal'"/>
                 <top-nav-button @click.native="printPDF" icon="print"/>
-            </template>
-        </top-nav-bar>
+<!--            </template>-->
+<!--        </search-and-option-bar>-->
         <div class="grid-col-12 pl-2 p-1">
             <div class="col-span-6 md:col-span-4 xl:col-span-6 mb-2 mb-sm-0">
                 <header-upper>TOOLS > PRINTER</header-upper>
