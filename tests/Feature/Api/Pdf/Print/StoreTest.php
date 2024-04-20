@@ -8,8 +8,6 @@ use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function store_returns_user_printer_id_missing_error()
     {
