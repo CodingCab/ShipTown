@@ -1,20 +1,13 @@
 <template>
 
 <container>
-    <template v-if="getUrlParameter('hide_nav_bar', false) === false">
-        <div class="row mb-2 pl-1 pr-1">
-            <div class="flex-fill">
-                <barcode-input-field @barcodeScanned="searchForProductSku"
-                                     url_param_name="filter[product_sku]"
-                                     ref="barcode"
-                                     placeholder="Search"
-
-                />
-            </div>
-
+    <search-and-option-bar-observer/>
+    <search-and-option-bar :isStickable="true">
+        <barcode-input-field @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
+        <template v-slot:buttons>
             <button type="button" v-b-modal="'quick-actions-modal'" class="btn btn-primary ml-2"><font-awesome-icon icon="cog" class="fa-lg"></font-awesome-icon></button>
-        </div>
-    </template>
+        </template>
+    </search-and-option-bar>
 
     <report-head :report-name="breadcrumbs"></report-head>
 
@@ -162,8 +155,8 @@
                 filters: [],
                 filterAdding: null,
                 showFilters: true,
-                perPage: Number(JSON.parse(this.paginationString).per_page),
-                page: Number(JSON.parse(this.paginationString).page),
+                perPage: 50,
+                page: 1,
                 hasMoreRecords: true,
 
                 breadcrumbs: '',
@@ -175,7 +168,9 @@
         },
 
         mounted() {
-            this.buildFiltersFromUrl()
+            this.perPage = this.getUrlParameter('per_page', 50);
+
+            this.buildFiltersFromUrl();
             window.onscroll = () => this.loadMoreRecords();
 
             this.breadcrumbs = this.$router.currentRoute.path
@@ -185,12 +180,12 @@
         },
 
         methods: {
-
             searchForProductSku(barcode) {
                 if (barcode === '') {
                     this.removeUrlParameterAndGo('filter[product_sku]');
                     return;
                 }
+
                 this.setUrlParameterAngGo('filter[product_sku]', barcode);
             },
 
@@ -230,7 +225,7 @@
                         defaultFilterValueMax = 0;
                         break;
                     case 'string':
-                        defaultOperator = 'contains';
+                        defaultOperator = 'equals';
                         defaultFilterValueMin = '';
                         defaultFilterValueMax = '';
                         break;
@@ -267,7 +262,6 @@
             buildFiltersFromUrl() {
                 const urlParams = new URLSearchParams(window.location.search);
 
-                this.getUrlFilter()
                 for (const [key, value] of urlParams.entries()) {
                     if(key.startsWith('filter')) {
                         let filterName = key.split('[')[1].split(']')[0];
@@ -370,7 +364,7 @@
                     let urlParams = new URLSearchParams(window.location.search);
                     urlParams.set('filename', 'data.json');
                     urlParams.set('page', this.page);
-                    urlParams.set('per_page', this.getUrlParameter('per_page', 50));
+                    urlParams.set('per_page', this.perPage);
 
                     this.getReportData(this.$router.currentRoute.path, urlParams)
                         .then(response => {

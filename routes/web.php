@@ -50,6 +50,7 @@ Route::resource('order/packsheet', Order\PacksheetController::class)->only(['sho
 Route::view('tools/printer', 'tools/printer')->name('tools.printer');
 
 Route::as('reports.')->group(function () {
+    Route::resource('reports/activity-log', Reports\ActivityLogController::class)->only('index');
     Route::resource('reports/inventory', Reports\InventoryController::class)->only('index');
     Route::resource('reports/stocktake-suggestions', Reports\StocktakeSuggestionsController::class)->only('index');
     Route::resource('reports/inventory-dashboard', Reports\InventoryDashboardController::class)->only('index');
@@ -78,7 +79,6 @@ Route::middleware(['role:admin'])->group(function () {
     Route::view('settings/modules/active-orders-inventory-reservations', 'settings/modules/active-orders-inventory-reservations');
 
     Route::view('admin/settings', 'settings')->name('settings');
-    Route::view('admin/activity-log', 'activity-log')->name('activity-log');
     Route::view('admin/settings/general', 'settings/general')->name('settings.general');
     Route::view('admin/settings/order-statuses', 'settings/order-statuses')->name('settings.order_statuses');
     Route::view('admin/settings/printnode', 'settings/printnode')->name('settings.printnode');
