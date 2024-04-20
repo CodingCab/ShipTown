@@ -18,16 +18,20 @@ class PdfPrintController extends Controller
     /**
      * @throws Exception
      */
-    public function update(StorePdfPrintRequest $request): PrintJobResource
+    public function update(StorePdfPrintRequest $request)
     {
-        $pdfString = PdfService::fromView('pdf/'.$request->template, $request->data);
+        try {
+            $pdfString = PdfService::fromView('pdf/'.$request->template, $request->data);
 
-        $printJob = new PrintJob();
-        $printJob->printer_id = $request->printer_id;
-        $printJob->title = $request->template.'_by_'.$request->user()->id;
-        $printJob->pdf = base64_encode($pdfString);
-        $printJob->save();
+            $printJob = new PrintJob();
+            $printJob->printer_id = $request->printer_id;
+            $printJob->title = $request->template.'_by_'.$request->user()->id;
+            $printJob->pdf = base64_encode($pdfString);
+            $printJob->save();
 
-        return PrintJobResource::make($printJob);
+            return PrintJobResource::make($printJob);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 }
