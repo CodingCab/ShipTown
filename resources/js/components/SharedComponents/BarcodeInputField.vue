@@ -42,7 +42,7 @@
           </div>
 
           <template #modal-footer>
-              <b-button class="mr-auto" variant="primary" :href="`/tools/shelf-label-printing?search=${command['value']}`">Reprint</b-button>
+              <b-button class="mr-auto" variant="primary" :href="`/tools/printer?search=${command['value']}`">Reprint</b-button>
               <b-button variant="secondary" class="float-right" @click="$bvModal.hide(getModalID)">
                   Cancel
               </b-button>
