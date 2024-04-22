@@ -11,17 +11,16 @@ class StoreTest extends TestCase
     /** @test */
     public function store_returns_user_printer_id_missing_error()
     {
-        $this->assertTrue(true);
-//        $user = User::factory()->create();
-//
-//        $response = $this->actingAs($user, 'api')->postJson('api/pdf/print', [
-//            'data' => [
-//                'labels'  => ['label1', 'label2'],
-//            ],
-//            'template'  => 'shelf-labels/6x4-1-per-page',
-//        ]);
-//
-//        $response->assertStatus(422);
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user, 'api')->postJson('api/pdf/print', [
+            'data' => [
+                'labels'  => ['label1', 'label2'],
+            ],
+            'template'  => 'shelf-labels/6x4-1-per-page',
+        ]);
+
+        $response->assertStatus(422);
     }
 
     /** @test */
