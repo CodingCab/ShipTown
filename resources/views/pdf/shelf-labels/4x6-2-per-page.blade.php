@@ -5,14 +5,14 @@
     @foreach(collect($labels)->chunk(2) as $chunk)
         @foreach($chunk as $index => $label)
             @php
-                $fontSize = strlen($label) > 10 ? '40px' : '70px';
-                $marginTop = strlen($label) > 10 ? '5px' : '10px';
+                $fontSize = strlen($label) > 4 ? '40px' : '95px';
+                $marginTop = strlen($label) > 4 ? '40px' : '50px';
             @endphp
-            <div class="half_{{ $index % 2 === 0 ? 'first' : 'second'}}">
-                <div style="height: 50%; overflow: hidden;">
+            <div class="half_{{ $index % 2 === 0 ? 'second' : 'first'}}">
+                <div style="overflow: hidden;">
                     <h1 style="text-align: center; font-size: {{ $fontSize }}; word-wrap: anywhere; line-height: 90%; margin-top: {{ $marginTop }};">{{ $label }}</h1>
                 </div>
-                <img style="width: 120px; height: 120px; margin-left: 75px; margin-top: 2px;" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('shelf:'.$label, 'QRCODE') }}" alt="barcode" />
+                <img style="width: 120px; height: 120px; margin-left: 75px; margin-top: 30px;" src="data:image/svg,{{ DNS2D::getBarcodeSVG('shelf:'.$label, 'QRCODE') }}" alt="barcode" />
                 <p style="text-align: center; font-size: 16px; margin-top: 4px;  word-wrap: anywhere;">shelf:{{ $label }}</p>
             </div>
         @endforeach
