@@ -3,17 +3,20 @@
 
     @foreach(collect($labels)->chunk(3) as $chunk)
         @foreach($chunk as $index => $label)
+            @php
+                $fontSize = strlen($label) > 4 ? '50px' : '90px';
+            @endphp
             <div class="label_box">
-                <div style="width: 32%; height: 99%; display: inline-block">
-                    <img style="width: 100px; height: 100px; margin-left: 30px; margin-top: 40px;" src="data:image/svg,{{ DNS2D::getBarcodeSVG('shelf:'.$label, 'QRCODE') }}" alt="barcode" />
-                    <p style="text-align: center; word-wrap: anywhere; font-size: 13px; margin-left: 30px; margin-top: 5px;">shelf:{{ $label }}</p>
+                <div style="width: 28%; height: 99%; display: inline-block;">
+                    <img style="width: 70px; height: 70px; margin-left: 30px; margin-top: 40px;" src="data:image/svg,{{ DNS2D::getBarcodeSVG('shelf:'.$label, 'QRCODE') }}" alt="barcode" />
+                    <p style="text-align: center; word-wrap: anywhere; font-size: 10px; margin-left: 30px; margin-top: 5px;">shelf:{{ $label }}</p>
                 </div>
-                <div style="width: 65%; height: 99%; float: right;">
+                <div style="width: 70%; height: 99%; float: right;">
                     <table style="border: black; width: 100%" >
                         <tbody>
                         <tr>
                             <td style="height: 100%; vertical-align:middle; text-align: center; margin: 0; padding: 0">
-                                <h1 style="font-size: 50px; word-wrap: anywhere; line-height: 90%">{{ $label }}</h1>
+                                <h1 style="font-size: {{ $fontSize }}; word-wrap: anywhere; line-height: 90%">{{ $label }}</h1>
                             </td>
                         </tr>
                         </tbody>
