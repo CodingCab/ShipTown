@@ -20,8 +20,9 @@ class PdfPrintController extends Controller
      */
     public function update(StorePdfPrintRequest $request)
     {
-        return response()->json(['message' => 'Not implemented yet'], 200);
-//        $pdfString = PdfService::fromView('pdf/'.$request->template, $request->data);
+        $pdfString = PdfService::fromView('pdf/'.$request->template, $request->data);
+
+        return response()->json(['data' => $pdfString], 200);
 //
 //        $printJob = new PrintJob();
 //        $printJob->printer_id = $request->printer_id;
