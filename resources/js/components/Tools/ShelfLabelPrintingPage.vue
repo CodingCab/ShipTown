@@ -1,7 +1,7 @@
 <template>
     <container>
         <search-and-option-bar>
-            <barcode-input-field :input_id="'barcode-input'" :url_param_name="'search'" @barcodeScanned="setCustomLabelText" placeholder="Custom Label Text" ref="barcode"/>
+            <barcode-input-field :input_id="'barcode-input'" :url_param_name="'search'" @barcodeScanned="setCustomLabelText" placeholder="Enter custom label text" ref="barcode"/>
             <template v-slot:buttons>
                 <top-nav-button v-b-modal="'quick-actions-modal'"/>
                 <top-nav-button @click.native="printPDF" icon="print"/>
