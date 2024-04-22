@@ -1,7 +1,7 @@
 let helpers = {
     downloadFile(url, filename) {
         let a = document.createElement('a');
-        a.href =  window.URL.createObjectURL(url);
+        a.href = url;
         a.download = filename;
         a.click();
         a.remove();

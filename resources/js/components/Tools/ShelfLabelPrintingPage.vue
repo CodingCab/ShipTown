@@ -102,7 +102,7 @@ export default {
             };
 
             this.apiPostPdfDownload(data).then(response => {
-                let url = new Blob([response.data]);
+                let url = window.URL.createObjectURL(new Blob([response.data]));
                 let filename = this.templateSelected.replace('/', '_') + '.pdf';
                 helpers.downloadFile(url, filename);
             }).catch(error => {
