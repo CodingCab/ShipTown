@@ -102,11 +102,9 @@ export default {
             };
 
             this.apiPostPdfDownload(data).then(response => {
-                let a = document.createElement('a');
-                a.href =  window.URL.createObjectURL(new Blob([response.data]));
-                a.download = this.templateSelected.replace('/', '_') + '.pdf';
-                a.click();
-                a.remove();
+                let url = new Blob([response.data]);
+                let filename = this.templateSelected.replace('/', '_') + '.pdf';
+                helpers.downloadFile(url, filename);
             }).catch(error => {
                 this.displayApiCallError(error);
             }).finally(() => {
@@ -116,7 +114,7 @@ export default {
 
         printPDF() {
             if(this.currentUser().printer_id === null){
-                this.notifyError('Please set your printer in your profile');
+                this.notifyError('Please select your printer on your profile page');
                 return;
             }
 
