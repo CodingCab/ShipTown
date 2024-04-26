@@ -6,7 +6,7 @@
         <div class="col-md-8 mt-3">
             @if(config('app.demo_mode'))
                 <div class="alert alert-warning text-center">
-                    DEMO<br>
+                    DEMO MODE<br>
                 </div>
             @endif
             <div class="card">
