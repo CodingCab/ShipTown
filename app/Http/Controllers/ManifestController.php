@@ -14,7 +14,7 @@ class ManifestController extends Controller
 
         return response()->json([
             'name'       => 'ShipTown ' . $config->business_name,
-            'short_name' => empty($config->business_name) ? 'ShipTown' : 'ST' . $config->business_name,
+            'short_name' => empty($config->business_name) ? 'ShipTown' : 'ST ' . $config->business_name,
             "description" => "Order and Inventory Management made simple",
             "categories" => ["ecommerce", "business", "productivity", "utilities"],
             'icons'      => [
