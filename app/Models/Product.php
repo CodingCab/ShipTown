@@ -61,7 +61,6 @@ use Spatie\Tags\Tag;
  * @method static Builder|Product newModelQuery()
  * @method static Builder|Product newQuery()
  * @method static Builder|Product onlyTrashed()
- * @method static Builder|Product query()
  * @method static Builder|Product skuOrAlias($skuOrAlias)
  * @method static Builder|Product whereCreatedAt($value)
  * @method static Builder|Product whereDeletedAt($value)
