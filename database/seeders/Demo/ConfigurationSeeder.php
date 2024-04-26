@@ -16,7 +16,7 @@ class ConfigurationSeeder extends Seeder
     {
         Configuration::updateOrCreate([], [
             'business_name' => 'Demo',
-            'disable_2fa' => false
+            'disable_2fa' => true
         ]);
     }
 }
