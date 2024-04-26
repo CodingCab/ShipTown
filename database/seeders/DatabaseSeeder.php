@@ -7,9 +7,6 @@ use App\Jobs\DispatchEveryFiveMinutesEventJob;
 use App\Jobs\DispatchEveryHourEventJobs;
 use App\Jobs\DispatchEveryMinuteEventJob;
 use App\Jobs\DispatchEveryTenMinutesEventJob;
-use App\Modules\InventoryMovementsStatistics\src\InventoryMovementsStatisticsServiceProvider;
-use App\Modules\InventoryTotals\src\InventoryTotalsServiceProvider;
-use App\Modules\QueueMonitor\src\QueueMonitorServiceProvider;
 use App\Modules\ScurriAnpost\database\seeders\ScurriAnpostSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -24,10 +21,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Artisan::call('up');
-
-        QueueMonitorServiceProvider::enableModule();
-        InventoryMovementsStatisticsServiceProvider::enableModule();
-        InventoryTotalsServiceProvider::enableModule();
 
         $this->call([
             Demo\ConfigurationSeeder::class,
@@ -81,6 +74,8 @@ class DatabaseSeeder extends Seeder
 //            OrderShipmentsSeeder::class,
 
         ]);
+
+
 
         DispatchEveryMinuteEventJob::dispatch();
         DispatchEveryFiveMinutesEventJob::dispatch();
