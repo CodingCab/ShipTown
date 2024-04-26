@@ -7,6 +7,9 @@ use App\Jobs\DispatchEveryFiveMinutesEventJob;
 use App\Jobs\DispatchEveryHourEventJobs;
 use App\Jobs\DispatchEveryMinuteEventJob;
 use App\Jobs\DispatchEveryTenMinutesEventJob;
+use App\Models\AutoStatusPickingConfiguration;
+use App\Models\NavigationMenu;
+use App\Modules\AutoStatusPicking\src\AutoStatusPickingServiceProvider;
 use App\Modules\ScurriAnpost\database\seeders\ScurriAnpostSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -32,7 +35,8 @@ class DatabaseSeeder extends Seeder
 
             Demo\ProductsSeeder::class,
             Demo\ProductsTagsSeeder::class,
-            ProductPriceSeeder::class,
+            Demo\ProductsPricesSeeder::class,
+            InventorySeeder::class,
 
             // Orders Seeders
             Demo\TestOrdersSeeder::class,
@@ -45,12 +49,10 @@ class DatabaseSeeder extends Seeder
             Demo\DataCollections\TransfersFromWarehouseSeeder::class,
             Demo\DataCollections\ArchivedTransfersFromWarehouseSeeder::class,
 
-            InventorySeeder::class,
             SalesSeeder::class,
             StocktakeSuggestionsSeeder::class,
 
             PrintNodeClientSeeder::class,
-
             DpdIrelandSeeder::class,
             DpdUKSeeder::class,
             ScurriAnpostSeeder::class,
@@ -75,7 +77,13 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-
+        AutoStatusPickingConfiguration::query()->updateOrCreate(['max_batch_size' => 5]);
+        AutoStatusPickingServiceProvider::enableModule();
+        NavigationMenu::query()->create([
+            'name' => 'Status: picking',
+            'url' => '/picklist?status=picking',
+            'group' => 'picklist'
+        ]);
 
         DispatchEveryMinuteEventJob::dispatch();
         DispatchEveryFiveMinutesEventJob::dispatch();
