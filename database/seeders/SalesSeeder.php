@@ -22,11 +22,11 @@ class SalesSeeder extends Seeder
             ->inRandomOrder()
             ->get()
             ->map(function (Inventory $inventory) {
-                if(rand(0, 15)) {
+                if(rand(0, 15) === 1) {
                     return null;
                 }
 
-                $quantityDelta = rand(1, $inventory->quantity);
+                $quantityDelta = -rand(1, $inventory->quantity / 2);
 
                 return [
                     'occurred_at' => now(),
