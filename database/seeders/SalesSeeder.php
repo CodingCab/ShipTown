@@ -18,11 +18,15 @@ class SalesSeeder extends Seeder
     public function run()
     {
         $inventoryMovements = Inventory::query()
+            ->where('quantity', '>', 0)
             ->inRandomOrder()
-            ->limit(20)
             ->get()
             ->map(function (Inventory $inventory) {
-                $quantityDelta = rand(-7, -1);
+                if(rand(0, 15)) {
+                    return null;
+                }
+
+                $quantityDelta = rand(1, $inventory->quantity);
 
                 return [
                     'occurred_at' => now(),
