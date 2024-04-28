@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\EveryMinuteEvent;
 use App\Models\Inventory;
 use App\Models\InventoryMovement;
 use App\Modules\InventoryMovements\src\Jobs\SequenceNumberJob;
@@ -17,9 +18,16 @@ class SalesSeeder extends Seeder
      */
     public function run()
     {
+        Inventory::query()->update(['recount_required' => true]);
+
+        EveryMinuteEvent::dispatch();
+
+        SequenceNumberJob::dispatch();
+
+        RecalculateStatisticsTableJob::dispatch();
+
         $inventoryMovements = Inventory::query()
-            ->where('quantity', '>', 0)
-            ->inRandomOrder()
+            ->whereNotIn('warehouse_code', ['999'])
             ->get()
             ->map(function (Inventory $inventory) {
                 $quantityDelta = -rand(1, $inventory->quantity / 2);

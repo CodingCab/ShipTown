@@ -8,8 +8,11 @@ use App\Jobs\DispatchEveryHourEventJobs;
 use App\Jobs\DispatchEveryMinuteEventJob;
 use App\Jobs\DispatchEveryTenMinutesEventJob;
 use App\Models\AutoStatusPickingConfiguration;
+use App\Models\Inventory;
 use App\Models\NavigationMenu;
 use App\Modules\AutoStatusPicking\src\AutoStatusPickingServiceProvider;
+use App\Modules\InventoryMovements\src\Jobs\SequenceNumberJob;
+use App\Modules\InventoryMovementsStatistics\src\Jobs\RecalculateStatisticsTableJob;
 use App\Modules\ScurriAnpost\database\seeders\ScurriAnpostSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -85,10 +88,12 @@ class DatabaseSeeder extends Seeder
             'group' => 'picklist'
         ]);
 
+
         DispatchEveryMinuteEventJob::dispatch();
         DispatchEveryFiveMinutesEventJob::dispatch();
         DispatchEveryTenMinutesEventJob::dispatch();
         DispatchEveryHourEventJobs::dispatch();
         DispatchEveryDayEventJob::dispatch();
+
     }
 }
