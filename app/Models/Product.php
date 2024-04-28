@@ -34,6 +34,7 @@ use Spatie\Tags\Tag;
  * @property int              $id
  * @property string           $sku
  * @property string           $name
+ * @property string           $supplier
  * @property float            $price
  * @property float            $sale_price
  * @property Carbon           $sale_price_start_date
@@ -194,7 +195,8 @@ class Product extends BaseModel
                 'tags',
                 'prices',
                 'inventory.warehouse',
-                'inventoryMovementsStatistics'
+                'inventoryMovementsStatistics',
+                'inventoryTotals',
             ]);
     }
 
