@@ -23,6 +23,8 @@ export default {
     mixins: [api],
 
     beforeMount() {
+        this.product = null;
+
         Modals.EventBus.$on('show::modal::product-details-modal', (data) => {
             this.loadProduct(data.product_id);
             this.$bvModal.show('product-details-modal');
@@ -39,7 +41,7 @@ export default {
         loadProduct(product_id) {
             let params = {
                 'filter[id]': product_id,
-                'include': 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics',
+                'include': 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals',
             };
 
             this.apiGetProducts(params)
