@@ -3,6 +3,7 @@
 namespace Database\Seeders\Demo;
 
 use App\Models\Order;
+use App\Models\OrderAddress;
 use App\Models\OrderProduct;
 use App\Models\Pick;
 use App\Models\Product;
@@ -13,11 +14,12 @@ class PaidPickedOrdersSeeder extends Seeder
 {
     public function run(): void
     {
+
         $user = User::first();
 
         $orders = Order::factory()
             ->count(10)
-            ->create(['status_code' => 'picking', 'label_template' => 'address_label']);
+            ->create(['status_code' => 'picking', 'label_template' => 'address_label', 'shipping_address_id' => $this->createIrishShippingAddress()->getKey()]);
 
         $orders->each(function (Order $order) {
             Product::query()
@@ -63,6 +65,14 @@ class PaidPickedOrdersSeeder extends Seeder
             'name_ordered' => $orderProduct->name_ordered,
             'quantity_picked' => $orderProduct->quantity_ordered,
             'quantity_skipped_picking' => 0,
+        ]);
+    }
+
+    private function createIrishShippingAddress()
+    {
+        return OrderAddress::factory()->create([
+            'country_name' => 'Ireland',
+            'country_code' => 'IE',
         ]);
     }
 }
