@@ -24,7 +24,7 @@ class ArchivedTransfersFromWarehouseSeeder extends Seeder
         $sourceWarehouse = Warehouse::query()->firstOrCreate(['code' => 'WHS'], ['name' => 'Warehouse']);
 
         Warehouse::query()
-            ->whereNotIn('id', [$sourceWarehouse->id])
+            ->whereNotIn('code', ['WHS', '999'])
             ->get()
             ->each(function ($destinationWarehouse) use ($sourceWarehouse) {
                 $dataCollection = DataCollection::factory()
