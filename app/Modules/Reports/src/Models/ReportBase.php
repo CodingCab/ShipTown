@@ -27,7 +27,7 @@ class ReportBase extends Model
 
     public string $view = 'report-default';
 
-    public string $defaultSelect = '';
+    public array $defaultSelect = [];
 
     public ?string $defaultSort = null;
 
@@ -156,10 +156,10 @@ class ReportBase extends Model
      */
     private function addSelectFields(QueryBuilder $queryBuilder): QueryBuilder
     {
-        $requestedSelect = collect(explode(',', request()->get('select', $this->defaultSelect)))->filter();
+        $requestedSelect = collect(explode(',', request()->get('select', '')))->filter();
 
         if ($requestedSelect->isEmpty()) {
-            $requestedSelect = collect(array_keys($this->fields));
+            $requestedSelect = collect($this->defaultSelect);
         }
 
         $requestedSelect

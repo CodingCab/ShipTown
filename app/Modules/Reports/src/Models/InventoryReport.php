@@ -21,37 +21,33 @@ class InventoryReport extends Report
                     ->on('inventory.warehouse_id', '=', 'product_prices.warehouse_id');
             });
 
-        $this->defaultSelect = implode(',', [
-            'warehouse_code',
-            'product_sku',
-            'product_name',
-            'department',
-            'quantity',
-            'unit_cost',
-            'total_price',
-            'total_cost',
-            'quantity_required',
-            'quantity_reserved',
-            'quantity_available',
-            'quantity_incoming',
-            'reorder_point',
-            'restock_level',
-            'supplier',
-            'last_movement_at',
-            'last_received_at',
-            'last_sold_at',
-            'last_counted_at',
-            'reservations'
-        ]);
-
-        $this->addField('quantity_available', 'inventory.quantity_available', 'float');
-        $this->addField('quantity', 'inventory.quantity', 'float');
-        $this->addField('quantity_reserved', 'inventory.quantity_reserved', 'float');
-        $this->addField('quantity_incoming', 'inventory.quantity_incoming', 'float');
-        $this->addField('quantity_required', 'inventory.quantity_required', 'float');
+        $this->addField('warehouse_code', 'inventory.warehouse_code', hidden: false);
+        $this->addField('product_sku', 'product.sku', hidden: false);
+        $this->addField('product_name', 'product.name', hidden: false);
+        $this->addField('quantity', 'inventory.quantity', 'float', hidden: false);
+        $this->addField('quantity_reserved', 'inventory.quantity_reserved', 'float', hidden: false);
+        $this->addField('quantity_available', 'inventory.quantity_available', 'float', hidden: false);
+        $this->addField('quantity_incoming', 'inventory.quantity_incoming', 'float', hidden: false);
+        $this->addField('quantity_required', 'inventory.quantity_required', 'float', hidden: false);
         $this->addField('reorder_point', 'inventory.reorder_point', 'float');
         $this->addField('restock_level', 'inventory.restock_level', 'float');
-        $this->addField('last_sequence_number', 'inventory.last_sequence_number', 'float');
+
+        $this->addField('reservations', DB::raw('SELECT GROUP_CONCAT(concat(quantity_reserved, \' - \', comment) SEPARATOR \', \') FROM `inventory_reservations` WHERE inventory_reservations.inventory_id = inventory.id'), 'string');
+
+        $this->addField('unit_price', 'product_prices.price', 'float');
+        $this->addField('unit_cost', 'product_prices.cost', 'float');
+        $this->addField('total_price', DB::raw('ROUND(product_prices.price * inventory.quantity, 2)'), 'float');
+        $this->addField('total_cost', DB::raw('ROUND(product_prices.cost * inventory.quantity, 2)'), 'float');
+
+        $this->addField('sale_price', 'product_prices.sale_price', 'float');
+        $this->addField('sale_start_date', 'product_prices.sale_price_start_date', 'datetime');
+        $this->addField('sale_end_date', 'product_prices.sale_price_end_date', 'datetime');
+
+        $this->addField('supplier', 'product.supplier');
+        $this->addField('department', 'product.department');
+        $this->addField('category', 'product.category');
+        $this->addField('shelf_location', 'inventory.shelve_location');
+
         $this->addField('first_movement_at', 'inventory.first_movement_at', 'datetime');
         $this->addField('last_movement_at', 'inventory.last_movement_at', 'datetime');
         $this->addField('first_received_at', 'inventory.first_received_at', 'datetime');
@@ -64,29 +60,13 @@ class InventoryReport extends Report
         $this->addField('deleted_at', 'inventory.deleted_at', 'datetime');
         $this->addField('created_at', 'inventory.created_at', 'datetime');
         $this->addField('updated_at', 'inventory.updated_at', 'datetime');
-        $this->addField('price', 'products_prices.price', 'float');
-        $this->addField('cost', 'products_prices.cost', 'float');
-        $this->addField('sale_price', 'products_prices.sale_price', 'float');
-        $this->addField('sale_start_date', 'products_prices.sale_price_start_date', 'datetime');
-        $this->addField('sale_end_date', 'products_prices.sale_price_end_date', 'datetime');
-        $this->addField('total_price', DB::raw('ROUND(product_prices.price * inventory.quantity, 2)'), 'float');
-        $this->addField('total_cost', DB::raw('ROUND(product_prices.cost * inventory.quantity, 2)'), 'float');
-        $this->addField('product_sku', 'product.sku', 'string');
-        $this->addField('product_name', 'product.name', 'string');
-        $this->addField('supplier', 'product.supplier', 'string');
-        $this->addField('department', 'product.department', 'string');
-        $this->addField('category', 'product.category', 'string');
-        $this->addField('unit_price', 'product_prices.price', 'float');
-        $this->addField('unit_cost', 'product_prices.cost', 'float');
+
+
+        $this->addField('last_sequence_number', 'inventory.last_sequence_number', 'integer');
+        $this->addField('recount_required', 'inventory.recount_required');
+        $this->addField('product_id', 'inventory.product_id', 'integer');
         $this->addField('id', 'inventory.id', 'integer');
         $this->addField('warehouse_id', 'inventory.warehouse_id', 'integer');
-        $this->addField('product_id', 'inventory.product_id', 'integer');
-        $this->addField('last_sequence_number', 'inventory.last_sequence_number', 'integer');
-
-        $this->addField('warehouse_code', 'inventory.warehouse_code', 'string');
-        $this->addField('shelf_location', 'inventory.shelve_location', 'string');
-        $this->addField('recount_required', null, 'string');
-        $this->addField('reservations', DB::raw('SELECT GROUP_CONCAT(concat(quantity_reserved, \' - \', comment) SEPARATOR \', \') FROM `inventory_reservations` WHERE inventory_reservations.inventory_id = inventory.id'), 'string');
 
         $this->addFilter(
             AllowedFilter::callback('has_tags', function ($query, $value) {

@@ -50,10 +50,14 @@ class Report extends ReportBase
         return $report->toJsonResource();
     }
 
-    public function addField(string $name, mixed $expression, $type, bool $displayable = true, bool $filterable = true): self
+    public function addField(string $name, mixed $expression, string $type = 'string', bool $displayable = true, bool $filterable = true, bool $hidden = true): self
     {
         $this->fields[$name] = $expression;
         $this->casts[$name] = $type;
+
+        if (! $hidden) {
+            $this->defaultSelect[] = $name;
+        }
 
         return $this;
     }

@@ -33,13 +33,16 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                         <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', ['-', field.name].join(''))">
-                                            <icon-sort-desc/>&nbsp; Sort Descending
+                                            <icon-sort-desc class="mr-1"/> Sort Descending
                                         </button>
                                         <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', field.name)">
-                                            <icon-sort-asc/>&nbsp; Sort Ascending
+                                            <icon-sort-asc class="mr-1"/> Sort Ascending
                                         </button>
                                         <button class="dropdown-item" type="button" @click="showFilterBox(field)">
-                                            <icon-filter/>&nbsp; Filter by value
+                                            <icon-filter class="mr-1"/> Filter by value
+                                        </button>
+                                        <button class="dropdown-item" type="button" @click="$bvModal.show('show-hide-columns-local-modal')">
+                                            <icon-filter class="mr-1"/> Show / Hide Columns
                                         </button>
                                     </div>
                                 </div>
@@ -115,6 +118,18 @@
         </template>
     </b-modal>
 
+    <b-modal id="show-hide-columns-local-modal" no-fade header-class="small" @show="showSelection" @hidden="setFocusElementById('barcode-input')">
+        <template #modal-header>Show \ Hide Columns</template>
+        <b-form-group>
+            <b-form-checkbox v-for="option in fields" v-model="selected" :key="option.name" :value="option.name"> {{ option.display_name }}</b-form-checkbox>
+        </b-form-group>
+
+        <template #modal-footer>
+            <b-button variant="secondary" class="float-right" @click="$bvModal.hide('show-hide-columns-local-modal');">Cancel</b-button>
+            <b-button variant="primary" class="float-right" @click="updateVisibleFieldsAndGo">OK</b-button>
+        </template>
+    </b-modal>
+
 </container>
 
 </template>
@@ -150,6 +165,7 @@
                 meta: JSON.parse(this.metaString),
                 records: JSON.parse(this.recordString),
                 fields: JSON.parse(this.metaString)['field_links'],
+                selected: [], // Must be an array reference!
                 filters: [],
                 filterAdding: null,
                 showFilters: true,
@@ -396,12 +412,22 @@
             isUrlSortedBy(field) {
                 return this.getUrlParameter('sort', '').includes(field);
             },
+
+            showSelection() {
+                this.selected = this.visibleFields.map(f => f.name);
+            },
+
+            updateVisibleFieldsAndGo() {
+                this.$bvModal.hide('show-hide-columns-local-modal');
+                this.setUrlParameterAngGo('select', this.selected.join(','));
+            }
         },
 
         computed: {
             helpers() {
                 return helpers
             },
+
             visibleFields() {
                 return Object.keys(this.records[0])
                     .map(this.findField);
