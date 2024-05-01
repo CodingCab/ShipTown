@@ -21,7 +21,7 @@
             this is used twice to move scrollbar to the top of the table
             -->
             <div class="table-responsive py-2" style="transform: rotateX(180deg);">
-                <table class="table-hover w-100 text-left small text-nowrap" style="transform: rotateX(180deg);">
+                <table class="table-hover w-100 text-left small text-nowrap" style="transform: rotateX(180deg); height: 150px">
                     <thead>
                     <tr>
                         <template v-for="field in visibleFields">
@@ -51,14 +51,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="table-hover" v-for="record in records">
-                        <template v-for="field in visibleFields" v-if="field">
-                            <td v-if="field.type === 'datetime'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
-                            <td v-else-if="field.type === 'date'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
-                            <td v-else-if="field.type === 'numeric'"class="pr-3 text-right">{{ record[field.name] }}</td>
-                            <td v-else class="pr-3" >{{ record[field.name] }}</td>
-                        </template>
-                    </tr>
+                        <tr class="table-hover align-text-top" v-for="record in records">
+                            <template v-for="field in visibleFields" v-if="field">
+                                <td v-if="field.type === 'datetime'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
+                                <td v-else-if="field.type === 'date'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
+                                <td v-else-if="field.type === 'numeric'"class="pr-3 text-right">{{ record[field.name] }}</td>
+                                <td v-else class="pr-3" >{{ record[field.name] }}</td>
+                            </template>
+                        </tr>
                     </tbody>
                 </table>
             </div>
