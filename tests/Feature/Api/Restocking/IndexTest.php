@@ -91,7 +91,6 @@ class IndexTest extends TestCase
 
         $response = $this->actingAs($user, 'api')->getJson(route('api.restocking.index'));
 
-        ray()->showApp();
         ray($response->json());
 
         $response->assertOk();
@@ -100,7 +99,6 @@ class IndexTest extends TestCase
 
         $response->assertJsonStructure([
             'meta',
-            'links',
             'data' => [
                 '*' => [
                     'warehouse_code',

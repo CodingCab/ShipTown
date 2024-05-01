@@ -33,6 +33,8 @@ class ReportBase extends Model
 
     public array $fields = [];
 
+    public array $allFields = [];
+
     public mixed $baseQuery;
 
     public array $allowedFilters = [];
@@ -168,6 +170,13 @@ class ReportBase extends Model
 
         $requestedSelect
             ->each(function ($selectFieldName) use ($queryBuilder) {
+
+                $field = data_get($this->allFields, $selectFieldName);
+
+                if ($field && $field['displayable'] === false) {
+                    return;
+                }
+
                 $fieldValue = data_get($this->fields, $selectFieldName);
 
                 if ($fieldValue === null) {
