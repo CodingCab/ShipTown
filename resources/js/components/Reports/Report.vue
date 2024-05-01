@@ -25,23 +25,23 @@
                     <thead>
                     <tr>
                         <template v-for="field in visibleFields">
-                            <th class="small pr-2">
+                            <th class="small pr-2" v-if="field">
                                 <div class="dropdown">
                                     <button class="btn btn-link dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ field.display_name }}
+                                        {{ field['display_name'] }}
                                         <font-awesome-icon v-if="isUrlSortedBy(field['name'])" :icon="isUrlSortDesc ? 'caret-down' : 'caret-up'" class="fa-xs" role="button"></font-awesome-icon>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', ['-', field.name].join(''))">
+                                        <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', '-' . field.name)">
                                             <icon-sort-desc class="mr-1"/> Sort Descending
                                         </button>
                                         <button class="dropdown-item" type="button" @click="setUrlParameterAngGo('sort', field.name)">
                                             <icon-sort-asc class="mr-1"/> Sort Ascending
                                         </button>
-                                        <button class="dropdown-item" type="button" @click="showFilterBox(field)">
+                                        <button class="dropdown-item" type="button" @click="showFilterModal(field)">
                                             <icon-filter class="mr-1"/> Filter by value
                                         </button>
-                                        <button class="dropdown-item" type="button" @click="$bvModal.show('show-hide-columns-local-modal')">
+                                        <button class="dropdown-item" type="button" @click="showShowHideColumnsModal">
                                             <icon-filter class="mr-1"/> Show / Hide Columns
                                         </button>
                                     </div>
@@ -52,11 +52,11 @@
                     </thead>
                     <tbody>
                     <tr class="table-hover" v-for="record in records">
-                        <template v-for="field in visibleFields">
-                            <td class="pr-3" v-if="field.type === 'datetime'">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
-                            <td class="pr-3" v-else-if="field.type === 'date'">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
-                            <td class="pr-3 text-right" v-else-if="field.type === 'numeric'">{{ record[field.name] }}</td>
-                            <td class="pr-3" v-else >{{ record[field.name] }}</td>
+                        <template v-for="field in visibleFields" v-if="field">
+                            <td v-if="field.type === 'datetime'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
+                            <td v-else-if="field.type === 'date'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
+                            <td v-else-if="field.type === 'numeric'"class="pr-3 text-right">{{ record[field.name] }}</td>
+                            <td v-else class="pr-3" >{{ record[field.name] }}</td>
                         </template>
                     </tr>
                     </tbody>
@@ -121,7 +121,7 @@
     <b-modal id="show-hide-columns-local-modal" no-fade header-class="small" @show="showSelection" @hidden="setFocusElementById('barcode-input')">
         <template #modal-header>Show \ Hide Columns</template>
         <b-form-group>
-            <b-form-checkbox v-for="option in fields" v-model="selected" :key="option.name" :value="option.name"> {{ option.display_name }}</b-form-checkbox>
+<!--            <b-form-checkbox v-for="option in fields" v-model="selected" :key="option.name" :value="option.name"> {{ option.display_name }}</b-form-checkbox>-->
         </b-form-group>
 
         <template #modal-footer>
@@ -224,7 +224,7 @@
                 }
             },
 
-            showFilterBox(field){
+            showFilterModal(field){
                 if(['date', 'datetime'].includes(field.type)) {
                     this.$bvModal.show('modal-date-selector-widget')
                     this.setFilterAdding(field.name);
@@ -327,7 +327,7 @@
 
                         let filter = {
                             name: fieldName,
-                            displayName: field.display_name,
+                            displayName: '', //field.display_name,
                             selectedOperator: filterOperator === '_between' ? 'btwn' : filterOperatorHumanString,
                             value: value,
                             valueBetween: '',
@@ -420,6 +420,10 @@
             updateVisibleFieldsAndGo() {
                 this.$bvModal.hide('show-hide-columns-local-modal');
                 this.setUrlParameterAngGo('select', this.selected.join(','));
+            },
+
+            showShowHideColumnsModal() {
+                this.$bvModal.show('show-hide-columns-local-modal');
             }
         },
 
@@ -435,10 +439,11 @@
 
             isUrlSortDesc() {
                 return this.getUrlParameter('sort', ' ').startsWith('-');
-            },
+            }
         }
     }
-</script>
+
+    </script>
 
 <style scoped>
 
