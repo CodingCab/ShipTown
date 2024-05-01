@@ -121,7 +121,7 @@
     <b-modal id="show-hide-columns-local-modal" no-fade header-class="small" @show="showSelection" @hidden="setFocusElementById('barcode-input')">
         <template #modal-header>Show \ Hide Columns</template>
         <b-form-group>
-<!--            <b-form-checkbox v-for="option in fields" v-model="selected" :key="option.name" :value="option.name"> {{ option.display_name }}</b-form-checkbox>-->
+            <b-form-checkbox v-for="option in fields" v-if="option" v-model="selected" :key="option.name" :value="option.name"> {{ option.display_name }}</b-form-checkbox>
         </b-form-group>
 
         <template #modal-footer>
