@@ -162,6 +162,10 @@ class ReportBase extends Model
             $requestedSelect = collect($this->defaultSelect);
         }
 
+        if ($requestedSelect->isEmpty()) {
+            $requestedSelect = collect(array_keys($this->fields));
+        }
+
         $requestedSelect
             ->each(function ($selectFieldName) use ($queryBuilder) {
                 $fieldValue = data_get($this->fields, $selectFieldName);
