@@ -4,40 +4,34 @@ namespace App\Modules\InventoryTotals\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Events\Inventory\RecalculateInventoryRequestEvent;
-use Illuminate\Support\Facades\DB;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 class RecalculateInventoryRecordsJob extends UniqueJob
 {
     public function handle(): void
     {
         do {
-            Schema::dropIfExists('inventory_movements_to_recalculate');
+            /** @var Inventory $inventory */
+            $inventory = Inventory::where(['recount_required' => true])->limit(10)->get();
 
-            DB::statement('
-                CREATE TEMPORARY TABLE inventory_movements_to_recalculate AS
-                SELECT id as inventory_id
-                FROM inventory
-                WHERE inventory.recount_required = 1
-                LIMIT 10
-            ');
+            Log::info($inventory);
 
-            $inventoryRecordsIds = DB::table('inventory_movements_to_recalculate')->pluck('inventory_id');
-
-            if ($inventoryRecordsIds->count() > 0) {
-                RecalculateInventoryRequestEvent::dispatch($inventoryRecordsIds);
+            if ($inventory->isEmpty()) {
+                return;
             }
 
-            $recordsUpdated = DB::update('
-                UPDATE inventory
-                INNER JOIN inventory_movements_to_recalculate
-                  ON inventory.id = inventory_movements_to_recalculate.inventory_id
-                SET
-                    inventory.recount_required      = 0,
-                    inventory.recalculated_at       = now(),
-                    inventory.updated_at            = now()
-            ');
+            $inventoryRecordsIds = $inventory->pluck('id');
+
+            if ($inventoryRecordsIds->isNotEmpty()) {
+                RecalculateInventoryRequestEvent::dispatch($inventoryRecordsIds, $inventory);
+            }
+
+            $recordsUpdated = $inventory->update([
+                'recount_required' => 0,
+                'recalculated_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             Log::info('Job processing', [
                 'job' => self::class,
