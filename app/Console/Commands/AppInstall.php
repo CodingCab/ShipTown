@@ -57,7 +57,7 @@ class AppInstall extends Command
     {
         $this->ensureEncryptionKeysAreSet();
 
-        $this->installVersion_2_1_0();
+        $this->installVersion210();
 
 //        AfterInstallEvent::dispatch();
 
