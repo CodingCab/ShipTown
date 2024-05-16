@@ -23,9 +23,9 @@ class Magento2MsiServiceProvider extends BaseModuleServiceProvider
     public static bool $autoEnable = false;
 
     protected $listen = [
-        AfterInstallEvent::class => [
-            Listeners\AfterInstallEventListener::class,
-        ],
+//        AfterInstallEvent::class => [
+//            Listeners\AfterInstallEventListener::class,
+//        ],
 
         RecalculateInventoryRequestEvent::class => [
             Listeners\RecalculateInventoryRequestEventListener::class,
