@@ -2,6 +2,7 @@
 
 namespace App\Modules\Magento2MSI\src;
 
+use App\Events\AfterInstallEvent;
 use App\Events\EveryDayEvent;
 use App\Events\EveryFiveMinutesEvent;
 use App\Events\EveryHourEvent;
@@ -22,6 +23,10 @@ class Magento2MsiServiceProvider extends BaseModuleServiceProvider
     public static bool $autoEnable = false;
 
     protected $listen = [
+        AfterInstallEvent::class => [
+            Listeners\AfterInstallEventListener::class,
+        ],
+
         RecalculateInventoryRequestEvent::class => [
             Listeners\RecalculateInventoryRequestEventListener::class,
         ],

@@ -95,7 +95,9 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@install-hooks"
         ],
-        "post-install-cmd": [],
+        "post-install-cmd": [
+            "@php artisan app:install"
+        ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
