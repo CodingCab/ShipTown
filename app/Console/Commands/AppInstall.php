@@ -227,7 +227,7 @@ class AppInstall extends Command
         InventoryTotalsServiceProvider::enableModule();
         InventoryMovementsServiceProvider::enableModule();
 
-        $configuration::update(['database_version' => $configuration->database_version]);
+        $configuration->update(['database_version' => $configuration->database_version]);
     }
 
     /**
