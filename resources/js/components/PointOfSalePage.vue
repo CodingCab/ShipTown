@@ -172,7 +172,7 @@ export default {
 
                     const product = response.data.data[0];
 
-                    const productPrices = product['prices'][Vue.prototype.$currentUser['warehouse_code'] ?? 'DUB'];
+                    const productPrices = product['prices'][this.currentUser().warehouse_code ?? 'DUB'];
 
                     let quantity = 1;
 
