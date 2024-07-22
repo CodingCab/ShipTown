@@ -15,7 +15,7 @@ class TransactionController extends Controller
     public function index()
     {
         $report = ReportService::fromQuery(Transaction::query())
-           ->addFilter(AllowedFilter::exact('id'));
+            ->addFilter(AllowedFilter::exact('id'));
 
         return $report->toJsonResource();
     }
@@ -35,7 +35,7 @@ class TransactionController extends Controller
 
         $attributes = $request->all();
 
-        $entries = collect($attributes['raw_data']['entries']);
+        $entries = collect(data_get($attributes, 'raw_data.entries'));
 
         $groupedEntries = $entries->groupBy('barcode')
             ->map(function (Collection $group) {
