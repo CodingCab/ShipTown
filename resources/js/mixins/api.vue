@@ -440,6 +440,10 @@ export default {
             apiPutTransaction: function (id, data) {
                 return axios.put('/api/transactions/' + id, data);
             },
+
+            apiGetQuantityDiscounts: function(params) {
+                return axios.get('/api/quantity-discounts', {params: params});
+            },
         }
     }
 </script>

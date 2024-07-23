@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WarehouseResource extends JsonResource
+class QuantityDiscountsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,12 @@ class WarehouseResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'code' => $this->code,
             'name' => $this->name,
-            'address_id' => $this->address_id,
-            'deleted_at' => $this->deleted_at,
+            'type' => $this->type,
+            'configuration' => $this->configuration,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
-            'tags' => $this->whenLoaded('tags', TagResource::collection($this->tags)),
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

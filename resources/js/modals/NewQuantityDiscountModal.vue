@@ -1,13 +1,21 @@
 <template>
     <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modal_id" @hidden="emitNotification" size="xl" scrollable no-fade>
         <template #modal-header>
-            <span>New Product</span>
+            <span>New Quantity Discount</span>
         </template>
 
         <div class="container">
-            <input id="newProductSku" type="text" :disabled="! isCreatingProduct" v-model="newProduct.sku" class="form-control mb-2" placeholder="Product SKU">
-            <input id="newProductName" type="text" v-model="newProduct.name" class="form-control mb-2" placeholder="Product Name">
-            <input id="newProductPrice" type="number" :disabled="! isCreatingProduct" v-model="newProduct.price" class="form-control" placeholder="Product Price">
+            <input id="discountName" type="text" :disabled="! isCreatingProduct" v-model="newDiscount.name"
+                   class="form-control mb-2" placeholder="Discount name">
+            <select name="discountType" id="discountType" v-model="newDiscount.type" class="form-control mb-2">
+                <option value="">-</option>
+                <option value="1">Buy X, get Y for Z price</option>
+                <option value="2">Buy X, get Y for Z percent discount</option>
+                <option value="3">Buy X for Y price</option>
+                <option value="4">Buy X for Y percent discount</option>
+            </select>
+            <input id="newProductPrice" type="number" :disabled="! isCreatingProduct" v-model="newDiscount.products"
+                   class="form-control" placeholder="Product Price">
         </div>
         <template #modal-footer>
             <b-button variant="secondary" class="float-right" @click="$bvModal.hide(modal_id);">
@@ -31,7 +39,7 @@ export default {
     mixins: [api],
 
     beforeMount() {
-        Modals.EventBus.$on('show::modal::'+ this.modal_id , (data) => {
+        Modals.EventBus.$on('show::modal::' + this.modal_id, (data) => {
             this.product = data['product'];
 
             this.newProduct = {
@@ -52,12 +60,12 @@ export default {
 
     data() {
         return {
-            newProduct: {
-                sku: '',
+            newDiscount: {
                 name: '',
-                price: '',
+                type: '',
+                products: [],
             },
-            modal_id: 'new-product-modal',
+            modal_id: 'new-quantity-discount-modal',
             product: undefined
         }
     },
@@ -80,7 +88,7 @@ export default {
         },
 
         emitNotification() {
-            Modals.EventBus.$emit('hide::modal::'+ this.modal_id, this.newProduct);
+            Modals.EventBus.$emit('hide::modal::' + this.modal_id, this.newProduct);
         }
     }
 };
