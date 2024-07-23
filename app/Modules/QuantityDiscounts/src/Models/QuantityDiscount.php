@@ -12,8 +12,12 @@ class QuantityDiscount extends Model
     protected $table = 'modules_quantity_discounts';
 
     protected $fillable = [
-        'product_id',
-        'quantity',
-        'discount',
+        'name',
+        'type',
+        'configuration',
+    ];
+
+    protected $casts = [
+        'configuration' => 'array',
     ];
 }
