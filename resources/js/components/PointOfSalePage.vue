@@ -68,8 +68,12 @@
                     {{ payment['name'] }} {{ payment['amount'] }} <br>
                 </template>
                 <input id="payment_amount" class="form-control" placeholder="Payment amount" v-model="paymentAmount">
-                <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCash">Add Payment Cash</button>
-                <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCard">Add Payment Clover</button>
+                <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCash">
+                    Add Payment Cash
+                </button>
+                <button type="button" class="btn btn-primary fa-pull-right m-1 btn-sm" @click="addPaymentCard">
+                    Add Payment Clover
+                </button>
             </card>
         </b-modal>
 
@@ -81,8 +85,12 @@
             <button type="button" class="btn btn-primary m-1 col" @click="clearTransaction">Clear Transaction</button>
             <button type="button" class="btn btn-primary m-1 col" @click="clearTransaction" disabled>Return</button>
             <template #modal-footer>
-                <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">Cancel</b-button>
-                <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">OK</b-button>
+                <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                    Cancel
+                </b-button>
+                <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                    OK
+                </b-button>
             </template>
         </b-modal>
     </div>
@@ -91,7 +99,6 @@
 <script>
 import helpers from "../mixins/helpers";
 import api from "../mixins/api.vue";
-import Vue from "vue";
 
 export default {
     mixins: [helpers, api],
@@ -295,11 +302,5 @@ export default {
             // user->update(['active_transaction_id' => response->transaction_id]);
         },
     }
-
 }
 </script>
-
-
-<style lang="scss">
-
-</style>
