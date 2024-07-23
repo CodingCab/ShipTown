@@ -58,7 +58,9 @@
                     <td>{{ transactionEntry['sold_price'] }}</td>
                     <!--                        <td>{{ transactionEntry['total_cost_price'] }}</td>-->
                     <td>{{ transactionEntry['total_sold_price'] }}</td>
-                    <td>{{ transactionEntry['price_source'] }}</td>
+                    <td :class="{ 'font-weight-bold': transactionEntry['price_source'] === 'SALE_PRICE' }">
+                        {{ transactionEntry['price_source'] }}
+                    </td>
                 </tr>
                 </tbody>
             </table>
