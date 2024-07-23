@@ -49,7 +49,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="transactionEntry in transaction['entries']" :key="transactionEntry['barcode']">
+                <tr v-for="transactionEntry in transaction['entries']" :key="transactionEntry['barcode']"
+                    :class="{ 'font-weight-bold': transactionEntry['price_source'] !== 'FULL_PRICE' }">
                     <td>{{ transactionEntry['barcode'] }}</td>
                     <td>{{ transactionEntry['quantity'] }}</td>
                     <!--                        <td>{{ transactionEntry['cost_price'] }}</td>-->
@@ -58,9 +59,7 @@
                     <td>{{ transactionEntry['sold_price'] }}</td>
                     <!--                        <td>{{ transactionEntry['total_cost_price'] }}</td>-->
                     <td>{{ transactionEntry['total_sold_price'] }}</td>
-                    <td :class="{ 'font-weight-bold': transactionEntry['price_source'] === 'SALE_PRICE' }">
-                        {{ transactionEntry['price_source'] }}
-                    </td>
+                    <td>{{ transactionEntry['price_source'] }}</td>
                 </tr>
                 </tbody>
             </table>
