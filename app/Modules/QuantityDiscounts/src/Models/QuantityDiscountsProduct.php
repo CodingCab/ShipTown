@@ -3,6 +3,7 @@
 namespace App\Modules\QuantityDiscounts\src\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuantityDiscountsProduct extends Model
@@ -15,4 +16,12 @@ class QuantityDiscountsProduct extends Model
         'quantity_discount_id',
         'product_id',
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function discount(): HasOne
+    {
+        return $this->hasOne(QuantityDiscount::class, 'id', 'quantity_discount_id');
+    }
 }

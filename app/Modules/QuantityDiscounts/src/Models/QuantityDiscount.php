@@ -3,8 +3,8 @@
 namespace App\Modules\QuantityDiscounts\src\Models;
 
 use App\Traits\LogsActivityTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -69,5 +69,13 @@ class QuantityDiscount extends Model
             ->orWhere('type', $text)
             ->orWhere('name', 'like', '%'.$text.'%')
             ->orWhere('type', 'like', '%'.$text.'%');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(QuantityDiscountsProduct::class);
     }
 }

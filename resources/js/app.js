@@ -234,6 +234,7 @@ Vue.component('search-and-option-bar', require('./components/UI/SearchAndOptionB
 Vue.component('search-and-option-bar-observer', require('./components/UI/SearchAndOptionBarObserver.vue').default);
 Vue.component('top-nav-button', require('./components/UI/TopNavButton.vue').default);
 Vue.component('quantity-discounts-configuration-page', require('./components/Settings/QuantityDiscountsConfigurationPage.vue').default);
+Vue.component('quantity-discounts-edit-page', require('./components/Settings/QuantityDiscountEditPage.vue').default);
 
 Vue.prototype.$eventBus = new Vue();
 

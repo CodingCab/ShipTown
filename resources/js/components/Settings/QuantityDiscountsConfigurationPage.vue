@@ -31,11 +31,19 @@
         </template>
 
         <template v-if="discounts" v-for="discount in discounts">
-            <div class="row p-1">
-                <div class="col">
-                    <!--                    <product-card :product="product" :expanded="discounts.length === 1"/>-->
-                </div>
-            </div>
+            <swiping-card :disable-swipe-right="true" :disable-swipe-left="true">
+                <template v-slot:content>
+                    <div role="button" class="row" @click="openDiscount(discount['id'])">
+                        <div class="col-12">
+                            <div class="text-primary">{{ discount['name'] }}</div>
+                            <div class="text-secondary small">
+                                {{ formatDateTime(discount['created_at'], 'dddd - MMM D HH:mm') }}
+                            </div>
+                            <div class="text-secondary small">{{ discountTypes[discount['type']] }}</div>
+                        </div>
+                    </div>
+                </template>
+            </swiping-card>
         </template>
 
         <div class="row">
@@ -65,13 +73,15 @@ import api from "../../mixins/api.vue";
 import helpers from "../../mixins/helpers";
 import Breadcrumbs from "../Reports/Breadcrumbs.vue";
 import BarcodeInputField from "../SharedComponents/BarcodeInputField.vue";
+import SwipingCard from "../SharedComponents/SwipingCard.vue";
 
 export default {
     mixins: [loadingOverlay, url, api, helpers],
 
     components: {
         Breadcrumbs,
-        BarcodeInputField
+        BarcodeInputField,
+        SwipingCard,
     },
 
     data: () => ({
@@ -80,6 +90,12 @@ export default {
         discounts: null,
         per_page: 20,
         scroll_percentage: 70,
+        discountTypes: {
+            'BUY_X_GET_Y_FOR_Z_PRICE': 'Buy X, get Y for Z price',
+            'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT': 'Buy X, get Y for Z percent discount',
+            'BUY_X_GET_Y_PRICE': 'Buy X for Y price',
+            'BUY_X_FOR_Y_PERCENT_DISCOUNT': 'Buy X for Y percent discount'
+        },
     }),
 
     mounted() {
@@ -140,6 +156,10 @@ export default {
         hasMorePagesToLoad() {
             return this.reachedEnd === false;
         },
+
+        openDiscount(id) {
+            window.location.href = '/admin/settings/modules/quantity-discounts/' + id;
+        }
     },
 }
 </script>
