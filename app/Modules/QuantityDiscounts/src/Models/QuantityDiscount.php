@@ -9,6 +9,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
+/**
+ * @property integer id
+ * @property string name
+ * @property string type
+ * @property string job_class
+ * @property array configuration
+ * @property string deleted_at
+ * @property string updated_at
+ * @property string created_at
+ *
+ */
 class QuantityDiscount extends Model
 {
     use LogsActivityTrait;
@@ -19,6 +30,7 @@ class QuantityDiscount extends Model
     protected $fillable = [
         'name',
         'type',
+        'job_class',
         'configuration',
     ];
 
