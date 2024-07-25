@@ -41,6 +41,21 @@ class QuantityDiscount extends Model
         'configuration' => 'array',
     ];
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
+    }
+
     /**
      * @return QueryBuilder
      */
