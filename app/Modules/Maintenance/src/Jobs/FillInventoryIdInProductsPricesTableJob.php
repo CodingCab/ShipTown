@@ -35,6 +35,8 @@ class FillInventoryIdInProductsPricesTableJob extends UniqueJob
 
                SET products_prices.inventory_id = tempTable.inventory_id
             ');
+
+            usleep(200000); // 200ms
         } while ($recordsAffected > 0);
     }
 }
