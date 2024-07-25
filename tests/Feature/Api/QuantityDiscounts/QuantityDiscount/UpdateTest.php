@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\QuantityDiscounts;
+namespace Tests\Feature\Api\QuantityDiscounts\QuantityDiscount;
 
 use App\User;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
@@ -14,6 +14,7 @@ class UpdateTest extends TestCase
     /** @test */
     public function testIfCallReturnsOk()
     {
+        /** @var User $user */
         $user = User::factory()->create();
         $user->assignRole(Role::findOrCreate('admin', 'api'));
 
