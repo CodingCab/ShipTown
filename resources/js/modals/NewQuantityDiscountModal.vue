@@ -43,7 +43,6 @@ export default {
             },
             modal_id: 'new-quantity-discount-modal',
             discount: undefined,
-            products: null
         }
     },
 
@@ -65,10 +64,6 @@ export default {
         })
     },
 
-    mounted() {
-        this.loadProducts();
-    },
-
     computed: {
         isCreatingNewDiscount() {
             return this.discount === null || (this.discount === undefined);
@@ -87,16 +82,6 @@ export default {
                 .catch(error => {
                     this.displayApiCallError(error);
                 })
-        },
-
-        loadProducts() {
-            this.apiGetProducts({'per_page': 999})
-                .then(({data}) => {
-                    this.products = data.data;
-                })
-                .catch((error) => {
-                    this.displayApiCallError(error);
-                });
         },
 
         emitNotification() {

@@ -12,7 +12,9 @@ export default {
     mixins: [helpers],
 
     created() {
-        Vue.prototype.$currentUser = JSON.parse(document.querySelector("meta[name='current-user']").getAttribute('content'));
+        if (document.querySelector("meta[name='current-user']")) {
+            Vue.prototype.$currentUser = JSON.parse(document.querySelector("meta[name='current-user']").getAttribute('content'));
+        }
     },
 
     methods: {

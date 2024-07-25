@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\InventoryMovements\src\InventoryMovementsServiceProvider;
 use App\Modules\InventoryTotals\src\InventoryTotalsServiceProvider;
+use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
 use App\User;
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
@@ -43,6 +44,7 @@ class PagesWalkthroughTest extends DuskTestCase
             $this->packlist($browser)->screenshot('packlist.png');
             $this->restocking($browser)->screenshot('restocking.png');
             $this->dashboard($browser)->screenshot('dashboard.png');
+//            $this->quantityDiscounts($browser)->screenshot('quantity-discounts.png');
         });
     }
 
@@ -54,6 +56,7 @@ class PagesWalkthroughTest extends DuskTestCase
 
         InventoryTotalsServiceProvider::enableModule();
         InventoryMovementsServiceProvider::enableModule();
+        QuantityDiscountsServiceProvider::enableModule();
 
         /** @var Warehouse $warehouse */
         $warehouse = Warehouse::factory()->create(['name' => 'Dublin', 'code' => 'DUB']);
@@ -283,4 +286,13 @@ class PagesWalkthroughTest extends DuskTestCase
             ->pause($this->shortDelay)->clickLink('Restocking')
             ->pause($this->longDelay);
     }
+
+//    private function quantityDiscounts(Browser $browser): Browser
+//    {
+//        $browser->press('#dropdownMenu')
+//            ->pause($this->shortDelay)->clickLink('Settings')
+//            ->pause($this->longDelay);
+//
+//        return $browser;
+//    }
 }
