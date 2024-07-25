@@ -39,10 +39,10 @@ class AddProductController
                     ->first();
 
                 return DataCollectionRecord::query()->create([
-                    'unit_cost' => $inventory->prices->cost,
-                    'unit_full_price' => $inventory->prices->price,
-                    'unit_sold_price' => $inventory->prices->current_price,
-                    'price_source' => $inventory->prices->price === $inventory->prices->current_price ? 'FULL_PRICE' : 'SALE_PRICE',
+                    'unit_cost' => data_get($inventory, 'prices.cost'),
+                    'unit_full_price' => data_get($inventory, 'prices.price'),
+                    'unit_sold_price' => data_get($inventory, 'prices.current_price'),
+                    'price_source' => data_get($inventory, 'prices.price') === data_get($inventory, 'prices.current_price') ? 'FULL_PRICE' : 'SALE_PRICE',
                     'data_collection_id' => $request->validated('data_collection_id'),
                     'inventory_id' => $inventory->id,
                     'warehouse_id' => $inventory->warehouse_id,
