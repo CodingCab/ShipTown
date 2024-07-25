@@ -30,7 +30,8 @@ export default {
 
             this.apiGetDataCollector({'filter[custom_uuid]': customUuid})
                 .then(response => {
-                    if (response.data.data) {
+                    console.log(response.data.data);
+                    if (response.data.data.length > 0) {
                         this.data_collection = response.data.data[0];
                     } else {
                         this.createTransactionNewTransaction(customUuid);
