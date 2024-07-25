@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuantityDiscountProduct\DestroyRequest;
 use App\Http\Requests\QuantityDiscountProduct\StoreRequest;
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
@@ -33,6 +32,8 @@ class QuantityDiscountProductsController extends Controller
 
     public function destroy(DestroyRequest $request, int $quantity_discount_product_id): JsonResponse
     {
+        \Log::info('Destroy method called with id: ' . $quantity_discount_product_id);
+        \Log::info('Request data: ' . json_encode($request->all()));
         $product = QuantityDiscountsProduct::findOrFail($quantity_discount_product_id);
 
         if ($product) {

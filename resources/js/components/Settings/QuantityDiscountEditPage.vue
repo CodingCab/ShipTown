@@ -12,45 +12,36 @@
                     </div>
                     <div class="col-sm-12 col-lg-4">
                         <div class="text-primary">Configuration</div>
+                        <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                            <div class="text-secondary small">
+                                Quantity full price:
+                                {{ dashIfEmpty(discount['configuration']?.quantity_full_price ?? '') }}
+                            </div>
+                            <div class="text-secondary small">
+                                Quantity discounted:
+                                {{ dashIfEmpty(discount['configuration']?.quantity_discounted ?? '') }}
+                            </div>
+                        </template>
                         <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE'">
                             <div class="text-secondary small">
-                                Quantity full price:
-                                {{ dashIfEmpty(discount['configuration']?.quantity_full_price ?? '') }}
-                            </div>
-                            <div class="text-secondary small">
-                                Quantity discounted:
-                                {{ dashIfEmpty(discount['configuration']?.quantity_discounted ?? '') }}
-                            </div>
-                            <div class="text-secondary small">
-                                Discounted price: {{ dashIfEmpty(discount['configuration']?.discounted_price ?? '') }}
+                                Discounted price:
+                                {{ dashIfEmpty(discount['configuration']?.discounted_price ?? '') }}
                             </div>
                         </template>
-                        <template v-else-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                        <template
+                            v-if="discount.type === 'BUY_X_GET_Y_PRICE' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
                             <div class="text-secondary small">
-                                Quantity full price:
-                                {{ dashIfEmpty(discount['configuration']?.quantity_full_price ?? '') }}
-                            </div>
-                            <div class="text-secondary small">
-                                Quantity discounted:
-                                {{ dashIfEmpty(discount['configuration']?.quantity_discounted ?? '') }}
-                            </div>
-                            <div class="text-secondary small">
-                                Discount percent: {{ dashIfEmpty(discount['configuration']?.discount_percent ?? '') }}
+                                Quantity required:
+                                {{ dashIfEmpty(discount['configuration']?.quantity_required ?? '') }}
                             </div>
                         </template>
-                        <template v-else-if="discount.type === 'BUY_X_GET_Y_PRICE'">
-                            <div class="text-secondary small">
-                                Quantity required: {{ dashIfEmpty(discount['configuration']?.quantity_required ?? '') }}
-                            </div>
+                        <template v-if="discount.type === 'BUY_X_GET_Y_PRICE'">
                             <div class="text-secondary small">
                                 Discounted unit price:
                                 {{ dashIfEmpty(discount['configuration']?.discounted_unit_price ?? '') }}
                             </div>
                         </template>
-                        <template v-else>
-                            <div class="text-secondary small">
-                                Quantity required: {{ dashIfEmpty(discount['configuration']?.quantity_required ?? '') }}
-                            </div>
+                        <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
                             <div class="text-secondary small">
                                 Discount percent: {{ dashIfEmpty(discount['configuration']?.discount_percent ?? '') }}
                             </div>

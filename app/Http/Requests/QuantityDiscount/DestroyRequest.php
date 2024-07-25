@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\QuantityDiscountProduct;
+namespace App\Http\Requests\QuantityDiscount;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,8 +23,6 @@ class DestroyRequest extends FormRequest
      */
     public function rules(): array
     {
-        \Log::info('DestroyRequest rules method called');
-        \Log::info('Request data: ' . json_encode($this->all()));
         return [
             //
         ];

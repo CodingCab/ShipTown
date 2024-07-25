@@ -62,10 +62,9 @@ class QuantityDiscountsController extends Controller
 
     public function destroy(int $discount_id): QuantityDiscountsResource
     {
-//        $warehouse = Warehouse::findOrFail($warehouse_id);
-//
-//        $warehouse->delete();
-//
-//        return QuantityDiscountsResource::make($warehouse);
+        $discount = QuantityDiscount::findOrFail($discount_id);
+        $discount->delete();
+
+        return QuantityDiscountsResource::make($discount);
     }
 }

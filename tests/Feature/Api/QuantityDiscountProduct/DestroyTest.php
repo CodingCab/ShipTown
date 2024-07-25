@@ -4,15 +4,12 @@ namespace Tests\Feature\Api\QuantityDiscountProduct;
 
 use App\Models\Product;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use App\User;
+use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
-/**
- *
- */
-class StoreTest extends TestCase
+class DestroyTest extends TestCase
 {
     private string $uri = 'api/quantity-discount-product/';
 
@@ -29,18 +26,18 @@ class StoreTest extends TestCase
         /** @var Product $product */
         $product = Product::factory()->create();
 
-        $response = $this->actingAs($user, 'api')->postJson($this->uri, [
+        /** @var QuantityDiscountsProduct $productToDelete */
+        $productToDelete = QuantityDiscountsProduct::factory()->create([
             'quantity_discount_id' => $discount->id,
-            'product_id' => $product->id,
+            'product_id' => $product->id
         ]);
+
+        $response = $this->actingAs($user, 'api')->delete($this->uri . $productToDelete->id);
 
         ray($response->json());
 
         $response->assertOk();
 
-        $this->assertDatabaseHas('modules_quantity_discounts_products', [
-            'quantity_discount_id' => $discount->id,
-            'product_id' => $product->id,
-        ]);
+        $this->assertSoftDeleted('modules_quantity_discounts_products', ['id' => $productToDelete->id]);
     }
 }
