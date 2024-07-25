@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\QuantityDiscount;
+namespace Tests\Feature\Api\QuantityDiscounts;
 
 use App\User;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
