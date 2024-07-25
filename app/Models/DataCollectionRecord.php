@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -37,14 +39,16 @@ use Spatie\QueryBuilder\QueryBuilder;
  *  @property-read Product $product
  *  @property-read DataCollection $dataCollection
  *  @property-read Inventory $inventory
+ *  @property-read ProductPrice $prices
  */
 class DataCollectionRecord extends Model
 {
     protected $fillable = [
         'data_collection_id',
         'inventory_id',
-        'warehouse_id',
         'product_id',
+        'warehouse_code',
+        'warehouse_id',
         'total_transferred_in',
         'total_transferred_out',
         'quantity_requested',
@@ -88,6 +92,11 @@ class DataCollectionRecord extends Model
     public function inventory(): BelongsTo
     {
         return $this->belongsTo(Inventory::class);
+    }
+
+    public function prices(): BelongsTo
+    {
+        return $this->belongsTo(ProductPrice::class, 'inventory_id', 'inventory_id');
     }
 
     public static function getSpatieQueryBuilder(): QueryBuilder
