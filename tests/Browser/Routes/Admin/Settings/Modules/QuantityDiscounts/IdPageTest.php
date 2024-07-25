@@ -1,15 +1,16 @@
 <?php
 
-namespace Tests\Browser\Routes\Admin\Settings\Modules;
+namespace Tests\Browser\Routes\Admin\Settings\Modules\QuantityDiscounts;
 
+use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Throwable;
 
-class QuantityDiscountsPageTest extends DuskTestCase
+class IdPageTest extends DuskTestCase
 {
-    private string $uri = '/admin/settings/modules/quantity-discounts';
+    private string $uri = '/admin/settings/modules/quantity-discounts/{id}';
 
     /**
      * @throws Throwable
@@ -30,11 +31,13 @@ class QuantityDiscountsPageTest extends DuskTestCase
         $user = User::factory()->create();
         $user->assignRole('admin');
 
-        $this->browse(function (Browser $browser) use ($user) {
+        $discount = QuantityDiscount::factory()->create();
+
+        $this->browse(function (Browser $browser) use ($user, $discount) {
             $browser->disableFitOnFailure()
                 ->loginAs($user)
-                ->visit($this->uri)
-                ->assertPathIs($this->uri)
+                ->visit(str_replace('{id}', $discount->id, $this->uri))
+                ->assertPathIs(str_replace('{id}', $discount->id, $this->uri))
                 ->assertSourceMissing('Server Error');
         });
     }

@@ -538,8 +538,12 @@ export default {
             return axios.post('/api/quantity-discounts/', data);
         },
 
+        apiPutQuantityDiscount: function (id, data) {
+            return axios.put('/api/quantity-discounts/' + id, data);
+        },
+
         apiPostQuantityDiscountProduct: function (data) {
-            return axios.post('/api/quantity-discount-product', data);
+            return axios.post('/api/quantity-discount-product/', data);
         },
 
         apiRemoveQuantityDiscountProduct: function (id) {

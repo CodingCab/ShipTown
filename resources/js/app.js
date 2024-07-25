@@ -14,8 +14,8 @@ window.Vue = require('vue').default;
 import Vue from 'vue'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import { BootstrapVue } from 'bootstrap-vue';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import {BootstrapVue} from 'bootstrap-vue';
+import {library} from '@fortawesome/fontawesome-svg-core';
 import {
     faAnglesUp,
     faCog,
@@ -61,8 +61,8 @@ import {
     faCaretUp, faMagnifyingGlass, faEllipsisVertical, faCreditCard
 } from '@fortawesome/free-solid-svg-icons';
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import VueTippy, { TippyComponent } from "vue-tippy";
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import VueTippy, {TippyComponent} from "vue-tippy";
 import Snotify from 'vue-snotify';
 import VueCountdownTimer from 'vuejs-countdown-timer';
 
@@ -140,6 +140,25 @@ import Modals from './plugins/Modals.js'
 
 // use it
 Vue.use(Modals);
+
+// Vee-validate configuration
+import {configure, extend} from 'vee-validate';
+import {required} from 'vee-validate/dist/rules';
+
+const config = {
+    classes: {
+        valid: 'is-valid',
+        invalid: 'is-invalid',
+    },
+    mode: 'eager',
+};
+
+configure(config);
+
+extend('required', {
+    ...required,
+    message: 'This field is required',
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -239,7 +258,7 @@ Vue.component('quantity-discounts-edit-page', require('./components/Settings/Qua
 Vue.prototype.$eventBus = new Vue();
 
 // global helpers that we can use directly in our templates
-Vue.prototype.$selectAllInputText = function(event) {
+Vue.prototype.$selectAllInputText = function (event) {
     event.target.select();
 }
 

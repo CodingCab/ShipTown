@@ -3,6 +3,7 @@
 namespace App\Modules\QuantityDiscounts\src\Models;
 
 use App\Traits\LogsActivityTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,6 +23,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class QuantityDiscount extends Model
 {
+    use HasFactory;
     use LogsActivityTrait;
     use SoftDeletes;
 
@@ -35,6 +37,7 @@ class QuantityDiscount extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'configuration' => 'array',
     ];
 

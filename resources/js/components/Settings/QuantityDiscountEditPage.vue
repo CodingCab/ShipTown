@@ -71,6 +71,7 @@
                                          placeholder="Enter SKU"
                                          ref="barcode"
                                          :url_param_name="'search'"
+                                         :showManualSearchButton="true"
                                          @barcodeScanned="addProductToDiscount">
                     </barcode-input-field>
                 </div>
@@ -105,20 +106,111 @@
         </template>
 
         <b-modal id="configuration-modal" no-fade hide-header @hidden="setFocusElementById('barcode_input')">
-            <form @submit.prevent="saveDiscountConfiguration">
-                <div class="form-group">
-                    <label class="form-label" for="base_url">Base URL</label>
-                    <input type="text" class="form-control">
-                </div>
-            </form>
-            <hr>
+            <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(saveDiscountConfiguration)" ref="loadingContainer">
+                    <template
+                        v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                        <div class="form-group">
+                            <label class="form-label" for="quantity_full_price">Quantity Full Price</label>
+                            <ValidationProvider vid="quantity_full_price" name="quantity_full_price"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.quantity_full_price" type="number" min="1" :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="quantity_full_price" placeholder="1" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="quantity_discounted">Quantity Discounted</label>
+                            <ValidationProvider vid="quantity_discounted" name="quantity_discounted"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.quantity_discounted" type="number" min="1" :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="quantity_discounted" placeholder="1" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                    </template>
+                    <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE'">
+                        <div class="form-group">
+                            <label class="form-label" for="discounted_price">Discounted Price</label>
+                            <ValidationProvider vid="discounted_price" name="discounted_price"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.discounted_price" type="number" min="0" step="0.01"
+                                       :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="discounted_price" placeholder="10" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                    </template>
+                    <template
+                        v-if="discount.type === 'BUY_X_GET_Y_PRICE' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                        <div class="form-group">
+                            <label class="form-label" for="quantity_required">Quantity Required</label>
+                            <ValidationProvider vid="quantity_required" name="quantity_required"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.quantity_required" type="number" min="1" :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="quantity_required" placeholder="1" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                    </template>
+                    <template v-if="discount.type === 'BUY_X_GET_Y_PRICE'">
+                        <div class="form-group">
+                            <label class="form-label" for="discounted_unit_price">Discounted Unit Price</label>
+                            <ValidationProvider vid="discounted_unit_price" name="discounted_unit_price"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.discounted_unit_price" type="number" min="0" step="0.01"
+                                       :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="discounted_unit_price" placeholder="1" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                    </template>
+                    <template
+                        v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                        <div class="form-group">
+                            <label class="form-label" for="discount_percent">Discount Percent</label>
+                            <ValidationProvider vid="discount_percent" name="discount_percent"
+                                                v-slot="{ errors }">
+                                <input v-model="configuration.discount_percent" type="number" min="0" :class="{
+                                        'form-control': true,
+                                        'is-invalid': errors.length > 0,
+                                    }" id="discount_percent" placeholder="10" required>
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+                    </template>
+                    <div class="d-flex justify-content-end">
+                        <b-button variant="secondary" type="button" @click="$bvModal.hide('configuration-modal');">
+                            Cancel
+                        </b-button>
+                        <b-button variant="primary" type="submit">Save</b-button>
+                    </div>
+                </form>
+            </ValidationObserver>
             <template #modal-footer>
-                <b-button variant="secondary" class="float-right" @click="$bvModal.hide('configuration-modal');">
-                    Cancel
-                </b-button>
-                <b-button variant="primary" class="float-right" @click="$bvModal.hide('configuration-modal');">
-                    OK
-                </b-button>
+                <div></div>
             </template>
         </b-modal>
     </div>
@@ -131,12 +223,15 @@ import SwipingCard from "../SharedComponents/SwipingCard.vue";
 import loadingOverlay from "../../mixins/loading-overlay";
 import beep from "../../mixins/beep";
 import url from "../../mixins/url.vue";
+import {ValidationObserver, ValidationProvider} from "vee-validate";
 
 export default {
     mixins: [loadingOverlay, beep, url, api, helpers],
 
     components: {
         SwipingCard,
+        ValidationObserver,
+        ValidationProvider
     },
 
     props: {
@@ -174,6 +269,8 @@ export default {
     mounted() {
         if (this.initialDiscount) {
             this.discount = JSON.parse(this.initialDiscount);
+            this.discount = {...this.discount, configuration: JSON.parse(this.discount.configuration)};
+            this.configuration = this.discount.configuration;
         }
         if (this.initialProducts) {
             this.products = JSON.parse(this.initialProducts);
@@ -237,6 +334,25 @@ export default {
         },
 
         saveDiscountConfiguration() {
+            this.showLoading();
+            const config = Object.fromEntries(Object.entries(this.configuration).filter(([_, v]) => v !== null));
+            this.apiPutQuantityDiscount(this.discount.id, {...this.discount, configuration: JSON.stringify(config)})
+                .then(response => {
+                    if (typeof response.data !== 'undefined' && typeof response.data.data !== 'undefined') {
+                        this.discount = {
+                            ...response.data.data,
+                            configuration: JSON.parse(response.data.data.configuration)
+                        };
+                        this.notifySuccess('Discount configuration saved.');
+                    }
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                })
+                .finally(() => {
+                    this.hideLoading();
+                    this.$bvModal.hide('configuration-modal');
+                });
         },
     }
 }

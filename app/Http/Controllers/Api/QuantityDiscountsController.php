@@ -5,15 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\QuantityDiscount\StoreRequest;
-
-//use App\Http\Requests\Warehouse\UpdateRequest;
+use App\Http\Requests\QuantityDiscount\UpdateRequest;
 use App\Http\Resources\QuantityDiscountsResource;
 use App\Models\Product;
-use App\Models\Warehouse;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Spatie\Tags\Tag;
 
 class QuantityDiscountsController extends Controller
 {
@@ -57,20 +54,10 @@ class QuantityDiscountsController extends Controller
 
     public function update(UpdateRequest $request, int $discount_id): QuantityDiscountsResource
     {
-//        $warehouse = Warehouse::findOrFail($warehouse_id);
-//
-//        $warehouse->update($request->validated());
-//
-//        $tags = data_get($request->validated(), 'tags', []);
-//
-//        $tags = collect($tags)->filter()->map(function ($tag) use ($warehouse) {
-//            $warehouse->attachTag($tag);
-//            return Tag::findFromString($tag);
-//        });
-//
-//        $warehouse->tags()->sync($tags->pluck('id'));
-//
-//        return QuantityDiscountsResource::make($warehouse);
+        $discount = QuantityDiscount::findOrFail($discount_id);
+        $discount->update($request->validated());
+
+        return QuantityDiscountsResource::make($discount);
     }
 
     public function destroy(int $discount_id): QuantityDiscountsResource
