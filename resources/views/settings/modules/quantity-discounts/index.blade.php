@@ -13,7 +13,6 @@
                 @endif
 
                 <quantity-discounts-configuration-page></quantity-discounts-configuration-page>
-                <new-quantity-discount-modal></new-quantity-discount-modal>
             </div>
         </div>
 @endsection
