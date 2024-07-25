@@ -24,6 +24,10 @@ export default {
         }
     },
 
+    mounted() {
+        this.startTransaction();
+    },
+
     methods: {
         startTransaction() {
             let customUuid = 'TRANSACTION_IN_PROGRESS_FOR_' + 'USER_' + this.currentUser().id + '_' + this.currentUser().name;

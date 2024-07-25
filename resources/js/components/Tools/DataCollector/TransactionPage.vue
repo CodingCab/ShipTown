@@ -224,7 +224,7 @@ export default {
     data: function() {
         return {
             minShelfLocation: '',
-            singleScanEnabled: false,
+            singleScanEnabled: true,
             addToRequested: false,
             scannedDataCollectionRecord: null,
             scannedProduct: null,
