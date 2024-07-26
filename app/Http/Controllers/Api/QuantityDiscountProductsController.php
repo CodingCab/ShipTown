@@ -32,15 +32,11 @@ class QuantityDiscountProductsController extends Controller
         \Log::info('Request data: ' . json_encode($request->all()));
         $product = QuantityDiscountsProduct::findOrFail($quantity_discount_product_id);
 
-        if ($product) {
-            $discount = QuantityDiscount::findOrFail($product->quantity_discount_id);
-            if ($product->delete()) {
-                $discountProducts = $discount->products()->get();
-                $products = $this->getDiscountProducts($discountProducts);
-                return response()->json($products);
-            } else {
-                return response()->json(['message' => 'A problem occurred when removing a product.'], 400);
-            }
+        $discount = QuantityDiscount::findOrFail($product->quantity_discount_id);
+        if ($product->delete()) {
+            $discountProducts = $discount->products()->get();
+            $products = $this->getDiscountProducts($discountProducts);
+            return response()->json($products);
         } else {
             return response()->json(['message' => 'A problem occurred when removing a product.'], 400);
         }
