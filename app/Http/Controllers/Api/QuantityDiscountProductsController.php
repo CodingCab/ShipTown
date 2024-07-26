@@ -14,11 +14,12 @@ class QuantityDiscountProductsController extends Controller
 {
     public function store(StoreRequest $request): JsonResponse
     {
-        $discount = QuantityDiscount::findOrFail($request->get('quantity_discount_id'));
+        QuantityDiscountsProduct::query()->create($request->validated());
 
-        $discount->products()->create($request->all());
-
-        $discountProducts = $discount->products()->with('product')->get();
+        $discountProducts = QuantityDiscountsProduct::query()
+            ->where(['quantity_discount_id' => $request->validated('quantity_discount_id')])
+            ->with('product')
+            ->get();
 
         return response()->json($discountProducts);
     }
