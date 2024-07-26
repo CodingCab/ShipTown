@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property integer id
  * @property string name
- * @property string type
  * @property string job_class
  * @property array configuration
  * @property string deleted_at
@@ -24,7 +23,6 @@ class QuantityDiscount extends Model
 
     protected $fillable = [
         'name',
-        'type',
         'job_class',
         'configuration',
     ];

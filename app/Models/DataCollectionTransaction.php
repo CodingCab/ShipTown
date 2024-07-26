@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  *  TransferIn
  */
-class DataCollectionTransferOut extends DataCollection
+class DataCollectionTransaction extends DataCollection
 {
     protected static function booted()
     {
-        static::addGlobalScope('TransferOut', function (Builder $builder) {
+        static::addGlobalScope('Transaction', function (Builder $builder) {
             $builder->where('type', '=', self::class);
         });
     }

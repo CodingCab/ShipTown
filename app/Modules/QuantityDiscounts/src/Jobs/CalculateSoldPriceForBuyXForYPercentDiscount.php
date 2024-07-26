@@ -2,6 +2,7 @@
 
 namespace App\Modules\QuantityDiscounts\src\Jobs;
 
+use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -9,25 +10,24 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
-class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
+class CalculateSoldPriceForBuyXForYPercentDiscount implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private array $configuration;
+    private QuantityDiscount $discount;
     private Collection $collectionRecords;
-    private Collection $discountedProducts;
+    private Collection $discountProducts;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-//, Collection $discountedProducts
-    public function __construct(array $configuration, Collection $collectionRecords)
+    public function __construct(QuantityDiscount $discount, Collection $collectionRecords)
     {
-        $this->configuration = $configuration;
+        $this->discount = $discount;
         $this->collectionRecords = $collectionRecords;
-//        $this->discountedProducts = $discountedProducts;
+//        $this->discountProducts = $this->discount->products()->with('product')->get();
     }
 
     /**
