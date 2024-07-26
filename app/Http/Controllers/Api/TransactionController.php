@@ -39,7 +39,6 @@ class TransactionController extends Controller
 
         $entries = collect(data_get($attributes, 'raw_data.entries'));
 
-        $entries = $this->groupEntries($entries);
         $entries = $this->applyQuantityDiscounts($entries);
 
         $attributes['raw_data']['entries'] = $entries;
@@ -47,33 +46,6 @@ class TransactionController extends Controller
         $transaction->update($attributes);
 
         return JsonResource::make($transaction);
-    }
-
-    /**
-     * @param Collection $entries
-     * @return Collection
-     */
-    public function groupEntries(Collection $entries): Collection
-    {
-        $finalEntries = $entries->groupBy('barcode')
-            ->map(function (Collection $group) {
-                return [
-                    'barcode' => $group->first()['barcode'],
-                    'quantity' => $group->sum('quantity'),
-                    'cost_price' => $group->first()['cost_price'],
-                    'full_price' => $group->first()['full_price'],
-                    'sold_price' => $group->first()['sold_price'],
-                    'current_price' => $group->first()['current_price'],
-                    'total_cost_price' => $group->sum('total_cost_price'),
-                    'total_sold_price' => $group->sum('total_sold_price'),
-                    'price_source_id' => $group->first()['price_source_id'] ?? 0,
-                    'price_source' => $group->first()['price_source'] ?? '',
-                ];
-            })
-            ->values()
-            ->toArray();
-
-        return collect($finalEntries);
     }
 
     /**

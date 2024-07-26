@@ -1,10 +1,11 @@
 <template>
     <div>
-        <data-collector-transaction-page v-if="data_collection" :data_collection_id="data_collection.id"></data-collector-transaction-page>
+        <data-collector-transaction-page v-if="data_collection"
+                                         :data_collection_id="data_collection.id"></data-collector-transaction-page>
         <div v-else>
             <h1>Point of Sale</h1>
             <input type="text" placeholder="Username" class="form-control">
-            <input type="password" placeholder="Password" class="form-control" >
+            <input type="password" placeholder="Password" class="form-control">
             <button @click="startTransaction" class="btn btn-primary">Start Transaction</button>
         </div>
     </div>
