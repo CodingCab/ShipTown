@@ -14,17 +14,13 @@ class QuantityDiscountProductsController extends Controller
 {
     public function store(StoreRequest $request): JsonResponse
     {
-        if ($request->has('quantity_discount_id') && $request->has('product_id')) {
-            $discount = QuantityDiscount::findOrFail($request->get('quantity_discount_id'));
-            $newProduct = $discount->products()->create($request->all());
+        $discount = QuantityDiscount::findOrFail($request->get('quantity_discount_id'));
+        $newProduct = $discount->products()->create($request->all());
 
-            if ($newProduct) {
-                $discountProducts = $discount->products()->get();
-                $products = $this->getDiscountProducts($discountProducts);
-                return response()->json($products);
-            } else {
-                response()->json(['message' => 'A problem occurred when adding a product.'])->throwResponse();
-            }
+        if ($newProduct) {
+            $discountProducts = $discount->products()->get();
+            $products = $this->getDiscountProducts($discountProducts);
+            return response()->json($products);
         } else {
             response()->json(['message' => 'A problem occurred when adding a product.'])->throwResponse();
         }
