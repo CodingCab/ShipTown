@@ -12,6 +12,20 @@ class IdPageTest extends DuskTestCase
 {
     private string $uri = '/admin/settings/modules/quantity-discounts/{id}';
 
+    private User $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->user->assignRole('admin');
+
+        $discount = QuantityDiscount::factory()->create();
+
+        $this->uri = str_replace('{id}', $discount->id, $this->uri);
+    }
+
     /**
      * @throws Throwable
      */
@@ -27,17 +41,11 @@ class IdPageTest extends DuskTestCase
      */
     public function testPage(): void
     {
-        /** @var User $user */
-        $user = User::factory()->create();
-        $user->assignRole('admin');
-
-        $discount = QuantityDiscount::factory()->create();
-
-        $this->browse(function (Browser $browser) use ($user, $discount) {
+        $this->browse(function (Browser $browser) {
             $browser->disableFitOnFailure()
-                ->loginAs($user)
-                ->visit(str_replace('{id}', $discount->id, $this->uri))
-                ->assertPathIs(str_replace('{id}', $discount->id, $this->uri))
+                ->loginAs($this->user)
+                ->visit($this->uri)
+                ->assertPathIs($this->uri)
                 ->assertSourceMissing('Server Error');
         });
     }
