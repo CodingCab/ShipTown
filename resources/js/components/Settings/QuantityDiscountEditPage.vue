@@ -12,7 +12,8 @@
                     </div>
                     <div class="col-sm-12 col-lg-4">
                         <div class="text-primary">Configuration</div>
-                        <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                        <template
+                            v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
                             <div class="text-secondary small">
                                 Quantity full price:
                                 {{ dashIfEmpty(discount['configuration']?.quantity_full_price ?? '') }}
@@ -41,7 +42,8 @@
                                 {{ dashIfEmpty(discount['configuration']?.discounted_unit_price ?? '') }}
                             </div>
                         </template>
-                        <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                        <template
+                            v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
                             <div class="text-secondary small">
                                 Discount percent: {{ dashIfEmpty(discount['configuration']?.discount_percent ?? '') }}
                             </div>
@@ -193,7 +195,8 @@
                         </div>
                     </template>
                     <div class="d-flex justify-content-end">
-                        <b-button variant="secondary" type="button" @click="$bvModal.hide('configuration-modal');">
+                        <b-button variant="secondary" type="button" @click="$bvModal.hide('configuration-modal');"
+                                  class="mr-2">
                             Cancel
                         </b-button>
                         <b-button variant="primary" type="submit">Save</b-button>
@@ -261,7 +264,7 @@ export default {
         if (this.initialDiscount) {
             this.discount = JSON.parse(this.initialDiscount);
             this.discount = {...this.discount, configuration: JSON.parse(this.discount.configuration)};
-            this.configuration = this.discount.configuration;
+            this.configuration = {...this.configuration, ...this.discount.configuration};
         }
         if (this.initialProducts) {
             this.products = JSON.parse(this.initialProducts);
