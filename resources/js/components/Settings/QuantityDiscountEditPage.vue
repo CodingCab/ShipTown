@@ -81,15 +81,15 @@
                 <template v-slot:content>
                     <div class="row">
                         <div class="col-12 col-md-4">
-                            <product-info-card :product="product"></product-info-card>
+                            <product-info-card :product="product['product']"></product-info-card>
                         </div>
                         <div class="col-12 col-md-3 text-left small">
-                            <div>Price: <strong>{{ dashIfZero(Number(product['price'])) }}</strong></div>
-                            <div>Sale price: <strong>{{ dashIfZero(Number(product['sale_price'])) }}</strong></div>
+                            <div>Price: <strong>{{ dashIfZero(Number(product['product']['price'])) }}</strong></div>
+                            <div>Sale price: <strong>{{ dashIfZero(Number(product['product']['sale_price'])) }}</strong></div>
                         </div>
                         <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
                             <button class="remove-product d-inline-flex align-items-center justify-content-center"
-                                    @click="removeProductFromDiscount(product['discount_product_id'])">
+                                    @click="removeProductFromDiscount(product['product']['discount_product_id'])">
                                 <font-awesome-icon icon="trash" class="fa-lg"></font-awesome-icon>
                             </button>
                         </div>

@@ -15,15 +15,12 @@ class QuantityDiscountProductsController extends Controller
     public function store(StoreRequest $request): JsonResponse
     {
         $discount = QuantityDiscount::findOrFail($request->get('quantity_discount_id'));
-        $newProduct = $discount->products()->create($request->all());
 
-        if ($newProduct) {
-            $discountProducts = $discount->products()->get();
-            $products = $this->getDiscountProducts($discountProducts);
-            return response()->json($products);
-        } else {
-            response()->json(['message' => 'A problem occurred when adding a product.'])->throwResponse();
-        }
+        $discount->products()->create($request->all());
+
+        $discountProducts = $discount->products()->with('product')->get();
+
+        return response()->json($discountProducts);
     }
 
     public function destroy(DestroyRequest $request, int $quantity_discount_product_id): JsonResponse
