@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
                             <button class="remove-product d-inline-flex align-items-center justify-content-center"
-                                    @click="removeProductFromDiscount(product['product']['discount_product_id'])">
+                                    @click="removeProductFromDiscount(product['id'])">
                                 <font-awesome-icon icon="trash" class="fa-lg"></font-awesome-icon>
                             </button>
                         </div>
@@ -266,12 +266,27 @@ export default {
             this.discount = {...this.discount, configuration: JSON.parse(this.discount.configuration)};
             this.configuration = {...this.configuration, ...this.discount.configuration};
         }
-        if (this.initialProducts) {
-            this.products = JSON.parse(this.initialProducts);
-        }
+
+        this.reloadQuantityDiscountProducts();
     },
 
     methods: {
+        reloadQuantityDiscountProducts() {
+            let params = {
+                'filter[quantity_discount_id]': this.discount.id,
+                'include': 'product',
+                'sort': '-updated_at'
+            };
+
+            this.apiGetQuantityDiscountProduct(params)
+                .then(response => {
+                    this.products = response.data;
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                });
+        },
+
         addProductToDiscount(barcode) {
             if (barcode.trim() === '') {
                 return;
@@ -283,8 +298,6 @@ export default {
                         this.notifyError('Product "' + barcode + '" not found.');
                         return;
                     }
-
-                    this.beep();
 
                     const product = response.data.data[0];
 
@@ -298,9 +311,8 @@ export default {
                             product_id: product.id
                         })
                             .then(response => {
-                                if (typeof response.data !== 'undefined' && typeof response.data !== 'undefined') {
-                                    this.products = response.data;
-                                }
+                                this.reloadQuantityDiscountProducts();
+                                this.notifySuccess('Product added to discount.');
                             })
                             .catch(error => {
                                 this.displayApiCallError(error);
@@ -318,7 +330,7 @@ export default {
             this.apiRemoveQuantityDiscountProduct(discountProductId)
                 .then(response => {
                     if (typeof response.data !== 'undefined' && typeof response.data !== 'undefined') {
-                        this.products = response.data;
+                        this.reloadQuantityDiscountProducts();
                         this.notifySuccess('Product removed from discount.');
                     }
                 })

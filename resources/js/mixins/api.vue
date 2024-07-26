@@ -544,6 +544,10 @@ export default {
             return axios.put('/api/quantity-discounts/' + id, data);
         },
 
+        apiGetQuantityDiscountProduct: function (params) {
+            return axios.get('/api/quantity-discount-product/', {params: params});
+        },
+
         apiPostQuantityDiscountProduct: function (data) {
             return axios.post('/api/quantity-discount-product/', data);
         },

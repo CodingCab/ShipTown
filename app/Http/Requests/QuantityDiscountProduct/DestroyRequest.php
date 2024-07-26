@@ -23,10 +23,8 @@ class DestroyRequest extends FormRequest
      */
     public function rules(): array
     {
-        \Log::info('DestroyRequest rules method called');
-        \Log::info('Request data: ' . json_encode($this->all()));
         return [
-            //
+//            'id' => 'required|exists:quantity_discounts_products,id',
         ];
     }
 }
