@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Modules\QuantityDiscounts\src\Models;
 
+use App\Models\Product;
+use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,8 +14,12 @@ class QuantityDiscountsProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'quantity_discount_id' => 1,
-            'product_id' => 1,
+            'quantity_discount_id' => function () {
+                return QuantityDiscount::factory()->create()->id;
+            },
+            'product_id' => function () {
+                return Product::factory()->create()->id;
+            },
         ];
     }
 }

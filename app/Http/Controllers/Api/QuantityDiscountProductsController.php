@@ -8,15 +8,17 @@ use App\Http\Requests\QuantityDiscountProduct\IndexRequest;
 use App\Http\Requests\QuantityDiscountProduct\StoreRequest;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuantityDiscountProductsController extends Controller
 {
-    public function index(IndexRequest $request): JsonResponse
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
         $result = QuantityDiscountsProduct::getSpatieQueryBuilder()
             ->get();
 
-        return response()->json($result);
+        return  JsonResource::collection($result);
     }
 
     public function store(StoreRequest $request): JsonResponse
