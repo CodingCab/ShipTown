@@ -6,7 +6,6 @@ use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
 use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
-use Illuminate\Support\Facades\DB;
 
 class DataCollectionRecordUpdatedEventListener
 {
