@@ -8,12 +8,12 @@
                         <div class="text-secondary small">
                             {{ formatDateTime(discount['created_at'], 'dddd - MMM D HH:mm') }}
                         </div>
-                        <div class="text-secondary small">{{ discountTypes[discount['type']] }}</div>
+                        <div class="text-secondary small">{{ discountTypes[discount.job_class] }}</div>
                     </div>
                     <div class="col-sm-12 col-lg-4">
                         <div class="text-primary">Configuration</div>
                         <template
-                            v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                            v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount'">
                             <div class="text-secondary small">
                                 Quantity full price:
                                 {{ dashIfEmpty(discount['configuration']?.quantity_full_price ?? '') }}
@@ -23,27 +23,29 @@
                                 {{ dashIfEmpty(discount['configuration']?.quantity_discounted ?? '') }}
                             </div>
                         </template>
-                        <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE'">
+                        <template
+                            v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount'">
                             <div class="text-secondary small">
                                 Discounted price:
                                 {{ dashIfEmpty(discount['configuration']?.discounted_price ?? '') }}
                             </div>
                         </template>
                         <template
-                            v-if="discount.type === 'BUY_X_GET_Y_PRICE' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                            v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount'">
                             <div class="text-secondary small">
                                 Quantity required:
                                 {{ dashIfEmpty(discount['configuration']?.quantity_required ?? '') }}
                             </div>
                         </template>
-                        <template v-if="discount.type === 'BUY_X_GET_Y_PRICE'">
+                        <template
+                            v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount'">
                             <div class="text-secondary small">
                                 Discounted unit price:
                                 {{ dashIfEmpty(discount['configuration']?.discounted_unit_price ?? '') }}
                             </div>
                         </template>
                         <template
-                            v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                            v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount'">
                             <div class="text-secondary small">
                                 Discount percent: {{ dashIfEmpty(discount['configuration']?.discount_percent ?? '') }}
                             </div>
@@ -85,7 +87,8 @@
                         </div>
                         <div class="col-12 col-md-3 text-left small">
                             <div>Price: <strong>{{ dashIfZero(Number(product['product']['price'])) }}</strong></div>
-                            <div>Sale price: <strong>{{ dashIfZero(Number(product['product']['sale_price'])) }}</strong></div>
+                            <div>Sale price: <strong>{{ dashIfZero(Number(product['product']['sale_price'])) }}</strong>
+                            </div>
                         </div>
                         <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
                             <button class="remove-product d-inline-flex align-items-center justify-content-center"
@@ -102,7 +105,7 @@
             <ValidationObserver v-slot="{ handleSubmit }">
                 <form @submit.prevent="handleSubmit(saveDiscountConfiguration)" ref="loadingContainer">
                     <template
-                        v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE' || discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT'">
+                        v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount'">
                         <div class="form-group">
                             <label class="form-label" for="quantity_full_price">Quantity Full Price</label>
                             <ValidationProvider vid="quantity_full_price" name="quantity_full_price"
@@ -130,7 +133,8 @@
                             </ValidationProvider>
                         </div>
                     </template>
-                    <template v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PRICE'">
+                    <template
+                        v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount'">
                         <div class="form-group">
                             <label class="form-label" for="discounted_price">Discounted Price</label>
                             <ValidationProvider vid="discounted_price" name="discounted_price"
@@ -147,7 +151,7 @@
                         </div>
                     </template>
                     <template
-                        v-if="discount.type === 'BUY_X_GET_Y_PRICE' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                        v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount'">
                         <div class="form-group">
                             <label class="form-label" for="quantity_required">Quantity Required</label>
                             <ValidationProvider vid="quantity_required" name="quantity_required"
@@ -162,7 +166,8 @@
                             </ValidationProvider>
                         </div>
                     </template>
-                    <template v-if="discount.type === 'BUY_X_GET_Y_PRICE'">
+                    <template
+                        v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount'">
                         <div class="form-group">
                             <label class="form-label" for="discounted_unit_price">Discounted Unit Price</label>
                             <ValidationProvider vid="discounted_unit_price" name="discounted_unit_price"
@@ -179,7 +184,7 @@
                         </div>
                     </template>
                     <template
-                        v-if="discount.type === 'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT' || discount.type === 'BUY_X_FOR_Y_PERCENT_DISCOUNT'">
+                        v-if="discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount' || discount.job_class === 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount'">
                         <div class="form-group">
                             <label class="form-label" for="discount_percent">Discount Percent</label>
                             <ValidationProvider vid="discount_percent" name="discount_percent"
@@ -252,10 +257,10 @@ export default {
                 discounted_unit_price: null
             },
             discountTypes: {
-                'BUY_X_GET_Y_FOR_Z_PRICE': 'Buy X, get Y for Z price',
-                'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT': 'Buy X, get Y for Z percent discount',
-                'BUY_X_GET_Y_PRICE': 'Buy X for Y price',
-                'BUY_X_FOR_Y_PERCENT_DISCOUNT': 'Buy X for Y percent discount'
+                'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount': 'Buy X, get Y for Z price',
+                'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount': 'Buy X, get Y for Z percent discount',
+                'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount': 'Buy X for Y price',
+                'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount': 'Buy X for Y percent discount'
             },
         }
     },
