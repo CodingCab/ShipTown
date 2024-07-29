@@ -78,7 +78,7 @@
             Scan or type in SKU to add products to this discount<br>
         </div>
 
-        <template v-for="product in products">
+        <template v-if="(products !== null) && (products.length)" v-for="product in products">
             <swiping-card :disable-swipe-right="true" :disable-swipe-left="true">
                 <template v-slot:content>
                     <div class="row">
@@ -238,10 +238,6 @@ export default {
             type: String,
             default: null
         },
-        initialProducts: {
-            type: String,
-            default: null
-        }
     },
 
     data() {
@@ -285,7 +281,7 @@ export default {
 
             this.apiGetQuantityDiscountProduct(params)
                 .then(response => {
-                    this.products = response.data;
+                    this.products = response.data.data;
                 })
                 .catch(error => {
                     this.displayApiCallError(error);
@@ -354,6 +350,7 @@ export default {
                             ...response.data.data,
                             configuration: JSON.parse(response.data.data.configuration)
                         };
+                        this.configuration = {...this.configuration, ...this.discount.configuration};
                         this.notifySuccess('Discount configuration saved.');
                     }
                 })
