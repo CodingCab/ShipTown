@@ -33,7 +33,7 @@ class DataCollectionRecordUpdatedEventListener
             ->get();
 
         $applicableQuantityDiscounts = QuantityDiscount::query()
-            ->whereIn('quantity_discount_id', $products->pluck('quantity_discount_id'))
+            ->whereIn('id', $products->pluck('quantity_discount_id'))
             ->get();
 
         $applicableQuantityDiscounts
