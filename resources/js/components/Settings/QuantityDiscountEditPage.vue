@@ -310,14 +310,12 @@ export default {
                         this.apiPostQuantityDiscountProduct({
                             quantity_discount_id: this.discount.id,
                             product_id: product.id
-                        })
-                            .then(response => {
-                                this.reloadQuantityDiscountProducts();
-                                this.notifySuccess('Product added to discount.');
-                            })
-                            .catch(error => {
-                                this.displayApiCallError(error);
-                            });
+                        }).then(() => {
+                            this.reloadQuantityDiscountProducts();
+                            this.notifySuccess('Product added to discount.');
+                        }).catch(error => {
+                            this.displayApiCallError(error);
+                        });
                     } else {
                         this.notifyError(`Product "${barcode}" is already added to this discount.`);
                     }

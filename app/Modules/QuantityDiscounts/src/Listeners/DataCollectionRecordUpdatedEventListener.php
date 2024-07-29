@@ -36,16 +36,10 @@ class DataCollectionRecordUpdatedEventListener
             ->whereIn('quantity_discount_id', $products->pluck('quantity_discount_id'))
             ->get();
 
-        $calculatedDiscounts = [];
-
         $applicableQuantityDiscounts
-            ->each(function (QuantityDiscount $quantityDiscount) use (&$calculatedDiscounts, $collectionRecords) {
+            ->each(function (QuantityDiscount $quantityDiscount) use ($collectionRecords) {
                 $job = new $quantityDiscount->job_class($quantityDiscount, $collectionRecords);
-
-                $calculatedDiscounts[] = [
-                    'prices' => $job->handle(),
-                    'discount_id' => $quantityDiscount->id,
-                ];
+                $job->handle();
             });
     }
 }

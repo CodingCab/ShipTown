@@ -1,7 +1,6 @@
 <template>
     <div>
-        <data-collector-transaction-page v-if="dataCollection"
-                                         :data_collection_id="dataCollection.id"></data-collector-transaction-page>
+        <data-collector-transaction-page v-if="dataCollection" :data_collection_id="dataCollection.id"></data-collector-transaction-page>
         <div v-else>
             <h1>Point of Sale</h1>
             <input type="text" placeholder="Username" class="form-control">
@@ -36,7 +35,6 @@ export default {
 
             this.apiGetDataCollector({'filter[custom_uuid]': customUuid})
                 .then(response => {
-                    console.log(response.data.data);
                     if (response.data.data.length > 0) {
                         this.dataCollection = response.data.data[0];
                     } else {
@@ -48,7 +46,7 @@ export default {
                 });
         },
 
-        createNewTransaction: function (customUuid) {
+        createNewTransaction(customUuid) {
             let data = {
                 custom_uuid: customUuid,
                 warehouse_id: this.currentUser().warehouse_id,

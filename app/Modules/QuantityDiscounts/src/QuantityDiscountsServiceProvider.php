@@ -2,6 +2,8 @@
 
 namespace App\Modules\QuantityDiscounts\src;
 
+use App\Events\DataCollectionRecord\DataCollectionRecordCreatedEvent;
+use App\Events\DataCollectionRecord\DataCollectionRecordDeletedEvent;
 use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
 use App\Modules\BaseModuleServiceProvider;
 
@@ -16,8 +18,16 @@ class QuantityDiscountsServiceProvider extends BaseModuleServiceProvider
     public static bool $autoEnable = false;
 
     protected $listen = [
+        DataCollectionRecordCreatedEvent::class => [
+            Listeners\DataCollectionRecordCreatedEventListener::class,
+        ],
+
         DataCollectionRecordUpdatedEvent::class => [
             Listeners\DataCollectionRecordUpdatedEventListener::class,
+        ],
+
+        DataCollectionRecordDeletedEvent::class => [
+            Listeners\DataCollectionRecordDeletedEventListener::class,
         ],
     ];
 
