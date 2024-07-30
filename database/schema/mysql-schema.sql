@@ -1621,7 +1621,7 @@ CREATE TABLE `products` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 TRIGGER `trigger_on_products` AFTER INSERT ON `products` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=CURRENT_USER*/ /*!50003 TRIGGER `trigger_on_products` AFTER INSERT ON `products` FOR EACH ROW BEGIN
                 INSERT INTO inventory (product_id, warehouse_id, warehouse_code, created_at, updated_at)
                 SELECT new.id as product_id, warehouses.id as warehouse_id, warehouses.code as warehouse_code, now(), now() FROM warehouses;
 
@@ -1960,6 +1960,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_magento2api_products_inventory_comparison_view` AS select `modules_magento2api_products`.`connection_id` AS `modules_magento2api_connection_id`,`modules_magento2api_products`.`id` AS `modules_magento2api_products_id`,`products`.`sku` AS `sku`,floor(max(`modules_magento2api_products`.`quantity`)) AS `magento_quantity`,if((floor(sum(`inventory`.`quantity_available`)) < 0),0,floor(sum(`inventory`.`quantity_available`))) AS `expected_quantity`,`modules_magento2api_products`.`stock_items_fetched_at` AS `stock_items_fetched_at` from (((((`modules_magento2api_products` left join `modules_magento2api_connections` on((`modules_magento2api_connections`.`id` = `modules_magento2api_products`.`connection_id`))) left join `taggables` on(((`taggables`.`tag_id` = `modules_magento2api_connections`.`inventory_source_warehouse_tag_id`) and (`taggables`.`taggable_type` = 'App\\Models\\Warehouse')))) left join `warehouses` on((`warehouses`.`id` = `taggables`.`taggable_id`))) left join `inventory` on(((`inventory`.`product_id` = `modules_magento2api_products`.`product_id`) and (`inventory`.`warehouse_id` = `warehouses`.`id`)))) left join `products` on((`products`.`id` = `modules_magento2api_products`.`product_id`))) where ((`modules_magento2api_connections`.`inventory_source_warehouse_tag_id` is not null) and (ifnull(`modules_magento2api_products`.`exists_in_magento`,1) = 1)) group by `modules_magento2api_products`.`id` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1972,6 +1973,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_magento2api_products_prices_comparison_view` AS select `modules_magento2api_products`.`connection_id` AS `modules_magento2api_connection_id`,`modules_magento2api_products`.`id` AS `modules_magento2api_products_id`,`products`.`sku` AS `sku`,`modules_magento2api_connections`.`magento_store_id` AS `magento_store_id`,`modules_magento2api_products`.`magento_price` AS `magento_price`,`products_prices`.`price` AS `expected_price`,`modules_magento2api_products`.`magento_sale_price` AS `magento_sale_price`,`products_prices`.`sale_price` AS `expected_sale_price`,`modules_magento2api_products`.`magento_sale_price_start_date` AS `magento_sale_price_start_date`,`products_prices`.`sale_price_start_date` AS `expected_sale_price_start_date`,`modules_magento2api_products`.`magento_sale_price_end_date` AS `magento_sale_price_end_date`,`products_prices`.`sale_price_end_date` AS `expected_sale_price_end_date`,`modules_magento2api_products`.`base_prices_fetched_at` AS `base_prices_fetched_at`,`modules_magento2api_products`.`special_prices_fetched_at` AS `special_prices_fetched_at` from (((`modules_magento2api_products` left join `products` on((`products`.`id` = `modules_magento2api_products`.`product_id`))) left join `modules_magento2api_connections` on((`modules_magento2api_connections`.`id` = `modules_magento2api_products`.`connection_id`))) left join `products_prices` on(((`products_prices`.`product_id` = `modules_magento2api_products`.`product_id`) and (`products_prices`.`warehouse_id` = `modules_magento2api_connections`.`pricing_source_warehouse_id`)))) where ((`modules_magento2api_connections`.`pricing_source_warehouse_id` is not null) and (ifnull(`modules_magento2api_products`.`exists_in_magento`,0) = 1)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1984,6 +1986,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_rmsapi_products_quantity_comparison_view` AS select `modules_rmsapi_products_imports`.`id` AS `record_id`,`modules_rmsapi_products_imports`.`sku` AS `product_sku`,`modules_rmsapi_products_imports`.`product_id` AS `product_id`,`modules_rmsapi_products_imports`.`warehouse_id` AS `warehouse_id`,`modules_rmsapi_products_imports`.`warehouse_code` AS `warehouse_code`,`modules_rmsapi_products_imports`.`quantity_on_hand` AS `rms_quantity`,`inventory`.`quantity` AS `pm_quantity`,(`modules_rmsapi_products_imports`.`quantity_on_hand` - `inventory`.`quantity`) AS `quantity_delta`,`modules_rmsapi_products_imports`.`updated_at` AS `modules_rmsapi_products_imports_updated_at`,`inventory`.`id` AS `inventory_id`,(select max(`inventory_movements`.`id`) from `inventory_movements` where ((`inventory_movements`.`inventory_id` = `inventory`.`id`) and (`inventory_movements`.`description` = 'stocktake') and (`inventory_movements`.`user_id` = 1) and (`inventory_movements`.`created_at` > (now() - interval 7 day)))) AS `movement_id` from (`modules_rmsapi_products_imports` join `inventory` on(((`inventory`.`product_id` = `modules_rmsapi_products_imports`.`product_id`) and (`inventory`.`warehouse_id` = `modules_rmsapi_products_imports`.`warehouse_id`)))) where `modules_rmsapi_products_imports`.`id` in (select max(`modules_rmsapi_products_imports`.`id`) from `modules_rmsapi_products_imports` group by `modules_rmsapi_products_imports`.`warehouse_id`,`modules_rmsapi_products_imports`.`product_id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1996,6 +1999,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
 /*!50001 VIEW `view_key_dates` AS select curdate() AS `date`,(curdate() + interval -(weekday(now())) day) AS `this_week_start_date`,(curdate() + interval (-(dayofmonth(now())) + 1) day) AS `this_month_start_date`,(curdate() + interval (-(dayofyear(now())) + 1) day) AS `this_year_start_date`,now() AS `now` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
