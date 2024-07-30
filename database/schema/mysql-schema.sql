@@ -851,7 +851,7 @@ DROP TABLE IF EXISTS `modules_magento2api_products_inventory_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_magento2api_products_inventory_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_magento2api_products_inventory_comparison_view` AS SELECT 
+/*!50001 CREATE VIEW `modules_magento2api_products_inventory_comparison_view` AS SELECT
  1 AS `modules_magento2api_connection_id`,
  1 AS `modules_magento2api_products_id`,
  1 AS `sku`,
@@ -863,7 +863,7 @@ DROP TABLE IF EXISTS `modules_magento2api_products_prices_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_magento2api_products_prices_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_magento2api_products_prices_comparison_view` AS SELECT 
+/*!50001 CREATE VIEW `modules_magento2api_products_prices_comparison_view` AS SELECT
  1 AS `modules_magento2api_connection_id`,
  1 AS `modules_magento2api_products_id`,
  1 AS `sku`,
@@ -1093,7 +1093,7 @@ DROP TABLE IF EXISTS `modules_rmsapi_products_quantity_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_rmsapi_products_quantity_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_rmsapi_products_quantity_comparison_view` AS SELECT 
+/*!50001 CREATE VIEW `modules_rmsapi_products_quantity_comparison_view` AS SELECT
  1 AS `record_id`,
  1 AS `product_sku`,
  1 AS `product_id`,
@@ -1916,7 +1916,7 @@ DROP TABLE IF EXISTS `view_key_dates`;
 /*!50001 DROP VIEW IF EXISTS `view_key_dates`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `view_key_dates` AS SELECT 
+/*!50001 CREATE VIEW `view_key_dates` AS SELECT
  1 AS `date`,
  1 AS `this_week_start_date`,
  1 AS `this_month_start_date`,
@@ -1986,7 +1986,6 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_rmsapi_products_quantity_comparison_view` AS select `modules_rmsapi_products_imports`.`id` AS `record_id`,`modules_rmsapi_products_imports`.`sku` AS `product_sku`,`modules_rmsapi_products_imports`.`product_id` AS `product_id`,`modules_rmsapi_products_imports`.`warehouse_id` AS `warehouse_id`,`modules_rmsapi_products_imports`.`warehouse_code` AS `warehouse_code`,`modules_rmsapi_products_imports`.`quantity_on_hand` AS `rms_quantity`,`inventory`.`quantity` AS `pm_quantity`,(`modules_rmsapi_products_imports`.`quantity_on_hand` - `inventory`.`quantity`) AS `quantity_delta`,`modules_rmsapi_products_imports`.`updated_at` AS `modules_rmsapi_products_imports_updated_at`,`inventory`.`id` AS `inventory_id`,(select max(`inventory_movements`.`id`) from `inventory_movements` where ((`inventory_movements`.`inventory_id` = `inventory`.`id`) and (`inventory_movements`.`description` = 'stocktake') and (`inventory_movements`.`user_id` = 1) and (`inventory_movements`.`created_at` > (now() - interval 7 day)))) AS `movement_id` from (`modules_rmsapi_products_imports` join `inventory` on(((`inventory`.`product_id` = `modules_rmsapi_products_imports`.`product_id`) and (`inventory`.`warehouse_id` = `modules_rmsapi_products_imports`.`warehouse_id`)))) where `modules_rmsapi_products_imports`.`id` in (select max(`modules_rmsapi_products_imports`.`id`) from `modules_rmsapi_products_imports` group by `modules_rmsapi_products_imports`.`warehouse_id`,`modules_rmsapi_products_imports`.`product_id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
