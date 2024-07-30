@@ -264,7 +264,7 @@ export default {
     mounted() {
         if (this.initialDiscount) {
             this.discount = JSON.parse(this.initialDiscount);
-            this.discount = {...this.discount, configuration: JSON.parse(this.discount.configuration)};
+            this.discount = {...this.discount, configuration: this.discount.configuration};
             this.configuration = {...this.configuration, ...this.discount.configuration};
         }
 
@@ -290,6 +290,11 @@ export default {
 
         addProductToDiscount(barcode) {
             if (barcode.trim() === '') {
+                return;
+            }
+
+            if (this.products.length === 2) {
+                this.notifyError('A maximum of two products can be added to the discount.');
                 return;
             }
 
@@ -341,12 +346,12 @@ export default {
         saveDiscountConfiguration() {
             this.showLoading();
             const config = Object.fromEntries(Object.entries(this.configuration).filter(([_, v]) => v !== null));
-            this.apiPutQuantityDiscount(this.discount.id, {...this.discount, configuration: JSON.stringify(config)})
+            this.apiPutQuantityDiscount(this.discount.id, {...this.discount, configuration: config})
                 .then(response => {
                     if (typeof response.data !== 'undefined' && typeof response.data.data !== 'undefined') {
                         this.discount = {
                             ...response.data.data,
-                            configuration: JSON.parse(response.data.data.configuration)
+                            configuration: response.data.data.configuration
                         };
                         this.configuration = {...this.configuration, ...this.discount.configuration};
                         this.notifySuccess('Discount configuration saved.');

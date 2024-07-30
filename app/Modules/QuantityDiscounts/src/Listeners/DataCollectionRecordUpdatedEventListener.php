@@ -28,17 +28,22 @@ class DataCollectionRecordUpdatedEventListener
             })
             ->get();
 
-        $products = QuantityDiscountsProduct::query()
+        $discountProducts = QuantityDiscountsProduct::query()
             ->whereIn('product_id', $collectionRecords->pluck('product_id'))
             ->get();
 
         $applicableQuantityDiscounts = QuantityDiscount::query()
-            ->whereIn('id', $products->pluck('quantity_discount_id'))
+            ->whereIn('id', $discountProducts->pluck('quantity_discount_id'))
             ->get();
 
         $applicableQuantityDiscounts
             ->each(function (QuantityDiscount $quantityDiscount) use ($collectionRecords) {
-                $job = new $quantityDiscount->job_class($quantityDiscount, $collectionRecords);
+                $products = $quantityDiscount->products()->with('product')->get();
+
+                $job = new $quantityDiscount->job_class(
+                    $quantityDiscount,
+                    $collectionRecords->whereIn('product_id', $products->pluck('product_id'))
+                );
                 $job->handle();
             });
     }
