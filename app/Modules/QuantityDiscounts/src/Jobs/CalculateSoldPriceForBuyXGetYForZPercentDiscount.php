@@ -2,6 +2,7 @@
 
 namespace App\Modules\QuantityDiscounts\src\Jobs;
 
+use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,6 +38,9 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
 
         $requiredQuantity = (int)data_get($discountConfig, 'quantity_full_price', 0);
         $discountedQuantity = (int)data_get($discountConfig, 'quantity_discounted', 0);
+
+        $totalQuantityRequired = $requiredQuantity + $discountedQuantity;
+
         $discountPercent = (int)data_get($discountConfig, 'discount_percent', 0);
 
         if ($requiredQuantity === 0 || $discountedQuantity === 0 || $discountPercent === 0) {
@@ -80,6 +84,47 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
         if ($lowestPriceRecord->unit_sold_price > $newSoldPrice) {
             if ($lowestPriceRecord->quantity_scanned > 1) {
                 $discounted = min($lowestPriceRecord->quantity_scanned, $discountedQuantity);
+
+
+//
+//
+//                $promotionTimesApplied = $totalDiscounted % $totalQuantityRequired;
+//
+//                $recordWithoutPromotion = $lowestPriceRecord;
+//                $recordWithoutPromotion->quantity_scanned = $totalDiscounted - $totalQuantityRequired;
+//
+//                $recordWithPromotionFullPrice = DataCollectionRecord::firstOrCreate([
+//                    'product_id' = $lowestPriceRecord->product_id,
+//                    'price_source' => 'QUANTITY_DISCOUNT',
+//                    'price_source_id' => $this->discount->id
+//                ], [
+//                    'quantity_scanned' => 0,
+//                ]);
+//
+//                $recordWithPromotionDiscountedPrice = DataCollectionRecord::firstOrCreate([
+//                    'product_id' = $lowestPriceRecord->product_id,
+//                    'price_source' => 'QUANTITY_DISCOUNT',
+//                    'price_source_id' => $this->discount->id
+//                ], [
+//                    'quantity_scanned' => 0,
+//                ]);
+//
+//                $totalQuantityScanned = $totalDiscounted;
+//
+//
+//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
+//                5 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
+//                5 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
+//
+//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
+//                0 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
+//                10 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
+//
+//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
+//                5 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
+//                5 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
+//
+
 
                 if ($lowestPriceAlreadyDiscounted) {
                     $lowestPriceAlreadyDiscounted->updateQuietly([
