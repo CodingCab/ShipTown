@@ -13,19 +13,34 @@ use Illuminate\Support\Carbon;
 /**
  *  DataCollection
  * @property int $id
+ * @property int $warehouse_code
  * @property int $warehouse_id
  * @property int $destination_warehouse_id
  * @property int $destination_collection_id
  * @property string $name
+ * @property string $recount_required
+ * @property string $calculated_at
+ * @property string $type
+ * @property string $currently_running_task
+ * @property int $shipping_address_id
+ * @property int $billing_address_id
+ * @property double $total_quantity_scanned
+ * @property double $total_cost
+ * @property double $total_full_price
+ * @property double $total_discount
+ * @property double $total_sold_price
+ * @property double $total_profit
+ *
+ *
  * @property string $custom_uuid
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property HasMany $records
+ *
  * @property Warehouse $warehouse
  * @property DataCollection $destinationCollection
- * @property string $type
- * @property string $currently_running_task
+ *
  *
  */
 class DataCollection extends BaseModel
