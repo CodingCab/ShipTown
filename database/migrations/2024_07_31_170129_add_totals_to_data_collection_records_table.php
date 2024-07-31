@@ -32,11 +32,17 @@ return new class extends Migration
                 ->comment('ROUND(quantity_scanned * unit_cost, 2)')
                 ->after('price_source_id');
 
+            $table->decimal('total_full_price', 20)
+                ->nullable()
+                ->storedAs('ROUND(quantity_scanned * unit_full_price, 2)')
+                ->comment('ROUND(quantity_scanned * unit_full_price, 2)')
+                ->after('total_cost');
+
             $table->decimal('total_sold_price', 20)
                 ->nullable()
                 ->storedAs('ROUND(quantity_scanned * unit_sold_price, 2)')
                 ->comment('ROUND(quantity_scanned * unit_sold_price, 2)')
-                ->after('total_discount');
+                ->after('unit_discount');
 
             $table->decimal('total_profit', 20)
                 ->nullable()

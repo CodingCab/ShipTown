@@ -2,6 +2,7 @@
 
 namespace App\Modules\DataCollector\src;
 
+use App\Events\EveryMinuteEvent;
 use App\Events\EveryTenMinutesEvent;
 use App\Modules\BaseModuleServiceProvider;
 use App\Modules\DataCollector\src\Jobs\DispatchCollectionsTasksJob;
@@ -37,6 +38,10 @@ class DataCollectorServiceProvider extends BaseModuleServiceProvider
      * @var array
      */
     protected $listen = [
+        EveryMinuteEvent::class => [
+            Listeners\EveryMinuteEventListener::class,
+        ],
+
         EveryTenMinutesEvent::class => [
             Listeners\EveryTenMinutesEventListener::class,
         ],

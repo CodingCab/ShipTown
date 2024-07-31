@@ -138,6 +138,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
                             'total_discount',
                             'total_price',
                             'total_cost',
+                            'total_full_price',
                             'total_sold_price',
                             'total_profit',
                             'is_requested',

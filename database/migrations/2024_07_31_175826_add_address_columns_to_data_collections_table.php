@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->foreignId('shipping_address_id')
                 ->nullable()
-                ->after('total_price')
+                ->after('total_sold_price')
                 ->references('id')
                 ->on('orders_addresses');
 
