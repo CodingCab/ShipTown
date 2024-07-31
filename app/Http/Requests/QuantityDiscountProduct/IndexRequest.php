@@ -24,8 +24,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'quantity_discount_id' => 'sometimes|integer|exists:modules_quantity_discounts,id',
-//            'product_id' => 'sometimes',
+            //
         ];
     }
 }

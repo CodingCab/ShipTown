@@ -16,7 +16,6 @@ class CalculateSoldPriceForBuyXForYPriceDiscount implements ShouldQueue
 
     private QuantityDiscount $discount;
     private Collection $collectionRecords;
-    private Collection $discountProducts;
 
     /**
      * Create a new job instance.
@@ -27,7 +26,6 @@ class CalculateSoldPriceForBuyXForYPriceDiscount implements ShouldQueue
     {
         $this->discount = $discount;
         $this->collectionRecords = $collectionRecords;
-//        $this->discountProducts = $this->discount->products()->with('product')->get();
     }
 
     /**

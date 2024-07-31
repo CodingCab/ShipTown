@@ -40,11 +40,7 @@ class QuantityDiscountsProduct extends Model
                 AllowedFilter::exact('quantity_discount_id'),
                 AllowedFilter::exact('product_id'),
             ])
-            ->allowedIncludes([
-                'discount',
-                'product',
-                'product.prices',
-            ]);
+            ->allowedIncludes(['discount', 'product', 'product.prices']);
     }
 
     /**

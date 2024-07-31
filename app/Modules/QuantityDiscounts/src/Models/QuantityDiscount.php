@@ -45,17 +45,9 @@ class QuantityDiscount extends Model
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(QuantityDiscount::class)
-            ->allowedFilters([
-                AllowedFilter::scope('search', 'whereHasText')
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-                'type'
-            ])
-            ->allowedIncludes([
-                'products'
-            ]);
+            ->allowedFilters([AllowedFilter::scope('search', 'whereHasText')])
+            ->allowedSorts(['id', 'name', 'type'])
+            ->allowedIncludes(['products']);
     }
 
     /**
@@ -68,8 +60,8 @@ class QuantityDiscount extends Model
     {
         return $query->where('name', $text)
             ->orWhere('type', $text)
-            ->orWhere('name', 'like', '%'.$text.'%')
-            ->orWhere('type', 'like', '%'.$text.'%');
+            ->orWhere('name', 'like', '%' . $text . '%')
+            ->orWhere('type', 'like', '%' . $text . '%');
     }
 
     /**
