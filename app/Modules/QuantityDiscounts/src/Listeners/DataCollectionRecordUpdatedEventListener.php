@@ -19,13 +19,6 @@ class DataCollectionRecordUpdatedEventListener
 
         $collectionRecords = DataCollectionRecord::query()
             ->where('data_collection_id', $collectionId)
-            ->whereNull('price_source_id')
-            ->whereNotIn('product_id', function ($query) {
-                $query->select('product_id')
-                    ->from('data_collection_records')
-                    ->whereNotNull('price_source_id')
-                    ->where('price_source', 'QUANTITY_DISCOUNT');
-            })
             ->get();
 
         $discountProducts = QuantityDiscountsProduct::query()

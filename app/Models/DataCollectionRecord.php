@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -30,6 +28,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  *  @property double $unit_full_price
  *  @property string $price_source
  *  @property int    $price_source_id
+ *  @property double $total_discount
+ *  @property double $total_price
  *  @property string $custom_uuid
  *  @property bool   $is_scanned
  *  @property Carbon $created_at
@@ -60,6 +60,8 @@ class DataCollectionRecord extends Model
         'unit_full_price',
         'price_source',
         'price_source_id',
+        'total_discount',
+        'total_price',
         'custom_uuid',
     ];
 
@@ -79,6 +81,9 @@ class DataCollectionRecord extends Model
         'unit_discount'         => 'float',
         'unit_full_price'       => 'float',
         'price_source'          => 'string',
+        'price_source_id'       => 'int',
+        'total_discount'        => 'float',
+        'total_price'           => 'float',
     ];
 
     public function product(): BelongsTo

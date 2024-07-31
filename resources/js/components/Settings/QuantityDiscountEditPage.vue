@@ -86,8 +86,8 @@
                             <product-info-card :product="product['product']"></product-info-card>
                         </div>
                         <div class="col-12 col-md-3 text-left small">
-                            <div>Price: <strong>{{ dashIfZero(Number(product['product']['price'])) }}</strong></div>
-                            <div>Sale price: <strong>{{ dashIfZero(Number(product['product']['sale_price'])) }}</strong>
+                            <div>Price: <strong>{{ displayFullPrice(product) }}</strong></div>
+                            <div>Sale price: <strong>{{ displaySalePrice(product) }}</strong>
                             </div>
                         </div>
                         <div class="col-12 col-md-5 d-flex align-items-center justify-content-end">
@@ -275,7 +275,7 @@ export default {
         reloadQuantityDiscountProducts() {
             let params = {
                 'filter[quantity_discount_id]': this.discount.id,
-                'include': 'product',
+                'include': 'product,product.prices',
                 'sort': '-updated_at'
             };
 
@@ -365,6 +365,21 @@ export default {
                     this.$bvModal.hide('configuration-modal');
                 });
         },
+
+        displayFullPrice(product) {
+            if (this.currentUser()['warehouse_code']) {
+                return this.dashIfZero(product.product.prices[this.currentUser()['warehouse_code']].price);
+            } else {
+                return this.dashIfZero(product.product.price);
+            }
+        },
+        displaySalePrice(product) {
+            if (this.currentUser()['warehouse_code']) {
+                return this.dashIfZero(product.product.prices[this.currentUser()['warehouse_code']]['sale_price']);
+            } else {
+                return this.dashIfZero(product.product['sale_price']);
+            }
+        }
     }
 }
 </script>

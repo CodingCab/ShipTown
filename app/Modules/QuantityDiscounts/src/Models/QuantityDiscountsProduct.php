@@ -42,7 +42,8 @@ class QuantityDiscountsProduct extends Model
             ])
             ->allowedIncludes([
                 'discount',
-                'product'
+                'product',
+                'product.prices',
             ]);
     }
 

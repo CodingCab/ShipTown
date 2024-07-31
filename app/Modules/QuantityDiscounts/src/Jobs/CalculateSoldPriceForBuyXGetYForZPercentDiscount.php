@@ -30,22 +30,98 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return array
      */
     public function handle()
     {
-        dd($this->discount->configuration);
-        $minPrice = $this->filteredCollectionRecords->min('unit_full_price');
-        $lowestPriceRecord = $this->filteredCollectionRecords->firstWhere('unit_full_price', $minPrice);
+        $discountConfig = $this->discount->configuration;
 
-        $prices = [
-            'current_sold_price' => $lowestPriceRecord->unit_sold_price,
-            'current_unit_discount' => $lowestPriceRecord->unit_discount,
-            'calculated_sold_price' => $lowestPriceRecord->unit_full_price - ($lowestPriceRecord->unit_full_price * $this->discount->configuration['discount_percent'] / 100),
-        ];
-        $prices['calculated_unit_discount'] = $lowestPriceRecord->unit_full_price - $prices['calculated_sold_price'];
+        $requiredQuantity = (int)data_get($discountConfig, 'quantity_full_price', 0);
+        $discountedQuantity = (int)data_get($discountConfig, 'quantity_discounted', 0);
+        $discountPercent = (int)data_get($discountConfig, 'discount_percent', 0);
 
-        return $prices;
+        if ($requiredQuantity === 0 || $discountedQuantity === 0 || $discountPercent === 0) {
+            return;
+        }
+
+        if ($this->filteredCollectionRecords->count() > 1) {
+            $lowestPriceRecord = $this->filteredCollectionRecords
+                ->whereNull('price_source_id')
+                ->sortBy('unit_full_price')
+                ->first();
+            $referenceRecord = $this->filteredCollectionRecords
+                ->whereNull('price_source_id')
+                ->sortBy('unit_full_price')
+                ->last();
+            $alreadyDiscountedRecords = $this->filteredCollectionRecords
+                ->whereNotNull('price_source_id')
+                ->all();
+            $totalDiscounted = collect($alreadyDiscountedRecords)->sum('quantity_scanned');
+            $lowestPriceAlreadyDiscounted = collect($alreadyDiscountedRecords)
+                ->where('product_id', $lowestPriceRecord->product_id)
+                ->first();
+        } else {
+            $lowestPriceRecord = $referenceRecord = $this->filteredCollectionRecords->first();
+            $totalDiscounted = 0;
+            $lowestPriceAlreadyDiscounted = null;
+        }
+
+        if ($lowestPriceRecord === $referenceRecord) {
+            $totalQuantity = $referenceRecord->quantity_scanned + $totalDiscounted;
+        } else {
+            $totalQuantity = $referenceRecord->quantity_scanned + $lowestPriceRecord->quantity_scanned + $totalDiscounted;
+        }
+
+        if ($totalQuantity % ($requiredQuantity + $discountedQuantity) !== 0) {
+            return;
+        }
+
+        $newSoldPrice = $lowestPriceRecord->unit_full_price - ($lowestPriceRecord->unit_full_price * $discountPercent / 100);
+
+        if ($lowestPriceRecord->unit_sold_price > $newSoldPrice) {
+            if ($lowestPriceRecord->quantity_scanned > 1) {
+                $discounted = min($lowestPriceRecord->quantity_scanned, $discountedQuantity);
+
+                if ($lowestPriceAlreadyDiscounted) {
+                    $lowestPriceAlreadyDiscounted->updateQuietly([
+                        'quantity_scanned' => $lowestPriceAlreadyDiscounted->quantity_scanned + $discounted,
+                    ]);
+                } else {
+                    $newRecord = $lowestPriceRecord
+                        ->replicateQuietly([
+                            'quantity_to_scan',
+                            'unit_discount',
+                            'total_discount',
+                            'total_price',
+                            'is_requested',
+                            'is_fully_scanned',
+                            'is_over_scanned'
+                        ])
+                        ->fill([
+                            'unit_sold_price' => $newSoldPrice,
+                            'price_source' => 'QUANTITY_DISCOUNT',
+                            'price_source_id' => $this->discount->id,
+                            'quantity_scanned' => $discounted,
+                        ]);
+                    $newRecord->saveQuietly();
+                }
+
+                $lowestPriceRecord->updateQuietly([
+                    'quantity_scanned' => $lowestPriceRecord->quantity_scanned - $discounted,
+                ]);
+            } else {
+                if ($lowestPriceAlreadyDiscounted) {
+                    $lowestPriceAlreadyDiscounted->updateQuietly([
+                        'quantity_scanned' => $lowestPriceAlreadyDiscounted->quantity_scanned + $lowestPriceRecord->quantity_scanned,
+                    ]);
+                    $lowestPriceRecord->delete();
+                } else {
+                    $lowestPriceRecord->updateQuietly([
+                        'unit_sold_price' => $newSoldPrice,
+                        'price_source' => 'QUANTITY_DISCOUNT',
+                        'price_source_id' => $this->discount->id,
+                    ]);
+                }
+            }
+        }
     }
 }
