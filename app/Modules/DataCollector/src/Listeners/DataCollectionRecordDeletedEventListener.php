@@ -9,6 +9,6 @@ class DataCollectionRecordDeletedEventListener
 {
     public function handle(DataCollectionRecordDeletedEvent $event): void
     {
-        RecountTotalsJob::dispatchSync($event->dataCollectionRecord->data_collection_id);
+        RecountTotalsJob::dispatchAfterResponse($event->dataCollectionRecord->data_collection_id);
     }
 }
