@@ -60,9 +60,11 @@ class DataCollectionRecord extends Model
         'unit_full_price',
         'price_source',
         'price_source_id',
-        'total_discount',
-        'total_price',
         'custom_uuid',
+    ];
+
+    protected $guarded = [
+        'total_cost',
     ];
 
     use HasFactory;
