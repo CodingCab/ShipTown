@@ -35,6 +35,8 @@ jobs:
           mysql --user="root" --password="root" -e "CREATE DATABASE products_management character set UTF8mb4 collate utf8mb4_bin;"
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Present the Application to github
+        run: git config --global user.email "you@example.com" && git config --global user.name "Your Name"
       - name: run npm
         run: npm run production
       - name: Generate Application Key
@@ -46,7 +48,7 @@ jobs:
       - name: Migrate database
         run: php artisan migrate:fresh --force
       - name: Run Dusk Tests
-        run: php artisan serve -v & php artisan dusk
+        run: php artisan serve & php artisan dusk
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
