@@ -39,7 +39,7 @@
                             <div class="text-secondary small">
                                 {{ formatDateTime(discount['created_at'], 'dddd - MMM D HH:mm') }}
                             </div>
-                            <div class="text-secondary small">{{ discountTypes[discount['type']] }}</div>
+                            <div class="text-secondary small">{{ discountTypes[discount['job_class']] }}</div>
                         </div>
                     </div>
                 </template>
@@ -91,10 +91,10 @@ export default {
         per_page: 20,
         scroll_percentage: 70,
         discountTypes: {
-            'BUY_X_GET_Y_FOR_Z_PRICE': 'Buy X, get Y for Z price',
-            'BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT': 'Buy X, get Y for Z percent discount',
-            'BUY_X_GET_Y_PRICE': 'Buy X for Y price',
-            'BUY_X_FOR_Y_PERCENT_DISCOUNT': 'Buy X for Y percent discount'
+            'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount': 'Buy X, get Y for Z price',
+            'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount': 'Buy X, get Y for Z percent discount',
+            'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount': 'Buy X for Y price',
+            'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount': 'Buy X for Y percent discount'
         },
     }),
 

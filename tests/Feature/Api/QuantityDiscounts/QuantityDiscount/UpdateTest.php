@@ -23,12 +23,12 @@ class UpdateTest extends TestCase
 
         $response = $this->actingAs($user, 'api')->putJson($this->uri . $discountToUpdate->id, [
             'name' => 'Test Discount',
-            'type' => 'BUY_X_GET_Y_FOR_Z_PRICE',
-            'configuration' => json_encode([
+            'type' => 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount',
+            'configuration' => [
                 'quantity_full_price' => 10,
                 'quantity_discounted' => 5,
                 'discounted_price' => 1,
-            ]),
+            ],
         ]);
 
         ray($response->json());

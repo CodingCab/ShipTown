@@ -26,7 +26,7 @@ class QuantityDiscountProductsController extends Controller
 
         $discountProducts = QuantityDiscountsProduct::query()
             ->where(['quantity_discount_id' => $request->validated('quantity_discount_id')])
-            ->with('product,product.prices')
+            ->with(['product', 'product.prices'])
             ->get();
 
         return response()->json($discountProducts);
@@ -38,7 +38,7 @@ class QuantityDiscountProductsController extends Controller
 
         $discountProducts = QuantityDiscountsProduct::query()
             ->where(['quantity_discount_id' => $quantityDiscountProduct->quantity_discount_id])
-            ->with('product,product.prices')
+            ->with(['product', 'product.prices'])
             ->get();
 
         return response()->json($discountProducts);
