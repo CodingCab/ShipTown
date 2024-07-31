@@ -11,10 +11,18 @@ return new class extends Migration
         Schema::table('data_collection_records', function (Blueprint $table) {
             $table->decimal('unit_cost', 20, 3)->change();
             $table->decimal('unit_sold_price', 20, 3)->change();
-            $table->decimal('unit_discount', 20, 3)->change();
             $table->decimal('unit_full_price', 20, 3)->change();
-
             $table->decimal('total_discount', 20)->change();
+
+            $table->dropColumn('unit_discount');
+        });
+
+        Schema::table('data_collection_records', function (Blueprint $table) {
+            $table->decimal('unit_discount', 20)
+                ->nullable()
+                ->storedAs('ROUND(unit_full_price - unit_sold_price, 3)')
+                ->comment('ROUND(unit_full_price - unit_sold_price, 3)')
+                ->after('unit_sold_price');
         });
 
         Schema::table('data_collection_records', function (Blueprint $table) {
