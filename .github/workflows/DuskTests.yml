@@ -37,6 +37,8 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Present the Application to github
         run: git config --global user.email "you@example.com" && git config --global user.name "Your Name"
+      - name: npm install
+        run: npm install
       - name: run npm
         run: npm run production
       - name: Generate Application Key
