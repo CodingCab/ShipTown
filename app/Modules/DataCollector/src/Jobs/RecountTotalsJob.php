@@ -3,11 +3,17 @@
 namespace App\Modules\DataCollector\src\Jobs;
 
 use App\Abstracts\UniqueJob;
-use App\Models\DataCollection;
 use Illuminate\Support\Facades\DB;
 
-class RecountTotalsDataCollectionsJob extends UniqueJob
+class RecountTotalsJob extends UniqueJob
 {
+    private ?int $dataCollectionId;
+
+    public function __construct(int $dataCollectionId = null)
+    {
+        $this->dataCollectionId = $dataCollectionId;
+    }
+
     public function handle(): void
     {
         DB::statement("DROP TEMPORARY TABLE IF EXISTS tempTable;");
@@ -20,10 +26,10 @@ class RecountTotalsDataCollectionsJob extends UniqueJob
                     NOW() as calculated_at
                 FROM data_collections
 
-                WHERE recount_required = 1
+                WHERE recount_required = 1 OR (? IS NOT NULL AND data_collections.id = ?)
 
                 LIMIT 5;
-        ");
+        ", [$this->dataCollectionId, $this->dataCollectionId]);
 
         DB::statement("
             CREATE TEMPORARY TABLE tempInventoryTotals AS
