@@ -15,7 +15,7 @@ class QuantityDiscountsServiceProvider extends BaseModuleServiceProvider
 
     public static string $settings_link = '/admin/settings/modules/quantity-discounts';
 
-    public static bool $autoEnable = false;
+    public static bool $autoEnable = true;
 
     protected $listen = [
         DataCollectionRecordCreatedEvent::class => [
