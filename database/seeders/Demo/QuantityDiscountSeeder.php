@@ -12,30 +12,33 @@ class QuantityDiscountSeeder extends Seeder
 {
     public function run()
     {
-        $product = Product::where(['sku' => '4001'])->first();
-
-        $product->prices()
-            ->update([
-                'price' => 20,
-                'sale_price' => '17.99',
-                'sale_price_start_date' => now()->subDays(14),
-                'sale_price_end_date' => now()->subDays(7)
+        $quantityDiscount = QuantityDiscount::factory()
+            ->create([
+                'name' => 'Buy 2 get 2 half price',
+                'job_class' => CalculateSoldPriceForBuyXGetYForZPercentDiscount::class,
+                'configuration' => [
+                    'quantity_full_price' => 2,
+                    'quantity_discounted' => 2,
+                    'discount_percent' => 50,
+                ],
             ]);
 
-        $quantityDiscount = QuantityDiscount::factory()->create([
-            'name' => 'Buy 2 get 3rd half price',
-            'job_class' => CalculateSoldPriceForBuyXGetYForZPercentDiscount::class,
-            'configuration' => [
-                'quantity_full_price' => 2,
-                'quantity_discounted' => 1,
-                'discount_percent' => 50,
-            ],
-        ]);
-
-        QuantityDiscountsProduct::factory([
+        QuantityDiscountsProduct::factory()
+            ->create([
                 'quantity_discount_id' => $quantityDiscount->id,
-                'product_id' => $product->getKey(),
-            ])
-            ->create();
+                'product_id' => Product::where(['sku' => '4001'])->first(),
+            ]);
+
+        QuantityDiscountsProduct::factory()
+            ->create([
+                'quantity_discount_id' => $quantityDiscount->id,
+                'product_id' => Product::where(['sku' => '4002'])->first(),
+            ]);
+
+        QuantityDiscountsProduct::factory()
+            ->create([
+                'quantity_discount_id' => $quantityDiscount->id,
+                'product_id' => Product::where(['sku' => '4005'])->first(),
+            ]);
     }
 }
