@@ -2,31 +2,38 @@
 
 namespace App\Modules\QuantityDiscounts\src\Jobs;
 
+use App\Abstracts\UniqueJob;
+use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
-class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
+class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private QuantityDiscount $discount;
-    private Collection $filteredCollectionRecords;
+    private DataCollection $dataCollection;
+
+    public function uniqueId(): string
+    {
+        return implode('_', [self::class, $this->dataCollection->id]);
+    }
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(QuantityDiscount $discount, Collection $filteredCollectionRecords)
+    public function __construct(QuantityDiscount $discount, DataCollection $dataCollection)
     {
         $this->discount = $discount;
-        $this->filteredCollectionRecords = $filteredCollectionRecords;
+        $this->dataCollection = $dataCollection;
     }
 
     /**
@@ -34,143 +41,185 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount implements ShouldQueue
      */
     public function handle()
     {
+        ray()->clearAll();
+
+        ray('CalculateSoldPriceForBuyXGetYForZPercentDiscount');
+
         $discountConfig = $this->discount->configuration;
+        $discountProducts = $this->discount->products()->with('product')->get();
+
+        $this->dataCollection->records()
+            ->whereIn('product_id', $discountProducts->pluck('product_id'))
+            ->where(['price_source_id' => $this->discount->id])
+            ->update([
+                'price_source' => null,
+                'price_source_id' => null,
+                'unit_sold_price' => DB::raw('unit_full_price')
+            ]);
+
+        $filteredCollectionRecords = $this->dataCollection->records()
+            ->whereIn('product_id', $discountProducts->pluck('product_id'))
+            ->where(function ($query) {
+                $query->whereNull('price_source_id')
+                    ->orWhere(['price_source_id' => $this->discount->id]);
+            })
+            ->orderBy('unit_full_price', 'ASC')
+            ->get();
+
+        $totalQuantityScanned = $filteredCollectionRecords->sum('quantity_scanned');
 
         $requiredQuantity = (int)data_get($discountConfig, 'quantity_full_price', 0);
         $discountedQuantity = (int)data_get($discountConfig, 'quantity_discounted', 0);
-
+        $discountPercent = (int)data_get($discountConfig, 'discount_percent', 0);
         $totalQuantityRequired = $requiredQuantity + $discountedQuantity;
 
-        $discountPercent = (int)data_get($discountConfig, 'discount_percent', 0);
+        $multiplication = intdiv($totalQuantityScanned, $totalQuantityRequired);
 
-        if ($requiredQuantity === 0 || $discountedQuantity === 0 || $discountPercent === 0) {
+        ray(['totalQuantityScanned' => $totalQuantityScanned, 'multiplication' => $multiplication]);
+        if ($totalQuantityScanned < ($multiplication * $totalQuantityRequired)) {
             return;
         }
 
-        if ($this->filteredCollectionRecords->count() > 1) {
-            $lowestPriceRecord = $this->filteredCollectionRecords
-                ->whereNull('price_source_id')
-                ->sortBy('unit_full_price')
-                ->first();
-            $referenceRecord = $this->filteredCollectionRecords
-                ->whereNull('price_source_id')
-                ->sortBy('unit_full_price')
-                ->last();
-            $alreadyDiscountedRecords = $this->filteredCollectionRecords
-                ->whereNotNull('price_source_id')
-                ->all();
-            $totalDiscounted = collect($alreadyDiscountedRecords)->sum('quantity_scanned');
-            $lowestPriceAlreadyDiscounted = collect($alreadyDiscountedRecords)
-                ->where('product_id', $lowestPriceRecord->product_id)
-                ->first();
-        } else {
-            $lowestPriceRecord = $referenceRecord = $this->filteredCollectionRecords->first();
-            $totalDiscounted = 0;
-            $lowestPriceAlreadyDiscounted = null;
-        }
+        $this->extractPromotionalProducts($filteredCollectionRecords, ($multiplication * $totalQuantityRequired));
+        $this->updatePromotionalPrices($multiplication * $discountedQuantity);
+    }
 
-        if ($lowestPriceRecord === $referenceRecord) {
-            $totalQuantity = $referenceRecord->quantity_scanned + $totalDiscounted;
-        } else {
-            $totalQuantity = $referenceRecord->quantity_scanned + $lowestPriceRecord->quantity_scanned + $totalDiscounted;
-        }
+    public function updatePromotionalPrices($quantityToDiscount): void
+    {
+        $discountedQuantity = $quantityToDiscount;
 
-        if ($totalQuantity % ($requiredQuantity + $discountedQuantity) !== 0) {
-            return;
-        }
+        $this->dataCollection->records()
+            ->where('price_source_id', $this->discount->id)
+            ->update(['unit_sold_price' => DB::raw('unit_full_price')]);
 
-        $newSoldPrice = $lowestPriceRecord->unit_full_price - ($lowestPriceRecord->unit_full_price * $discountPercent / 100);
+        $filteredCollectionRecords = $this->dataCollection->records()
+            ->where('price_source_id', $this->discount->id)
+            ->where('quantity_scanned', '!=', 0)
+            ->orderBy('unit_full_price', 'ASC')
+            ->get();
 
-        if ($lowestPriceRecord->unit_sold_price > $newSoldPrice) {
-            if ($lowestPriceRecord->quantity_scanned > 1) {
-                $discounted = min($lowestPriceRecord->quantity_scanned, $discountedQuantity);
+        $filteredCollectionRecords->each(function (DataCollectionRecord $record) use (&$discountedQuantity) {
+            $quantityToExtract = min($record->quantity_scanned, $discountedQuantity);
+
+            ray($discountedQuantity, $quantityToExtract);
 
 
-//
-//
-//                $promotionTimesApplied = $totalDiscounted % $totalQuantityRequired;
-//
-//                $recordWithoutPromotion = $lowestPriceRecord;
-//                $recordWithoutPromotion->quantity_scanned = $totalDiscounted - $totalQuantityRequired;
-//
-//                $recordWithPromotionFullPrice = DataCollectionRecord::firstOrCreate([
-//                    'product_id' = $lowestPriceRecord->product_id,
-//                    'price_source' => 'QUANTITY_DISCOUNT',
-//                    'price_source_id' => $this->discount->id
-//                ], [
-//                    'quantity_scanned' => 0,
-//                ]);
-//
-//                $recordWithPromotionDiscountedPrice = DataCollectionRecord::firstOrCreate([
-//                    'product_id' = $lowestPriceRecord->product_id,
-//                    'price_source' => 'QUANTITY_DISCOUNT',
-//                    'price_source_id' => $this->discount->id
-//                ], [
-//                    'quantity_scanned' => 0,
-//                ]);
-//
-//                $totalQuantityScanned = $totalDiscounted;
-//
-//
-//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
-//                5 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
-//                5 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
-//
-//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
-//                0 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
-//                10 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
-//
-//                0 $recordWithoutPromotion->quantity_scanned = $totalQuantityScanned - $totalQuantityRequired * $promotionTimesApplied;
-//                5 $recordWithPromotionFullPrice->quantity_scanned = $requiredQuantity * $promotionTimesApplied;
-//                5 $recordWithPromotionDiscountedPrice->quantity_scanned = $discountedQuantity * $promotionTimesApplied;
-//
-
-
-                if ($lowestPriceAlreadyDiscounted) {
-                    $lowestPriceAlreadyDiscounted->updateQuietly([
-                        'quantity_scanned' => $lowestPriceAlreadyDiscounted->quantity_scanned + $discounted,
-                    ]);
-                } else {
-                    $newRecord = $lowestPriceRecord
-                        ->replicateQuietly([
-                            'quantity_to_scan',
-                            'unit_discount',
-                            'total_discount',
-                            'total_price',
-                            'total_cost',
-                            'total_full_price',
-                            'total_sold_price',
-                            'total_profit',
-                            'is_requested',
-                            'is_fully_scanned',
-                            'is_over_scanned'
-                        ])
-                        ->fill([
-                            'unit_sold_price' => $newSoldPrice,
-                            'price_source' => 'QUANTITY_DISCOUNT',
-                            'price_source_id' => $this->discount->id,
-                            'quantity_scanned' => $discounted,
-                        ]);
-                    $newRecord->saveQuietly();
-                }
-
-                $lowestPriceRecord->updateQuietly([
-                    'quantity_scanned' => $lowestPriceRecord->quantity_scanned - $discounted,
-                ]);
-            } else {
-                if ($lowestPriceAlreadyDiscounted) {
-                    $lowestPriceAlreadyDiscounted->updateQuietly([
-                        'quantity_scanned' => $lowestPriceAlreadyDiscounted->quantity_scanned + $lowestPriceRecord->quantity_scanned,
-                    ]);
-                    $lowestPriceRecord->delete();
-                } else {
-                    $lowestPriceRecord->updateQuietly([
-                        'unit_sold_price' => $newSoldPrice,
-                        'price_source' => 'QUANTITY_DISCOUNT',
-                        'price_source_id' => $this->discount->id,
-                    ]);
-                }
+            if ($quantityToExtract < 0.01) {
+                return true;
             }
-        }
+
+            if ($quantityToExtract === $record->quantity_scanned) {
+                $record->update([
+                    'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
+                ]);
+
+                $discountedQuantity -= $quantityToExtract;
+            } else {
+                ray($record, $quantityToExtract);
+                $newRecord = $record->replicate([
+                    'quantity_to_scan',
+                    'unit_discount',
+                    'total_discount',
+                    'total_sold_price',
+                    'total_cost',
+                    'total_price',
+                    'total_profit',
+                    'total_full_price',
+                    'is_requested',
+                    'is_fully_scanned',
+                    'is_over_scanned',
+                    'total_transferred_in',
+                    'total_transferred_out',
+                    'quantity_scanned'
+                ]);
+                $newRecord->fill([
+                    'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
+                    'price_source' => 'QUANTITY_DISCOUNT',
+                    'price_source_id' => $this->discount->id,
+                    'quantity_scanned' => $quantityToExtract,
+                ])
+                ->save();
+
+                $record->update([
+                    'quantity_scanned' => $record->quantity_scanned - $quantityToExtract,
+                ]);
+
+                $discountedQuantity -= $quantityToExtract;
+            }
+
+            if ($discountedQuantity < 0.01) {
+                return false;
+            }
+
+            return true;
+        });
+    }
+
+    /**
+     * @param Collection $filteredCollectionRecords
+     * @param int $totalQuantityRequired
+     * @return float|int|mixed
+     */
+    public function extractPromotionalProducts(Collection $filteredCollectionRecords, int $totalQuantityRequired): mixed
+    {
+        $filteredCollectionRecords->each(function (DataCollectionRecord $record) use (&$totalQuantityRequired) {
+            $quantityToExtract = min($record->quantity_scanned, $totalQuantityRequired);
+            ray([
+                '$quantityToExtract' => $quantityToExtract,
+                'record_quantity_scanned' => $record->quantity_scanned,
+                'totalQuantityRequired' => $totalQuantityRequired,
+            ]);
+
+            if ($totalQuantityRequired === 0) {
+                return false;
+            }
+
+            if ($quantityToExtract === $record->quantity_scanned) {
+                $record->update([
+                    'price_source' => 'QUANTITY_DISCOUNT',
+                    'price_source_id' => $this->discount->id,
+                ]);
+
+                $totalQuantityRequired -= $quantityToExtract;
+            } elseif ($quantityToExtract > 0) {
+                $newRecord = $record->replicate([
+                    'quantity_to_scan',
+                    'unit_discount',
+                    'total_discount',
+                    'total_sold_price',
+                    'total_cost',
+                    'total_price',
+                    'total_profit',
+                    'total_full_price',
+                    'is_requested',
+                    'is_fully_scanned',
+                    'is_over_scanned',
+                    'total_transferred_in',
+                    'total_transferred_out',
+                    'quantity_scanned'
+                ]);
+                $newRecord->fill([
+                    'price_source' => 'QUANTITY_DISCOUNT',
+                    'price_source_id' => $this->discount->id,
+                    'quantity_scanned' => $quantityToExtract,
+                ])
+                    ->save();
+
+                $record->update([
+                    'quantity_scanned' => $record->quantity_scanned - $quantityToExtract,
+                ]);
+
+                $totalQuantityRequired -= $quantityToExtract;
+            } else {
+                $record->update([
+                    'price_source' => null,
+                    'price_source_id' => null,
+                ]);
+            }
+
+            return true;
+        });
+
+        return $totalQuantityRequired;
     }
 }

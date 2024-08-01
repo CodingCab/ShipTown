@@ -5,7 +5,6 @@ namespace App\Modules\QuantityDiscounts\src\Listeners;
 use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
 use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 
 class DataCollectionRecordUpdatedEventListener
 {
@@ -17,27 +16,26 @@ class DataCollectionRecordUpdatedEventListener
             return;
         }
 
-        $collectionRecords = DataCollectionRecord::query()
-            ->where('data_collection_id', $collectionId)
-            ->get();
-
-        $discountProducts = QuantityDiscountsProduct::query()
-            ->whereIn('product_id', $collectionRecords->pluck('product_id'))
-            ->get();
+        $dispatcher = DataCollectionRecord::getEventDispatcher();
+        DataCollectionRecord::unsetEventDispatcher();
 
         $applicableQuantityDiscounts = QuantityDiscount::query()
-            ->whereIn('id', $discountProducts->pluck('quantity_discount_id'))
+            ->whereHas('products', function ($query) use ($collectionId) {
+                $query->whereIn('product_id', function ($subQuery) use ($collectionId) {
+                    $subQuery->select('product_id')
+                        ->from('data_collection_records')
+                        ->where('data_collection_id', $collectionId);
+                });
+            })
+            ->with('products')
             ->get();
 
         $applicableQuantityDiscounts
-            ->each(function (QuantityDiscount $quantityDiscount) use ($collectionRecords) {
-                $products = $quantityDiscount->products()->with('product')->get();
-
-                $job = new $quantityDiscount->job_class(
-                    $quantityDiscount,
-                    $collectionRecords->whereIn('product_id', $products->pluck('product_id'))
-                );
+            ->each(function (QuantityDiscount $quantityDiscount) use ($record) {
+                $job = new $quantityDiscount->job_class($quantityDiscount, $record->dataCollection);
                 $job->handle();
             });
+
+        DataCollectionRecord::setEventDispatcher($dispatcher);
     }
 }

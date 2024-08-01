@@ -16,6 +16,7 @@
                         <text-card class="fa-pull-right" :label="formatDateTime(dataCollection ? dataCollection['deleted_at'] : '', 'dddd - MMM D HH:mm')" text="ARCHIVED"></text-card>
                     </div>
                     <div>
+                        <number-card :label="'quantity'" :number="dataCollection && dataCollection['total_quantity_scanned']"></number-card>
                         <number-card :label="'total to pay'" :number="dataCollection && dataCollection['total_sold_price']"></number-card>
                     </div>
                 </div>
@@ -83,7 +84,7 @@
                         </div>
                         <div class="col-12 col-md-5 text-right">
                             <number-card label="quantity" :number="record['quantity_scanned']" v-bind:class="{'bg-warning': record['quantity_scanned'] > 0 && record['quantity_requested'] &&  record['quantity_requested'] < record['quantity_scanned'] + record['total_transferred_out'] + record['total_transferred_in']}"></number-card>
-                            <number-card label="unit price" :number="record['unit_sold_price']" v-bind:class="{'bg-warning': record['price_source'] !== 'FULL_PRICE' }"></number-card>
+                            <number-card label="unit price" :number="record['unit_sold_price']" v-bind:class="{'bg-warning': record['unit_discount'] > 0 }"></number-card>
                             <number-card label="total price" :number="record['total_price']"></number-card>
                         </div>
                     </div>

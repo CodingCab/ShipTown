@@ -39,17 +39,15 @@ class AddProductController
             ->where([
                 'data_collection_id' => $request->validated('data_collection_id'),
                 'product_id' => $productId,
-                'unit_cost' => data_get($inventory, 'prices.cost'),
                 'unit_sold_price' => data_get($inventory, 'prices.current_price'),
-                'unit_full_price' => data_get($inventory, 'prices.price'),
-                'price_source' => data_get($inventory, 'prices.price') === data_get($inventory, 'prices.current_price') ? 'FULL_PRICE' : 'SALE_PRICE',
+//                'price_source' => null,
             ])
             ->firstOr(function () use ($request, $productId, $inventory) {
                 return DataCollectionRecord::query()->create([
                     'unit_cost' => data_get($inventory, 'prices.cost'),
                     'unit_full_price' => data_get($inventory, 'prices.price'),
                     'unit_sold_price' => data_get($inventory, 'prices.current_price'),
-                    'price_source' => data_get($inventory, 'prices.price') === data_get($inventory, 'prices.current_price') ? 'FULL_PRICE' : 'SALE_PRICE',
+//                    'price_source' => data_get($inventory, 'prices.price') === data_get($inventory, 'prices.current_price') ? 'FULL_PRICE' : 'SALE_PRICE',
                     'data_collection_id' => $request->validated('data_collection_id'),
                     'inventory_id' => $inventory->id,
                     'warehouse_id' => $inventory->warehouse_id,
