@@ -466,7 +466,11 @@ export default {
         },
 
         archiveCollection() {
-            this.apiDeleteDataCollection(this.data_collection_id)
+
+            this.apiUpdateDataCollection(this.data_collection_id, {
+                'custom_uuid': null,
+                'deleted_at': new Date().toISOString(),
+            })
                 .then(response => {
                     this.$snotify.success('Collection archived successfully');
                     this.$bvModal.hide('configuration-modal');
