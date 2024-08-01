@@ -79,6 +79,7 @@
                         <div class="col-12 col-md-3 text-left small">
                             <div>in stock: <strong>{{ dashIfZero(Number(record['inventory']['quantity'])) }}</strong></div>
                             <div v-if="record['price_source'] !== 'FULL_PRICE'">full price: <strong>{{ dashIfZero(Number(record['unit_full_price'])) }}</strong></div>
+                            <div v-if="record['price_source'] !== 'FULL_PRICE'">price source: <strong>{{ record['price_source'] }}</strong></div>
                         </div>
                         <div class="col-12 col-md-5 text-right">
                             <number-card label="quantity" :number="record['quantity_scanned']" v-bind:class="{'bg-warning': record['quantity_scanned'] > 0 && record['quantity_requested'] &&  record['quantity_requested'] < record['quantity_scanned'] + record['total_transferred_out'] + record['total_transferred_in']}"></number-card>
