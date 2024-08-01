@@ -468,12 +468,13 @@ export default {
 
         archiveCollection() {
 
-            this.apiUpdateDataCollection(this.data_collection_id, {
-                'custom_uuid': null,
-                'deleted_at': new Date().toISOString(),
-            })
+                this.apiUpdateDataCollection(this.data_collection_id, {
+                    'custom_uuid': null,
+                    'deleted_at': new Date().toISOString(),
+                })
                 .then(response => {
                     this.$snotify.success('Collection archived successfully');
+                    this.$emit('transactionFinished');
                     this.$bvModal.hide('configuration-modal');
                     setTimeout(() => {
                         this.reloadDataCollection();

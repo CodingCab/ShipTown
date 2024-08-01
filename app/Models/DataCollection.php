@@ -88,4 +88,36 @@ class DataCollection extends BaseModel
     {
         return $this->hasMany(DataCollectionComment::class)->orderByDesc('id');
     }
+
+    public function addProduct(mixed $product_id, float $unit_sold_price = null): DataCollectionRecord
+    {
+        $inventory = Inventory::query()
+            ->with('prices')
+            ->where(['product_id' => $product_id, 'warehouse_id' => $this->warehouse_id])
+            ->first();
+
+        return DataCollectionRecord::query()
+            ->where([
+                'data_collection_id' => $this->id,
+                'product_id' => $product_id,
+                'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.price'),
+                'price_source' => null,
+                'price_source_id' => null,
+            ])
+            ->firstOr(function () use ($inventory, $unit_sold_price) {
+                return DataCollectionRecord::query()->create([
+                    'data_collection_id' => $this->id,
+                    'unit_cost' => data_get($inventory, 'prices.cost'),
+                    'unit_full_price' => data_get($inventory, 'prices.price'),
+                    'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.price'),
+                    'price_source' => null,
+                    'price_source_id' => null,
+                    'inventory_id' => $inventory->id,
+                    'warehouse_id' => $inventory->warehouse_id,
+                    'warehouse_code' => $inventory->warehouse_code,
+                    'product_id' => $inventory->product_id,
+                    'quantity_requested' => 0,
+                ]);
+            });
+    }
 }

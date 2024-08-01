@@ -19,6 +19,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @property string updated_at
  * @property string created_at
  *
+ * @property QuantityDiscountsProduct[] products
+ *
  */
 class QuantityDiscount extends Model
 {

@@ -293,11 +293,6 @@ export default {
                 return;
             }
 
-            if (this.products.length === 2) {
-                this.notifyError('A maximum of two products can be added to the discount.');
-                return;
-            }
-
             this.apiGetProducts({'filter[sku_or_alias]': barcode, 'include': 'prices'})
                 .then(response => {
                     if (response.data.data.length === 0) {

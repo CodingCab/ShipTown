@@ -1,11 +1,11 @@
 <template>
     <div>
-        <data-collector-transaction-page v-if="dataCollection" :data_collection_id="dataCollection.id"></data-collector-transaction-page>
+        <data-collector-transaction-page v-if="dataCollection" :data_collection_id="dataCollection.id" @transactionFinished="clearSelectedDataCollection"></data-collector-transaction-page>
         <div v-else>
             <h1>Point of Sale</h1>
             <input type="text" placeholder="Username" class="form-control">
             <input type="password" placeholder="Password" class="form-control">
-            <button @click="startTransaction" class="btn btn-primary">Start Transaction</button>
+            <button @click="startNewTransaction" class="btn btn-primary">Start Transaction</button>
         </div>
     </div>
 </template>
@@ -26,11 +26,15 @@ export default {
     },
 
     mounted() {
-        this.startTransaction();
+        this.startNewTransaction();
     },
 
     methods: {
-        startTransaction() {
+        clearSelectedDataCollection() {
+            this.dataCollection = null;
+        },
+
+        startNewTransaction() {
             let customUuid = `TRANSACTION_IN_PROGRESS_FOR_USER_${this.currentUser().id}_${this.currentUser().name}`;
 
             this.apiGetDataCollector({'filter[custom_uuid]': customUuid})
