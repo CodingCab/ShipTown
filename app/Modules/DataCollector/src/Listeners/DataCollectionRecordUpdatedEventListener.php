@@ -9,6 +9,6 @@ class DataCollectionRecordUpdatedEventListener
 {
     public function handle(DataCollectionRecordUpdatedEvent $event): void
     {
-        RecountTotalsJob::dispatchAfterResponse($event->dataCollectionRecord->data_collection_id);
+        RecountTotalsJob::dispatch($event->dataCollectionRecord->data_collection_id);
     }
 }

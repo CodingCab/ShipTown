@@ -28,8 +28,10 @@ use Spatie\QueryBuilder\QueryBuilder;
  *  @property double $unit_full_price
  *  @property string $price_source
  *  @property int    $price_source_id
+ *  @property double $total_cost_price
+ *  @property double $total_sold_price
+ *  @property double $total_full_price
  *  @property double $total_discount
- *  @property double $total_price
  *  @property string $custom_uuid
  *  @property bool   $is_scanned
  *  @property Carbon $created_at
@@ -44,6 +46,9 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 class DataCollectionRecord extends Model
 {
+    use HasFactory;
+    use SoftDeletes;
+
     protected $fillable = [
         'data_collection_id',
         'inventory_id',
@@ -67,10 +72,6 @@ class DataCollectionRecord extends Model
         'total_cost',
     ];
 
-    use HasFactory;
-
-    use SoftDeletes;
-
     protected $casts = [
         'product_id'            => 'int',
         'total_transferred_id'  => 'double',
@@ -85,7 +86,9 @@ class DataCollectionRecord extends Model
         'price_source'          => 'string',
         'price_source_id'       => 'int',
         'total_discount'        => 'float',
-        'total_price'           => 'float',
+        'total_sold_price'      => 'float',
+        'total_full_price'      => 'float',
+        'total_cost_price'      => 'float',
     ];
 
     public function product(): BelongsTo

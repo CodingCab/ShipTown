@@ -7,8 +7,6 @@ use App\Events\DataCollectionRecord\DataCollectionRecordDeletedEvent;
 use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
 use App\Events\EveryMinuteEvent;
 use App\Events\EveryTenMinutesEvent;
-use App\Models\DataCollection;
-use App\Models\DataCollectionRecord;
 use App\Modules\BaseModuleServiceProvider;
 use App\Modules\DataCollector\src\Jobs\DispatchCollectionsTasksJob;
 
