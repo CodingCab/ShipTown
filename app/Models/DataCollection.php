@@ -89,7 +89,7 @@ class DataCollection extends BaseModel
         return $this->hasMany(DataCollectionComment::class)->orderByDesc('id');
     }
 
-    public function addProduct(mixed $product_id, float $unit_sold_price = null): DataCollectionRecord
+    public function firstOrCreateProductRecord(mixed $product_id, float $unit_sold_price = null): DataCollectionRecord
     {
         $inventory = Inventory::query()
             ->with('prices')

@@ -39,7 +39,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
     {
         $discountConfig = $this->discount->configuration;
 
-        $filteredCollectionRecords = $this->dataCollection->records()
+        $productIncludedInDiscount = $this->dataCollection->records()
             ->whereIn('product_id', Arr::pluck($this->discount->products, 'product_id'))
             ->where(function ($query) {
                 $query->whereNull('price_source_id')
@@ -51,15 +51,15 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
             ->orderBy('id', 'ASC')
             ->get();
 
-        $totalQuantityScanned = $filteredCollectionRecords->sum('quantity_scanned');
-        $quantityFullPrice = (int)data_get($discountConfig, 'quantity_full_price', 0);
-        $quantityDiscounted = (int)data_get($discountConfig, 'quantity_discounted', 0);
+        $totalQuantityScanned = $productIncludedInDiscount->sum('quantity_scanned');
+        $quantityAtFullPrice = (int)data_get($discountConfig, 'quantity_full_price', 0);
+        $quantityAtDiscountedPrice = (int)data_get($discountConfig, 'quantity_discounted', 0);
 
-        $quantityRequiredPerOffer = $quantityFullPrice + $quantityDiscounted;
+        $quantityRequiredPerOffer = $quantityAtFullPrice + $quantityAtDiscountedPrice;
 
-        $totalQuantityDiscounted = $quantityDiscounted * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
+        $totalQuantityDiscounted = $quantityAtDiscountedPrice * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
 
-        $this->extractPromotionalProducts($filteredCollectionRecords, $totalQuantityDiscounted);
+        $this->extractPromotionalProducts($productIncludedInDiscount, $totalQuantityDiscounted);
     }
 
     public function extractPromotionalProducts(Collection $filteredCollectionRecords, int $totalQuantityRequired): mixed
@@ -96,7 +96,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                 ]);
 
                 $this->dataCollection
-                    ->addProduct($record->product_id, $record->unit_full_price)
+                    ->firstOrCreateProductRecord($record->product_id, $record->unit_full_price)
                     ->increment('quantity_scanned', $quantityToCarryOver);
             }
 

@@ -96,7 +96,7 @@ class CalculateSoldPriceForBuyXGetYForZPriceDiscount extends UniqueJob
                 ]);
 
                 $this->dataCollection
-                    ->addProduct($record->product_id, $record->unit_full_price)
+                    ->firstOrCreateProductRecord($record->product_id, $record->unit_full_price)
                     ->increment('quantity_scanned', $quantityToCarryOver);
             }
 

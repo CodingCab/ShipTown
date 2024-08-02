@@ -32,6 +32,6 @@ class AddProductController
         $dataCollection = DataCollection::query()
             ->find($request->validated('data_collection_id'));
 
-        return $dataCollection->addProduct($productId);
+        return $dataCollection->firstOrCreateProductRecord($productId);
     }
 }
