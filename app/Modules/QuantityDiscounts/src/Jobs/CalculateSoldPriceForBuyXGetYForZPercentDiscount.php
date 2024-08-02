@@ -115,18 +115,18 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                     'price_source' => "QUANTITY_DISCOUNT",
                     'price_source_id' => $this->discount->id,
                 ];
-
-                if ($record->quantity_scanned == $quantityToDiscount) {
-                    $record->update($discountedAttributes);
-
-                    $remainingQuantityToDiscount -= $quantityToDiscount;
-                    $remainingQuantityToIncludeInPromotion -= $quantityToCarryOver;
-                } else if ($record->quantity_scanned > $quantityToDiscount) {
+//
+//                if ($record->quantity_scanned == $quantityToDiscount) {
+//                    $record->update($discountedAttributes);
+//
+//                    $remainingQuantityToDiscount -= $quantityToDiscount;
+//                    $remainingQuantityToIncludeInPromotion -= $quantityToCarryOver;
+//                } else if ($record->quantity_scanned > $quantityToDiscount) {
                     DataCollectorService::splitRecord($record, $quantityToDiscount, $product1, $discountedAttributes);
 
                     $remainingQuantityToDiscount -= $quantityToDiscount;
                     $remainingQuantityToIncludeInPromotion -= $quantityToCarryOver;
-                }
+//                }
             }
 
             return true;
