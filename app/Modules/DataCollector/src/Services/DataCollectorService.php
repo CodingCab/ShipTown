@@ -211,10 +211,9 @@ class DataCollectorService
         });
     }
 
-    public static function splitRecord(DataCollectionRecord $record, mixed $quantityToDiscount, array $product1, array $discountedAttributes): void
+    public static function splitRecord(DataCollectionRecord $record, mixed $quantityToExtract): void
     {
-        $record->update($product1);
-        $record->decrement('quantity_scanned', $quantityToDiscount);
+        $record->decrement('quantity_scanned', $quantityToExtract);
 
         if ($record->quantity_scanned == 0) {
             $record->delete();
@@ -230,7 +229,6 @@ class DataCollectorService
                 'price_source' => $record->price_source,
                 'price_source_id' => $record->price_source_id,
                 ],
-                $discountedAttributes
             ),
             [
                 'unit_full_price' => $record->unit_full_price,
@@ -241,9 +239,7 @@ class DataCollectorService
             ]
         );
 
-        $newRecord->save();
-
-        $newRecord->update($discountedAttributes);
-        $newRecord->increment('quantity_scanned', $quantityToDiscount);
+//        $newRecord->update($discountedAttributes);
+        $newRecord->increment('quantity_scanned', $quantityToExtract);
     }
 }

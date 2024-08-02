@@ -99,8 +99,11 @@ class DataCollectionRecord extends Model
     public function replicate(array $except = null): self
     {
         return parent::replicate(array_merge($except, [
+            'quantity_scanned',
             'quantity_to_scan',
             'unit_discount',
+            'total_transferred_in',
+            'total_transferred_out',
             'total_sold_price',
             'total_full_price',
             'total_cost_price',
