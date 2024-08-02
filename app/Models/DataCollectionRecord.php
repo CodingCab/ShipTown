@@ -17,6 +17,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  *  @property int    $data_collection_id,
  *  @property int    $inventory_id
  *  @property int    $product_id
+ *  @property string $warehouse_code
+ *  @property int    $warehouse_id
  *  @property double $total_transferred_in
  *  @property double $total_transferred_out
  *  @property double $quantity_requested
@@ -86,10 +88,30 @@ class DataCollectionRecord extends Model
         'price_source'          => 'string',
         'price_source_id'       => 'int',
         'total_discount'        => 'float',
+        'total_cost'            => 'float',
+        'total_price'           => 'float',
         'total_sold_price'      => 'float',
         'total_full_price'      => 'float',
         'total_cost_price'      => 'float',
+        'total_profit'          => 'float',
     ];
+
+    public function replicate(array $except = null): self
+    {
+        return parent::replicate(array_merge($except, [
+            'quantity_to_scan',
+            'unit_discount',
+            'total_sold_price',
+            'total_full_price',
+            'total_cost_price',
+            'total_profit',
+            'total_cost',
+            'total_price',
+            'is_requested',
+            'is_fully_scanned',
+            'is_over_scanned'
+        ]));
+    }
 
     public function product(): BelongsTo
     {

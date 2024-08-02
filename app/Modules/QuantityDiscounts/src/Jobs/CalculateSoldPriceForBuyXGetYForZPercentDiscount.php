@@ -5,6 +5,7 @@ namespace App\Modules\QuantityDiscounts\src\Jobs;
 use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
+use App\Modules\DataCollector\src\Services\DataCollectorService;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -54,46 +55,79 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
         $totalQuantityScanned           = $productIncludedInDiscount->sum('quantity_scanned');
         $timesWeCanApplyPromotion       = intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
+        $totalQuantityToIncludeInPromotion = $quantityRequiredPerOffer * $timesWeCanApplyPromotion;
         $totalQuantityAtDiscountedPrice = $quantityAtDiscountedPrice * $timesWeCanApplyPromotion;
 
         $remainingQuantityToDiscount = $totalQuantityAtDiscountedPrice;
+        $remainingQuantityToIncludeInPromotion = $totalQuantityToIncludeInPromotion;
 
-        $productIncludedInDiscount->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount) {
+        ray([
+            'quantityAtFullPrice' => $quantityAtFullPrice,
+            'quantityAtDiscountedPrice' => $quantityAtDiscountedPrice,
+            'quantityRequiredPerOffer' => $quantityRequiredPerOffer,
+            'totalQuantityScanned' => $totalQuantityScanned,
+            'timesWeCanApplyPromotion' => $timesWeCanApplyPromotion,
+            'totalQuantityAtDiscountedPrice' => $totalQuantityAtDiscountedPrice,
+            'remainingQuantityToDiscount' => $remainingQuantityToDiscount,
+            'remainingQuantityToIncludeInPromotion' => $remainingQuantityToIncludeInPromotion,
+        ]);
+
+        $productIncludedInDiscount->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount, &$remainingQuantityToIncludeInPromotion) {
             $quantityToDiscount = min($record->quantity_scanned, $remainingQuantityToDiscount);
 
-            $remainingQuantityToDiscount -= $quantityToDiscount;
+            ray([
+                'record' => $record->toArray(),
+                'sku' => $record->product->sku,
+                'quantity_scanned' => $record->quantity_scanned,
+                'quantityToDiscountThisRecord' => $quantityToDiscount,
+                'remainingQuantityToDiscount' => $remainingQuantityToDiscount,
+                'remainingQuantityToIncludeInPromotion' => $remainingQuantityToIncludeInPromotion,
+            ]);
 
-            if ($quantityToDiscount == 0) {
-                if ($record->price_source_id === $this->discount->id) {
-                    $record->update([
-                        'price_source' => null,
-                        'price_source_id' => null,
-                        'unit_sold_price' => $record->unit_full_price,
-                    ]);
-                }
-            } else if ($quantityToDiscount == $record->quantity_scanned) {
-                if ($record->price_source_id === null) {
-                    $record->update([
-                        'price_source' => "QUANTITY_DISCOUNT",
-                        'price_source_id' => $this->discount->id,
-                        'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
-                    ]);
-                }
-            } else if ($quantityToDiscount < $record->quantity_scanned) {
-                $quantityToCarryOver = $record->quantity_scanned - $quantityToDiscount;
-
-                $record->update([
-                    'quantity_scanned' => $quantityToDiscount,
-                    'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
-                    'price_source' => "QUANTITY_DISCOUNT",
-                    'price_source_id' => $this->discount->id,
-                ]);
-
-                $this->dataCollection
-                    ->firstOrCreateProductRecord($record->product_id, $record->unit_full_price)
-                    ->increment('quantity_scanned', $quantityToCarryOver);
+            if ($record->quantity_scanned == 0) {
+                return true;
             }
 
+            // when there is nothing left to discount
+            if ($quantityToDiscount == 0) {
+                // and when hast already applied discount
+                if ($record->price_source_id === $this->discount->id) {
+                    ray(['resetting price source', $record->toArray()]);
+                    $record->update([
+                        'unit_sold_price' => $record->unit_full_price,
+                        'price_source' => null,
+                        'price_source_id' => null,
+                    ]);
+                }
+            } else if ($quantityToDiscount > 0 && $quantityToDiscount <= $record->quantity_scanned) {
+                ray('splitting quantity', $record->toArray());
+                $quantityToCarryOver = $record->quantity_scanned - $quantityToDiscount;
+                $discountedPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
+
+                $product1 = [
+                    'unit_sold_price' => $record->unit_full_price,
+                    'price_source' => null,
+                    'price_source_id' => null,
+                ];
+
+                $discountedAttributes = [
+                    'unit_sold_price' => $discountedPrice,
+                    'price_source' => "QUANTITY_DISCOUNT",
+                    'price_source_id' => $this->discount->id,
+                ];
+
+                if ($record->quantity_scanned == $quantityToDiscount) {
+                    $record->update($discountedAttributes);
+
+                    $remainingQuantityToDiscount -= $quantityToDiscount;
+                    $remainingQuantityToIncludeInPromotion -= $quantityToCarryOver;
+                } else if ($record->quantity_scanned > $quantityToDiscount) {
+                    DataCollectorService::splitRecord($record, $quantityToDiscount, $product1, $discountedAttributes);
+
+                    $remainingQuantityToDiscount -= $quantityToDiscount;
+                    $remainingQuantityToIncludeInPromotion -= $quantityToCarryOver;
+                }
+            }
 
             return true;
         });

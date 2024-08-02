@@ -210,4 +210,36 @@ class DataCollectorService
             ]);
         });
     }
+
+    public static function splitRecord(DataCollectionRecord $record, mixed $quantityToDiscount, array $product1, array $discountedAttributes): void
+    {
+        $record->update($product1);
+        $record->decrement('quantity_scanned', $quantityToDiscount);
+
+        $newRecord = DataCollectionRecord::firstOrCreate(
+            array_merge(
+                [
+                'data_collection_id' => $record->data_collection_id,
+                'inventory_id' => $record->inventory_id,
+                'unit_cost' => $record->unit_cost,
+                'unit_sold_price' => $record->unit_sold_price,
+                'price_source' => $record->price_source,
+                'price_source_id' => $record->price_source_id,
+                ],
+                $discountedAttributes
+            ),
+            [
+                'unit_full_price' => $record->unit_full_price,
+                'warehouse_id' => $record->warehouse_id,
+                'product_id' => $record->product_id,
+                'warehouse_code' => $record->warehouse_code,
+                'quantity_requested' => 0,
+            ]
+        );
+
+        $newRecord->save();
+
+        $newRecord->update($discountedAttributes);
+        $newRecord->increment('quantity_scanned', $quantityToDiscount);
+    }
 }
