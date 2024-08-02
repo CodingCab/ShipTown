@@ -48,18 +48,22 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function applyQuantityDiscount($productIncludedInDiscount): void
     {
-        $totalQuantityScanned       = $productIncludedInDiscount->sum('quantity_scanned');
         $quantityAtFullPrice        = (int)data_get($this->discount->configuration, 'quantity_full_price', 0);
         $quantityAtDiscountedPrice  = (int)data_get($this->discount->configuration, 'quantity_discounted', 0);
         $quantityRequiredPerOffer   = $quantityAtFullPrice + $quantityAtDiscountedPrice;
-        $totalQuantityDiscounted    = $quantityAtDiscountedPrice * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
 
-        $remainingQuantityToDiscount = $totalQuantityDiscounted;
+        $totalQuantityScanned           = $productIncludedInDiscount->sum('quantity_scanned');
+        $timesWeCanApplyPromotion       = intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
+        $totalQuantityAtDiscountedPrice = $quantityAtDiscountedPrice * $timesWeCanApplyPromotion;
+
+        $remainingQuantityToDiscount = $totalQuantityAtDiscountedPrice;
 
         $productIncludedInDiscount->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount) {
-            $quantityToExtract = min($record->quantity_scanned, $remainingQuantityToDiscount);
+            $quantityToDiscount = min($record->quantity_scanned, $remainingQuantityToDiscount);
 
-            if ($quantityToExtract == 0) {
+            $remainingQuantityToDiscount -= $quantityToDiscount;
+
+            if ($quantityToDiscount == 0) {
                 if ($record->price_source_id === $this->discount->id) {
                     $record->update([
                         'price_source' => null,
@@ -67,7 +71,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                         'unit_sold_price' => $record->unit_full_price,
                     ]);
                 }
-            } else if ($quantityToExtract == $record->quantity_scanned) {
+            } else if ($quantityToDiscount == $record->quantity_scanned) {
                 if ($record->price_source_id === null) {
                     $record->update([
                         'price_source' => "QUANTITY_DISCOUNT",
@@ -75,11 +79,11 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                         'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
                     ]);
                 }
-            } else if ($quantityToExtract < $record->quantity_scanned) {
-                $quantityToCarryOver = $record->quantity_scanned - $quantityToExtract;
+            } else if ($quantityToDiscount < $record->quantity_scanned) {
+                $quantityToCarryOver = $record->quantity_scanned - $quantityToDiscount;
 
                 $record->update([
-                    'quantity_scanned' => $quantityToExtract,
+                    'quantity_scanned' => $quantityToDiscount,
                     'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
                     'price_source' => "QUANTITY_DISCOUNT",
                     'price_source_id' => $this->discount->id,
@@ -90,7 +94,6 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                     ->increment('quantity_scanned', $quantityToCarryOver);
             }
 
-            $remainingQuantityToDiscount -= $quantityToExtract;
 
             return true;
         });
