@@ -6,7 +6,6 @@ use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,7 +19,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         return implode('_', [self::class, $this->dataCollection->id]);
     }
 
-    public function __construct(QuantityDiscount $discount, DataCollection $dataCollection)
+    public function __construct(DataCollection $dataCollection, QuantityDiscount $discount)
     {
         $this->discount = $discount;
         $this->dataCollection = $dataCollection;
@@ -31,42 +30,33 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         $key = implode('-', ['quantity_discounts_data_collection_record_updated_event', $this->dataCollection->id]);
 
         Cache::lock($key, 5)->get(function () {
-            $this->applyDiscount();
+            $productIncludedInDiscount = $this->dataCollection->records()
+                ->whereIn('product_id', Arr::pluck($this->discount->products, 'product_id'))
+                ->where(function ($query) {
+                    $query->whereNull('price_source_id')
+                        ->orWhere(['price_source_id' => $this->discount->id]);
+                })
+                ->orderBy('unit_full_price', 'ASC')
+                ->orderBy('price_source', 'DESC')
+                ->orderBy('quantity_scanned', 'DESC')
+                ->orderBy('id', 'ASC')
+                ->get();
+
+            $this->applyQuantityDiscount($productIncludedInDiscount);
         });
     }
 
-    public function applyDiscount(): void
+    public function applyQuantityDiscount($productIncludedInDiscount): void
     {
-        $discountConfig = $this->discount->configuration;
+        $totalQuantityScanned       = $productIncludedInDiscount->sum('quantity_scanned');
+        $quantityAtFullPrice        = (int)data_get($this->discount->configuration, 'quantity_full_price', 0);
+        $quantityAtDiscountedPrice  = (int)data_get($this->discount->configuration, 'quantity_discounted', 0);
+        $quantityRequiredPerOffer   = $quantityAtFullPrice + $quantityAtDiscountedPrice;
+        $totalQuantityDiscounted    = $quantityAtDiscountedPrice * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
 
-        $productIncludedInDiscount = $this->dataCollection->records()
-            ->whereIn('product_id', Arr::pluck($this->discount->products, 'product_id'))
-            ->where(function ($query) {
-                $query->whereNull('price_source_id')
-                    ->orWhere(['price_source_id' => $this->discount->id]);
-            })
-            ->orderBy('unit_full_price', 'ASC')
-            ->orderBy('price_source', 'DESC')
-            ->orderBy('quantity_scanned', 'DESC')
-            ->orderBy('id', 'ASC')
-            ->get();
+        $remainingQuantityToDiscount = $totalQuantityDiscounted;
 
-        $totalQuantityScanned = $productIncludedInDiscount->sum('quantity_scanned');
-        $quantityAtFullPrice = (int)data_get($discountConfig, 'quantity_full_price', 0);
-        $quantityAtDiscountedPrice = (int)data_get($discountConfig, 'quantity_discounted', 0);
-
-        $quantityRequiredPerOffer = $quantityAtFullPrice + $quantityAtDiscountedPrice;
-
-        $totalQuantityDiscounted = $quantityAtDiscountedPrice * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
-
-        $this->extractPromotionalProducts($productIncludedInDiscount, $totalQuantityDiscounted);
-    }
-
-    public function extractPromotionalProducts(Collection $filteredCollectionRecords, int $totalQuantityRequired): mixed
-    {
-        $remainingQuantityToDiscount = $totalQuantityRequired;
-
-        $filteredCollectionRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount) {
+        $productIncludedInDiscount->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount) {
             $quantityToExtract = min($record->quantity_scanned, $remainingQuantityToDiscount);
 
             if ($quantityToExtract == 0) {
@@ -104,7 +94,5 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
             return true;
         });
-
-        return $totalQuantityRequired;
     }
 }

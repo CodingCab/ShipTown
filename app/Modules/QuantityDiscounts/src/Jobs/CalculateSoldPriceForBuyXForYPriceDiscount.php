@@ -2,38 +2,22 @@
 
 namespace App\Modules\QuantityDiscounts\src\Jobs;
 
+use App\Abstracts\UniqueJob;
+use App\Models\DataCollection;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Collection;
 
-class CalculateSoldPriceForBuyXForYPriceDiscount implements ShouldQueue
+class CalculateSoldPriceForBuyXForYPriceDiscount extends UniqueJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     private QuantityDiscount $discount;
-    private Collection $collectionRecords;
+    private DataCollection $dataCollection;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct(QuantityDiscount $discount, Collection $collectionRecords)
+    public function __construct(DataCollection $dataCollection, QuantityDiscount $discount)
     {
         $this->discount = $discount;
-        $this->collectionRecords = $collectionRecords;
+        $this->dataCollection = $dataCollection;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return array
-     */
-    public function handle()
+    public function handle(): array
     {
         $minPrice = $this->collectionRecords->min('unit_full_price');
         $lowestPriceRecord = $this->collectionRecords->firstWhere('unit_full_price', $minPrice);

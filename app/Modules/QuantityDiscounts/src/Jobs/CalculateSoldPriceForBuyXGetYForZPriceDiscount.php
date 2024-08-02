@@ -20,7 +20,7 @@ class CalculateSoldPriceForBuyXGetYForZPriceDiscount extends UniqueJob
         return implode('_', [self::class, $this->dataCollection->id]);
     }
 
-    public function __construct(QuantityDiscount $discount, DataCollection $dataCollection)
+    public function __construct(DataCollection $dataCollection, QuantityDiscount $discount)
     {
         $this->discount = $discount;
         $this->dataCollection = $dataCollection;

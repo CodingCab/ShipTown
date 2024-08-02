@@ -22,7 +22,7 @@ class DataCollectionRecordUpdatedEventListener
             ->with('products')
             ->get()
             ->each(function (QuantityDiscount $quantityDiscount) use ($record) {
-                $job = new $quantityDiscount->job_class($quantityDiscount, $record->dataCollection);
+                $job = new $quantityDiscount->job_class($record->dataCollection, $quantityDiscount);
                 $job->handle();
             });
     }
