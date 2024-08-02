@@ -216,6 +216,10 @@ class DataCollectorService
         $record->update($product1);
         $record->decrement('quantity_scanned', $quantityToDiscount);
 
+        if ($record->quantity_scanned == 0) {
+            $record->delete();
+        }
+
         $newRecord = DataCollectionRecord::firstOrCreate(
             array_merge(
                 [
