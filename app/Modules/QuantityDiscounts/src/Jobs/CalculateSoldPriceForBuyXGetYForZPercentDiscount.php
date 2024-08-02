@@ -74,34 +74,29 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
                     $record->update([
                         'price_source' => null,
                         'price_source_id' => null,
-                        'unit_sold_price' => $record->unit_sold_price,
+                        'unit_sold_price' => $record->unit_full_price,
                     ]);
                 }
             } else if ($quantityToExtract == $record->quantity_scanned) {
                 if ($record->price_source_id === null) {
-                    $newSoldPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
-                    $currentSoldPrice = $record->unit_sold_price;
-
                     $record->update([
                         'price_source' => "QUANTITY_DISCOUNT",
                         'price_source_id' => $this->discount->id,
-                        'unit_sold_price' => min($newSoldPrice, $currentSoldPrice),
+                        'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
                     ]);
                 }
             } else if ($quantityToExtract < $record->quantity_scanned) {
                 $quantityToCarryOver = $record->quantity_scanned - $quantityToExtract;
-                $newSoldPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
-                $currentSoldPrice = $record->unit_sold_price;
 
                 $record->update([
                     'quantity_scanned' => $quantityToExtract,
-                    'unit_sold_price' => min($newSoldPrice, $currentSoldPrice),
+                    'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
                     'price_source' => "QUANTITY_DISCOUNT",
                     'price_source_id' => $this->discount->id,
                 ]);
 
                 $this->dataCollection
-                    ->addProduct($record->product_id, $currentSoldPrice)
+                    ->addProduct($record->product_id, $record->unit_full_price)
                     ->increment('quantity_scanned', $quantityToCarryOver);
             }
 
