@@ -52,8 +52,8 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
             ->get();
 
         $totalQuantityScanned = $filteredCollectionRecords->sum('quantity_scanned');
-        $quantityFullPrice = (int) data_get($discountConfig, 'quantity_full_price', 0);
-        $quantityDiscounted = (int) data_get($discountConfig, 'quantity_discounted', 0);
+        $quantityFullPrice = (int)data_get($discountConfig, 'quantity_full_price', 0);
+        $quantityDiscounted = (int)data_get($discountConfig, 'quantity_discounted', 0);
 
         $quantityRequiredPerOffer = $quantityFullPrice + $quantityDiscounted;
 
@@ -71,33 +71,37 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
             if ($quantityToExtract == 0) {
                 if ($record->price_source_id === $this->discount->id) {
-                    ray('updating record');
                     $record->update([
                         'price_source' => null,
                         'price_source_id' => null,
-                        'unit_sold_price' => $record->unit_full_price,
+                        'unit_sold_price' => $record->unit_sold_price,
                     ]);
                 }
             } else if ($quantityToExtract == $record->quantity_scanned) {
                 if ($record->price_source_id === null) {
+                    $newSoldPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
+                    $currentSoldPrice = $record->unit_sold_price;
+
                     $record->update([
                         'price_source' => "QUANTITY_DISCOUNT",
                         'price_source_id' => $this->discount->id,
-                        'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
+                        'unit_sold_price' => min($newSoldPrice, $currentSoldPrice),
                     ]);
                 }
             } else if ($quantityToExtract < $record->quantity_scanned) {
                 $quantityToCarryOver = $record->quantity_scanned - $quantityToExtract;
+                $newSoldPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
+                $currentSoldPrice = $record->unit_sold_price;
 
                 $record->update([
                     'quantity_scanned' => $quantityToExtract,
-                    'unit_sold_price' => $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100),
+                    'unit_sold_price' => min($newSoldPrice, $currentSoldPrice),
                     'price_source' => "QUANTITY_DISCOUNT",
                     'price_source_id' => $this->discount->id,
                 ]);
 
                 $this->dataCollection
-                    ->addProduct($record->product_id, $record->unit_full_price)
+                    ->addProduct($record->product_id, $currentSoldPrice)
                     ->increment('quantity_scanned', $quantityToCarryOver);
             }
 

@@ -306,7 +306,7 @@ export default {
                         this.products = [];
                     }
 
-                    if (!this.products.some(p => p.id === product.id)) {
+                    if (!this.products.some(p => p.product_id === product.id)) {
                         this.apiPostQuantityDiscountProduct({
                             quantity_discount_id: this.discount.id,
                             product_id: product.id
@@ -370,7 +370,7 @@ export default {
         },
         displaySalePrice(product) {
             if (this.currentUser()['warehouse_code']) {
-                return this.dashIfZero(product.product.prices[this.currentUser()['warehouse_code']]['sale_price']);
+                return this.dashIfZero(product.product.prices[this.currentUser()['warehouse_code']]['current_price']);
             } else {
                 return this.dashIfZero(product.product['sale_price']);
             }

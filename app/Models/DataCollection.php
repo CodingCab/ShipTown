@@ -100,7 +100,7 @@ class DataCollection extends BaseModel
             ->where([
                 'data_collection_id' => $this->id,
                 'product_id' => $product_id,
-                'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.price'),
+                'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.current_price'),
                 'price_source' => null,
                 'price_source_id' => null,
             ])
@@ -109,7 +109,7 @@ class DataCollection extends BaseModel
                     'data_collection_id' => $this->id,
                     'unit_cost' => data_get($inventory, 'prices.cost'),
                     'unit_full_price' => data_get($inventory, 'prices.price'),
-                    'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.price'),
+                    'unit_sold_price' => $unit_sold_price ?? data_get($inventory, 'prices.current_price'),
                     'price_source' => null,
                     'price_source_id' => null,
                     'inventory_id' => $inventory->id,
