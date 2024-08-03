@@ -56,8 +56,15 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         $remainingQuantityToDistribute = $this->discount->total_quantity_per_discount * $this->timesWeCanApplyOfferFor($eligibleRecords);
 
         $eligibleRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDistribute) {
+            if ($remainingQuantityToDistribute <= 0 && $record->price_source_id === $this->discount->id) {
+                $record->update([
+                    'unit_sold_price' => $record->unit_full_price,
+                    'price_source' => null,
+                    'price_source_id' => null,
+                ]);
+            }
+
             if ($remainingQuantityToDistribute <= 0) {
-                $this->ensureRecordIsNotDiscounted($record);
                 return true;
             }
 
@@ -103,8 +110,11 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         $eligibleRecords->each(function (DataCollectionRecord $record) use (&$quantityToDistribute) {
             $discountedPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
 
+            if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
+                $record->update(['unit_sold_price' => $record->unit_full_price]);
+            }
+
             if ($quantityToDistribute <= 0) {
-                $this->ensureRecordIsNotDiscounted($record);
                 return true;
             }
 
@@ -138,16 +148,5 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         $totalQuantityPerDiscount = $this->discount->quantity_at_full_price + $this->discount->quantity_at_discounted_price;
 
         return floor($records->sum('quantity_scanned') / ($totalQuantityPerDiscount));
-    }
-
-    private function ensureRecordIsNotDiscounted(DataCollectionRecord $record): void
-    {
-        if ($record->price_source_id === $this->discount->id) {
-            $record->update([
-                'unit_sold_price' => $record->unit_full_price,
-                'price_source' => null,
-                'price_source_id' => null,
-            ]);
-        }
     }
 }
