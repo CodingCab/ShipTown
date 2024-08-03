@@ -28,9 +28,9 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function handle(): void
     {
-        $key = implode('-', ['recalculating_quantity_discounts_for_data_collection', $this->dataCollection->id]);
+        $cacheLockKey = implode('-', ['recalculating_quantity_discounts_for_data_collection', $this->dataCollection->id]);
 
-        Cache::lock($key, 5)->get(function () {
+        Cache::lock($cacheLockKey, 5)->get(function () {
             $this->preselectEligibleRecords()
                 ->applyDiscountsToSelectedRecords();
         });
