@@ -6,6 +6,7 @@ use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -36,9 +37,10 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         });
     }
 
-    private function discountEligibleRecords()
+    private function recordsEligibleForDiscount(): Builder
     {
         return $this->dataCollection->records()
+            ->getQuery()
             ->whereIn('product_id', Arr::pluck($this->discount->products, 'product_id'))
             ->where(function ($query) {
                 $query->whereNull('price_source_id')
@@ -52,7 +54,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function preselectEligibleRecords(): self
     {
-        $eligibleRecords = $this->discountEligibleRecords()->get();
+        $eligibleRecords = $this->recordsEligibleForDiscount()->get();
         $remainingQuantityToDistribute = $this->discount->total_quantity_per_discount * $this->timesWeCanApplyOfferFor($eligibleRecords);
 
         $eligibleRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDistribute) {
@@ -101,7 +103,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function applyDiscountsToSelectedRecords(): self
     {
-        $eligibleRecords = $this->discountEligibleRecords()
+        $eligibleRecords = $this->recordsEligibleForDiscount()
             ->where(['price_source_id' => $this->discount->id])
             ->get();
 
