@@ -15,6 +15,11 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @property string name
  * @property string job_class
  * @property array configuration
+ *
+ * @property float quantity_at_full_price
+ * @property float quantity_at_discounted_price
+ * @property float total_quantity_per_discount
+ *
  * @property string deleted_at
  * @property string updated_at
  * @property string created_at
@@ -41,9 +46,21 @@ class QuantityDiscount extends Model
         'configuration' => 'array',
     ];
 
-    /**
-     * @return QueryBuilder
-     */
+    public function getQuantityAtFullPriceAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_full_price', 0.00);
+    }
+
+    public function getQuantityAtDiscountedPriceAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_discounted', 0.00);
+    }
+
+    public function getTotalQuantityPerDiscountAttribute(): float
+    {
+        return $this->quantity_at_full_price + $this->quantity_at_discounted_price;
+    }
+
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(QuantityDiscount::class)

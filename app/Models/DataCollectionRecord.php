@@ -98,8 +98,8 @@ class DataCollectionRecord extends Model
 
     public function replicate(array $except = null): self
     {
-        return parent::replicate(array_merge($except, [
-            'quantity_scanned',
+        // these are computed columns or columns that should not be copied when replicating a record
+        return parent::replicate(array_merge($except ?? [], [
             'quantity_to_scan',
             'unit_discount',
             'total_transferred_in',
