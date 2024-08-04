@@ -15,14 +15,19 @@ use App\Modules\DataCollector\src\Jobs\TransferInJob;
 use App\Modules\DataCollector\src\Jobs\TransferOutJob;
 use App\Modules\DataCollector\src\Jobs\TransferToJob;
 use App\Services\InventoryService;
+use Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DataCollectorService
 {
-    public static function recalculate(): void
+    public static function recalculate(DataCollection $dataCollection): void
     {
-        DataCollectionRecalculateRequestEvent::dispatch();
+        $lockKey ='recalculating_data_collection_lock_'. $dataCollection->id;
+
+        Cache::lock($lockKey, 5)->get(function () {
+            DataCollectionRecalculateRequestEvent::dispatch();
+        });
     }
 
     public static function runAction(DataCollection $dataCollection, $action): void

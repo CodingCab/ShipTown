@@ -36,7 +36,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
             $this->preselectEligibleRecords()
                 ->applyDiscountsToSelectedRecords();
 
-            DataCollectorService::recalculate();
+            DataCollectorService::recalculate($this->dataCollection);
         });
     }
 
