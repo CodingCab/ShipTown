@@ -2,6 +2,7 @@
 
 namespace App\Modules\DataCollector\src\Services;
 
+use App\Events\DataCollection\DataCollectionRecalcRequestEvent;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Models\DataCollectionStocktake;
@@ -19,6 +20,11 @@ use Illuminate\Support\Str;
 
 class DataCollectorService
 {
+    public static function recalculate(): void
+    {
+        DataCollectionRecalcRequestEvent::dispatch();
+    }
+
     public static function runAction(DataCollection $dataCollection, $action): void
     {
         if ($action === 'transfer_in_scanned') {
