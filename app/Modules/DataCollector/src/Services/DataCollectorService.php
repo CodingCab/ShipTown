@@ -2,7 +2,7 @@
 
 namespace App\Modules\DataCollector\src\Services;
 
-use App\Events\DataCollection\DataCollectionRecalcRequestEvent;
+use App\Events\DataCollection\DataCollectionRecalculateRequestEvent;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Models\DataCollectionStocktake;
@@ -22,7 +22,7 @@ class DataCollectorService
 {
     public static function recalculate(): void
     {
-        DataCollectionRecalcRequestEvent::dispatch();
+        DataCollectionRecalculateRequestEvent::dispatch();
     }
 
     public static function runAction(DataCollection $dataCollection, $action): void
