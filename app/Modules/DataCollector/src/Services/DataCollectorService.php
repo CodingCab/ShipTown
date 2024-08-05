@@ -25,8 +25,8 @@ class DataCollectorService
     {
         $lockKey ='recalculating_data_collection_lock_'. $dataCollection->id;
 
-        Cache::lock($lockKey, 5)->get(function () {
-            DataCollectionRecalculateRequestEvent::dispatch();
+        Cache::lock($lockKey, 5)->get(function () use ($dataCollection) {
+            DataCollectionRecalculateRequestEvent::dispatch($dataCollection);
         });
     }
 

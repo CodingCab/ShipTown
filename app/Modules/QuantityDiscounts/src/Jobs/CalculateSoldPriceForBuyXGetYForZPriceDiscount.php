@@ -5,6 +5,7 @@ namespace App\Modules\QuantityDiscounts\src\Jobs;
 use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
+use App\Modules\DataCollector\src\Services\DataCollectorService;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -32,6 +33,8 @@ class CalculateSoldPriceForBuyXGetYForZPriceDiscount extends UniqueJob
 
         Cache::lock($key, 5)->get(function () {
             $this->applyDiscount();
+
+            DataCollectorService::recalculate($this->dataCollection);
         });
     }
 

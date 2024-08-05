@@ -50,6 +50,8 @@ class RecountTotalsJob extends UniqueJob
 
                 LEFT JOIN data_collection_records
                     ON data_collection_records.data_collection_id = tempTable.data_collection_id
+                
+                WHERE data_collection_records.deleted_at IS NULL
 
                 GROUP BY tempTable.data_collection_id, tempTable.calculated_at;
         ");

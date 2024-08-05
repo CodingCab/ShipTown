@@ -35,9 +35,9 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         Cache::lock($cacheLockKey, 5)->get(function () {
             $this->preselectEligibleRecords()
                 ->applyDiscountsToSelectedRecords();
-
-            DataCollectorService::recalculate($this->dataCollection);
         });
+
+        DataCollectorService::recalculate($this->dataCollection);
     }
 
     private function recordsEligibleForDiscount(): Builder
