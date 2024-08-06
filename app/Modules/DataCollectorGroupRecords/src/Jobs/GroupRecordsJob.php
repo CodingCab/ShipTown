@@ -6,7 +6,7 @@ use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use Illuminate\Support\Facades\Cache;
 
-class GroupSimilarProducts extends UniqueJob
+class GroupRecordsJob extends UniqueJob
 {
     private DataCollection $dataCollection;
 

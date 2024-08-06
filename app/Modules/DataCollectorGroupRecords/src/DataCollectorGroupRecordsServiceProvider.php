@@ -7,9 +7,9 @@ use App\Modules\BaseModuleServiceProvider;
 
 class DataCollectorGroupRecordsServiceProvider extends BaseModuleServiceProvider
 {
-    public static string $module_name = 'eCommerce - Transaction Products';
+    public static string $module_name = 'Data Collector - Auto Group Records';
 
-    public static string $module_description = 'Module is responsible for managing transaction products (grouping similar products in one transaction etc.)';
+    public static string $module_description = 'Module provides an ability to group similar records in data collection';
 
     public static bool $autoEnable = true;
 
@@ -18,9 +18,4 @@ class DataCollectorGroupRecordsServiceProvider extends BaseModuleServiceProvider
             Listeners\DataCollectionRecalculateRequestEventListener::class,
         ],
     ];
-
-    public static function enabling(): bool
-    {
-        return parent::enabling();
-    }
 }
