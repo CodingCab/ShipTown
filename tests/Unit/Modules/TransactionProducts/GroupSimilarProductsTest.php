@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Modules\QuantityDiscounts;
+namespace Tests\Unit\Modules\TransactionProducts;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
@@ -11,16 +11,19 @@ use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPerc
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
+use App\Modules\TransactionProducts\src\TransactionProductsServiceProvider;
 use Tests\TestCase;
 
-class BuyXGetYForZPercentDiscountTest extends TestCase
+class GroupSimilarProductsTest extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
+        ray()->clearAll();
 
         DataCollectorServiceProvider::enableModule();
         QuantityDiscountsServiceProvider::enableModule();
+        TransactionProductsServiceProvider::enableModule();
 
         $this->warehouse = Warehouse::factory()->create();
 
@@ -30,7 +33,7 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
         $this->product4001->prices()
             ->update([
                 'price' => 10,
-                'sale_price' => '17.99',
+                'sale_price' => '10',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->subDays(7)
             ]);
@@ -38,7 +41,7 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
         $this->product4005->prices()
             ->update([
                 'price' => 50,
-                'sale_price' => '17.99',
+                'sale_price' => '50',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->subDays(7)
             ]);
@@ -91,12 +94,12 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
             'unit_cost' => 20,
             'unit_full_price' => 50,
             'unit_sold_price' => 50,
-            'quantity_scanned' => 3,
+            'quantity_scanned' => 5,
             'quantity_requested' => 0,
         ]);
 
         ray($dataCollection->refresh(), $dataCollection->refresh()->records()->get()->toArray());
 
-        $this->assertEquals(130, $dataCollection->refresh()->total_sold_price);
+        $this->assertEquals(4, DataCollectionRecord::query()->where('data_collection_id', $dataCollection->id)->count());
     }
 }
