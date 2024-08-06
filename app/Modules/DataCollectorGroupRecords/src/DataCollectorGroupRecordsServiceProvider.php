@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Modules\TransactionProducts\src;
+namespace App\Modules\DataCollectorGroupRecords\src;
 
 use App\Events\DataCollection\DataCollectionRecalculateRequestEvent;
 use App\Modules\BaseModuleServiceProvider;
 
-class TransactionProductsServiceProvider extends BaseModuleServiceProvider
+class DataCollectorGroupRecordsServiceProvider extends BaseModuleServiceProvider
 {
     public static string $module_name = 'eCommerce - Transaction Products';
 

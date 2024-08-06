@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Modules\TransactionProducts;
+namespace Tests\Unit\Modules\DataCollectorGroupRecords;
 
-use App\Modules\TransactionProducts\src\TransactionProductsServiceProvider;
+use App\Modules\DataCollectorGroupRecords\src\DataCollectorGroupRecordsServiceProvider;
 use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
@@ -11,7 +11,7 @@ class BasicModuleTest extends TestCase
     {
         parent::setUp();
 
-        TransactionProductsServiceProvider::enableModule();
+        DataCollectorGroupRecordsServiceProvider::enableModule();
     }
 
     /** @test */

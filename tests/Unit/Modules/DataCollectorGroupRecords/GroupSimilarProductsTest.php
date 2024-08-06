@@ -1,17 +1,14 @@
 <?php
 
-namespace Tests\Unit\Modules\TransactionProducts;
+namespace Tests\Unit\Modules\DataCollectorGroupRecords;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\DataCollector\src\DataCollectorServiceProvider;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
-use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
-use App\Modules\TransactionProducts\src\TransactionProductsServiceProvider;
+use App\Modules\DataCollector\src\Services\DataCollectorService;
+use App\Modules\DataCollectorGroupRecords\src\DataCollectorGroupRecordsServiceProvider;
 use Tests\TestCase;
 
 class GroupSimilarProductsTest extends TestCase
@@ -22,8 +19,7 @@ class GroupSimilarProductsTest extends TestCase
         ray()->clearAll();
 
         DataCollectorServiceProvider::enableModule();
-        QuantityDiscountsServiceProvider::enableModule();
-        TransactionProductsServiceProvider::enableModule();
+        DataCollectorGroupRecordsServiceProvider::enableModule();
 
         $this->warehouse = Warehouse::factory()->create();
 
@@ -45,26 +41,6 @@ class GroupSimilarProductsTest extends TestCase
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->subDays(7)
             ]);
-
-        $quantityDiscount = QuantityDiscount::factory()->create([
-            'name' => 'Buy 2 get 2 half price',
-            'job_class' => CalculateSoldPriceForBuyXGetYForZPercentDiscount::class,
-            'configuration' => [
-                'quantity_full_price' => 2,
-                'quantity_discounted' => 2,
-                'discount_percent' => 50,
-            ],
-        ]);
-
-        QuantityDiscountsProduct::factory()->create([
-            'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4001->getKey(),
-        ]);
-
-        QuantityDiscountsProduct::factory()->create([
-            'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4005->getKey(),
-        ]);
     }
 
     /** @test */
@@ -94,9 +70,46 @@ class GroupSimilarProductsTest extends TestCase
             'unit_cost' => 20,
             'unit_full_price' => 50,
             'unit_sold_price' => 50,
-            'quantity_scanned' => 5,
+            'quantity_scanned' => 2,
             'quantity_requested' => 0,
         ]);
+
+        DataCollectionRecord::query()->create([
+            'data_collection_id' => $dataCollection->getKey(),
+            'product_id' => $this->product4005->getKey(),
+            'inventory_id' => $this->product4005->inventory()->first()->id,
+            'unit_cost' => 20,
+            'unit_full_price' => 50,
+            'unit_sold_price' => 25,
+            'quantity_scanned' => 1,
+            'quantity_requested' => 0,
+        ]);
+
+        DataCollectionRecord::query()->create([
+            'data_collection_id' => $dataCollection->getKey(),
+            'product_id' => $this->product4005->getKey(),
+            'inventory_id' => $this->product4005->inventory()->first()->id,
+            'unit_cost' => 20,
+            'unit_full_price' => 50,
+            'unit_sold_price' => 25,
+            'quantity_scanned' => 1,
+            'quantity_requested' => 0,
+        ]);
+
+        DataCollectionRecord::query()->create([
+            'data_collection_id' => $dataCollection->getKey(),
+            'product_id' => $this->product4005->getKey(),
+            'inventory_id' => $this->product4005->inventory()->first()->id,
+            'unit_cost' => 20,
+            'unit_full_price' => 50,
+            'unit_sold_price' => 25,
+            'quantity_scanned' => 1,
+            'quantity_requested' => 0,
+            'price_source' => 'QUANTITY_DISCOUNT',
+            'price_source_id' => 1,
+        ]);
+
+        DataCollectorService::recalculate($dataCollection);
 
         ray($dataCollection->refresh(), $dataCollection->refresh()->records()->get()->toArray());
 

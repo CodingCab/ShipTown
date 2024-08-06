@@ -23,7 +23,7 @@ class DataCollectorService
 {
     public static function recalculate(DataCollection $dataCollection): void
     {
-        $lockKey ='recalculating_data_collection_lock_'. $dataCollection->id;
+        $lockKey = 'recalculating_data_collection_lock_' . $dataCollection->id;
 
         Cache::lock($lockKey, 5)->get(function () use ($dataCollection) {
             DataCollectionRecalculateRequestEvent::dispatch($dataCollection);
@@ -38,7 +38,7 @@ class DataCollectorService
                 'currently_running_task' => TransferInJob::class,
             ]);
 
-            if (! $dataCollection->records()
+            if (!$dataCollection->records()
                 ->where('quantity_to_scan', '>', 0)
                 ->exists()) {
                 $dataCollection->delete();
@@ -54,7 +54,7 @@ class DataCollectorService
                 'currently_running_task' => TransferOutJob::class
             ]);
 
-            if (! $dataCollection->records()
+            if (!$dataCollection->records()
                 ->where('quantity_to_scan', '>', 0)
                 ->exists()) {
                 $dataCollection->delete();
@@ -105,12 +105,24 @@ class DataCollectorService
         /** @var Warehouse $destinationWarehouse */
         $destinationWarehouse = Warehouse::findOrFail($warehouse_id);
 
-        DB::transaction(function () use ($warehouse_id, $sourceDataCollection, &$destinationDataCollection, $destinationWarehouse) {
+        DB::transaction(function () use (
+            $warehouse_id,
+            $sourceDataCollection,
+            &$destinationDataCollection,
+            $destinationWarehouse
+        ) {
             // create collection
             if ($destinationDataCollection == null) {
-                $name = implode(' ', ['Transfer from', $sourceDataCollection->warehouse->code, '-', $sourceDataCollection->name]);
+                $name = implode(
+                    ' ',
+                    ['Transfer from', $sourceDataCollection->warehouse->code, '-', $sourceDataCollection->name]
+                );
 
-                $destinationDataCollection = $sourceDataCollection->replicate(['destination_warehouse_id', 'currently_running_task', 'deleted_at']);
+                $destinationDataCollection = $sourceDataCollection->replicate([
+                    'destination_warehouse_id',
+                    'currently_running_task',
+                    'deleted_at'
+                ]);
                 $destinationDataCollection->type = DataCollectionTransferIn::class;
                 $destinationDataCollection->warehouse_id = $warehouse_id;
                 $destinationDataCollection->name = $name;
@@ -165,8 +177,10 @@ class DataCollectorService
             }
 
             $custom_unique_reference_id = implode(':', [
-                'data_collection_id', $record->data_collection_id,
-                'data_collection_record_id', $record->getKey(),
+                'data_collection_id',
+                $record->data_collection_id,
+                'data_collection_record_id',
+                $record->getKey(),
                 $record->updated_at
             ]);
 
@@ -176,11 +190,11 @@ class DataCollectorService
             ], []);
 
 
-             InventoryService::transferIn($inventory, $record->quantity_scanned, [
-                 'occurred_at' => $record->dataCollection->deleted_at ?? now()->utc()->toDateTimeLocalString(),
-                 'description' => Str::substr('Data Collection - ' . $record->dataCollection->name, 0, 50),
-                 'custom_unique_reference_id' => $custom_unique_reference_id
-             ]);
+            InventoryService::transferIn($inventory, $record->quantity_scanned, [
+                'occurred_at' => $record->dataCollection->deleted_at ?? now()->utc()->toDateTimeLocalString(),
+                'description' => Str::substr('Data Collection - ' . $record->dataCollection->name, 0, 50),
+                'custom_unique_reference_id' => $custom_unique_reference_id
+            ]);
 
             $record->update([
                 'total_transferred_in' => $record->total_transferred_in + $record->quantity_scanned,
@@ -205,8 +219,10 @@ class DataCollectorService
 
             $custom_unique_reference_id = implode(':', [
                 'occurred_at' => $record->dataCollection->deleted_at ?? now()->utc()->toDateTimeLocalString(),
-                'data_collection_id' , $record->data_collection_id,
-                'data_collection_record_id' , $record->getKey(),
+                'data_collection_id',
+                $record->data_collection_id,
+                'data_collection_record_id',
+                $record->getKey(),
                 $record->updated_at
             ]);
 
@@ -233,12 +249,12 @@ class DataCollectorService
         $newRecord = DataCollectionRecord::firstOrCreate(
             array_merge(
                 [
-                'data_collection_id' => $record->data_collection_id,
-                'inventory_id' => $record->inventory_id,
-                'unit_cost' => $record->unit_cost,
-                'unit_sold_price' => $record->unit_sold_price,
-                'price_source' => $record->price_source,
-                'price_source_id' => $record->price_source_id,
+                    'data_collection_id' => $record->data_collection_id,
+                    'inventory_id' => $record->inventory_id,
+                    'unit_cost' => $record->unit_cost,
+                    'unit_sold_price' => $record->unit_sold_price,
+                    'price_source' => $record->price_source,
+                    'price_source_id' => $record->price_source_id,
                 ],
             ),
             [
