@@ -47,7 +47,7 @@
         "beyondcode/laravel-query-detector": "^1.6",
         "fakerphp/faker": "^1.9.1",
         "jasonmccreary/laravel-test-assertions": "^2.1",
-        "knuckleswtf/scribe": "^3.23",
+        "knuckleswtf/scribe": "^4.0",
         "laravel/dusk": "*",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.3",
