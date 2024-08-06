@@ -7,7 +7,7 @@ use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Modules\DataCollector\src\Services\DataCollectorService;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use Illuminate\Support\Arr;
+use App\Modules\QuantityDiscounts\src\Services\QuantityDiscountsService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -29,84 +29,61 @@ class CalculateSoldPriceForBuyXGetYForZPriceDiscount extends UniqueJob
 
     public function handle(): void
     {
-        $key = implode('-', ['quantity_discounts_data_collection_record_updated_event', $this->dataCollection->id]);
+        $cacheLockKey = implode('-', ['recalculating_quantity_discounts_for_data_collection', $this->dataCollection->id]);
 
-        Cache::lock($key, 5)->get(function () {
-            $this->applyDiscount();
-
+        Cache::lock($cacheLockKey, 5)->get(function () {
+            QuantityDiscountsService::preselectEligibleRecords($this->dataCollection, $this->discount);
+            $this->applyDiscountsToSelectedRecords();
             DataCollectorService::recalculate($this->dataCollection);
         });
     }
 
-    public function applyDiscount(): void
+    public function applyDiscountsToSelectedRecords(): self
     {
-        $discountConfig = $this->discount->configuration;
-
-        $filteredCollectionRecords = $this->dataCollection->records()
-            ->whereIn('product_id', Arr::pluck($this->discount->products, 'product_id'))
-            ->where(function ($query) {
-                $query->whereNull('price_source_id')
-                    ->orWhere(['price_source_id' => $this->discount->id]);
-            })
-            ->orderBy('unit_full_price', 'ASC')
-            ->orderBy('price_source', 'DESC')
-            ->orderBy('quantity_scanned', 'DESC')
-            ->orderBy('id', 'ASC')
+        $eligibleRecords = QuantityDiscountsService::getRecordsEligibleForDiscount($this->dataCollection, $this->discount)
+            ->where(['price_source_id' => $this->discount->id])
             ->get();
 
-        $totalQuantityScanned = $filteredCollectionRecords->sum('quantity_scanned');
-        $quantityFullPrice = (int)data_get($discountConfig, 'quantity_full_price', 0);
-        $quantityDiscounted = (int)data_get($discountConfig, 'quantity_discounted', 0);
+        $quantityToDistribute = $this->discount->quantity_at_discounted_price * $this->timesWeCanApplyOfferFor($eligibleRecords);
 
-        $quantityRequiredPerOffer = $quantityFullPrice + $quantityDiscounted;
-
-        $totalQuantityDiscounted = $quantityDiscounted * intdiv($totalQuantityScanned, $quantityRequiredPerOffer);
-
-        $this->extractPromotionalProducts($filteredCollectionRecords, $totalQuantityDiscounted);
-    }
-
-    public function extractPromotionalProducts(Collection $filteredCollectionRecords, int $totalQuantityRequired): mixed
-    {
-        $remainingQuantityToDiscount = $totalQuantityRequired;
-
-        $filteredCollectionRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDiscount) {
-            $quantityToExtract = min($record->quantity_scanned, $remainingQuantityToDiscount);
-
-            if ($quantityToExtract == 0) {
-                if ($record->price_source_id === $this->discount->id) {
-                    $record->update([
-                        'price_source' => null,
-                        'price_source_id' => null,
-                        'unit_sold_price' => $record->unit_full_price,
-                    ]);
-                }
-            } else if ($quantityToExtract == $record->quantity_scanned) {
-                if ($record->price_source_id === null) {
-                    $record->update([
-                        'price_source' => "QUANTITY_DISCOUNT",
-                        'price_source_id' => $this->discount->id,
-                        'unit_sold_price' => $this->discount->configuration['discounted_price']
-                    ]);
-                }
-            } else if ($quantityToExtract < $record->quantity_scanned) {
-                $quantityToCarryOver = $record->quantity_scanned - $quantityToExtract;
-
-                $record->update([
-                    'quantity_scanned' => $quantityToExtract,
-                    'unit_sold_price' => $this->discount->configuration['discounted_price'],
-                    'price_source' => "QUANTITY_DISCOUNT",
-                    'price_source_id' => $this->discount->id,
-                ]);
-
-                $this->dataCollection
-                    ->firstOrCreateProductRecord($record->product_id, $record->unit_full_price)
-                    ->increment('quantity_scanned', $quantityToCarryOver);
+        $eligibleRecords->each(function (DataCollectionRecord $record) use (&$quantityToDistribute) {
+            if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
+                $record->update(['unit_sold_price' => $record->unit_full_price]);
             }
 
-            $remainingQuantityToDiscount -= $quantityToExtract;
+            if ($quantityToDistribute <= 0) {
+                return true;
+            }
+
+            if ($quantityToDistribute >= $record->quantity_scanned) {
+                $record->update(['unit_sold_price' => $this->discount->configuration['discounted_price']]);
+                $quantityToDistribute -= $record->quantity_scanned;
+            } else {
+                $record->update([
+                    'quantity_scanned' => $record->quantity_scanned - $quantityToDistribute,
+                    'unit_sold_price' => $record->unit_full_price
+                ]);
+
+                $record->replicate()
+                    ->fill([
+                        'quantity_scanned' => $quantityToDistribute,
+                        'unit_sold_price' => $this->discount->configuration['discounted_price']
+                    ])
+                    ->save();
+
+                $quantityToDistribute = 0;
+            }
+
             return true;
         });
 
-        return $totalQuantityRequired;
+        return $this;
+    }
+
+    private function timesWeCanApplyOfferFor(Collection $records): int
+    {
+        $totalQuantityPerDiscount = $this->discount->quantity_at_full_price + $this->discount->quantity_at_discounted_price;
+
+        return floor($records->sum('quantity_scanned') / ($totalQuantityPerDiscount));
     }
 }
