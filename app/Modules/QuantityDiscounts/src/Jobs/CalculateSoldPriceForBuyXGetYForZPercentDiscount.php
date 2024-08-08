@@ -28,7 +28,10 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function handle(): void
     {
-        $cacheLockKey = implode('-', ['recalculating_quantity_discounts_for_data_collection', $this->dataCollection->id]);
+        $cacheLockKey = implode('-', [
+            'recalculating_quantity_discounts_for_data_collection',
+            $this->dataCollection->id
+        ]);
 
         Cache::lock($cacheLockKey, 5)->get(function () {
             QuantityDiscountsService::preselectEligibleRecords($this->dataCollection, $this->discount);
@@ -37,7 +40,7 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
         });
     }
 
-    public function applyDiscountsToSelectedRecords(): self
+    public function applyDiscountsToSelectedRecords(): void
     {
         $eligibleRecords = QuantityDiscountsService::getRecordsEligibleForDiscount($this->dataCollection, $this->discount)
             ->where(['price_source_id' => $this->discount->id])
@@ -45,39 +48,11 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
         $quantityToDistribute = $this->discount->quantity_at_discounted_price * QuantityDiscountsService::timesWeCanApplyOfferFor($eligibleRecords, $this->discount);
 
-        $eligibleRecords->each(function (DataCollectionRecord $record) use (&$quantityToDistribute) {
-            $discountedPrice = $record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100);
-
-            if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
-                $record->update(['unit_sold_price' => $record->unit_full_price]);
-            }
-
-            if ($quantityToDistribute <= 0) {
-                return true;
-            }
-
-            if ($quantityToDistribute >= $record->quantity_scanned) {
-                $record->update(['unit_sold_price' => $discountedPrice]);
-                $quantityToDistribute -= $record->quantity_scanned;
-            } else {
-                $record->update([
-                    'quantity_scanned' => $record->quantity_scanned - $quantityToDistribute,
-                    'unit_sold_price' => $record->unit_full_price
-                ]);
-
-                $record->replicate()
-                    ->fill([
-                        'quantity_scanned' => $quantityToDistribute,
-                        'unit_sold_price' => $discountedPrice
-                    ])
-                    ->save();
-
-                $quantityToDistribute = 0;
-            }
-
-            return true;
-        });
-
-        return $this;
+        QuantityDiscountsService::applyDiscountsToSelectedRecords(
+            $eligibleRecords,
+            $quantityToDistribute,
+            0,
+            $this->discount->configuration['discount_percent']
+        );
     }
 }

@@ -16,7 +16,10 @@ class QuantityDiscountsService
         $eligibleRecords = self::getRecordsEligibleForDiscount($dataCollection, $discount)->get();
         $remainingQuantityToDistribute = $discount->total_quantity_per_discount * self::timesWeCanApplyOfferFor($eligibleRecords, $discount);
 
-        $eligibleRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDistribute, $discount) {
+        $eligibleRecords->each(function (DataCollectionRecord $record) use (
+            &$remainingQuantityToDistribute,
+            $discount
+        ) {
             if ($remainingQuantityToDistribute <= 0 && $record->price_source_id === $discount->id) {
                 $record->update([
                     'unit_sold_price' => $record->unit_full_price,
@@ -39,6 +42,7 @@ class QuantityDiscountsService
             } else {
                 $record->update([
                     'quantity_scanned' => $record->quantity_scanned - $remainingQuantityToDistribute,
+                    'unit_sold_price' => $record->unit_full_price,
                     'price_source' => null,
                     'price_source_id' => null,
                 ]);
@@ -53,13 +57,14 @@ class QuantityDiscountsService
 
                 $remainingQuantityToDistribute = 0;
             }
-
             return true;
         });
     }
 
-    public static function getRecordsEligibleForDiscount(DataCollection $dataCollection, QuantityDiscount $discount): Builder
-    {
+    public static function getRecordsEligibleForDiscount(
+        DataCollection $dataCollection,
+        QuantityDiscount $discount
+    ): Builder {
         return $dataCollection->records()
             ->getQuery()
             ->whereIn('product_id', Arr::pluck($discount->products, 'product_id'))
@@ -73,10 +78,54 @@ class QuantityDiscountsService
             ->orderBy('id', 'ASC');
     }
 
+    public static function applyDiscountsToSelectedRecords(
+        Collection $eligibleRecords,
+        int $quantityToDistribute,
+        float $discountedPrice,
+        int $percentDiscount = 0
+    ): void {
+        $eligibleRecords->each(function (DataCollectionRecord $record) use (
+            &$quantityToDistribute,
+            $discountedPrice,
+            $percentDiscount
+        ) {
+            if ($percentDiscount) {
+                $discountedPrice = $record->unit_full_price - ($record->unit_full_price * ($percentDiscount / 100));
+            }
+
+            if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
+                $record->update(['unit_sold_price' => $record->unit_full_price]);
+            }
+
+            if ($discountedPrice > $record->unit_full_price || ($quantityToDistribute <= 0)) {
+                return true;
+            }
+
+            if ($quantityToDistribute >= $record->quantity_scanned) {
+                $record->update(['unit_sold_price' => $discountedPrice]);
+                $quantityToDistribute -= $record->quantity_scanned;
+            } else {
+                $record->update([
+                    'quantity_scanned' => $record->quantity_scanned - $quantityToDistribute,
+                    'unit_sold_price' => $record->unit_full_price
+                ]);
+
+                $record->replicate()
+                    ->fill([
+                        'quantity_scanned' => $quantityToDistribute,
+                        'unit_sold_price' => $discountedPrice
+                    ])
+                    ->save();
+
+                $quantityToDistribute = 0;
+            }
+
+            return true;
+        });
+    }
+
     public static function timesWeCanApplyOfferFor(Collection $records, QuantityDiscount $discount): int
     {
-        $totalQuantityPerDiscount = $discount->quantity_at_full_price + $discount->quantity_at_discounted_price;
-
-        return floor($records->sum('quantity_scanned') / ($totalQuantityPerDiscount));
+        return floor($records->sum('quantity_scanned') / $discount->total_quantity_per_discount);
     }
 }

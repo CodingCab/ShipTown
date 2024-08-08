@@ -18,6 +18,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  *
  * @property float quantity_at_full_price
  * @property float quantity_at_discounted_price
+ * @property float quantity_required
  * @property float total_quantity_per_discount
  *
  * @property string deleted_at
@@ -56,9 +57,14 @@ class QuantityDiscount extends Model
         return data_get($this->configuration, 'quantity_discounted', 0.00);
     }
 
+    public function getQuantityRequiredAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_required', 0.00);
+    }
+
     public function getTotalQuantityPerDiscountAttribute(): float
     {
-        return $this->quantity_at_full_price + $this->quantity_at_discounted_price;
+        return $this->quantity_at_full_price + $this->quantity_at_discounted_price + $this->quantity_required;
     }
 
     public static function getSpatieQueryBuilder(): QueryBuilder
@@ -80,7 +86,7 @@ class QuantityDiscount extends Model
         return $query->where('name', $text)
             ->orWhere('type', $text)
             ->orWhere('name', 'like', '%' . $text . '%')
-            ->orWhere('type', 'like', '%' . $text . '%');
+            ->orWhere('job_class', 'like', '%' . $text . '%');
     }
 
     /**
