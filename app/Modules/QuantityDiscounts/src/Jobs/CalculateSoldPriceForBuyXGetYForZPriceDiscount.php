@@ -48,8 +48,11 @@ class CalculateSoldPriceForBuyXGetYForZPriceDiscount extends UniqueJob
             ->get();
 
         $quantityToDistribute = $this->discount->quantity_at_discounted_price * QuantityDiscountsService::timesWeCanApplyOfferFor($eligibleRecords, $this->discount);
-        $discountedPrice = $this->discount->configuration['discounted_price'];
 
-        QuantityDiscountsService::applyDiscountsToSelectedRecords($eligibleRecords, $quantityToDistribute, $discountedPrice);
+        QuantityDiscountsService::applyDiscounts(
+            $eligibleRecords,
+            $quantityToDistribute,
+            $this->discount->configuration['discounted_price']
+        );
     }
 }

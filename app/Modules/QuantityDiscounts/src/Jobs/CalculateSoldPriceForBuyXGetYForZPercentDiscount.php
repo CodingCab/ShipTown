@@ -4,7 +4,6 @@ namespace App\Modules\QuantityDiscounts\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
-use App\Models\DataCollectionRecord;
 use App\Modules\DataCollector\src\Services\DataCollectorService;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Services\QuantityDiscountsService;
@@ -42,17 +41,18 @@ class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob
 
     public function applyDiscountsToSelectedRecords(): void
     {
-        $eligibleRecords = QuantityDiscountsService::getRecordsEligibleForDiscount($this->dataCollection, $this->discount)
+        $records = QuantityDiscountsService::getRecordsEligibleForDiscount($this->dataCollection, $this->discount)
             ->where(['price_source_id' => $this->discount->id])
             ->get();
 
-        $quantityToDistribute = $this->discount->quantity_at_discounted_price * QuantityDiscountsService::timesWeCanApplyOfferFor($eligibleRecords, $this->discount);
+        $quantityToDistribute = $this->discount->quantity_at_discounted_price * QuantityDiscountsService::timesWeCanApplyOfferFor($records, $this->discount);
 
-        QuantityDiscountsService::applyDiscountsToSelectedRecords(
-            $eligibleRecords,
+        QuantityDiscountsService::applyDiscounts(
+            $records,
             $quantityToDistribute,
-            0,
-            $this->discount->configuration['discount_percent']
+            function ($record) {
+                return $record->unit_full_price - ($record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100));
+            }
         );
     }
 }

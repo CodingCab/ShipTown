@@ -47,11 +47,12 @@ class CalculateSoldPriceForBuyXForYPercentDiscount extends UniqueJob
 
         $quantityToDistribute = $this->discount->quantity_required * QuantityDiscountsService::timesWeCanApplyOfferFor($eligibleRecords, $this->discount);
 
-        QuantityDiscountsService::applyDiscountsToSelectedRecords(
+        QuantityDiscountsService::applyDiscounts(
             $eligibleRecords,
             $quantityToDistribute,
-            0,
-            $this->discount->configuration['discount_percent']
+            function ($record) {
+                return $record->unit_full_price - ($record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100));
+            }
         );
     }
 }

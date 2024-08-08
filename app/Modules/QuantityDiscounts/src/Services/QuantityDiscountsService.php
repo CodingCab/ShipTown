@@ -11,24 +11,37 @@ use Illuminate\Support\Collection;
 
 class QuantityDiscountsService
 {
+    public static function getRecordsEligibleForDiscount(DataCollection $dataCollection, QuantityDiscount $discount): Builder
+    {
+        return $dataCollection->records()
+            ->getQuery()
+            ->whereIn('product_id', Arr::pluck($discount->products, 'product_id'))
+            ->where(function ($query) use ($discount) {
+                $query->whereNull('price_source_id')
+                    ->orWhere(['price_source_id' => $discount->id]);
+            })
+            ->orderBy('unit_full_price', 'ASC')
+            ->orderBy('price_source', 'DESC')
+            ->orderBy('quantity_scanned', 'DESC')
+            ->orderBy('id', 'ASC');
+    }
+
     public static function preselectEligibleRecords(DataCollection $dataCollection, QuantityDiscount $discount): void
     {
         $eligibleRecords = self::getRecordsEligibleForDiscount($dataCollection, $discount)->get();
         $remainingQuantityToDistribute = $discount->total_quantity_per_discount * self::timesWeCanApplyOfferFor($eligibleRecords, $discount);
 
-        $eligibleRecords->each(function (DataCollectionRecord $record) use (
-            &$remainingQuantityToDistribute,
-            $discount
-        ) {
-            if ($remainingQuantityToDistribute <= 0 && $record->price_source_id === $discount->id) {
-                $record->update([
-                    'unit_sold_price' => $record->unit_full_price,
-                    'price_source' => null,
-                    'price_source_id' => null,
-                ]);
-            }
-
+        $eligibleRecords->each(function (DataCollectionRecord $record) use (&$remainingQuantityToDistribute, $discount) {
             if ($remainingQuantityToDistribute <= 0) {
+                // Ensure record does not have discount applied
+                if ($record->price_source_id === $discount->id) {
+                    $record->update([
+                        'unit_sold_price' => $record->unit_full_price,
+                        'price_source' => null,
+                        'price_source_id' => null,
+                    ]);
+                }
+
                 return true;
             }
 
@@ -61,37 +74,10 @@ class QuantityDiscountsService
         });
     }
 
-    public static function getRecordsEligibleForDiscount(
-        DataCollection $dataCollection,
-        QuantityDiscount $discount
-    ): Builder {
-        return $dataCollection->records()
-            ->getQuery()
-            ->whereIn('product_id', Arr::pluck($discount->products, 'product_id'))
-            ->where(function ($query) use ($discount) {
-                $query->whereNull('price_source_id')
-                    ->orWhere(['price_source_id' => $discount->id]);
-            })
-            ->orderBy('unit_full_price', 'ASC')
-            ->orderBy('price_source', 'DESC')
-            ->orderBy('quantity_scanned', 'DESC')
-            ->orderBy('id', 'ASC');
-    }
-
-    public static function applyDiscountsToSelectedRecords(
-        Collection $eligibleRecords,
-        int $quantityToDistribute,
-        float $discountedPrice,
-        int $percentDiscount = 0
-    ): void {
-        $eligibleRecords->each(function (DataCollectionRecord $record) use (
-            &$quantityToDistribute,
-            $discountedPrice,
-            $percentDiscount
-        ) {
-            if ($percentDiscount) {
-                $discountedPrice = $record->unit_full_price - ($record->unit_full_price * ($percentDiscount / 100));
-            }
+    public static function applyDiscounts(Collection $eligibleRecords, int $quantityToDistribute, $price): void
+    {
+        $eligibleRecords->each(function (DataCollectionRecord $record) use (&$quantityToDistribute, $price) {
+            $discountedPrice = is_callable($price) ? $price($record) : $price;
 
             if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
                 $record->update(['unit_sold_price' => $record->unit_full_price]);
