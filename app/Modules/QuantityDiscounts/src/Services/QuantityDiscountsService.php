@@ -45,14 +45,17 @@ class QuantityDiscountsService
                 return true;
             }
 
-            if ($remainingQuantityToDistribute >= $record->quantity_scanned) {
+            if ($record->quantity_scanned <= $remainingQuantityToDistribute) {
                 $record->update([
                     'price_source' => 'QUANTITY_DISCOUNT',
                     'price_source_id' => $discount->id,
                 ]);
 
                 $remainingQuantityToDistribute -= $record->quantity_scanned;
-            } else {
+                return true;
+            }
+
+            if ($record->quantity_scanned > $remainingQuantityToDistribute) {
                 $record->update([
                     'quantity_scanned' => $record->quantity_scanned - $remainingQuantityToDistribute,
                     'unit_sold_price' => $record->unit_full_price,
@@ -69,7 +72,9 @@ class QuantityDiscountsService
                     ->save();
 
                 $remainingQuantityToDistribute = 0;
+                return true;
             }
+
             return true;
         });
     }
@@ -79,18 +84,28 @@ class QuantityDiscountsService
         $eligibleRecords->each(function (DataCollectionRecord $record) use (&$quantityToDistribute, $price) {
             $discountedPrice = is_callable($price) ? $price($record) : $price;
 
-            if ($quantityToDistribute <= 0 && $record->unit_sold_price != $record->unit_full_price) {
-                $record->update(['unit_sold_price' => $record->unit_full_price]);
-            }
+            if ($quantityToDistribute <= 0) {
+                // Ensure record does not have discount applied
+                if ($record->unit_sold_price != $record->unit_full_price) {
+                    $record->update(['unit_sold_price' => $record->unit_full_price]);
+                }
 
-            if ($discountedPrice > $record->unit_full_price || ($quantityToDistribute <= 0)) {
+                // nothing more to discount, continue to next record
                 return true;
             }
 
-            if ($quantityToDistribute >= $record->quantity_scanned) {
+            if ($discountedPrice > $record->unit_full_price) {
+                $record->update(['unit_sold_price' => $record->unit_full_price]);
+                return true;
+            }
+
+            if ($record->quantity_scanned <= $quantityToDistribute) {
                 $record->update(['unit_sold_price' => $discountedPrice]);
                 $quantityToDistribute -= $record->quantity_scanned;
-            } else {
+                return true;
+            }
+
+            if ($record->quantity_scanned > $quantityToDistribute) {
                 $record->update([
                     'quantity_scanned' => $record->quantity_scanned - $quantityToDistribute,
                     'unit_sold_price' => $record->unit_full_price
@@ -104,6 +119,7 @@ class QuantityDiscountsService
                     ->save();
 
                 $quantityToDistribute = 0;
+                return true;
             }
 
             return true;
