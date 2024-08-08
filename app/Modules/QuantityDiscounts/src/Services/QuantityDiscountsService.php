@@ -130,4 +130,22 @@ class QuantityDiscountsService
     {
         return floor($records->sum('quantity_scanned') / $discount->total_quantity_per_discount);
     }
+
+    public static function dispatchQuantityDiscountJobs(DataCollectionRecord $record): void
+    {
+        QuantityDiscount::query()
+            ->whereHas('products', function ($query) use ($record) {
+                $query->whereIn('product_id', function ($subQuery) use ($record) {
+                    $subQuery->select('product_id')
+                        ->from('data_collection_records')
+                        ->where('data_collection_id', $record->data_collection_id);
+                });
+            })
+            ->with('products')
+            ->get()
+            ->each(function (QuantityDiscount $quantityDiscount) use ($record) {
+                $job = new $quantityDiscount->job_class($record->dataCollection, $quantityDiscount);
+                $job->handle();
+            });
+    }
 }
