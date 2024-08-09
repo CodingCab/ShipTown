@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api\QuantityDiscountProduct;
 
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use App\User;
 use Tests\TestCase;
 

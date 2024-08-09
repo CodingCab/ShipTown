@@ -3,8 +3,7 @@
 namespace Tests\Feature\Api\QuantityDiscountProduct;
 
 use App\Models\Product;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;

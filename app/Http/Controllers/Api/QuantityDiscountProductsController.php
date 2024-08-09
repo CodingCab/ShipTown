@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuantityDiscountProduct\DestroyRequest;
 use App\Http\Requests\QuantityDiscountProduct\IndexRequest;
 use App\Http\Requests\QuantityDiscountProduct\StoreRequest;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;

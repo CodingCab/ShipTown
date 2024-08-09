@@ -8,7 +8,7 @@ use App\Http\Requests\QuantityDiscount\StoreRequest;
 use App\Http\Requests\QuantityDiscount\UpdateRequest;
 use App\Http\Resources\QuantityDiscountsResource;
 use App\Models\Product;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
