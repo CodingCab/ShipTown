@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin\Settings\Modules\QuantityDiscounts\Id;
 
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

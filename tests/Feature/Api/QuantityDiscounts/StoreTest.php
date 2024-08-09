@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\QuantityDiscounts;
 
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\User;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
