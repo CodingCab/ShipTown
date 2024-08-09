@@ -8,7 +8,7 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "npm version patch --force && mix --production"
+        "production": "npm version patch --force --no-git-tag-version && mix --production"
     },
     "devDependencies": {
         "axios": "^0.25",
