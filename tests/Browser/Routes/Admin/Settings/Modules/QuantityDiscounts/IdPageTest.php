@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Routes\Admin\Settings\Modules\QuantityDiscounts;
 
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use App\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
