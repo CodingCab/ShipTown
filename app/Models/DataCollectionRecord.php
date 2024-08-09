@@ -3,48 +3,51 @@
 namespace App\Models;
 
 use App\Helpers\HasQuantityRequiredSort;
+use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- *  @property int    $id
- *  @property int    $data_collection_id,
- *  @property int    $inventory_id
- *  @property int    $product_id
- *  @property string $warehouse_code
- *  @property int    $warehouse_id
- *  @property double $total_transferred_in
- *  @property double $total_transferred_out
- *  @property double $quantity_requested
- *  @property double $quantity_scanned
- *  @property double $quantity_to_scan
- *  @property double $unit_cost
- *  @property double $unit_sold_price
- *  @property double $unit_discount
- *  @property double $unit_full_price
- *  @property string $price_source
- *  @property int    $price_source_id
- *  @property double $total_cost_price
- *  @property double $total_sold_price
- *  @property double $total_full_price
- *  @property double $total_discount
- *  @property string $custom_uuid
- *  @property bool   $is_scanned
- *  @property Carbon $created_at
- *  @property Carbon $updated_at
+ * @property int $id
+ * @property int $data_collection_id,
+ * @property int $inventory_id
+ * @property int $product_id
+ * @property string $warehouse_code
+ * @property int $warehouse_id
+ * @property double $total_transferred_in
+ * @property double $total_transferred_out
+ * @property double $quantity_requested
+ * @property double $quantity_scanned
+ * @property double $quantity_to_scan
+ * @property double $unit_cost
+ * @property double $unit_sold_price
+ * @property double $unit_discount
+ * @property double $unit_full_price
+ * @property string $price_source
+ * @property int $price_source_id
+ * @property double $total_cost_price
+ * @property double $total_sold_price
+ * @property double $total_full_price
+ * @property double $total_discount
+ * @property string $custom_uuid
+ * @property bool $is_scanned
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  *
- *  @method static Builder|Product skuOrAlias($skuOrAlias)
+ * @method static Builder|Product skuOrAlias($skuOrAlias)
  *
- *  @property-read Product $product
- *  @property-read DataCollection $dataCollection
- *  @property-read Inventory $inventory
- *  @property-read ProductPrice $prices
+ * @property-read Product $product
+ * @property-read DataCollection $dataCollection
+ * @property-read Inventory $inventory
+ * @property-read ProductPrice $prices
+ * @property-read QuantityDiscount $discount
  */
 class DataCollectionRecord extends Model
 {
@@ -75,25 +78,25 @@ class DataCollectionRecord extends Model
     ];
 
     protected $casts = [
-        'product_id'            => 'int',
-        'total_transferred_id'  => 'double',
+        'product_id' => 'int',
+        'total_transferred_id' => 'double',
         'total_transferred_out' => 'double',
-        'quantity_requested'    => 'double',
-        'quantity_scanned'      => 'double',
-        'quantity_to_scan'      => 'double',
-        'unit_cost'             => 'float',
-        'unit_sold_price'       => 'float',
-        'unit_discount'         => 'float',
-        'unit_full_price'       => 'float',
-        'price_source'          => 'string',
-        'price_source_id'       => 'int',
-        'total_discount'        => 'float',
-        'total_cost'            => 'float',
-        'total_price'           => 'float',
-        'total_sold_price'      => 'float',
-        'total_full_price'      => 'float',
-        'total_cost_price'      => 'float',
-        'total_profit'          => 'float',
+        'quantity_requested' => 'double',
+        'quantity_scanned' => 'double',
+        'quantity_to_scan' => 'double',
+        'unit_cost' => 'float',
+        'unit_sold_price' => 'float',
+        'unit_discount' => 'float',
+        'unit_full_price' => 'float',
+        'price_source' => 'string',
+        'price_source_id' => 'int',
+        'total_discount' => 'float',
+        'total_cost' => 'float',
+        'total_price' => 'float',
+        'total_sold_price' => 'float',
+        'total_full_price' => 'float',
+        'total_cost_price' => 'float',
+        'total_profit' => 'float',
     ];
 
     public function replicate(array $except = null): self
@@ -134,6 +137,11 @@ class DataCollectionRecord extends Model
     public function prices(): BelongsTo
     {
         return $this->belongsTo(ProductPrice::class, 'inventory_id', 'inventory_id');
+    }
+
+    public function discount(): HasOne
+    {
+        return $this->hasOne(QuantityDiscount::class, 'id', 'price_source_id');
     }
 
     public static function getSpatieQueryBuilder(): QueryBuilder

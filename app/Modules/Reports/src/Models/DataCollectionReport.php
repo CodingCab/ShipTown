@@ -38,7 +38,8 @@ class DataCollectionReport extends Report
             'dataCollection',
             'inventory',
             'products_prices',
-            'prices'
+            'prices',
+            'discount'
         ];
 
         $this->fields = [

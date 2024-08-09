@@ -2,6 +2,7 @@
 
 namespace App\Modules\QuantityDiscounts\src\Models;
 
+use App\Models\DataCollectionRecord;
 use App\Traits\LogsActivityTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -95,5 +96,13 @@ class QuantityDiscount extends Model
     public function products(): HasMany
     {
         return $this->hasMany(QuantityDiscountsProduct::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function dataCollectionRecords(): HasMany
+    {
+        return $this->hasMany(DataCollectionRecord::class, 'price_source_id', 'id');
     }
 }
