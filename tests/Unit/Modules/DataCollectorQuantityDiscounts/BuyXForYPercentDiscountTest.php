@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Unit\Modules\QuantityDiscounts;
+namespace Tests\Unit\Modules\DataCollectorQuantityDiscounts;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\DataCollector\src\DataCollectorServiceProvider;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
-use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPercentDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\QuantityDiscountsServiceProvider;
 use Tests\TestCase;
 
-class BuyXGetYForZPercentDiscountTest extends TestCase
+class BuyXForYPercentDiscountTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -24,43 +24,42 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
 
         $this->warehouse = Warehouse::factory()->create();
 
-        $this->product4001 = Product::factory()->create(['sku' => '4001', 'price' => 10]);
-        $this->product4005 = Product::factory()->create(['sku' => '4005', 'price' => 50]);
+        $this->product4004 = Product::factory()->create(['sku' => '4004', 'price' => 35]);
+        $this->product4006 = Product::factory()->create(['sku' => '4006', 'price' => 50]);
 
-        $this->product4001->prices()
+        $this->product4004->prices()
             ->update([
-                'price' => 10,
-                'sale_price' => '17.99',
+                'price' => 35,
+                'sale_price' => '25.99',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->addDays(7)
             ]);
 
-        $this->product4005->prices()
+        $this->product4006->prices()
             ->update([
                 'price' => 50,
-                'sale_price' => '17.99',
+                'sale_price' => '35.99',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->addDays(7)
             ]);
 
         $quantityDiscount = QuantityDiscount::factory()->create([
-            'name' => 'Buy 2 get 2 half price',
-            'job_class' => CalculateSoldPriceForBuyXGetYForZPercentDiscount::class,
+            'name' => 'Buy 5 and get 10% OFF',
+            'job_class' => CalculateSoldPriceForBuyXForYPercentDiscount::class,
             'configuration' => [
-                'quantity_full_price' => 2,
-                'quantity_discounted' => 2,
-                'discount_percent' => 50,
+                'quantity_required' => 5,
+                'discount_percent' => 10,
             ],
         ]);
 
         QuantityDiscountsProduct::factory()->create([
             'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4001->getKey(),
+            'product_id' => $this->product4004->getKey(),
         ]);
 
         QuantityDiscountsProduct::factory()->create([
             'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4005->getKey(),
+            'product_id' => $this->product4006->getKey(),
         ]);
     }
 
@@ -75,19 +74,19 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
 
         DataCollectionRecord::query()->create([
             'data_collection_id' => $dataCollection->getKey(),
-            'product_id' => $this->product4001->getKey(),
-            'inventory_id' => $this->product4001->inventory()->first()->id,
+            'product_id' => $this->product4004->getKey(),
+            'inventory_id' => $this->product4004->inventory()->first()->id,
             'unit_cost' => 5,
-            'unit_full_price' => 10,
-            'unit_sold_price' => 10,
-            'quantity_scanned' => 1,
+            'unit_full_price' => 35,
+            'unit_sold_price' => 35,
+            'quantity_scanned' => 3,
             'quantity_requested' => 0,
         ]);
 
         DataCollectionRecord::query()->create([
             'data_collection_id' => $dataCollection->getKey(),
-            'product_id' => $this->product4005->getKey(),
-            'inventory_id' => $this->product4005->inventory()->first()->id,
+            'product_id' => $this->product4006->getKey(),
+            'inventory_id' => $this->product4006->inventory()->first()->id,
             'unit_cost' => 20,
             'unit_full_price' => 50,
             'unit_sold_price' => 50,
@@ -97,6 +96,6 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
 
         ray($dataCollection->refresh(), $dataCollection->refresh()->records()->get()->toArray());
 
-        $this->assertEquals(130, $dataCollection->refresh()->total_sold_price);
+        $this->assertEquals(234.5, $dataCollection->refresh()->total_sold_price);
     }
 }

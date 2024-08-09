@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src\Jobs;
+namespace App\Modules\DataCollectorQuantityDiscounts\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Modules\DataCollector\src\Services\DataCollectorService;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Services\QuantityDiscountsService;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Services\QuantityDiscountsService;
 use Illuminate\Support\Facades\Cache;
 
 class CalculateSoldPriceForBuyXGetYForZPercentDiscount extends UniqueJob

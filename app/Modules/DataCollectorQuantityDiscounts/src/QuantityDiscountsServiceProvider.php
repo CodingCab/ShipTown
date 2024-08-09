@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src;
+namespace App\Modules\DataCollectorQuantityDiscounts\src;
 
 use App\Events\DataCollectionRecord\DataCollectionRecordCreatedEvent;
 use App\Events\DataCollectionRecord\DataCollectionRecordDeletedEvent;
@@ -9,9 +9,9 @@ use App\Modules\BaseModuleServiceProvider;
 
 class QuantityDiscountsServiceProvider extends BaseModuleServiceProvider
 {
-    public static string $module_name = 'eCommerce - Quantity Discounts';
+    public static string $module_name = 'Data Collector - Quantity Discounts';
 
-    public static string $module_description = 'Module provides an ability to create quantity discounts for products';
+    public static string $module_description = 'Module provides an ability to use quantity discounts for price calculation.';
 
     public static string $settings_link = '/admin/settings/modules/quantity-discounts';
 

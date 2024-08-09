@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src\Listeners;
+namespace App\Modules\DataCollectorQuantityDiscounts\src\Listeners;
 
 use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
-use App\Modules\QuantityDiscounts\src\Services\QuantityDiscountsService;
+use App\Modules\DataCollectorQuantityDiscounts\src\Services\QuantityDiscountsService;
 
 class DataCollectionRecordUpdatedEventListener
 {

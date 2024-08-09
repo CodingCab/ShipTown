@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit\Modules\QuantityDiscounts;
+namespace Tests\Unit\Modules\DataCollectorQuantityDiscounts;
 
-use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
+use App\Modules\DataCollectorQuantityDiscounts\src\QuantityDiscountsServiceProvider;
 use Tests\TestCase;
 
 class BasicModuleTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src\Models;
+namespace App\Modules\DataCollectorQuantityDiscounts\src\Models;
 
 use App\Models\DataCollectionRecord;
 use App\Traits\LogsActivityTrait;

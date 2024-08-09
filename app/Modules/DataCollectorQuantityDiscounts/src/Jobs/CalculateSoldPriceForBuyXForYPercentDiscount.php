@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src\Jobs;
+namespace App\Modules\DataCollectorQuantityDiscounts\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Models\DataCollection;
 use App\Modules\DataCollector\src\Services\DataCollectorService;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Services\QuantityDiscountsService;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Services\QuantityDiscountsService;
 use Illuminate\Support\Facades\Cache;
 
-class CalculateSoldPriceForBuyXForYPriceDiscount extends UniqueJob
+class CalculateSoldPriceForBuyXForYPercentDiscount extends UniqueJob
 {
     private QuantityDiscount $discount;
     private DataCollection $dataCollection;
@@ -50,7 +50,9 @@ class CalculateSoldPriceForBuyXForYPriceDiscount extends UniqueJob
         QuantityDiscountsService::applyDiscounts(
             $eligibleRecords,
             $quantityToDistribute,
-            $this->discount->configuration['discounted_unit_price']
+            function ($record) {
+                return $record->unit_full_price - ($record->unit_full_price * ($this->discount->configuration['discount_percent'] / 100));
+            }
         );
     }
 }

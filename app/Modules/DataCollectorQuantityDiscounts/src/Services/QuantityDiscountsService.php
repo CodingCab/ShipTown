@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\QuantityDiscounts\src\Services;
+namespace App\Modules\DataCollectorQuantityDiscounts\src\Services;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;

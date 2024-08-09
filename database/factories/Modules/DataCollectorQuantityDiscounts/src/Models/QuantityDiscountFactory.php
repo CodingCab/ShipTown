@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories\Modules\QuantityDiscounts\src\Models;
+namespace Database\Factories\Modules\DataCollectorQuantityDiscounts\src\Models;
 
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuantityDiscountFactory extends Factory

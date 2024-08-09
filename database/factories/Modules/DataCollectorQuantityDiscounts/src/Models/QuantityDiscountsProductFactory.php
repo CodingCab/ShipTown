@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories\Modules\QuantityDiscounts\src\Models;
+namespace Database\Factories\Modules\DataCollectorQuantityDiscounts\src\Models;
 
 use App\Models\Product;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuantityDiscountsProductFactory extends Factory

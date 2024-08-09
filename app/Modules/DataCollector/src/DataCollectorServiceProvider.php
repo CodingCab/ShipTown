@@ -18,12 +18,12 @@ class DataCollectorServiceProvider extends BaseModuleServiceProvider
     /**
      * @var string
      */
-    public static string $module_name = 'Data Collector Services';
+    public static string $module_name = 'Data Collector - Transform Actions';
 
     /**
      * @var string
      */
-    public static string $module_description = 'Provides bulk actions for data collections';
+    public static string $module_description = 'Provides bulk actions for data collections such a Transfer In, Transfer Out, Transfer To and Import As Stocktake';
 
     /**
      * @var string

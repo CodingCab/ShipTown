@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
+use App\Modules\DataCollectorQuantityDiscounts\src\QuantityDiscountsServiceProvider;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration

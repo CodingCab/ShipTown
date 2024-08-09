@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\HasQuantityRequiredSort;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

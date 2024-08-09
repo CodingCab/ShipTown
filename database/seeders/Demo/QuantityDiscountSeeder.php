@@ -3,12 +3,12 @@
 namespace Database\Seeders\Demo;
 
 use App\Models\Product;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPercentDiscount;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPriceDiscount;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPriceDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
-use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPercentDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPriceDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPercentDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPriceDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscount;
+use App\Modules\DataCollectorQuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use Illuminate\Database\Seeder;
 
 class QuantityDiscountSeeder extends Seeder
