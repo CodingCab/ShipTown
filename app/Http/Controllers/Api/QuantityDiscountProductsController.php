@@ -15,10 +15,9 @@ class QuantityDiscountProductsController extends Controller
 {
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
-        $result = QuantityDiscountsProduct::getSpatieQueryBuilder()
-            ->get();
+        $result = QuantityDiscountsProduct::getSpatieQueryBuilder()->get();
 
-        return  JsonResource::collection($result);
+        return JsonResource::collection($result);
     }
 
     public function store(StoreRequest $request): JsonResponse
@@ -27,7 +26,7 @@ class QuantityDiscountProductsController extends Controller
 
         $discountProducts = QuantityDiscountsProduct::query()
             ->where(['quantity_discount_id' => $request->validated('quantity_discount_id')])
-            ->with('product')
+            ->with(['product', 'product.prices'])
             ->get();
 
         return response()->json($discountProducts);
@@ -39,7 +38,7 @@ class QuantityDiscountProductsController extends Controller
 
         $discountProducts = QuantityDiscountsProduct::query()
             ->where(['quantity_discount_id' => $quantityDiscountProduct->quantity_discount_id])
-            ->with('product')
+            ->with(['product', 'product.prices'])
             ->get();
 
         return response()->json($discountProducts);

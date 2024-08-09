@@ -25,8 +25,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:250',
-            'type' => 'required|string|max:250',
-            'configuration' => 'required|json',
+            'job_class' => ['nullable', 'sometimes', 'string', 'in:App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount,App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount,App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount,App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount'],
+            'configuration' => 'required|array',
         ];
     }
 }

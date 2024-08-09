@@ -7,13 +7,13 @@
         <div class="container">
             <input id="discountName" type="text" :disabled="!isCreatingNewDiscount" v-model="newDiscount.name"
                    class="form-control mb-2" placeholder="Discount name" required>
-            <select name="discountType" id="discountType" :disabled="!isCreatingNewDiscount" v-model="newDiscount.type"
+            <select name="discountType" id="discountType" :disabled="!isCreatingNewDiscount"
+                    v-model="newDiscount.job_class"
                     class="form-control mb-2" required>
                 <option value="">-</option>
-                <option value="BUY_X_GET_Y_FOR_Z_PRICE">Buy X, get Y for Z price</option>
-                <option value="BUY_X_GET_Y_FOR_Z_PERCENT_DISCOUNT">Buy X, get Y for Z percent discount</option>
-                <option value="BUY_X_GET_Y_PRICE">Buy X for Y price</option>
-                <option value="BUY_X_FOR_Y_PERCENT_DISCOUNT">Buy X for Y percent discount</option>
+                <option v-for="(type, index) in discountTypes" :value="type.jobClass" :key="`type${index}`">
+                    {{ type.name }}
+                </option>
             </select>
         </div>
         <template #modal-footer>
@@ -39,10 +39,28 @@ export default {
         return {
             newDiscount: {
                 name: '',
-                type: '',
+                job_class: '',
             },
             modal_id: 'new-quantity-discount-modal',
             discount: undefined,
+            discountTypes: [
+                {
+                    name: 'Buy X, get Y for Z price',
+                    jobClass: 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPriceDiscount'
+                },
+                {
+                    name: 'Buy X, get Y for Z percent discount',
+                    jobClass: 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXGetYForZPercentDiscount'
+                },
+                {
+                    name: 'Buy X for Y price',
+                    jobClass: 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPriceDiscount'
+                },
+                {
+                    name: 'Buy X for Y percent discount',
+                    jobClass: 'App\\Modules\\QuantityDiscounts\\src\\Jobs\\CalculateSoldPriceForBuyXForYPercentDiscount'
+                }
+            ],
         }
     },
 
@@ -52,12 +70,12 @@ export default {
 
             this.newDiscount = {
                 name: '',
-                type: '',
+                job_class: '',
             };
 
             if (this.discount) {
                 this.newDiscount.name = this.discount.name;
-                this.newDiscount.type = this.discount.type;
+                this.newDiscount.job_class = this.discount.job_class;
             }
 
             this.$bvModal.show(this.modal_id);

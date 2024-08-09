@@ -520,18 +520,6 @@ export default {
             return axios.post('/api/pdf/download', data, {responseType: 'blob'});
         },
 
-        apiGetTransactions: function (params) {
-            return axios.get('/api/transactions/', {params: params});
-        },
-
-        apiPostTransaction: function (data) {
-            return axios.post('/api/transactions/', data);
-        },
-
-        apiPutTransaction: function (id, data) {
-            return axios.put('/api/transactions/' + id, data);
-        },
-
         apiGetQuantityDiscounts: function (params) {
             return axios.get('/api/quantity-discounts/', {params: params});
         },

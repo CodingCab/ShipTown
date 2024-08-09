@@ -12,9 +12,12 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
- * @property int $id
- * @property int $quantity_discount_id
- * @property int $product_id
+ * @property integer id
+ * @property integer quantity_discount_id
+ * @property integer product_id
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
  *
  */
 class QuantityDiscountsProduct extends Model
@@ -37,10 +40,7 @@ class QuantityDiscountsProduct extends Model
                 AllowedFilter::exact('quantity_discount_id'),
                 AllowedFilter::exact('product_id'),
             ])
-            ->allowedIncludes([
-                'discount',
-                'product'
-            ]);
+            ->allowedIncludes(['discount', 'product', 'product.prices']);
     }
 
     /**

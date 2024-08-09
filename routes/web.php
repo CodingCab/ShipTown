@@ -56,7 +56,6 @@ Route::resource('order/packsheet', Order\PacksheetController::class)->only(['sho
 Route::view('tools/printer', 'tools/printer')->name('tools.printer');
 
 Route::as('tools.')->group(function () {
-    Route::view('tools/point-of-sale', 'tools/point-of-sale');
     Route::view('tools/data-collector/transaction', 'tools/data-collector/transaction')->name('point_of_sale');
 });
 

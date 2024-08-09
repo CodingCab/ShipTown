@@ -2,6 +2,9 @@
 
 namespace App\Modules\QuantityDiscounts\src;
 
+use App\Events\DataCollectionRecord\DataCollectionRecordCreatedEvent;
+use App\Events\DataCollectionRecord\DataCollectionRecordDeletedEvent;
+use App\Events\DataCollectionRecord\DataCollectionRecordUpdatedEvent;
 use App\Modules\BaseModuleServiceProvider;
 
 class QuantityDiscountsServiceProvider extends BaseModuleServiceProvider
@@ -12,7 +15,21 @@ class QuantityDiscountsServiceProvider extends BaseModuleServiceProvider
 
     public static string $settings_link = '/admin/settings/modules/quantity-discounts';
 
-    public static bool $autoEnable = false;
+    public static bool $autoEnable = true;
+
+    protected $listen = [
+        DataCollectionRecordCreatedEvent::class => [
+            Listeners\DataCollectionRecordCreatedEventListener::class,
+        ],
+
+        DataCollectionRecordUpdatedEvent::class => [
+            Listeners\DataCollectionRecordUpdatedEventListener::class,
+        ],
+
+        DataCollectionRecordDeletedEvent::class => [
+            Listeners\DataCollectionRecordDeletedEventListener::class,
+        ],
+    ];
 
     public static function enabling(): bool
     {

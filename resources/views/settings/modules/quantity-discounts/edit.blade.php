@@ -12,8 +12,7 @@
                     </div>
                 @endif
 
-                <quantity-discounts-edit-page initial-discount='{{ json_encode($discount) }}'
-                                              initial-products='{{ json_encode($products) }}'></quantity-discounts-edit-page>
+                <quantity-discounts-edit-page initial-discount='{{ json_encode($discount) }}'></quantity-discounts-edit-page>
             </div>
         </div>
 @endsection
