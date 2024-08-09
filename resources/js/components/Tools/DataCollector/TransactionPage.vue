@@ -282,7 +282,7 @@ export default {
             dataCollectionRecords: [],
             nextUrl: null,
             page: 1,
-            per_page: 15,
+            per_page: 50,
             csv: null,
             warehouses: [],
             buttonsEnabled: false,
