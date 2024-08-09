@@ -7,17 +7,16 @@ use App\Models\DataCollectionRecord;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\DataCollector\src\DataCollectorServiceProvider;
-use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXGetYForZPriceDiscount;
+use App\Modules\QuantityDiscounts\src\Jobs\CalculateSoldPriceForBuyXForYPercentDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscount;
 use App\Modules\QuantityDiscounts\src\Models\QuantityDiscountsProduct;
 use App\Modules\QuantityDiscounts\src\QuantityDiscountsServiceProvider;
 use Tests\TestCase;
 
-class BuyXForYPercentDiscount extends TestCase
+class BuyXForYPercentDiscountTest extends TestCase
 {
     protected function setUp(): void
     {
-//        BuyXForYPercentDiscount
         parent::setUp();
 
         DataCollectorServiceProvider::enableModule();
@@ -25,43 +24,42 @@ class BuyXForYPercentDiscount extends TestCase
 
         $this->warehouse = Warehouse::factory()->create();
 
-        $this->product4007 = Product::factory()->create(['sku' => '4007', 'price' => 40]);
-        $this->product4008 = Product::factory()->create(['sku' => '4008', 'price' => 65]);
+        $this->product4004 = Product::factory()->create(['sku' => '4004', 'price' => 35]);
+        $this->product4006 = Product::factory()->create(['sku' => '4006', 'price' => 50]);
 
-        $this->product4007->prices()
+        $this->product4004->prices()
             ->update([
-                'price' => 40,
+                'price' => 35,
                 'sale_price' => '25.99',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->addDays(7)
             ]);
 
-        $this->product4008->prices()
+        $this->product4006->prices()
             ->update([
-                'price' => 65,
+                'price' => 50,
                 'sale_price' => '35.99',
                 'sale_price_start_date' => now()->subDays(14),
                 'sale_price_end_date' => now()->addDays(7)
             ]);
 
         $quantityDiscount = QuantityDiscount::factory()->create([
-            'name' => 'Buy 3, get 1 for $10',
-            'job_class' => CalculateSoldPriceForBuyXGetYForZPriceDiscount::class,
+            'name' => 'Buy 5 and get 10% OFF',
+            'job_class' => CalculateSoldPriceForBuyXForYPercentDiscount::class,
             'configuration' => [
-                'quantity_full_price' => 3,
-                'quantity_discounted' => 1,
-                'discounted_price' => 10,
+                'quantity_required' => 5,
+                'discount_percent' => 10,
             ],
         ]);
 
         QuantityDiscountsProduct::factory()->create([
             'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4007->getKey(),
+            'product_id' => $this->product4004->getKey(),
         ]);
 
         QuantityDiscountsProduct::factory()->create([
             'quantity_discount_id' => $quantityDiscount->id,
-            'product_id' => $this->product4008->getKey(),
+            'product_id' => $this->product4006->getKey(),
         ]);
     }
 
@@ -76,28 +74,28 @@ class BuyXForYPercentDiscount extends TestCase
 
         DataCollectionRecord::query()->create([
             'data_collection_id' => $dataCollection->getKey(),
-            'product_id' => $this->product4007->getKey(),
-            'inventory_id' => $this->product4007->inventory()->first()->id,
+            'product_id' => $this->product4004->getKey(),
+            'inventory_id' => $this->product4004->inventory()->first()->id,
             'unit_cost' => 5,
-            'unit_full_price' => 40,
-            'unit_sold_price' => 40,
-            'quantity_scanned' => 4,
+            'unit_full_price' => 35,
+            'unit_sold_price' => 35,
+            'quantity_scanned' => 3,
             'quantity_requested' => 0,
         ]);
 
         DataCollectionRecord::query()->create([
             'data_collection_id' => $dataCollection->getKey(),
-            'product_id' => $this->product4008->getKey(),
-            'inventory_id' => $this->product4008->inventory()->first()->id,
+            'product_id' => $this->product4006->getKey(),
+            'inventory_id' => $this->product4006->inventory()->first()->id,
             'unit_cost' => 20,
-            'unit_full_price' => 65,
-            'unit_sold_price' => 65,
-            'quantity_scanned' => 2,
+            'unit_full_price' => 50,
+            'unit_sold_price' => 50,
+            'quantity_scanned' => 3,
             'quantity_requested' => 0,
         ]);
 
         ray($dataCollection->refresh(), $dataCollection->refresh()->records()->get()->toArray());
 
-        $this->assertEquals(260, $dataCollection->refresh()->total_sold_price);
+        $this->assertEquals(234.5, $dataCollection->refresh()->total_sold_price);
     }
 }
