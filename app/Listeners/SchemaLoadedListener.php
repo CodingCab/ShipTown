@@ -2,12 +2,15 @@
 
 namespace App\Listeners;
 
-use App\Console\Commands\AppInstall;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class SchemaLoadedListener
 {
     public function handle($event): void
     {
-        AppInstall::ensureAppKeysGenerated();
+        DB::transaction(function () {
+            Artisan::call('app:install');
+        });
     }
 }

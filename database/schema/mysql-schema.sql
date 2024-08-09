@@ -56,13 +56,17 @@ CREATE TABLE `data_collection_records` (
   `quantity_requested` decimal(20,2) DEFAULT NULL,
   `quantity_scanned` decimal(20,2) NOT NULL DEFAULT '0.00',
   `quantity_to_scan` decimal(20,2) GENERATED ALWAYS AS (greatest(0,(((ifnull(`quantity_requested`,0) - ifnull(`total_transferred_out`,0)) - ifnull(`total_transferred_in`,0)) - ifnull(`quantity_scanned`,0)))) STORED COMMENT 'GREATEST(0, IFNULL(quantity_requested, 0) - IFNULL(total_transferred_out, 0) - IFNULL(total_transferred_in, 0) - IFNULL(quantity_scanned, 0))',
-  `unit_cost` decimal(10,2) DEFAULT NULL,
-  `unit_sold_price` decimal(10,2) DEFAULT NULL,
-  `unit_discount` double GENERATED ALWAYS AS ((`unit_full_price` - `unit_sold_price`)) STORED COMMENT 'unit_full_price - unit_sold_price',
-  `unit_full_price` decimal(10,2) DEFAULT NULL,
+  `unit_cost` decimal(20,3) DEFAULT NULL,
+  `unit_sold_price` decimal(20,3) DEFAULT NULL,
+  `unit_discount` decimal(20,2) GENERATED ALWAYS AS (round((`unit_full_price` - `unit_sold_price`),3)) STORED COMMENT 'ROUND(unit_full_price - unit_sold_price, 3)',
+  `total_sold_price` decimal(20,2) GENERATED ALWAYS AS (round((`quantity_scanned` * `unit_sold_price`),2)) STORED COMMENT 'ROUND(quantity_scanned * unit_sold_price, 2)',
+  `total_profit` decimal(20,2) GENERATED ALWAYS AS (round(((`unit_sold_price` * `quantity_scanned`) - (`unit_cost` * `quantity_scanned`)),2)) STORED COMMENT 'ROUND((unit_sold_price * quantity_scanned) - (unit_cost * quantity_scanned), 2)',
+  `unit_full_price` decimal(20,3) DEFAULT NULL,
   `price_source` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price_source_id` bigint unsigned DEFAULT NULL,
-  `total_discount` double GENERATED ALWAYS AS ((`quantity_scanned` * (`unit_full_price` - `unit_sold_price`))) STORED COMMENT 'quantity_scanned * (unit_full_price - unit_sold_price)',
+  `total_cost` decimal(20,2) GENERATED ALWAYS AS (round((`quantity_scanned` * `unit_cost`),2)) STORED COMMENT 'ROUND(quantity_scanned * unit_cost, 2)',
+  `total_full_price` decimal(20,2) GENERATED ALWAYS AS (round((`quantity_scanned` * `unit_full_price`),2)) STORED COMMENT 'ROUND(quantity_scanned * unit_full_price, 2)',
+  `total_discount` decimal(20,2) DEFAULT NULL COMMENT 'quantity_scanned * (unit_full_price - unit_sold_price)',
   `total_price` decimal(20,2) GENERATED ALWAYS AS ((`quantity_scanned` * `unit_sold_price`)) STORED COMMENT 'quantity_scanned * unit_price',
   `is_requested` tinyint(1) GENERATED ALWAYS AS ((ifnull(`quantity_requested`,0) = 0)) STORED COMMENT 'IFNULL(data_collection_records.quantity_requested, 0) = 0',
   `is_fully_scanned` tinyint(1) GENERATED ALWAYS AS ((`quantity_to_scan` <= 0)) STORED COMMENT 'quantity_to_scan <= 0',
@@ -91,12 +95,24 @@ DROP TABLE IF EXISTS `data_collections`;
 CREATE TABLE `data_collections` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `warehouse_code` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `warehouse_id` bigint unsigned NOT NULL,
+  `destination_warehouse_code` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `destination_collection_id` bigint unsigned DEFAULT NULL,
   `destination_warehouse_id` bigint unsigned DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_quantity_scanned` decimal(20,2) DEFAULT NULL,
+  `total_cost` decimal(20,2) DEFAULT NULL,
+  `total_full_price` decimal(20,2) DEFAULT NULL,
+  `total_discount` decimal(20,2) DEFAULT NULL,
+  `total_sold_price` decimal(20,2) DEFAULT NULL,
+  `shipping_address_id` bigint unsigned DEFAULT NULL,
+  `billing_address_id` bigint unsigned DEFAULT NULL,
+  `total_profit` decimal(20,2) DEFAULT NULL,
   `custom_uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `currently_running_task` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `recount_required` tinyint(1) NOT NULL DEFAULT '1',
+  `calculated_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
@@ -105,8 +121,12 @@ CREATE TABLE `data_collections` (
   KEY `data_collections_warehouse_id_foreign` (`warehouse_id`),
   KEY `data_collections_destination_collection_id_foreign` (`destination_collection_id`),
   KEY `data_collections_destination_warehouse_id_foreign` (`destination_warehouse_id`),
+  KEY `data_collections_shipping_address_id_foreign` (`shipping_address_id`),
+  KEY `data_collections_billing_address_id_foreign` (`billing_address_id`),
+  CONSTRAINT `data_collections_billing_address_id_foreign` FOREIGN KEY (`billing_address_id`) REFERENCES `orders_addresses` (`id`),
   CONSTRAINT `data_collections_destination_collection_id_foreign` FOREIGN KEY (`destination_collection_id`) REFERENCES `data_collections` (`id`) ON DELETE RESTRICT,
   CONSTRAINT `data_collections_destination_warehouse_id_foreign` FOREIGN KEY (`destination_warehouse_id`) REFERENCES `warehouses` (`id`),
+  CONSTRAINT `data_collections_shipping_address_id_foreign` FOREIGN KEY (`shipping_address_id`) REFERENCES `orders_addresses` (`id`),
   CONSTRAINT `data_collections_warehouse_id_foreign` FOREIGN KEY (`warehouse_id`) REFERENCES `warehouses` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -851,7 +871,7 @@ DROP TABLE IF EXISTS `modules_magento2api_products_inventory_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_magento2api_products_inventory_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_magento2api_products_inventory_comparison_view` AS SELECT
+/*!50001 CREATE VIEW `modules_magento2api_products_inventory_comparison_view` AS SELECT 
  1 AS `modules_magento2api_connection_id`,
  1 AS `modules_magento2api_products_id`,
  1 AS `sku`,
@@ -863,7 +883,7 @@ DROP TABLE IF EXISTS `modules_magento2api_products_prices_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_magento2api_products_prices_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_magento2api_products_prices_comparison_view` AS SELECT
+/*!50001 CREATE VIEW `modules_magento2api_products_prices_comparison_view` AS SELECT 
  1 AS `modules_magento2api_connection_id`,
  1 AS `modules_magento2api_products_id`,
  1 AS `sku`,
@@ -967,7 +987,7 @@ DROP TABLE IF EXISTS `modules_quantity_discounts`;
 CREATE TABLE `modules_quantity_discounts` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `job_class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `configuration` json DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1093,7 +1113,7 @@ DROP TABLE IF EXISTS `modules_rmsapi_products_quantity_comparison_view`;
 /*!50001 DROP VIEW IF EXISTS `modules_rmsapi_products_quantity_comparison_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `modules_rmsapi_products_quantity_comparison_view` AS SELECT
+/*!50001 CREATE VIEW `modules_rmsapi_products_quantity_comparison_view` AS SELECT 
  1 AS `record_id`,
  1 AS `product_sku`,
  1 AS `product_id`,
@@ -1621,7 +1641,7 @@ CREATE TABLE `products` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=CURRENT_USER */ /*!50003 TRIGGER `trigger_on_products` AFTER INSERT ON `products` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trigger_on_products` AFTER INSERT ON `products` FOR EACH ROW BEGIN
                 INSERT INTO inventory (product_id, warehouse_id, warehouse_code, created_at, updated_at)
                 SELECT new.id as product_id, warehouses.id as warehouse_id, warehouses.code as warehouse_code, now(), now() FROM warehouses;
 
@@ -1870,17 +1890,6 @@ CREATE TABLE `telescope_monitoring` (
   `tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-DROP TABLE IF EXISTS `transactions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `transactions` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `raw_data` json NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -1903,12 +1912,9 @@ CREATE TABLE `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `active_transaction_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
-  KEY `users_active_transaction_id_foreign` (`active_transaction_id`),
   KEY `users_warehouse_code_foreign` (`warehouse_code`),
-  CONSTRAINT `users_active_transaction_id_foreign` FOREIGN KEY (`active_transaction_id`) REFERENCES `transactions` (`id`),
   CONSTRAINT `users_warehouse_code_foreign` FOREIGN KEY (`warehouse_code`) REFERENCES `warehouses` (`code`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1916,7 +1922,7 @@ DROP TABLE IF EXISTS `view_key_dates`;
 /*!50001 DROP VIEW IF EXISTS `view_key_dates`*/;
 SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `view_key_dates` AS SELECT
+/*!50001 CREATE VIEW `view_key_dates` AS SELECT 
  1 AS `date`,
  1 AS `this_week_start_date`,
  1 AS `this_month_start_date`,
@@ -1960,7 +1966,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_magento2api_products_inventory_comparison_view` AS select `modules_magento2api_products`.`connection_id` AS `modules_magento2api_connection_id`,`modules_magento2api_products`.`id` AS `modules_magento2api_products_id`,`products`.`sku` AS `sku`,floor(max(`modules_magento2api_products`.`quantity`)) AS `magento_quantity`,if((floor(sum(`inventory`.`quantity_available`)) < 0),0,floor(sum(`inventory`.`quantity_available`))) AS `expected_quantity`,`modules_magento2api_products`.`stock_items_fetched_at` AS `stock_items_fetched_at` from (((((`modules_magento2api_products` left join `modules_magento2api_connections` on((`modules_magento2api_connections`.`id` = `modules_magento2api_products`.`connection_id`))) left join `taggables` on(((`taggables`.`tag_id` = `modules_magento2api_connections`.`inventory_source_warehouse_tag_id`) and (`taggables`.`taggable_type` = 'App\\Models\\Warehouse')))) left join `warehouses` on((`warehouses`.`id` = `taggables`.`taggable_id`))) left join `inventory` on(((`inventory`.`product_id` = `modules_magento2api_products`.`product_id`) and (`inventory`.`warehouse_id` = `warehouses`.`id`)))) left join `products` on((`products`.`id` = `modules_magento2api_products`.`product_id`))) where ((`modules_magento2api_connections`.`inventory_source_warehouse_tag_id` is not null) and (ifnull(`modules_magento2api_products`.`exists_in_magento`,1) = 1)) group by `modules_magento2api_products`.`id` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1973,7 +1979,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_magento2api_products_prices_comparison_view` AS select `modules_magento2api_products`.`connection_id` AS `modules_magento2api_connection_id`,`modules_magento2api_products`.`id` AS `modules_magento2api_products_id`,`products`.`sku` AS `sku`,`modules_magento2api_connections`.`magento_store_id` AS `magento_store_id`,`modules_magento2api_products`.`magento_price` AS `magento_price`,`products_prices`.`price` AS `expected_price`,`modules_magento2api_products`.`magento_sale_price` AS `magento_sale_price`,`products_prices`.`sale_price` AS `expected_sale_price`,`modules_magento2api_products`.`magento_sale_price_start_date` AS `magento_sale_price_start_date`,`products_prices`.`sale_price_start_date` AS `expected_sale_price_start_date`,`modules_magento2api_products`.`magento_sale_price_end_date` AS `magento_sale_price_end_date`,`products_prices`.`sale_price_end_date` AS `expected_sale_price_end_date`,`modules_magento2api_products`.`base_prices_fetched_at` AS `base_prices_fetched_at`,`modules_magento2api_products`.`special_prices_fetched_at` AS `special_prices_fetched_at` from (((`modules_magento2api_products` left join `products` on((`products`.`id` = `modules_magento2api_products`.`product_id`))) left join `modules_magento2api_connections` on((`modules_magento2api_connections`.`id` = `modules_magento2api_products`.`connection_id`))) left join `products_prices` on(((`products_prices`.`product_id` = `modules_magento2api_products`.`product_id`) and (`products_prices`.`warehouse_id` = `modules_magento2api_connections`.`pricing_source_warehouse_id`)))) where ((`modules_magento2api_connections`.`pricing_source_warehouse_id` is not null) and (ifnull(`modules_magento2api_products`.`exists_in_magento`,0) = 1)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1986,7 +1992,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `modules_rmsapi_products_quantity_comparison_view` AS select `modules_rmsapi_products_imports`.`id` AS `record_id`,`modules_rmsapi_products_imports`.`sku` AS `product_sku`,`modules_rmsapi_products_imports`.`product_id` AS `product_id`,`modules_rmsapi_products_imports`.`warehouse_id` AS `warehouse_id`,`modules_rmsapi_products_imports`.`warehouse_code` AS `warehouse_code`,`modules_rmsapi_products_imports`.`quantity_on_hand` AS `rms_quantity`,`inventory`.`quantity` AS `pm_quantity`,(`modules_rmsapi_products_imports`.`quantity_on_hand` - `inventory`.`quantity`) AS `quantity_delta`,`modules_rmsapi_products_imports`.`updated_at` AS `modules_rmsapi_products_imports_updated_at`,`inventory`.`id` AS `inventory_id`,(select max(`inventory_movements`.`id`) from `inventory_movements` where ((`inventory_movements`.`inventory_id` = `inventory`.`id`) and (`inventory_movements`.`description` = 'stocktake') and (`inventory_movements`.`user_id` = 1) and (`inventory_movements`.`created_at` > (now() - interval 7 day)))) AS `movement_id` from (`modules_rmsapi_products_imports` join `inventory` on(((`inventory`.`product_id` = `modules_rmsapi_products_imports`.`product_id`) and (`inventory`.`warehouse_id` = `modules_rmsapi_products_imports`.`warehouse_id`)))) where `modules_rmsapi_products_imports`.`id` in (select max(`modules_rmsapi_products_imports`.`id`) from `modules_rmsapi_products_imports` group by `modules_rmsapi_products_imports`.`warehouse_id`,`modules_rmsapi_products_imports`.`product_id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -1999,7 +2005,7 @@ CREATE TABLE `widgets` (
 /*!50001 SET character_set_results     = utf8mb4 */;
 /*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=CURRENT_USER SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `view_key_dates` AS select curdate() AS `date`,(curdate() + interval -(weekday(now())) day) AS `this_week_start_date`,(curdate() + interval (-(dayofmonth(now())) + 1) day) AS `this_month_start_date`,(curdate() + interval (-(dayofyear(now())) + 1) day) AS `this_year_start_date`,now() AS `now` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -2014,6 +2020,7 @@ CREATE TABLE `widgets` (
 INSERT INTO `migrations` VALUES (1,'2019_02_25_231036_create_scheduled_notifications_table',1);
 INSERT INTO `migrations` VALUES (2,'2019_10_15_000001_create_core_tables',1);
 INSERT INTO `migrations` VALUES (3,'2019_10_16_000000_core_v1',1);
+INSERT INTO `migrations` VALUES (4,'2019_10_16_000001_install_application',1);
 INSERT INTO `migrations` VALUES (5,'2021_09_10_130000_add_meta_to_scheduled_notifications',1);
 INSERT INTO `migrations` VALUES (6,'2023_06_25_130738_create_view_key_dates_view',1);
 INSERT INTO `migrations` VALUES (7,'2023_08_08_151511_create_temporary_inventory_movements_new_table',1);
@@ -2065,3 +2072,15 @@ INSERT INTO `migrations` VALUES (52,'2024_07_25_200630_add_inventory_id_column_t
 INSERT INTO `migrations` VALUES (53,'2024_07_25_210327_add_total_price_column_to_data_collection_records_table',1);
 INSERT INTO `migrations` VALUES (54,'2024_07_25_220907_rebuild_unit_discounts_column_on_data_collection_records_table',1);
 INSERT INTO `migrations` VALUES (55,'2024_07_26_080721_add_price_source_id_column_to_data_collection_records_table',1);
+INSERT INTO `migrations` VALUES (56,'2024_07_26_094741_rename_type_column_in_modules_quantity_discounts_table',2);
+INSERT INTO `migrations` VALUES (57,'2024_07_26_095518_change_job_class_column_length_in_modules_quantity_discounts_table',2);
+INSERT INTO `migrations` VALUES (58,'2024_07_29_072926_remove_active_transaction_id_from_users_table',2);
+INSERT INTO `migrations` VALUES (59,'2024_07_29_073528_drop_transactions_table',2);
+INSERT INTO `migrations` VALUES (60,'2024_07_31_165456_add_totals_columns_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (61,'2024_07_31_170129_add_totals_to_data_collection_records_table',2);
+INSERT INTO `migrations` VALUES (62,'2024_07_31_175826_add_address_columns_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (63,'2024_07_31_180024_add_address_columns_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (64,'2024_07_31_183005_add_recount_required_column_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (65,'2024_07_31_184312_add_recounts_required_columns_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (66,'2024_07_31_184917_add_recounts_required_columns_to_data_collections_table',2);
+INSERT INTO `migrations` VALUES (67,'2024_08_05_103635_install_data_collector_group_records_module',2);
