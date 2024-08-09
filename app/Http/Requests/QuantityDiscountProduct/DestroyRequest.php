@@ -24,7 +24,7 @@ class DestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'id' => 'required|exists:quantity_discounts_products,id',
+            //
         ];
     }
 }

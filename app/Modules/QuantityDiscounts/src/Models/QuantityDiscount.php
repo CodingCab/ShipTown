@@ -2,6 +2,7 @@
 
 namespace App\Modules\QuantityDiscounts\src\Models;
 
+use App\Models\DataCollectionRecord;
 use App\Traits\LogsActivityTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +14,19 @@ use Spatie\QueryBuilder\QueryBuilder;
 /**
  * @property integer id
  * @property string name
- * @property string type
  * @property string job_class
  * @property array configuration
+ *
+ * @property float quantity_at_full_price
+ * @property float quantity_at_discounted_price
+ * @property float quantity_required
+ * @property float total_quantity_per_discount
+ *
  * @property string deleted_at
  * @property string updated_at
  * @property string created_at
+ *
+ * @property QuantityDiscountsProduct[] products
  *
  */
 class QuantityDiscount extends Model
@@ -31,7 +39,6 @@ class QuantityDiscount extends Model
 
     protected $fillable = [
         'name',
-        'type',
         'job_class',
         'configuration',
     ];
@@ -41,23 +48,32 @@ class QuantityDiscount extends Model
         'configuration' => 'array',
     ];
 
-    /**
-     * @return QueryBuilder
-     */
+    public function getQuantityAtFullPriceAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_full_price', 0.00);
+    }
+
+    public function getQuantityAtDiscountedPriceAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_discounted', 0.00);
+    }
+
+    public function getQuantityRequiredAttribute(): float
+    {
+        return data_get($this->configuration, 'quantity_required', 0.00);
+    }
+
+    public function getTotalQuantityPerDiscountAttribute(): float
+    {
+        return $this->quantity_at_full_price + $this->quantity_at_discounted_price + $this->quantity_required;
+    }
+
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(QuantityDiscount::class)
-            ->allowedFilters([
-                AllowedFilter::scope('search', 'whereHasText')
-            ])
-            ->allowedSorts([
-                'id',
-                'name',
-                'type'
-            ])
-            ->allowedIncludes([
-                'products'
-            ]);
+            ->allowedFilters([AllowedFilter::scope('search', 'whereHasText')])
+            ->allowedSorts(['id', 'name', 'type'])
+            ->allowedIncludes(['products']);
     }
 
     /**
@@ -70,8 +86,8 @@ class QuantityDiscount extends Model
     {
         return $query->where('name', $text)
             ->orWhere('type', $text)
-            ->orWhere('name', 'like', '%'.$text.'%')
-            ->orWhere('type', 'like', '%'.$text.'%');
+            ->orWhere('name', 'like', '%' . $text . '%')
+            ->orWhere('job_class', 'like', '%' . $text . '%');
     }
 
     /**
@@ -80,5 +96,13 @@ class QuantityDiscount extends Model
     public function products(): HasMany
     {
         return $this->hasMany(QuantityDiscountsProduct::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function dataCollectionRecords(): HasMany
+    {
+        return $this->hasMany(DataCollectionRecord::class, 'price_source_id', 'id');
     }
 }

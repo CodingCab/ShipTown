@@ -17,7 +17,7 @@ class QuantityDiscountsResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'type' => $this->type,
+            'job_class' => $this->job_class,
             'configuration' => $this->configuration,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,

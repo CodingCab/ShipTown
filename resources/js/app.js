@@ -179,7 +179,6 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 /**
  * Application mixins
  */
-Vue.component('point-of-sale-page', require('./components/PointOfSalePage.vue').default);
 Vue.component('tools-point-of-sale-page', require('./components/Tools/PointOfSalePage.vue').default);
 Vue.component('product-details-modal', require('./modals/ProductDetailsModal.vue').default);
 Vue.component('recent-inventory-movements-modal', require('./modals/RecentInventoryMovementsModal.vue').default);
