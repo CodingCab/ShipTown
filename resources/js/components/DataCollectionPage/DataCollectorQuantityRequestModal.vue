@@ -28,7 +28,7 @@
 
             <div class="row-col">
                 <div class="col-12">
-                    <input class="form-control" :placeholder="'quantity to add'" :class="{ 'border-danger': this.quantity_to_add < 0, 'border-success': this.quantity_to_add > 0}"
+                    <input class="form-control" :placeholder="placeholder" :class="{ 'border-danger': this.quantity_to_add < 0, 'border-success': this.quantity_to_add > 0}"
                            id="data-collection-record-quantity-request-input"
                            name="data-collection-record-quantity-request-input"
                            ref="data-collection-record-quantity-request-input"
@@ -65,7 +65,7 @@
         },
 
         props: {
-            placeholder: '',
+            placeholder: 'quantity',
         },
 
         data: function() {

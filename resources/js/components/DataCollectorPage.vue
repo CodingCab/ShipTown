@@ -27,7 +27,7 @@
                                          :showManualSearchButton="true"
                                          @barcodeScanned="onBarcodeScanned"
                                          @findBarcodeManually="onBarcodeScanned"
-                                         placeholder="Scan sku or alias"
+                                         placeholder="Enter sku or alias"
                                          class="text-center font-weight-bold">
                     </barcode-input-field>
                 </div>
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <data-collector-quantity-request-modal @hidden="onQuantityRequestModalHidden"></data-collector-quantity-request-modal>
+        <data-collector-quantity-request-modal @hidden="onQuantityRequestModalHidden" :placeholder="quantityRequestPlaceholderText"></data-collector-quantity-request-modal>
 
         <div v-if="(dataCollectionRecords !== null) && (dataCollectionRecords.length === 0)" class="text-secondary small text-center mt-3">
             No records found<br>
@@ -78,7 +78,13 @@
         </div>
 
         <template v-for="record in dataCollectionRecords">
-            <swiping-card :disable-swipe-right="true" :disable-swipe-left="true">
+            <swiping-card :disable-swipe-right="true" :disable-swipe-left="false" @swipeLeft="onBarcodeScanned(record['product']['sku'])">
+                <template v-slot:content-right>
+                    <div class="small">
+                        <div class="h5">ADD QUANTITY</div>
+                        <div class="small" style="border-top: 1px solid black">SWIPE LEFT</div>
+                    </div>
+                </template>
                 <template v-slot:content>
                     <div class="row">
                         <div class="col-12 col-md-4">
@@ -658,6 +664,10 @@
         },
 
         computed: {
+            quantityRequestPlaceholderText() {
+                return this.addToRequested ? 'quantity requested' : 'quantity scanned';
+            },
+
             getDownloadLink() {
                 let routeData = this.$router.resolve({
                     path: this.$router.currentRoute.fullPath,
