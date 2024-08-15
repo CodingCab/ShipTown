@@ -105,9 +105,6 @@ class DataCollection extends BaseModel
             ->where(['product_id' => $product_id, 'warehouse_id' => $this->warehouse_id])
             ->first();
 
-        ray(ProductPrice::all()->toArray());
-        ray($inventory);
-
         return DataCollectionRecord::query()
             ->where([
                 'data_collection_id' => $this->id,
