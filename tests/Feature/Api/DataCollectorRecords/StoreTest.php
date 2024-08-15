@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api\DataCollectorRecords;
 
 use App\Models\DataCollection;
-use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\User;
@@ -14,9 +13,10 @@ class StoreTest extends TestCase
     /** @test */
     public function test_store_call_returns_ok()
     {
+        Warehouse::factory()->create();
         $user = User::factory()->create();
 
-        $inventory = Inventory::factory()->create();
+        $inventory = Product::factory()->create()->inventory()->first();
 
         $dataCollection = DataCollection::factory()->create([
             'warehouse_id' => $inventory->warehouse_id,

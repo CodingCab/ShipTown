@@ -4,6 +4,7 @@ namespace Tests\Unit\Modules\DataCollectorQuantityDiscounts;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
+use App\Models\DataCollectionTransaction;
 use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\DataCollector\src\DataCollectorServiceProvider;
@@ -68,6 +69,7 @@ class BuyXForYPriceDiscountTest extends TestCase
     {
         /** @var DataCollection $dataCollection */
         $dataCollection = DataCollection::factory()->create([
+            'type' => DataCollectionTransaction::class,
             'warehouse_id' => $this->warehouse->getKey(),
             'warehouse_code' => $this->warehouse->code,
         ]);

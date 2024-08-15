@@ -32,6 +32,8 @@ class BasicModuleTest extends TestCase
             'reorder_point' => 0,
         ]);
 
+        $pricing = $product->prices()->where('warehouse_id', $warehouse->getKey())->first();
+
         /** @var DataCollection $dataCollection */
         $dataCollection = DataCollection::factory()->create([
             'type' => DataCollectionTransferIn::class,
@@ -43,6 +45,9 @@ class BasicModuleTest extends TestCase
             'inventory_id' => $inventory->id,
             'product_id' => $inventory->product_id,
             'quantity_requested' => 10,
+            'unit_cost' => $pricing->cost,
+            'unit_full_price' => $pricing->price,
+            'unit_sold_price' => $pricing->price,
         ]);
 
         $this->assertEquals(10, $inventory->fresh()->quantity_incoming);
@@ -66,6 +71,8 @@ class BasicModuleTest extends TestCase
             'reorder_point' => 0,
         ]);
 
+        $pricing = $product->prices()->where('warehouse_id', $warehouse->getKey())->first();
+
         /** @var DataCollection $dataCollection */
         $dataCollection = DataCollection::factory()->create([
             'type' => DataCollectionTransferIn::class,
@@ -77,6 +84,9 @@ class BasicModuleTest extends TestCase
             'inventory_id' => $inventory->id,
             'product_id' => $inventory->product_id,
             'quantity_requested' => 10,
+            'unit_cost' => $pricing->cost,
+            'unit_full_price' => $pricing->price,
+            'unit_sold_price' => $pricing->price,
         ]);
 
         $inventory->update(['quantity_incoming' => 11]);
@@ -136,6 +146,8 @@ class BasicModuleTest extends TestCase
             'reorder_point' => 0,
         ]);
 
+        $pricing = $product->prices()->where('warehouse_id', $warehouse->getKey())->first();
+
         /** @var DataCollection $dataCollection */
         $dataCollection = DataCollection::factory()->create([
             'type' => DataCollectionTransferIn::class,
@@ -147,6 +159,9 @@ class BasicModuleTest extends TestCase
             'inventory_id' => $inventory->id,
             'product_id' => $inventory->product_id,
             'quantity_requested' => 10,
+            'unit_cost' => $pricing->cost,
+            'unit_full_price' => $pricing->price,
+            'unit_sold_price' => $pricing->price,
         ]);
 
         $inventory->update(['quantity_incoming' => 11]);

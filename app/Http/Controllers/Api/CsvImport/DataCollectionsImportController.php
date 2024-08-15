@@ -93,6 +93,9 @@ class DataCollectionsImportController extends Controller
                             inventory_id,
                             product_id,
                             quantity_requested,
+                            unit_cost,
+                            unit_full_price,
+                            unit_sold_price,
                             created_at,
                             updated_at
                         )
@@ -101,6 +104,9 @@ class DataCollectionsImportController extends Controller
                             inventory.id,
                             inventory.product_id,
                             IFNULL(`' .$warehouse->code. '`, 0) as quantity_requested,
+                            IFNULL(products_prices.cost, 0) as unit_cost,
+                            IFNULL(products_prices.price, 0) as unit_full_price,
+                            IFNULL(products_prices.price, 0) as unit_sold_price,
                             NOW(),
                             NOW()
 
@@ -108,6 +114,8 @@ class DataCollectionsImportController extends Controller
                         LEFT JOIN inventory
                           ON ' . $tempTableName . '.product_id = inventory.product_id
                           AND inventory.warehouse_id = ' . $warehouse->id . '
+                        LEFT JOIN products_prices
+                          ON inventory.id = products_prices.inventory_id
 
                         WHERE IFNULL(`' .$warehouse->code. '`, 0) != 0
                     ');
