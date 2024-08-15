@@ -9,18 +9,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        $ids = DataCollectionRecord::query()
-            ->whereNull('unit_cost')
-            ->limit(5000)
-            ->pluck('id');
-
         DataCollectionRecord::query()
-            ->whereIn('id', $ids)
-            ->update([
-                'unit_cost' => 0,
-                'unit_sold_price' => 0,
-                'unit_full_price' => 0,
-            ]);
+            ->whereNull('unit_cost')
+            ->chunk(1000, function ($records) {
+                DataCollectionRecord::query()
+                    ->whereIn('id', $records->pluck('id'))
+                    ->update([
+                        'unit_cost' => 0,
+                        'unit_sold_price' => 0,
+                        'unit_full_price' => 0,
+                    ]);
+
+                usleep(10000); // 10ms
+            });
 
         Schema::table('data_collection_records', function (Blueprint $table) {
             $table->decimal('unit_cost', 10, 3)->nullable(false)->change();

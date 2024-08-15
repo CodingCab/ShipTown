@@ -43,6 +43,7 @@ class DataCollectorRecordController extends Controller
             ], [
                 'product_id' => $request->validated('product_id'),
                 'warehouse_code' => $request->validated('warehouse_code'),
+                'warehouse_id' => $request->validated('warehouse_id'),
                 'unit_cost' => 0,
                 'unit_full_price' => 0,
                 'unit_sold_price' => 0,

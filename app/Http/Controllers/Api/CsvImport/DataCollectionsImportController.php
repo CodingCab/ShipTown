@@ -91,6 +91,8 @@ class DataCollectionsImportController extends Controller
                         INSERT INTO data_collection_records (
                             data_collection_id,
                             inventory_id,
+                            warehouse_id,
+                            warehouse_code,
                             product_id,
                             quantity_requested,
                             unit_cost,
@@ -102,6 +104,8 @@ class DataCollectionsImportController extends Controller
                         SELECT
                             '. $dataCollector->getKey() .',
                             inventory.id,
+                            inventory.warehouse_id,
+                            inventory.warehouse_code,
                             inventory.product_id,
                             IFNULL(`' .$warehouse->code. '`, 0) as quantity_requested,
                             IFNULL(products_prices.cost, 0) as unit_cost,

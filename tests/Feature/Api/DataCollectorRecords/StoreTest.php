@@ -20,6 +20,7 @@ class StoreTest extends TestCase
 
         $dataCollection = DataCollection::factory()->create([
             'warehouse_id' => $inventory->warehouse_id,
+            'warehouse_code' => $inventory->warehouse_code,
             'name' => 'test'
         ]);
 
@@ -27,6 +28,7 @@ class StoreTest extends TestCase
             'data_collection_id' => $dataCollection->getKey(),
             'inventory_id' => $inventory->getKey(),
             'warehouse_code' => $inventory->warehouse_code,
+            'warehouse_id' => $inventory->warehouse_id,
             'product_id'=> $inventory->product_id,
             'quantity_scanned' => rand(0, 100),
         ]);

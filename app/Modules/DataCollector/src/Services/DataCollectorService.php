@@ -124,7 +124,8 @@ class DataCollectorService
                     'deleted_at'
                 ]);
                 $destinationDataCollection->type = DataCollectionTransferIn::class;
-                $destinationDataCollection->warehouse_id = $warehouse_id;
+                $destinationDataCollection->warehouse_code = $destinationWarehouse->code;
+                $destinationDataCollection->warehouse_id = $destinationWarehouse->id;
                 $destinationDataCollection->name = $name;
                 $destinationDataCollection->save();
 
@@ -146,6 +147,7 @@ class DataCollectorService
             ->each(function (DataCollectionRecord $sourceRecord) use ($destinationDataCollection) {
                 $inventory = Inventory::query()->firstOrCreate([
                     'product_id' => $sourceRecord->product_id,
+                    'warehouse_code' => $destinationDataCollection->warehouse_code,
                     'warehouse_id' => $destinationDataCollection->warehouse_id,
                 ]);
 
@@ -160,6 +162,7 @@ class DataCollectorService
                 ], [
                     'data_collection_id' => $destinationDataCollection->id,
                     'inventory_id' => $inventory->id,
+                    'warehouse_code' => $inventory->warehouse_code,
                     'warehouse_id' => $inventory->warehouse_id,
                     'product_id' => $inventory->product_id,
                     'quantity_requested' => $sourceRecord->quantity_scanned,

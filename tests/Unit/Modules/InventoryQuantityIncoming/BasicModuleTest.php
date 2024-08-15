@@ -39,11 +39,14 @@ class BasicModuleTest extends TestCase
             'type' => DataCollectionTransferIn::class,
             'name' => 'Test',
             'warehouse_id' => $warehouse->getKey(),
+            'warehouse_code' => $inventory->warehouse_code,
         ]);
 
         $dataCollection->records()->create([
             'inventory_id' => $inventory->id,
             'product_id' => $inventory->product_id,
+            'warehouse_id' => $inventory->warehouse_id,
+            'warehouse_code' => $inventory->warehouse_code,
             'quantity_requested' => 10,
             'unit_cost' => $pricing->cost,
             'unit_full_price' => $pricing->price,
@@ -78,11 +81,14 @@ class BasicModuleTest extends TestCase
             'type' => DataCollectionTransferIn::class,
             'name' => 'Test',
             'warehouse_id' => $warehouse->getKey(),
+            'warehouse_code' => $inventory->warehouse_code,
         ]);
 
         $record = $dataCollection->records()->create([
             'inventory_id' => $inventory->id,
             'product_id' => $inventory->product_id,
+            'warehouse_id' => $inventory->warehouse_id,
+            'warehouse_code' => $inventory->warehouse_code,
             'quantity_requested' => 10,
             'unit_cost' => $pricing->cost,
             'unit_full_price' => $pricing->price,
@@ -119,6 +125,7 @@ class BasicModuleTest extends TestCase
             'type' => DataCollectionTransferIn::class,
             'name' => 'Test',
             'warehouse_id' => $warehouse->getKey(),
+            'warehouse_code' => $inventory->warehouse_code,
         ]);
 
         $inventory->update(['quantity_incoming' => 11]);
@@ -153,10 +160,13 @@ class BasicModuleTest extends TestCase
             'type' => DataCollectionTransferIn::class,
             'name' => 'Test',
             'warehouse_id' => $warehouse->getKey(),
+            'warehouse_code' => $inventory->warehouse_code,
         ]);
 
         $dataCollection->records()->create([
             'inventory_id' => $inventory->id,
+            'warehouse_id' => $inventory->warehouse_id,
+            'warehouse_code' => $inventory->warehouse_code,
             'product_id' => $inventory->product_id,
             'quantity_requested' => 10,
             'unit_cost' => $pricing->cost,
