@@ -13,6 +13,7 @@ return new class extends Migration
             ->chunkById(1000, function ($records) {
                 DataCollection::query()
                     ->whereIn('id', $records->pluck('id'))
+                    ->withTrashed()
                     ->update([
                         'warehouse_code' => \DB::raw('(SELECT code FROM warehouses WHERE warehouses.id = warehouse_id)'),
                     ]);
