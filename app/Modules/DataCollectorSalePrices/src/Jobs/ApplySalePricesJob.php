@@ -7,7 +7,7 @@ use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use Illuminate\Support\Facades\Cache;
 
-class AddSalePriceIfApplicable extends UniqueJob
+class ApplySalePricesJob extends UniqueJob
 {
     private DataCollection $dataCollection;
 
@@ -34,8 +34,8 @@ class AddSalePriceIfApplicable extends UniqueJob
     {
         $records = $this->dataCollection->records()
             ->with('prices')
-            ->whereNull('price_source_id')
             ->whereNull('price_source')
+            ->orWhere('price_source', 'SALE_PRICE')
             ->get();
 
         $records->each(function (DataCollectionRecord $record) {
@@ -43,16 +43,29 @@ class AddSalePriceIfApplicable extends UniqueJob
                 return true;
             }
 
-            if ($record->prices->sale_price_start_date > now() && now() < $record->prices->sale_price_end_date) {
-                return true;
-            }
+            $isSalePriceActive = now()->isBetween($record->prices->sale_price_start_date, $record->prices->sale_price_end_date);
 
-            if ($record->price_source === null) {
+            if ($isSalePriceActive && $record->price_source === null) {
                 $record->update([
                     'unit_sold_price' => $record->prices['sale_price'],
                     'price_source' => 'SALE_PRICE',
+                    'price_source_id' => null,
                 ]);
+
+                return true;
             }
+
+            if ($isSalePriceActive === false && $record->price_source !== null) {
+                $record->update([
+                    'unit_sold_price' => $record->prices['price'],
+                    'price_source' => null,
+                    'price_source_id' => null,
+                ]);
+
+                return true;
+            }
+
+            return true;
         });
     }
 }
