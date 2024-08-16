@@ -22,7 +22,7 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 INSERT INTO inventory (product_sku, product_id, warehouse_id, warehouse_code, created_at, updated_at)
-                SELECT new.sku, new.id as product_id, warehouses.id as warehouse_id, warehouses.code as warehouse_code, now(), now() FROM warehouses;
+                SELECT new.sku as product_sku, new.id as product_id, warehouses.id as warehouse_id, warehouses.code as warehouse_code, now(), now() FROM warehouses;
 
                 INSERT INTO products_aliases (product_id, alias, created_at, updated_at)
                 VALUES (NEW.id, NEW.sku, now(), now())

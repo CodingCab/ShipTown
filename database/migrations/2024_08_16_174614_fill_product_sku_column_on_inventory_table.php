@@ -14,7 +14,7 @@ return new class extends Migration
                     ->whereIn('id', $inventories->pluck('id'))
                     ->update(['product_sku' => DB::raw('(SELECT sku FROM products WHERE products.id = inventory.product_id)')]);
 
-                usleep(10000); // 10ms
+                usleep(5000); // 10ms
             });
     }
 };
