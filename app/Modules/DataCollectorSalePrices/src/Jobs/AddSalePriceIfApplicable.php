@@ -39,11 +39,11 @@ class AddSalePriceIfApplicable extends UniqueJob
             ->get();
 
         $records->each(function (DataCollectionRecord $record) {
-            if (empty($record->prices) && $record->quantity_scanned <= 0) {
+            if (empty($record->prices)) {
                 return true;
             }
 
-            if ($record->prices->sale_price_start_date > now() && $record->prices->sale_price_end_date < now()) {
+            if ($record->prices->sale_price_start_date > now() && now() < $record->prices->sale_price_end_date) {
                 return true;
             }
 
