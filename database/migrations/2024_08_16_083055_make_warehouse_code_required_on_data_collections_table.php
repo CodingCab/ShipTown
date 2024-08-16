@@ -15,7 +15,7 @@ return new class extends Migration
                 DataCollection::query()
                     ->whereIn('id', $records->pluck('id'))
                     ->update([
-                        'warehouse_code' => \DB::raw('(SELECT warehouse_code FROM warehouses WHERE warehouses.id = warehouse_id)'),
+                        'warehouse_code' => \DB::raw('(SELECT code FROM warehouses WHERE warehouses.id = warehouse_id)'),
                     ]);
 
                 usleep(10000); // 10ms
