@@ -59,6 +59,7 @@ class DataCollection extends BaseModel
     protected $fillable = [
         'type',
         'warehouse_id',
+        'warehouse_code',
         'destination_warehouse_id',
         'destination_collection_id',
         'name',
