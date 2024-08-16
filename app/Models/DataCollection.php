@@ -61,6 +61,7 @@ class DataCollection extends BaseModel
         'warehouse_id',
         'warehouse_code',
         'destination_warehouse_id',
+        'destination_warehouse_code',
         'destination_collection_id',
         'name',
         'custom_uuid',
