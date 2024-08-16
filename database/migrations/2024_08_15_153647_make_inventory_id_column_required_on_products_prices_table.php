@@ -11,9 +11,11 @@ return new class extends Migration
     {
         ProductPrice::query()
             ->whereNull('inventory_id')
+            ->withTrashed()
             ->chunkById(1000, function ($records) {
                 ProductPrice::query()
                     ->whereIn('id', $records->pluck('id'))
+                    ->withTrashed()
                     ->update([
                         'inventory_id' => DB::raw('(SELECT id FROM inventory WHERE inventory.warehouse_id = products_prices.warehouse_id AND inventory.product_id = products_prices.product_id)'),
                     ]);

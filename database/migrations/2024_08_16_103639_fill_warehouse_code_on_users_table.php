@@ -9,9 +9,11 @@ return new class extends Migration
     {
         User::query()
             ->whereNull('warehouse_code')
+            ->withTrashed()
             ->chunk(100, function ($users) {
                 User::query()
                     ->whereIn('id', $users->pluck('id'))
+                    ->withTrashed()
                     ->update(['warehouse_code' =>  DB::raw('(SELECT code FROM warehouses WHERE warehouses.id = warehouse_id)')]);
             });
     }
