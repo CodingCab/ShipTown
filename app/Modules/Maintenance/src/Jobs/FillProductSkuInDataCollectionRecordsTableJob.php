@@ -2,9 +2,10 @@
 
 namespace App\Modules\Maintenance\src\Jobs;
 
+use App\Abstracts\UniqueJob;
 use DB;
 
-class FillProductSkuInDataCollectionRecordsTableJob
+class FillProductSkuInDataCollectionRecordsTableJob extends UniqueJob
 {
     public function handle(): void
     {
@@ -25,8 +26,8 @@ class FillProductSkuInDataCollectionRecordsTableJob
                 )
 
                 UPDATE data_collection_records
-                SET data_collection_records.product_sku = tempTable.product_sku
                 INNER JOIN tempTable ON data_collection_records.id = tempTable.id
+                SET data_collection_records.product_sku = tempTable.product_sku
             ');
 
             usleep(100000); // 100ms
