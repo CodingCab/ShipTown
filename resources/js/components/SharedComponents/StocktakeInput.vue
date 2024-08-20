@@ -1,6 +1,6 @@
 <template>
     <div>
-        <barcode-input-field v-if="this.currentUser()['warehouse_id']"
+        <barcode-input-field v-if="showBarcodeInput && this.currentUser()['warehouse_id']"
                              :input_id="input_id"
                              :placeholder="this.currentUser()['warehouse_id'] === null ? 'Select warehouse to enable Stocktaking function' : 'Enter sku or alias to stocktake'"
                              @barcodeScanned="showStocktakeModal">
@@ -70,6 +70,10 @@
             autoFocusAfter: {
                 type: Number,
                 default: 100,
+            },
+            showBarcodeInput: {
+                type: Boolean,
+                default: true,
             }
         },
 

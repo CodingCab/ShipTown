@@ -62,6 +62,7 @@ Route::as('tools.')->group(function () {
 Route::as('reports.')->group(function () {
     Route::resource('reports/activity-log', Reports\ActivityLogController::class)->only('index');
     Route::resource('reports/inventory', Reports\InventoryController::class)->only('index');
+    Route::resource('reports/orders', Reports\OrderController::class)->only('index');
     Route::resource('reports/stocktake-suggestions', Reports\StocktakeSuggestionsController::class)->only('index');
     Route::resource('reports/inventory-dashboard', Reports\InventoryDashboardController::class)->only('index');
     Route::resource('reports/picks', Reports\PickController::class)->only('index');

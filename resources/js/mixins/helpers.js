@@ -12,8 +12,15 @@ export default {
 
         methods: {
 
-            financial(decimal) {
-                return Number.parseFloat(decimal).toFixed(2);
+            financial(decimal, currency = 'USD') {
+                const formatter = new Intl.NumberFormat(navigator.language, {
+                    style: 'currency',
+                    currency,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
+                  
+                return formatter.format(decimal);                  
             },
 
             formatDateTime(datetime, format = "YYYY MMM D HH:mm", defaultValue = "-") {
