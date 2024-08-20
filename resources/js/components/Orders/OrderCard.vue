@@ -71,13 +71,13 @@
                             </div>
 
                             <div class="col-12 small"
-                                 v-if="order['order_comments'].length > 0 && orderDetailsVisible === false">
+                                 v-if="!productsOnly && order['order_comments'].length > 0 && orderDetailsVisible === false">
                                 <b>{{
                                         order['order_comments'][0]['user'] ? order['order_comments'][0]['user']['name'] : 'AutoPilot'
                                     }}:</b> {{ order['order_comments'][0]['comment'] }}
                             </div>
 
-                            <div class="row text-center text-secondary"
+                            <div v-if="!productsOnly" class="row text-center text-secondary"
                                  @click="toggleOrderDetails">
                                 <div class="col">
                                     <font-awesome-icon v-if="orderDetailsVisible" icon="chevron-up" class="fa fa-xs"></font-awesome-icon>
@@ -86,7 +86,7 @@
                             </div>
 
                             <div v-if="orderDetailsVisible">
-                                <div class="row mb-2 mt-1">
+                                <div v-if="!productsOnly" class="row mb-2 mt-1">
                                     <input ref="newCommentInput" v-model="input_comment" class="form-control"
                                            placeholder="Add comment here" @keypress.enter="addComment"/>
                                 </div>
@@ -101,7 +101,7 @@
                                     </div>
                                 </template>
 
-                                <div class="row tabs-container mb-2 mt-2 small">
+                                <div v-if="!productsOnly" class="row tabs-container mb-2 mt-2 small">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
                                             <a class="nav-link active p-0 pl-1 pr-1" data-toggle="tab" href="#"
@@ -531,6 +531,7 @@ export default {
     props: {
         order: Object,
         expanded: false,
+        productsOnly: false,
     },
 
 

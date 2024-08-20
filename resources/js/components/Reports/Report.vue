@@ -3,7 +3,7 @@
 <container>
     <search-and-option-bar-observer/>
     <search-and-option-bar :isStickable="true">
-        <barcode-input-field @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
+        <barcode-input-field v-if="showBarcodeInput" @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
         <template v-slot:buttons>
             <top-nav-button v-b-modal="'quick-actions-modal'"/>
         </template>
@@ -57,9 +57,13 @@
                                 <td v-if="field.type === 'datetime'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D HH:mm') }}</td>
                                 <td v-else-if="field.type === 'date'" class="pr-3">{{ formatDateTime(record[field.name], 'YYYY MMM D') }}</td>
                                 <td v-else-if="field.type === 'numeric'"class="pr-3 text-right">{{ record[field.name] }}</td>
+                                <td v-else-if="field.type === 'currency'"class="pr-3 text-right">{{ financial(record[field.name]) }}</td>
                                 <td v-else class="pr-3" >
                                     <template v-if="field.name === 'product_sku'">
                                         <product-sku-button :product_sku="record[field.name]"/>
+                                    </template>
+                                    <template v-if="field.name === 'order_number'">
+                                        <a href="" @click.prevent="showOrderDetailsModal(record)" class="font-weight-bold">{{ record.order_number }}</a>
                                     </template>
                                     <template v-else>
                                         {{ record[field.name] }}
@@ -80,6 +84,10 @@
             </div>
         </div>
     </template>
+
+    <b-modal id="order-details-modal" body-class="navbar-nav-scroll" size="xl" @close="selectedOrder = null">
+        <order-card v-if="selectedOrder" :order="selectedOrder" :expanded="true" :products-only="true"></order-card>
+    </b-modal>
 
     <b-modal id="filter-box-modal" size="sm" no-fade hide-header @shown="focusFilterBoxInput">
         <div v-if="filterAdding" class="d-flex flex-column" style="gap: 5px;">
@@ -113,7 +121,7 @@
     />
 
     <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
-        <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
+        <stocktake-input :showBarcodeInput="showBarcodeInput" v-bind:auto-focus-after="100" ></stocktake-input>
         <hr>
         <button class="btn btn-primary btn-block" @click="downloadFile">{{ downloadButtonText }}</button>
         <template #modal-footer>
@@ -157,22 +165,29 @@
     import moment from "moment";
     import helpers from "../../helpers";
     import ProductSkuButton from "../SharedComponents/ProductSkuButton.vue";
+    import OrderCard from "../Orders/OrderCard";
 
     export default {
         mixins: [loadingOverlay, url, api, helpers],
 
         components: {
             ProductSkuButton,
+            OrderCard,
             IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, SearchFilter, ReportHead},
 
         props: {
             metaString: String,
             recordString: String,
             downloadButtonText: String,
+            showBarcodeInput: {
+                type: Boolean,
+                default: true,
+            }
         },
 
         data() {
             return {
+                selectedOrder: null,
                 meta: JSON.parse(this.metaString),
                 records: JSON.parse(this.recordString),
                 fields: JSON.parse(this.metaString)['field_links'],
@@ -205,6 +220,10 @@
         },
 
         methods: {
+            showOrderDetailsModal(order) {
+                this.selectedOrder = order;
+                this.$bvModal.show('order-details-modal');
+            },
             downloadFile() {
                 let filename  = this.meta['report_name']+'.csv';
                 let url       = this.$router.currentRoute;
