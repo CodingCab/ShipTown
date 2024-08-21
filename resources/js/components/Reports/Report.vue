@@ -3,7 +3,7 @@
 <container>
     <search-and-option-bar-observer/>
     <search-and-option-bar :isStickable="true">
-        <barcode-input-field v-if="showBarcodeInput" @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
+        <barcode-input-field @barcodeScanned="searchForProductSku" url_param_name="filter[product_sku]" ref="barcode" placeholder="Search"/>
         <template v-slot:buttons>
             <top-nav-button v-b-modal="'quick-actions-modal'"/>
         </template>
@@ -62,7 +62,7 @@
                                     <template v-if="field.name === 'product_sku'">
                                         <product-sku-button :product_sku="record[field.name]"/>
                                     </template>
-                                    <template v-if="field.name === 'order_number'">
+                                    <template v-if="field.name === 'order_number_disabled'">
                                         <a href="" @click.prevent="showOrderDetailsModal(record)" class="font-weight-bold">{{ record.order_number }}</a>
                                     </template>
                                     <template v-else>
@@ -121,7 +121,7 @@
     />
 
     <b-modal id="quick-actions-modal" no-fade hide-header @hidden="setFocusElementById('barcode-input')">
-        <stocktake-input :showBarcodeInput="showBarcodeInput" v-bind:auto-focus-after="100" ></stocktake-input>
+        <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
         <hr>
         <button class="btn btn-primary btn-block" @click="downloadFile">{{ downloadButtonText }}</button>
         <template #modal-footer>
@@ -179,10 +179,6 @@
             metaString: String,
             recordString: String,
             downloadButtonText: String,
-            showBarcodeInput: {
-                type: Boolean,
-                default: true,
-            }
         },
 
         data() {
