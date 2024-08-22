@@ -523,26 +523,29 @@ export default {
         apiGetQuantityDiscounts: function (params) {
             return axios.get('/api/quantity-discounts/', {params: params});
         },
-
         apiPostQuantityDiscount: function (data) {
             return axios.post('/api/quantity-discounts/', data);
         },
-
         apiPutQuantityDiscount: function (id, data) {
             return axios.put('/api/quantity-discounts/' + id, data);
         },
-
         apiGetQuantityDiscountProduct: function (params) {
             return axios.get('/api/quantity-discount-product/', {params: params});
         },
-
         apiPostQuantityDiscountProduct: function (data) {
             return axios.post('/api/quantity-discount-product/', data);
         },
-
         apiRemoveQuantityDiscountProduct: function (id) {
             return axios.delete('/api/quantity-discount-product/' + id);
         },
+
+        apiGetCustomers: function (params) {
+            return axios.get('/api/customers', {params: params});
+        },
+
+        apiPutTransaction: function (id, data) {
+            return axios.put('/api/transactions/' + id, data);
+        }
     }
 }
 </script>

@@ -96,7 +96,7 @@
                             <div v-if="record['price_source'] !== 'FULL_PRICE'">full price:
                                 <strong>{{ dashIfZero(Number(record['unit_full_price'])) }}</strong
                                 ></div>
-                            <div v-if="record['price_source'] !== 'FULL_PRICE'">price source:
+                            <div v-if="record['price_source'] && record['price_source'] !== 'FULL_PRICE'">price source:
                                 <strong>{{ record['price_source'] }}</strong>
                             </div>
                             <div v-if="record['discount']">discount name:
@@ -169,6 +169,9 @@
                         <template v-if="selectedPrinter">Change printer</template>
                         <template v-else>Select printer</template>
                     </button>
+                    <button :disabled="! buttonsEnabled" @click.prevent="selectCustomer" v-b-toggle
+                            class="col btn mb-2 btn-primary">Select Customer
+                    </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="autoScanAll" v-b-toggle
                             class="col btn mb-2 btn-primary">AutoScan ALL Records
                     </button>
@@ -182,6 +185,14 @@
                     </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="archiveCollection" v-b-toggle
                             class="col btn mb-2 btn-primary">Archive Collection
+                    </button>
+                    <br>
+                    <br>
+                    <button :disabled="! buttonsEnabled" @click.prevent="printPdfReceipt" v-b-toggle
+                            class="col btn mb-2 btn-primary">Print Receipt (PDF)
+                    </button>
+                    <button :disabled="! buttonsEnabled" @click.prevent="printEplReceipt" v-b-toggle
+                            class="col btn mb-2 btn-primary">Print Receipt (EPL)
                     </button>
                 </div>
                 <br>
@@ -251,6 +262,7 @@
         </b-modal>
 
         <set-transaction-printer-modal/>
+        <find-customer-modal/>
     </div>
 </template>
 
@@ -306,6 +318,8 @@ export default {
                 'App\\Models\\DataCollectionStocktake': 'Stocktake',
             },
             selectedPrinter: null,
+            selectedBillingAddress: null,
+            selectedShippingAddress: null,
         };
     },
 
@@ -321,6 +335,20 @@ export default {
 
         Modals.EventBus.$on('hide::modal::set-transaction-printer-modal', (printer) => {
             this.selectedPrinter = printer;
+        });
+
+        Modals.EventBus.$on('hide::modal::find-customer-modal', (data) => {
+            if (data.billingAddress) {
+                this.selectedBillingAddress = data.billingAddress;
+            }
+
+            if (data.shippingAddress) {
+                this.selectedShippingAddress = data.shippingAddress;
+            }
+
+            if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && (this.selectedShippingAddress || this.selectedBillingAddress)) {
+                this.setTransactionCustomer();
+            }
         });
 
         this.getUrlFilterOrSet('warehouse_code', Vue.prototype.$currentUser['warehouse']['code']);
@@ -339,10 +367,6 @@ export default {
             setTimeout(() => {
                 this.hideBvModal('configuration-modal');
             }, 200)
-        },
-
-        showRecentInventoryMovementsModal(inventory_id) {
-            this.$modal.showRecentInventoryMovementsModal(inventory_id);
         },
 
         reloadDataCollection() {
@@ -456,27 +480,6 @@ export default {
             this.$bvModal.hide('transferToModal');
         },
 
-        transferStockOut() {
-            this.buttonsEnabled = false;
-
-            let data = {
-                'action': 'transfer_out_scanned',
-            }
-
-            this.apiUpdateDataCollection(this.data_collection_id, data)
-                .then(response => {
-                    this.$snotify.success('Stock transferred out successfully');
-                    this.$bvModal.hide('configuration-modal');
-                    setTimeout(() => {
-                        this.reloadDataCollection();
-                    }, 1000);
-                })
-                .catch(error => {
-                    this.showException(error);
-                });
-        },
-
-
         transferStockIn() {
             let data = {
                 'action': 'transfer_in_scanned',
@@ -485,41 +488,6 @@ export default {
             this.apiUpdateDataCollection(this.data_collection_id, data)
                 .then(response => {
                     this.$snotify.success('Stock transferred in successfully');
-                    this.$bvModal.hide('configuration-modal');
-                    setTimeout(() => {
-                        this.reloadDataCollection();
-                    }, 500);
-                })
-                .catch(error => {
-                    this.showException(error);
-                });
-        },
-
-        receiveAll() {
-            let data = {
-                'action': 'auto_scan_all_requested',
-            }
-
-            this.apiUpdateDataCollection(this.data_collection_id, data)
-                .then(response => {
-                    this.transferStockIn();
-                    this.reloadDataCollection();
-                })
-                .catch(error => {
-                    this.showException(error);
-                });
-        },
-
-        importAsStocktake() {
-            this.buttonsEnabled = false;
-
-            let data = {
-                'data_collection_id': this.data_collection_id,
-            }
-
-            this.apiDataCollectorActionImportAsStocktake(data)
-                .then(response => {
-                    this.$snotify.success('Stocktake imported successfully');
                     this.$bvModal.hide('configuration-modal');
                     setTimeout(() => {
                         this.reloadDataCollection();
@@ -550,6 +518,10 @@ export default {
 
         selectPrinter() {
             this.$modal.showSetTransactionPrinterModal(this.selectedPrinter);
+        },
+
+        selectCustomer() {
+            this.$modal.showFindCustomerModal(this.setTransactionCustomer);
         },
 
         autoScanAll() {
@@ -593,13 +565,6 @@ export default {
             this.loadDataCollectorRecords(++this.page);
         },
 
-        setMinShelfLocation() {
-            // todo - possible bug - the url only sets and does not update if you want to change. Not sure if intentional behaviour
-            this.setUrlParameter("filter[shelf_location_greater_than]", this.minShelfLocation);
-            this.loadDataCollectorRecords();
-            this.setFocusElementById('barcode_input');
-        },
-
         loadDataCollectorRecords(page = 1) {
             this.showLoading();
 
@@ -625,25 +590,6 @@ export default {
                 })
                 .finally(() => {
                     this.hideLoading();
-                });
-        },
-
-        onProductCountRequestResponse(response) {
-            const payload = {
-                'data_collection_id': this.data_collection_id,
-                'product_id': response['product_id'],
-                'quantity_scanned': response['quantity'],
-            }
-
-            this.apiPostDataCollectorRecords(payload)
-                .then(() => {
-                    this.notifySuccess('Data collected');
-                })
-                .catch(e => {
-                    this.displayApiCallError(e);
-                })
-                .finally(() => {
-                    this.reloadDataCollection();
                 });
         },
 
@@ -686,7 +632,6 @@ export default {
         },
 
         addComment() {
-
             let data = {
                 "data_collection_id": this.dataCollection.id,
                 "comment": this.input_comment
@@ -726,7 +671,45 @@ export default {
             } else {
                 return null;
             }
-        }
+        },
+
+        printPdfReceipt() {
+            if (this.selectedPrinter === null) {
+                this.$snotify.error('Please select printer first');
+                return;
+            }
+
+            // let data = {
+            //     // data: { product_sku },
+            //     template: this.viewDirectory + 'Transaction_Receipt',
+            //     printer_id: this.selectedPrinter.id,
+            // };
+            //
+            // this.apiPostPdfPrint(data)
+            //     .then(() => {
+            //         this.notifySuccess('PDF sent to printer');
+            //     })
+            //     .catch(error => {
+            //         this.displayApiCallError(error);
+            //     })
+        },
+
+        printEplReceipt() {
+        },
+
+        setTransactionCustomer() {
+            this.apiPutTransaction(this.dataCollection.id, {
+                shipping_address_id: this.selectedShippingAddress ? this.selectedShippingAddress : this.selectedBillingAddress,
+                billing_address_id: this.selectedBillingAddress ? this.selectedBillingAddress : this.selectedShippingAddress
+            })
+                .then(() => {
+                    this.notifySuccess('Customer selected');
+                    this.reloadDataCollection();
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                });
+        },
     },
 
     computed: {

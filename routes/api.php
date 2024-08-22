@@ -49,6 +49,8 @@ Route::name('api.')->group(function () {
     Route::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class)->only(['index']);
     Route::apiResource('quantity-discounts', Api\QuantityDiscountsController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class)->only(['index', 'store', 'destroy']);
+    Route::apiResource('customers', Api\OrderAddressController::class)->only(['index', 'store']);
+    Route::apiResource('transactions', Api\TransactionController::class)->only(['update']);
 });
 
 Route::prefix('modules')->name('api.modules.')->group(function () {

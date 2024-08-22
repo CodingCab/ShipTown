@@ -42,6 +42,10 @@ const Modals = {
             showSetTransactionPrinterModal(printer = null) {
                 this.show('set-transaction-printer-modal', {'printer': printer});
             },
+
+            showFindCustomerModal() {
+                this.show('find-customer-modal');
+            }
         }
     }
 }

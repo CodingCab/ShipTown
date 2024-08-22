@@ -11,7 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- *  DataCollection
+ * App\Models\DataCollection
+ *
+ * @property-read OrderAddress|null $shippingAddress
+ * @property-read OrderAddress|null $billingAddress
+ *
  * @property int $id
  * @property int $warehouse_code
  * @property int $warehouse_id
@@ -63,6 +67,8 @@ class DataCollection extends BaseModel
         'destination_warehouse_id',
         'destination_warehouse_code',
         'destination_collection_id',
+        'shipping_address_id',
+        'billing_address_id',
         'name',
         'custom_uuid',
         'currently_running_task'
@@ -90,6 +96,22 @@ class DataCollection extends BaseModel
     public function destinationCollection(): BelongsTo
     {
         return $this->belongsTo(DataCollection::class, 'destination_collection_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function billingAddress(): BelongsTo
+    {
+        return $this->belongsTo(OrderAddress::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function shippingAddress(): BelongsTo
+    {
+        return $this->belongsTo(OrderAddress::class);
     }
 
     /**

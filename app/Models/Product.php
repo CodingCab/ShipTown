@@ -161,6 +161,7 @@ class Product extends BaseModel
 
         return $this->attributes['quantity'];
     }
+
     /**
      * @return QueryBuilder
      */
@@ -236,7 +237,7 @@ class Product extends BaseModel
     }
 
     /**
-     * @return HasMany|InventoryTotal
+     * @return HasMany
      */
     public function inventoryTotals(): HasMany
     {
@@ -246,7 +247,7 @@ class Product extends BaseModel
     /**
      * @param $tag
      */
-    protected function onTagAttached($tag)
+    protected function onTagAttached($tag): void
     {
         ProductTagAttachedEvent::dispatch($this, $tag);
     }
@@ -254,7 +255,7 @@ class Product extends BaseModel
     /**
      * @param $tag
      */
-    protected function onTagDetached($tag)
+    protected function onTagDetached($tag): void
     {
         ProductTagDetachedEvent::dispatch($this, $tag);
     }
@@ -265,7 +266,7 @@ class Product extends BaseModel
      *
      * @return mixed
      */
-    public function scopeWhereHasText($query, string $text)
+    public function scopeWhereHasText($query, string $text): mixed
     {
         return $query->where('sku', $text)
             ->orWhereHas('aliases', function (Builder $query) use ($text) {

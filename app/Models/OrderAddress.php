@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * App\Models\OrderAddress.
@@ -61,6 +63,7 @@ use Illuminate\Support\Facades\Crypt;
  * @method static Builder|OrderAddress whereStateName($value)
  * @method static Builder|OrderAddress whereUpdatedAt($value)
  * @method static Builder|OrderAddress whereWebsite($value)
+ * @method static Builder|OrderAddress whereHasText($value)
  * @mixin Eloquent
  */
 class OrderAddress extends BaseModel
@@ -173,5 +176,34 @@ class OrderAddress extends BaseModel
     {
         $this->first_name = explode(' ', $value)[0];
         $this->last_name = explode(' ', $value)[1];
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public static function getSpatieQueryBuilder(): QueryBuilder
+    {
+        return QueryBuilder::for(OrderAddress::class)
+            ->allowedFilters([AllowedFilter::scope('search', 'whereHasText')]);
+    }
+
+    /**
+     * @param mixed $query
+     * @param string $text
+     *
+     * @return mixed
+     */
+    public function scopeWhereHasText(mixed $query, string $text): mixed
+    {
+        return $query->where('company', $text)
+            ->orWhere('company', 'like', '%' . $text . '%')
+            ->orWhere('address1', $text)
+            ->orWhere('address1', 'like', '%' . $text . '%')
+            ->orWhere('address2', $text)
+            ->orWhere('address2', 'like', '%' . $text . '%')
+            ->orWhere('postcode', $text)
+            ->orWhere('postcode', 'like', '%' . $text . '%')
+            ->orWhere('city', $text)
+            ->orWhere('city', 'like', '%' . $text . '%');
     }
 }
