@@ -45,6 +45,10 @@ const Modals = {
 
             showFindCustomerModal() {
                 this.show('find-customer-modal');
+            },
+
+            showAddNewAddressModal() {
+                this.show('new-address-modal');
             }
         }
     }

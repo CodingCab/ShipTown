@@ -263,6 +263,7 @@
 
         <set-transaction-printer-modal/>
         <find-customer-modal/>
+        <new-address-modal/>
     </div>
 </template>
 

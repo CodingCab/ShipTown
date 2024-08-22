@@ -9,6 +9,11 @@
                 :showKeyboardOnFocus="true"
                 @barcodeScanned="findText"
             />
+            <template v-slot:buttons>
+                <button @click="showNewAddressModal" type="button" class="btn btn-primary ml-2">
+                    <font-awesome-icon icon="plus" class="fa-lg"></font-awesome-icon>
+                </button>
+            </template>
         </search-and-option-bar>
         <div class="customers">
             <div v-for="customer in customers" class="customers__item"
@@ -51,19 +56,12 @@
 </template>
 
 <script>
-
 import api from "../mixins/api.vue";
-import Modals from "../plugins/Modals";
 import url from "../mixins/url.vue";
-import modal from "bootstrap/js/src/modal";
 import loadingOverlay from "../mixins/loading-overlay";
+import Modals from "../plugins/Modals";
 
 export default {
-    computed: {
-        modal() {
-            return modal
-        }
-    },
     components: {},
 
     mixins: [loadingOverlay, api, url],
@@ -125,6 +123,10 @@ export default {
                 shippingAddress: this.selectedShippingAddress,
                 saveChanges: saveChanges
             });
+        },
+
+        showNewAddressModal() {
+            this.$modal.showAddNewAddressModal();
         }
     }
 };
