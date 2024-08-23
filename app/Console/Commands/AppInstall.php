@@ -105,6 +105,12 @@ class AppInstall extends Command
         ]);
 
         NavigationMenu::query()->create([
+            'name' => 'Status: picking',
+            'url' => '/picklist?order.status_code=picking',
+            'group' => 'picklist'
+        ]);
+
+        NavigationMenu::query()->create([
             'name' => 'Status: paid',
             'url' => '/autopilot/packlist?status=paid',
             'group' => 'packlist'
@@ -113,6 +119,12 @@ class AppInstall extends Command
         NavigationMenu::query()->create([
             'name' => 'Status: picked',
             'url' => '/autopilot/packlist?status=picked',
+            'group' => 'packlist'
+        ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: packing',
+            'url' => '/autopilot/packlist?status=packing',
             'group' => 'packlist'
         ]);
     }
@@ -165,6 +177,7 @@ class AppInstall extends Command
         $this->createPaidToCompleteAutomation();
         $this->createPickedToCompleteAutomation();
         $this->createPaidToSingleLineOrdersAutomation();
+        $this->createPackingToCompleteAutomation();
 
         \App\Services\ModulesService::updateModulesTable();
 
@@ -1072,6 +1085,33 @@ class AppInstall extends Command
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
             'action_value' => 'single_line_orders'
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createPackingToCompleteAutomation(): void
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"packing" to "complete"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'packing'
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPackedCondition::class,
+            'condition_value' => 'True'
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'complete'
         ]);
 
         $automation->update(['enabled' => true]);

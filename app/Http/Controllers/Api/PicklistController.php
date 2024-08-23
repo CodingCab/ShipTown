@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderPicklistResource;
 use App\Models\OrderProduct;
-use App\Models\Pick;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  */
 class PicklistController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         $query = OrderProduct::getSpatieQueryBuilder()
             ->where('quantity_to_pick', '>', 0)
