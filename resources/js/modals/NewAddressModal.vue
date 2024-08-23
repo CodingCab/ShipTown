@@ -1,6 +1,6 @@
 <template>
-    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" @hidden="emitNotification"
-             title="Select or create new shipping/billing address" size="xl" scrollable no-fade>
+    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" title="Select or create new shipping/billing address"
+             size="xl" scrollable no-fade>
         <template #modal-header>
             <span>New Product</span>
         </template>
@@ -95,20 +95,11 @@
                             </ValidationProvider>
                         </div>
                         <div class="form-group addressForm__item">
-                            <label class="form-label" for="newAddressCity">City</label>
-                            <ValidationProvider vid="newAddressCity" name="newAddressCity" v-slot="{ errors }">
-                                <input v-model="newAddress.city" type="text" :disabled="!isCreatingAddress"
-                                       :class="{'form-control': true,'is-invalid': errors.length > 0}"
-                                       id="newAddressCity" placeholder="San Jose" required>
-                                <div class="invalid-feedback">
-                                    {{ errors[0] }}
-                                </div>
-                            </ValidationProvider>
-                        </div>
-                        <div class="form-group addressForm__item">
                             <label class="form-label" for="newAddressCountryCode">Country Code</label>
-                            <ValidationProvider vid="newAddressCountryCode" name="newAddressCountryCode" v-slot="{ errors }">
-                                <select v-model="newAddress.country_code" name="newAddressCountryCode" id="newAddressCountryCode"
+                            <ValidationProvider vid="newAddressCountryCode" name="newAddressCountryCode"
+                                                v-slot="{ errors }">
+                                <select v-model="newAddress.country_code" name="newAddressCountryCode"
+                                        id="newAddressCountryCode"
                                         :disabled="!isCreatingAddress"
                                         :class="{'form-control': true,'is-invalid': errors.length > 0}" required>
                                     <option value="" selected disabled>Select an option</option>
@@ -124,7 +115,8 @@
                         </div>
                         <div class="form-group addressForm__item">
                             <label class="form-label" for="newAddressCompanyName">Company Name</label>
-                            <ValidationProvider vid="newAddressCompanyName" name="newAddressCompanyName" v-slot="{ errors }">
+                            <ValidationProvider vid="newAddressCompanyName" name="newAddressCompanyName"
+                                                v-slot="{ errors }">
                                 <input v-model="newAddress.company" type="text" :disabled="!isCreatingAddress"
                                        :class="{'form-control': true,'is-invalid': errors.length > 0}"
                                        id="newAddressCompanyName" placeholder="Confidential LTD." required>
@@ -146,7 +138,8 @@
                         </div>
                         <div class="form-group addressForm__item">
                             <label class="form-label" for="newAddressPhoneNumber">Phone</label>
-                            <ValidationProvider vid="newAddressPhoneNumber" name="newAddressPhoneNumber" v-slot="{ errors }">
+                            <ValidationProvider vid="newAddressPhoneNumber" name="newAddressPhoneNumber"
+                                                v-slot="{ errors }">
                                 <input v-model="newAddress.phone" type="text" :disabled="!isCreatingAddress"
                                        :class="{'form-control': true,'is-invalid': errors.length > 0}"
                                        id="newAddressPhoneNumber" placeholder="+353 1 344 1111" required>
@@ -157,8 +150,8 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <b-button variant="secondary" class="mr-2" @click="$bvModal.hide(modalId);">Cancel</b-button>
-                        <b-button variant="primary" type="submit" @click="createNewAddress">Create</b-button>
+                        <b-button variant="secondary" class="mr-2" @click="closeModal">Cancel</b-button>
+                        <b-button variant="primary" type="submit">Create</b-button>
                     </div>
                 </form>
             </ValidationObserver>
@@ -183,20 +176,36 @@ export default {
     mixins: [api, loadingOverlay],
 
     beforeMount() {
-        Modals.EventBus.$on('show::modal::' + this.modalId, () => {
-            // this.product = data['product'];
+        Modals.EventBus.$on('show::modal::' + this.modalId, (data) => {
+            this.address = data['address'];
 
-            // this.newAddress = {
-            //     sku: '',
-            //     name: '',
-            //     price: '0.00',
-            // };
+            this.newAddress = {
+                first_name: '',
+                last_name: '',
+                gender: '',
+                address1: '',
+                address2: '',
+                postcode: '',
+                city: '',
+                country_code: '',
+                company: '',
+                email: '',
+                phone: '',
+            };
 
-            // if (this.product) {
-            //     this.newProduct.sku = this.product.sku;
-            //     this.newProduct.name = this.product.name;
-            //     this.newProduct.price = this.product.price;
-            // }
+            if (this.address) {
+                this.newAddress.first_name = this.address.first_name;
+                this.newAddress.last_name = this.address.last_name;
+                this.newAddress.gender = this.address.gender;
+                this.newAddress.address1 = this.address.address1;
+                this.newAddress.address2 = this.address.address2;
+                this.newAddress.postcode = this.address.postcode;
+                this.newAddress.city = this.address.city;
+                this.newAddress.country_code = this.address.country_code;
+                this.newAddress.company = this.address.company;
+                this.newAddress.email = this.address.email;
+                this.newAddress.phone = this.address.phone;
+            }
 
             this.$bvModal.show(this.modalId);
         })
@@ -213,13 +222,9 @@ export default {
                 postcode: '',
                 city: '',
                 country_code: '',
-                // state_code: '',
                 company: '',
                 email: '',
                 phone: '',
-                // fax: '',
-                // website: '',
-                // region: '',
             },
             genders: ['Ms.', 'Mr.', 'Mrs.', 'Dr.', 'Prof.'],
             modalId: 'new-address-modal',
@@ -235,21 +240,34 @@ export default {
 
     methods: {
         createNewAddress() {
-            // this.showLoading();
-            // this.apiPostProducts(this.newProduct)
-            //     .then(response => {
-            //         this.$bvModal.hide(this.modalId);
-            //     })
-            //     .catch(error => {
-            //         this.displayApiCallError(error);
-            //     })
-            //     .finally(() => {
-            //         this.hideLoading();
-            //     })
+            this.showLoading();
+            this.apiPostAddress(this.newAddress)
+                .then(response => {
+                    this.$bvModal.hide(this.modalId);
+                    Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
+                        address: response.data.data,
+                        addressSaved: true
+                    });
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                })
+                .finally(() => {
+                    this.hideLoading();
+                })
         },
 
-        emitNotification() {
-            Modals.EventBus.$emit(`hide::modal::${this.modalId}`, this.newAddress);
+        closeModal() {
+            this.$bvModal.hide(this.modalId);
+            Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
+                addressSaved: false
+            });
+        }
+    },
+
+    watch: {
+        'newAddress.country_code': function (newVal) {
+            this.newAddress.country_name = newVal === 'IE' || newVal === 'IRL' ? 'Ireland' : 'United Kingdom';
         }
     }
 };

@@ -262,7 +262,7 @@
         </b-modal>
 
         <set-transaction-printer-modal/>
-        <find-customer-modal/>
+        <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
     </div>
 </template>
@@ -338,7 +338,7 @@ export default {
             this.selectedPrinter = printer;
         });
 
-        Modals.EventBus.$on('hide::modal::find-customer-modal', (data) => {
+        Modals.EventBus.$on('hide::modal::find-address-modal', (data) => {
             if (data.billingAddress) {
                 this.selectedBillingAddress = data.billingAddress;
             }
@@ -347,7 +347,11 @@ export default {
                 this.selectedShippingAddress = data.shippingAddress;
             }
 
-            if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && (this.selectedShippingAddress || this.selectedBillingAddress)) {
+            if (
+                (typeof data.saveChanges !== 'undefined' && data.saveChanges) &&
+                (this.selectedShippingAddress || this.selectedBillingAddress) &&
+                (this.selectedShippingAddress !== this.dataCollection['shipping_address_id'] || this.selectedBillingAddress !== this.dataCollection['billing_address_id'])
+            ) {
                 this.setTransactionCustomer();
             }
         });
@@ -439,7 +443,6 @@ export default {
         },
 
         loadDataCollectorDetails: function () {
-
             let params = {
                 'filter[id]': this.data_collection_id,
                 'filter[with_archived]': true,
@@ -449,10 +452,11 @@ export default {
             this.apiGetDataCollector(params)
                 .then(response => {
                     this.dataCollection = response.data.data[0];
-                }).catch(error => {
-                console.log(error);
-                this.displayApiCallError(error);
-            });
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.displayApiCallError(error);
+                });
         },
 
         transferToWarehouseClick() {
@@ -522,7 +526,7 @@ export default {
         },
 
         selectCustomer() {
-            this.$modal.showFindCustomerModal(this.setTransactionCustomer);
+            this.$modal.showFindAddressModal(this.setTransactionCustomer);
         },
 
         autoScanAll() {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProductsRequest;
+use App\Http\Requests\OrderAddressStoreRequest;
 use App\Http\Resources\OrderAddressResource;
 use App\Models\OrderAddress;
 use Illuminate\Http\Request;
@@ -18,22 +18,9 @@ class OrderAddressController extends Controller
         return OrderAddressResource::collection($query);
     }
 
-    public function store(StoreProductsRequest $request)
+    public function store(OrderAddressStoreRequest $request)
     {
-//        $product = Product::query()->updateOrCreate(
-//            ['sku' => $request->sku],
-//            $request->validated()
-//        );
-//
-//        return response()->json($product, 200);
+        $address = OrderAddress::create($request->validated());
+        return OrderAddressResource::make($address);
     }
-
-//    public function publish($sku)
-//    {
-//        $product = Product::query()->where('sku', $sku)->firstOrFail();
-//
-//        $product->save();
-//
-//        $this->respondOK200();
-//    }
 }

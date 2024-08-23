@@ -23,6 +23,7 @@ Route::name('api.')->group(function () {
     Route::apiResource('modules', Api\ModuleController::class)->only(['index', 'update']);
     Route::apiResource('navigation-menu', Api\NavigationMenuController::class)->except(['show']);
     Route::apiResource('orders-statuses', Api\OrderStatusController::class)->except(['show']);
+    Route::apiResource('orders-addresses', Api\OrderAddressController::class)->only(['index', 'store']);
     Route::apiResource('picklist', Api\PicklistController::class)->only(['index']);
     Route::apiResource('products', Api\ProductController::class)->only(['index', 'store']);
     Route::apiResource('products-aliases', Api\ProductAliasController::class)->only(['index', 'store']);
@@ -49,7 +50,6 @@ Route::name('api.')->group(function () {
     Route::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class)->only(['index']);
     Route::apiResource('quantity-discounts', Api\QuantityDiscountsController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class)->only(['index', 'store', 'destroy']);
-    Route::apiResource('customers', Api\OrderAddressController::class)->only(['index', 'store']);
     Route::apiResource('transactions', Api\TransactionController::class)->only(['update']);
 });
 

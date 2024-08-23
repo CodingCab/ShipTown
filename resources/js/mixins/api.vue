@@ -539,8 +539,11 @@ export default {
             return axios.delete('/api/quantity-discount-product/' + id);
         },
 
-        apiGetCustomers: function (params) {
-            return axios.get('/api/customers', {params: params});
+        apiGetAddresses: function (params) {
+            return axios.get('/api/orders-addresses', {params: params});
+        },
+        apiPostAddress: function (data) {
+            return axios.post('/api/orders-addresses', data);
         },
 
         apiPutTransaction: function (id, data) {

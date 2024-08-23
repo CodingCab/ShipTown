@@ -43,12 +43,12 @@ const Modals = {
                 this.show('set-transaction-printer-modal', {'printer': printer});
             },
 
-            showFindCustomerModal() {
-                this.show('find-customer-modal');
+            showFindAddressModal() {
+                this.show('find-address-modal');
             },
 
-            showAddNewAddressModal() {
-                this.show('new-address-modal');
+            showAddNewAddressModal(address = null) {
+                this.show('new-address-modal', {'address': address});
             }
         }
     }
