@@ -35,6 +35,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @property-read int|null $pick_requests_count
  * @property-read Product|null $product
  * @property-read User|null $user
+ * @property float $quantity_distributed
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Pick addInventorySource($inventory_location_id)
  * @method static \Illuminate\Database\Eloquent\Builder|Pick minimumShelfLocation($currentLocation)
@@ -83,6 +84,7 @@ class Pick extends Model
         'name_ordered',
         'quantity_picked',
         'quantity_skipped_picking',
+        'quantity_distributed',
         'picker_user_id',
         'picked_at',
         'order_product_ids'

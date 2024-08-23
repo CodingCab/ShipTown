@@ -63,7 +63,10 @@ class DistributePicksJob extends UniqueJob
                 $key => $quantity,
             ]);
 
+            $pick->increment('quantity_distributed', $quantity);
+
             $quantityToDistribute -= $quantity;
+
             if ($quantityToDistribute <= 0) {
                 $pick->update(['is_distributed' => true]);
                 break;
