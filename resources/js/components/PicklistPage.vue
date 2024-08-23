@@ -270,7 +270,7 @@ export default {
 
             this.postPick(pick, pick['quantity_required'], 0)
                 .then( (response) => {
-                    this.displayPickedNotification(pick, pick['quantity_required']);
+                    this.displayPickedNotification(response.data['data'][0], pick['quantity_required']);
                     this.beep();
                     this.reloadPicks();
                 })
