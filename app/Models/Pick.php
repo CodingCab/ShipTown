@@ -17,6 +17,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  * App\Models\Pick.
  *
  * @property int         $id
+ * @property bool        $is_distributed
  * @property int|null    $user_id
  * @property int|null    $product_id
  * @property string      $sku_ordered
@@ -26,6 +27,7 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @property string      $quantity_required
  * @property int|null    $picker_user_id
  * @property string|null $picked_at
+ * @property string|null $order_product_ids
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -73,6 +75,7 @@ class Pick extends Model
      * @var string[]
      */
     protected $fillable = [
+        'is_distributed',
         'user_id',
         'warehouse_code',
         'product_id',
@@ -82,6 +85,13 @@ class Pick extends Model
         'quantity_skipped_picking',
         'picker_user_id',
         'picked_at',
+        'order_product_ids'
+    ];
+
+    protected $casts = [
+        'is_distributed' => 'boolean',
+        'picked_at' => 'datetime',
+        'order_product_ids' => 'array',
     ];
 
     /**

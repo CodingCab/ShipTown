@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderPicklistResource;
 use App\Models\OrderProduct;
+use App\Models\Pick;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +19,7 @@ class PicklistController extends Controller
     {
         $query = OrderProduct::getSpatieQueryBuilder()
             ->where('quantity_to_pick', '>', 0)
+            ->whereRaw('product_id NOT IN (SELECT product_id FROM picks WHERE orders_products.product_id = picks.product_id AND is_distributed = 0)')
             ->select([
                 'product_id',
                 'name_ordered',

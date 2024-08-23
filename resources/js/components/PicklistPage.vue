@@ -266,12 +266,12 @@ export default {
         pickAll(pick) {
             this.current_shelf_location = pick['inventory_source_shelf_location'];
             this.removeFromPicklist(pick);
-            this.beep();
             this.setFocusOnBarcodeInput();
-            this.displayPickedNotification(pick, pick['quantity_required']);
 
             this.postPick(pick, pick['quantity_required'], 0)
                 .then( (response) => {
+                    this.displayPickedNotification(pick, pick['quantity_required']);
+                    this.beep();
                     this.reloadPicks();
                 })
                 .catch( error => {
