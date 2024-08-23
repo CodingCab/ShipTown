@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Modules\Picking\src\Jobs;
+namespace App\Modules\AutoStatusPicking\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Models\OrderProduct;
 use App\Models\OrderProductPick;
 use App\Models\Pick;
-use App\Modules\DataCollector\src\Services\DataCollectorService;
-use App\Modules\DataCollectorQuantityDiscounts\src\Services\QuantityDiscountsService;
 use Illuminate\Support\Facades\Cache;
 
 class DistributePicksJob extends UniqueJob
