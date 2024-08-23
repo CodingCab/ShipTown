@@ -3,6 +3,7 @@
 namespace App\Modules\AutoStatusPicking\src;
 
 use App\Events\EveryHourEvent;
+use App\Events\EveryMinuteEvent;
 use App\Events\Order\OrderUpdatedEvent;
 use App\Modules\AutoStatusPicking\src\Jobs\RefillPickingIfEmptyJob;
 use App\Modules\BaseModuleServiceProvider;
@@ -31,6 +32,10 @@ class AutoStatusPickingServiceProvider extends BaseModuleServiceProvider
      * @var string[][]
      */
     protected $listen = [
+        EveryMinuteEvent::class => [
+            Listeners\EveryMinuteListener::class,
+        ],
+
         EveryHourEvent::class => [
             Listeners\HourlyEvent\RefillPickingIfEmpty::class,
         ],
