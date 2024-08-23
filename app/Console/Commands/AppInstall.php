@@ -112,6 +112,12 @@ class AppInstall extends Command
         ]);
 
         NavigationMenu::query()->create([
+            'name' => 'Status: store_collection',
+            'url' => '/picklist?order.status_code=store_collection',
+            'group' => 'picklist'
+        ]);
+
+        NavigationMenu::query()->create([
             'name' => 'Status: paid',
             'url' => '/autopilot/packlist?status=paid',
             'group' => 'packlist'
