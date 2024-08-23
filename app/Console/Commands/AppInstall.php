@@ -128,6 +128,12 @@ class AppInstall extends Command
             'url' => '/autopilot/packlist?status=single_line_orders',
             'group' => 'packlist'
         ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: store_collection',
+            'url' => '/autopilot/packlist?status=store_collection',
+            'group' => 'packlist'
+        ]);
     }
 
     private function createNewToPaidAutomation(): void
