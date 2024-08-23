@@ -178,8 +178,8 @@ class AppInstall extends Command
         $this->createPickingToPackingAutomation();
         $this->createPackingToShippedAutomation();
         $this->createStoreCollectionToReadyToCollect();
-        $this->createPaidToCompleteAutomation();
         $this->createPickedToCompleteAutomation();
+        $this->createPaidToCompleteAutomation();
         $this->createPaidToSingleLineOrdersAutomation();
         $this->createPackingToCompleteAutomation();
         $this->createSingleLineOrdersToCompleteAutomation();
@@ -1242,7 +1242,7 @@ class AppInstall extends Command
         $automation->update(['enabled' => true]);
     }
 
-    private function createSingleLineOrdersToCompleteAutomation()
+    private function createSingleLineOrdersToCompleteAutomation(): void
     {
         /** @var Automation $automation */
         $automation = Automation::create([
