@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('picks', function (Blueprint $table) {
-            $table->decimal('quantity_distributed', 3)->default(0)->after('quantity_skipped_picking');
+            $table->decimal('quantity_distributed', 20, 3)->default(0)->after('quantity_skipped_picking');
         });
     }
 };

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\Picklist;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PickDestroyRequest;
-use App\Http\Requests\Picklist\StoreDeletedPickRequest;
+use App\Http\Requests\Picklist\StorePickRequest;
 use App\Models\OrderProduct;
 use App\Models\Pick;
-use App\Modules\AutoStatusPicking\src\Jobs\DistributePicksJob;
 use App\Modules\AutoStatusPicking\src\Jobs\UnDistributePicksJob;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,12 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class PicklistPickController extends Controller
 {
-    /**
-     * @param StoreDeletedPickRequest $request
-     *
-     * @return JsonResource
-     */
-    public function store(StoreDeletedPickRequest $request): JsonResource
+    public function store(StorePickRequest $request): JsonResource
     {
         $orderProducts = OrderProduct::query()
             ->whereIn('id', $request->get('order_product_ids'))
@@ -32,18 +26,16 @@ class PicklistPickController extends Controller
 
         /** @var Pick $pick */
         $pick = Pick::query()->create([
+            'is_distributed' => false,
             'user_id' => request()->user()->getKey(),
             'warehouse_code' => request()->user()->warehouse->code,
             'product_id' => $first['product_id'],
             'sku_ordered' => $first['sku_ordered'],
             'name_ordered' => $first['name_ordered'],
-            'quantity_picked' => $request->get('quantity_picked', 0),
-            'quantity_skipped_picking' => $request->get('quantity_skipped_picking', 0),
-            'is_distributed' => false,
-            'order_product_ids' => $request->get('order_product_ids'),
+            'quantity_picked' => $request->validated('quantity_picked', 0),
+            'quantity_skipped_picking' => $request->validated('quantity_skipped_picking', 0),
+            'order_product_ids' => $request->validated('order_product_ids'),
         ]);
-
-        DistributePicksJob::dispatchAfterResponse($pick);
 
         return JsonResource::make([$pick]);
     }

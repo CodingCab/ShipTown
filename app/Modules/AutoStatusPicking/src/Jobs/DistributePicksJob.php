@@ -40,10 +40,10 @@ class DistributePicksJob extends UniqueJob
 
     public function distributePick(Pick $pick): void
     {
-        $this->pick->update([
+        $pick->update([
             'quantity_distributed' => OrderProductPick::query()
                 ->where('pick_id', $pick->id)
-                ->sum('quantity_picked')
+                ->sum('quantity_picked') ?? 0
         ]);
 
         $orderProducts = OrderProduct::query()
@@ -53,10 +53,10 @@ class DistributePicksJob extends UniqueJob
 
         if ($pick->quantity_picked != 0) {
             $key = 'quantity_picked';
-            $quantityToDistribute = $pick->quantity_picked - $this->pick->quantity_distributed;
+            $quantityToDistribute = $pick->quantity_picked - $pick->quantity_distributed;
         } else {
             $key = 'quantity_skipped_picking';
-            $quantityToDistribute = $pick->quantity_skipped_picking - $this->pick->quantity_distributed;
+            $quantityToDistribute = $pick->quantity_skipped_picking - $pick->quantity_distributed;
         }
 
         foreach ($orderProducts as $orderProduct) {
@@ -72,7 +72,7 @@ class DistributePicksJob extends UniqueJob
                 $key => $quantity,
             ]);
 
-            $pick->increment('quantity_distributed', $quantity);
+            $pick->update(['quantity_distributed' => $pick->orderProductPicks()->sum('quantity_picked') ?? 0]);
 
             $quantityToDistribute -= $quantity;
 

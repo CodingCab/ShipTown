@@ -3,10 +3,8 @@
 namespace App\Modules\AutoStatusPicking\src\Jobs;
 
 use App\Abstracts\UniqueJob;
-use App\Models\OrderProduct;
 use App\Models\OrderProductPick;
 use App\Models\Pick;
-use Illuminate\Support\Facades\Cache;
 
 class UnDistributePicksJob extends UniqueJob
 {
@@ -26,40 +24,43 @@ class UnDistributePicksJob extends UniqueJob
 
     public function handle(): void
     {
-        Cache::lock($this->key, 30)->get(function () {
-            Pick::query()
-                ->onlyTrashed()
-                ->where('is_distributed', true)
-                ->whereNot('quantity_distributed', 0)
-                ->when($this->pick, function ($query) {
-                    $query->where('id', $this->pick->id);
-                })
-                ->each(function (Pick $pick) {
-                    $this->unDistributePick($pick);
-                });
-        });
-    }
+        Pick::query()
+            ->onlyTrashed()
+            ->where('quantity_distributed', '>', 0)
+            ->each(function (Pick $pick) {
+                OrderProductPick::query()
+                    ->where('pick_id', $pick->id)
+                    ->delete();
+            });
 
-    public function unDistributePick(Pick $pick): void
-    {
         OrderProductPick::query()
-            ->where('pick_id', $pick->id)
+            ->with(['orderProduct', 'pick'])
+            ->onlyTrashed()
+            ->where('quantity_picked', '>', 0)
+            ->get()
             ->each(function (OrderProductPick $orderProductPick) {
-                $orderProduct = OrderProduct::query()->find($orderProductPick->order_product_id);
 
-                if ($this->pick->quantity_picked != 0) {
-                    $key = 'quantity_picked';
-                } else {
-                    $key = 'quantity_skipped_picking';
-                }
+                ray($orderProductPick);
 
-                $orderProduct->fill([
-                    $key => max(0, $orderProduct->getAttribute($key) - $orderProductPick->getAttribute($key)),
+                ray(Pick::query()->get()->all());
+
+                $orderProductPick->update([
+                    'quantity_picked' => 0,
+                    'quantity_skipped_picking' => 0,
                 ]);
-                $orderProduct->save();
-                $orderProductPick->decrement($key, $orderProductPick->getAttribute($key));
 
-                $this->pick->decrement('quantity_distributed', $orderProductPick->getAttribute($key));
+                $orderProductPick->orderProduct->update([
+                    'quantity_picked' => OrderProductPick::query()
+                        ->where('order_product_id', $orderProductPick->order_product_id)
+                        ->sum('quantity_picked') ?? 0,
+                    'quantity_skipped_picking' => OrderProductPick::query()
+                        ->where('order_product_id', $orderProductPick->order_product_id)
+                        ->sum('quantity_skipped_picking') ?? 0,
+                ]);
+
+                $orderProductPick->pick->update([
+                    'quantity_distributed' => $orderProductPick->pick->orderProductPicks()->sum('quantity_picked') ?? 0,
+                ]);
             });
     }
 }
