@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\AutoStatusPicking\src\Jobs;
+namespace App\Modules\Picklist\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Models\OrderProductPick;

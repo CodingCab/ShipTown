@@ -7,7 +7,7 @@ use App\Http\Requests\PickDestroyRequest;
 use App\Http\Requests\Picklist\StorePickRequest;
 use App\Models\OrderProduct;
 use App\Models\Pick;
-use App\Modules\AutoStatusPicking\src\Jobs\UnDistributePicksJob;
+use App\Modules\Picklist\src\Jobs\UnDistributePicksJob;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**

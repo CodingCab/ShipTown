@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\AutoStatusPicking\src\Listeners;
+namespace App\Modules\Picklist\src\Listeners;
 
 use App\Events\Pick\PickDeletedEvent;
 use App\Models\OrderProductPick;
-use App\Modules\AutoStatusPicking\src\Jobs\UnDistributePicksJob;
+use App\Modules\Picklist\src\Jobs\UnDistributePicksJob;
 
 class PickDeletedListener
 {

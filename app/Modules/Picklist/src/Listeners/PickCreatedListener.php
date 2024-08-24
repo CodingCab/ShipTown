@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\AutoStatusPicking\src\Listeners;
+namespace App\Modules\Picklist\src\Listeners;
 
-use App\Modules\AutoStatusPicking\src\Jobs\DistributePicksJob;
+use App\Modules\Picklist\src\Jobs\DistributePicksJob;
 
 class PickCreatedListener
 {
