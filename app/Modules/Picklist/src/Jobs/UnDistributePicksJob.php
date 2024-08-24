@@ -5,6 +5,7 @@ namespace App\Modules\Picklist\src\Jobs;
 use App\Abstracts\UniqueJob;
 use App\Models\OrderProductPick;
 use App\Models\Pick;
+use Cache;
 
 class UnDistributePicksJob extends UniqueJob
 {
@@ -23,6 +24,16 @@ class UnDistributePicksJob extends UniqueJob
     }
 
     public function handle(): void
+    {
+        Cache::lock($this->key, 30)->get(function () {
+            $this->unDistributePicks();
+        });
+    }
+
+    /**
+     * @return void
+     */
+    public function unDistributePicks(): void
     {
         Pick::query()
             ->onlyTrashed()
@@ -51,11 +62,11 @@ class UnDistributePicksJob extends UniqueJob
 
                 $orderProductPick->orderProduct->update([
                     'quantity_picked' => OrderProductPick::query()
-                        ->where('order_product_id', $orderProductPick->order_product_id)
-                        ->sum('quantity_picked') ?? 0,
+                            ->where('order_product_id', $orderProductPick->order_product_id)
+                            ->sum('quantity_picked') ?? 0,
                     'quantity_skipped_picking' => OrderProductPick::query()
-                        ->where('order_product_id', $orderProductPick->order_product_id)
-                        ->sum('quantity_skipped_picking') ?? 0,
+                            ->where('order_product_id', $orderProductPick->order_product_id)
+                            ->sum('quantity_skipped_picking') ?? 0,
                 ]);
 
                 $orderProductPick->pick->update([
