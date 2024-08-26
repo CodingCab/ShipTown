@@ -3,27 +3,25 @@
 namespace App\Services;
 
 use Dompdf\Dompdf;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class PdfService
 {
     /**
-     * @param string $view
-     * @param array  $data
-     *
-     * @return Dompdf
+     * @throws BindingResolutionException
      */
-    public static function fromView(string $view, array $data, $raw = false) : Dompdf | string
+    public static function fromView(string $view, array $data) : Dompdf | string
     {
         $html = view()->make($view, $data);
 
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->render();
+        return self::fromHtml($html, $data);
+    }
 
-        if ($raw) {
-            return $dompdf;
-        }
+    public static function fromHtml(string $template, array $data) : string
+    {
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($template);
+        $dompdf->render();
 
         return $dompdf->output();
     }
