@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DocumentIndexRequest;
 use App\Models\DataCollection;
 use App\Models\MailTemplate;
+use App\Services\PdfService;
 use Dompdf\Dompdf;
 use Mustache_Engine;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -24,11 +25,8 @@ class DocumentController extends Controller
 
         switch ($request->validated('output_format', 'pdf')) {
             case 'pdf':
-                $dompdf = new Dompdf();
-                $dompdf->loadHtml($output);
-                $dompdf->render();
-                return response()->stream(function () use ($dompdf) {
-                    echo $dompdf->output();
+                return response()->stream(function () use ($output) {
+                    echo PdfService::fromHtml($output);
                 }, '200', ['Content-Type' => 'application/pdf']);
             default:
                 return $output;

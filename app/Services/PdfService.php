@@ -17,7 +17,7 @@ class PdfService
         return self::fromHtml($html, $data);
     }
 
-    public static function fromHtml(string $template, array $data) : string
+    public static function fromHtml(string $template) : string
     {
         $dompdf = new Dompdf();
         $dompdf->loadHtml($template);
