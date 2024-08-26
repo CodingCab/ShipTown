@@ -37,7 +37,7 @@ class PrintNodeServiceProvider extends BaseModuleServiceProvider
      */
     protected $listen = [
         ShippingLabelCreatedEvent::class => [
-            Listeners\PrintShippingLabelListener::class,
+            Listeners\ShippingLabelCreatedListener::class,
         ],
 
         PrintJobCreatedEvent::class => [

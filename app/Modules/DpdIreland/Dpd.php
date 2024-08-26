@@ -4,7 +4,6 @@ namespace App\Modules\DpdIreland;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
-use App\Models\OrderShipment;
 use App\Modules\DpdIreland\src\Client;
 use App\Modules\DpdIreland\src\Consignment;
 use App\Modules\DpdIreland\src\Exceptions\AuthorizationException;
