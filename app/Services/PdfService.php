@@ -14,13 +14,13 @@ class PdfService
     {
         $html = view()->make($view, $data);
 
-        return self::fromHtml($html, $data);
+        return self::fromHtml($html);
     }
 
-    public static function fromHtml(string $template) : string
+    public static function fromHtml(string $html) : string
     {
         $dompdf = new Dompdf();
-        $dompdf->loadHtml($template);
+        $dompdf->loadHtml($html);
         $dompdf->render();
 
         return $dompdf->output();
