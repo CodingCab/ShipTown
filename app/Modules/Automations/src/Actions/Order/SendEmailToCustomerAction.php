@@ -6,6 +6,7 @@ use App\Mail\OrderMail;
 use App\Models\MailTemplate;
 use App\Models\Order;
 use App\Modules\Automations\src\Abstracts\BaseOrderActionAbstract;
+use App\Services\PdfService;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -32,6 +33,12 @@ class SendEmailToCustomerAction extends BaseOrderActionAbstract
             ->where('code', $options)
             ->where('mailable', OrderMail::class)
             ->first();
+
+//        PdfService::fromMustacheTemplate($template->html_template, [
+//            'order' => $order->toArray(),
+//            'shipments' => $order->orderShipments->toArray(),
+//            'shipping_address' => $order->shippingAddress->toArray(),
+//        ]);
 
         $email = new OrderMail($template, [
             'order' => $order->toArray(),
