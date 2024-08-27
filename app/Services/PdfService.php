@@ -2,11 +2,21 @@
 
 namespace App\Services;
 
+use App\Models\DataCollection;
 use Dompdf\Dompdf;
 use Illuminate\Contracts\Container\BindingResolutionException;
 
 class PdfService
 {
+    public static function fromMustacheTemplate(string $template, array $data) : string
+    {
+        $engine = new \Mustache_Engine();
+
+        $html = $engine->render($template, $data);
+
+        return self::fromHtml($html);
+    }
+
     /**
      * @throws BindingResolutionException
      */

@@ -19,17 +19,17 @@ class DocumentController extends Controller
             ->where('code', $request->validated('template_code'))
             ->first();
 
-        $output = $engine->render($template->html_template, [
+        $pdfString = PdfService::fromMustacheTemplate($template->html_template, [
             'data_collection' => DataCollection::query()->where('id', $request->validated('data_collection_id'))->first(),
         ]);
 
         switch ($request->validated('output_format', 'pdf')) {
             case 'pdf':
-                return response()->stream(function () use ($output) {
-                    echo PdfService::fromHtml($output);
+                return response()->stream(function () use ($pdfString) {
+                    echo $pdfString;
                 }, '200', ['Content-Type' => 'application/pdf']);
             default:
-                return $output;
+                return $pdfString;
         }
     }
 }
