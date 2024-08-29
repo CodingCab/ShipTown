@@ -85,7 +85,7 @@ export default {
                 ),
             };
 
-            this.apiPostPrintnodePrintJob(data)
+            this.apiPostPrintNodePrintJob(data)
                 .then(() => {
                     this.$snotify.info('Test page sent to PrintNode');
                 })
@@ -100,7 +100,7 @@ export default {
                 'pdf_url': 'https://api.printnode.com/static/test/pdf/label_4in_x_6in.pdf'
             };
 
-            this.apiPostPrintnodePrintJob(data)
+            this.apiPostPrintNodePrintJob(data)
                 .then(() => {
                     this.$snotify.info('Test page sent to PrintNode');
                 })
@@ -116,7 +116,7 @@ export default {
                 'base64raw_url': 'http://management.products.api.test/label_4in_x_6in.epl'
             };
 
-            this.apiPostPrintnodePrintJob(data)
+            this.apiPostPrintNodePrintJob(data)
                 .then(() => {
                     this.$snotify.info('Test page sent to PrintNode');
                 })

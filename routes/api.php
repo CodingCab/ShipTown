@@ -78,6 +78,9 @@ Route::post('pdf/print', [Api\PDF\PdfPrintController::class, 'update']);
 Route::post('pdf/preview', [Api\PDF\PdfPreviewController::class, 'update']);
 Route::post('pdf/download', [Api\PDF\PdfDownloadController::class, 'update']);
 
+Route::post('transaction/receipt', [Api\TransactionController::class, 'sendReceipt']);
+//Route::post('transaction/receipt-print', [Api\TransactionController::class, 'printReceipt']);
+
 Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
 
 Route::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class)->names('csv-import-data-collections')->only(['store']);

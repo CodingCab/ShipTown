@@ -55,10 +55,10 @@
         </div>
 
         <template #modal-footer>
-            <b-button variant="secondary" class="float-right" @click="() => closeModal(false)">
+            <b-button variant="secondary" class="float-right" @click="closeModal">
                 Cancel
             </b-button>
-            <b-button variant="primary" class="float-right" @click="() => closeModal(true)">
+            <b-button variant="primary" class="float-right" @click="closeModal(true)">
                 OK
             </b-button>
         </template>

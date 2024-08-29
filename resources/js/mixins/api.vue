@@ -241,15 +241,15 @@ export default {
             return axios.get('/api/admin/user/roles', {params: params});
         },
 
-        apiGetModulePrintnodeClients: function (params) {
+        apiGetModulePrintNodeClients: function (params) {
             return axios.get('/api/modules/printnode/clients', {params: params})
         },
 
-        apiPostModulePrintnodeClients: function (data) {
+        apiPostModulePrintNodeClients: function (data) {
             return axios.post('/api/modules/printnode/clients', data)
         },
 
-        apiDeletePrintnodeClient: function (id) {
+        apiDeletePrintNodeClient: function (id) {
             return axios.delete(`/api/modules/printnode/clients/${id}`, {})
         },
 
@@ -321,7 +321,7 @@ export default {
             return axios.get('/api/modules/printnode/printers');
         },
 
-        apiPostPrintnodePrintJob: function (data) {
+        apiPostPrintNodePrintJob: function (data) {
             return axios.post('/api/modules/printnode/printjobs', data)
         },
         apiPostRmsapiConnections: function (data) {
@@ -548,6 +548,14 @@ export default {
 
         apiPutTransaction: function (id, data) {
             return axios.put('/api/transactions/' + id, data);
+        },
+
+        apiSendTransactionReceipt: function (data) {
+            return axios.post('/api/transaction/receipt/', data);
+        },
+
+        apiPrintTransactionReceipt: function (data) {
+            return axios.post('/api/transaction/receipt-print/', data);
         }
     }
 }

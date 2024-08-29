@@ -111,3 +111,5 @@ Route::middleware(['role:admin'])->group(function () {
     Route::view('admin/settings/modules/quantity-discounts', 'settings/modules/quantity-discounts/index')->name('settings.modules.quantity-discounts.index');
     Route::get('admin/settings/modules/quantity-discounts/{id}', [QuantityDiscountsController::class, 'edit'])->name('settings.modules.quantity-discounts.edit');
 });
+
+Route::get('transaction/receipt-print', [\App\Http\Controllers\Api\TransactionController::class, 'printReceipt']);

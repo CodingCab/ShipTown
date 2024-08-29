@@ -7,14 +7,56 @@
         <swiping-card>
             <template v-slot:content>
                 <div class="row setting-list">
-                    <div class="col-sm-12 col-lg-6">
+                    <div class="col-sm-12 col-lg-3">
                         <div id="data_collection_name" class="text-primary">{{ dataCollection['name'] }}</div>
                         <div class="text-secondary small">
                             {{ formatDateTime(dataCollection['created_at'], 'dddd - MMM D HH:mm') }}
                         </div>
                         <div class="text-secondary small">{{ collectionTypes[dataCollection['type']] }}</div>
                     </div>
-                    <div class="col-sm-12 col-lg-6" v-if="dataCollection && dataCollection['deleted_at']">
+                    <div v-if="dataCollection['billing_address']" class="col-sm-12 col-lg-3">
+                        <div class="text-primary">
+                            Selected Billing Address
+                        </div>
+                        <div class="text-secondary small">
+                            {{ dataCollection['billing_address']['gender'] ?? '' }}
+                            {{ dataCollection['billing_address']['first_name'] ?? '' }}
+                            {{ dataCollection['billing_address']['last_name'] ?? '' }}
+                            <br>
+                            {{ dataCollection['billing_address']['company'] ?? '' }}
+                            <br>
+                            {{ dataCollection['billing_address']['address1'] ?? '' }}
+                            <br>
+                            {{ dataCollection['billing_address']['address2'] ?? '' }}
+                            <br>
+                            {{ dataCollection['billing_address']['city'] ?? '' }}
+                            {{ dataCollection['billing_address']['postcode'] ?? '' }}
+                            <br>
+                            {{ dataCollection['billing_address']['country_name'] ?? '' }}
+                        </div>
+                    </div>
+                    <div v-if="dataCollection['shipping_address']" class="col-sm-12 col-lg-3">
+                        <div class="text-primary">
+                            Selected Shipping Address
+                        </div>
+                        <div class="text-secondary small">
+                            {{ dataCollection['shipping_address']['gender'] ?? '' }}
+                            {{ dataCollection['shipping_address']['first_name'] ?? '' }}
+                            {{ dataCollection['shipping_address']['last_name'] ?? '' }}
+                            <br>
+                            {{ dataCollection['shipping_address']['company'] ?? '' }}
+                            <br>
+                            {{ dataCollection['shipping_address']['address1'] ?? '' }}
+                            <br>
+                            {{ dataCollection['shipping_address']['address2'] ?? '' }}
+                            <br>
+                            {{ dataCollection['shipping_address']['city'] ?? '' }}
+                            {{ dataCollection['shipping_address']['postcode'] ?? '' }}
+                            <br>
+                            {{ dataCollection['shipping_address']['country_name'] ?? '' }}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-4" v-if="dataCollection && dataCollection['deleted_at']">
                         <text-card class="fa-pull-right"
                                    :label="formatDateTime(dataCollection ? dataCollection['deleted_at'] : '', 'dddd - MMM D HH:mm')"
                                    text="ARCHIVED"></text-card>
@@ -188,11 +230,14 @@
                     </button>
                     <br>
                     <br>
-                    <button :disabled="! buttonsEnabled" @click.prevent="printPdfReceipt" v-b-toggle
+                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt(false)" v-b-toggle
                             class="col btn mb-2 btn-primary">Print Receipt (PDF)
                     </button>
-                    <button :disabled="! buttonsEnabled" @click.prevent="printEplReceipt" v-b-toggle
+                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt" v-b-toggle
                             class="col btn mb-2 btn-primary">Print Receipt (EPL)
+                    </button>
+                    <button :disabled="! buttonsEnabled" @click.prevent="emailPdfReceipt" v-b-toggle
+                            class="col btn mb-2 btn-primary">Email Receipt
                     </button>
                 </div>
                 <br>
@@ -446,12 +491,18 @@ export default {
             let params = {
                 'filter[id]': this.data_collection_id,
                 'filter[with_archived]': true,
-                'include': 'comments,comments.user'
+                'include': 'comments,comments.user,shippingAddress,billingAddress'
             }
 
             this.apiGetDataCollector(params)
                 .then(response => {
                     this.dataCollection = response.data.data[0];
+                    if (this.dataCollection.shipping_address_id) {
+                        this.selectedShippingAddress = this.dataCollection.shipping_address_id;
+                    }
+                    if (this.dataCollection.billing_address_id) {
+                        this.selectedBillingAddress = this.dataCollection.billing_address_id;
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -678,28 +729,40 @@ export default {
             }
         },
 
-        printPdfReceipt() {
+        printReceipt(epl = false) {
             if (this.selectedPrinter === null) {
                 this.$snotify.error('Please select printer first');
                 return;
             }
 
-            // let data = {
-            //     // data: { product_sku },
-            //     template: this.viewDirectory + 'Transaction_Receipt',
-            //     printer_id: this.selectedPrinter.id,
-            // };
-            //
-            // this.apiPostPdfPrint(data)
-            //     .then(() => {
-            //         this.notifySuccess('PDF sent to printer');
-            //     })
-            //     .catch(error => {
-            //         this.displayApiCallError(error);
-            //     })
+            let data = {
+                id: this.dataCollection.id,
+                printer_id: this.selectedPrinter.id,
+                epl: !!epl,
+            };
+
+            this.apiPrintTransactionReceipt(data)
+                .then(() => {
+                    this.notifySuccess(`${epl ? 'EPL' : 'PDF'} receipt sent to printer`);
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                })
         },
 
-        printEplReceipt() {
+        emailPdfReceipt() {
+            if (!this.selectedBillingAddress && !this.selectedShippingAddress) {
+                this.$snotify.error('Please select customer first');
+                return;
+            }
+
+            this.apiSendTransactionReceipt({id: this.dataCollection.id})
+                .then(() => {
+                    this.notifySuccess('Receipt has been sent to selected customer');
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                })
         },
 
         setTransactionCustomer() {

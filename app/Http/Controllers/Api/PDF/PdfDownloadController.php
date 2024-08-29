@@ -16,13 +16,13 @@ class PdfDownloadController extends Controller
     /**
      * @throws Exception
      */
-    public function update(Request $request) : StreamedResponse
+    public function update(Request $request): StreamedResponse
     {
-        $pdfOutput = PdfService::fromView('pdf/'.$request->template, $request->data);
+        $pdfOutput = PdfService::fromView('pdf/' . $request->template, $request->data);
         $templateName = str_replace('/', '_', $request->template);
 
         return response()->streamDownload(function () use ($pdfOutput, $templateName) {
             echo $pdfOutput;
-        }, $templateName.'.pdf', ['Content-Type' => 'application/pdf']);
+        }, $templateName . '.pdf', ['Content-Type' => 'application/pdf']);
     }
 }
