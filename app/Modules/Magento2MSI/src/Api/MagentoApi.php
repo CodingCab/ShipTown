@@ -87,7 +87,7 @@ class MagentoApi
 
     public static function postProductsSpecialPriceInformation($token, $sku): ?Response
     {
-        return Client::post($token, '/rest/all/V1/products/special-price-information', [
+        return Client::post($token, 'https://guineys.ie/rest/all/V1/products/special-price-information', [
             'skus' => Arr::wrap($sku)
         ]);
     }

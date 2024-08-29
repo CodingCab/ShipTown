@@ -2,6 +2,7 @@
 
 namespace App\Modules\MagentoApi\src\Api;
 
+use App\Modules\Magento2MSI\src\Api\Client;
 use Grayloon\Magento\Api\AbstractApi;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
@@ -63,6 +64,7 @@ class BaseApi extends AbstractApi
     protected function post($path, $parameters = []): ?Response
     {
         try {
+            Client::post($this->magento->token, $path, $parameters);
             $response = parent::post($path, $parameters);
         } catch (\Exception $e) {
             Log::error(implode(' ', [
