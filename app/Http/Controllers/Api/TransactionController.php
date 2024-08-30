@@ -58,18 +58,18 @@ class TransactionController extends Controller
     }
 
 //    public function printReceipt(PrintReceiptRequest $request): StreamedResponse
-    public function printReceipt(): StreamedResponse
+    public function printReceipt()
     {
 //        $transaction = DataCollection::findOrFail($request->validated('id'));
-        $transaction = DataCollection::findOrFail(13);
+//        $transaction = DataCollection::findOrFail(13);
 
         /** @var MailTemplate $template */
-        $template = MailTemplate::query()
-            ->where('code', 'transaction_receipt')
-            ->where('mailable', TransactionReceiptMail::class)
-            ->first();
+//        $template = MailTemplate::query()
+//            ->where('code', 'transaction_receipt')
+//            ->where('mailable', TransactionReceiptMail::class)
+//            ->first();
 
-        $products = $this->getProducts($transaction);
+//        $products = $this->getProducts($transaction);
 
 //        PdfService::fromMustacheTemplate($template->html_template, [
 //            'order' => $order->toArray(),
@@ -77,28 +77,30 @@ class TransactionController extends Controller
 //            'shipping_address' => $order->shippingAddress->toArray(),
 //        ]);
 
-        $pdfString = PdfService::fromMustacheTemplate($template->html_template, [
-            'transaction' => [
-                'id' => $transaction->id,
-                'subtotal' => $transaction->total_sold_price,
-                'total' => $transaction->total_sold_price,
-                'shipping' => 0,
-                'tax' => 0,
-                'created_at' => $transaction->created_at->format('Y-m-d H:i:s'),
-            ],
-            'shipping_address' => $transaction->shippingAddress->toArray(),
-            'billing_address' => $transaction->billingAddress->toArray(),
-            'products' => $products,
-        ]);
+//        $pdfString = PdfService::fromMustacheTemplate($template->html_template, [
+//        $pdfString = PdfService::fromView('pdf/transaction/receipt', [
+//            'transaction' => [
+//                'id' => $transaction->id,
+//                'subtotal' => $transaction->total_sold_price,
+//                'total' => $transaction->total_sold_price,
+//                'shipping' => 0,
+//                'tax' => 0,
+//                'created_at' => $transaction->created_at->format('Y-m-d H:i:s'),
+//            ],
+//            'shipping_address' => $transaction->shippingAddress->toArray(),
+//            'billing_address' => $transaction->billingAddress->toArray(),
+//            'products' => $products,
+//        ]);
 
-        return response()->stream(function () use ($pdfString) {
-            echo $pdfString;
-        }, '200', ['Content-Type' => 'application/pdf']);
+//        return response()->stream(function () use ($pdfString) {
+//            echo $pdfString;
+//        }, '200', ['Content-Type' => 'application/pdf']);
 
 //        Mail::to($transaction->shippingAddress->email)->send($email);
 //
 //        ray($products);
 //        return true;
+        return view('pdf.transaction.receipt');
     }
 
     private function getProducts(DataCollection $transaction): array

@@ -6,7 +6,6 @@ use App\Http\Requests\DocumentIndexRequest;
 use App\Models\DataCollection;
 use App\Models\MailTemplate;
 use App\Services\PdfService;
-use Dompdf\Dompdf;
 use Mustache_Engine;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
