@@ -51,9 +51,6 @@ class OrderProductShipment extends BaseModel
         'quantity_shipped' => 'float',
     ];
 
-    /**
-     * @return HasOne
-     */
     public function inventory(): HasOne
     {
         return $this->hasOne(Inventory::class, 'product_id', 'product_id')
@@ -62,41 +59,26 @@ class OrderProductShipment extends BaseModel
             ]);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function orderProduct(): BelongsTo
     {
         return $this->belongsTo(OrderProduct::class);

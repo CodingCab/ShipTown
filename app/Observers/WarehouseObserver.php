@@ -14,9 +14,6 @@ class WarehouseObserver
 {
     /**
      * Handle the product "created" event.
-     *
-     * @param Warehouse $warehouse
-     * @return void
      */
     public function created(Warehouse $warehouse): void
     {

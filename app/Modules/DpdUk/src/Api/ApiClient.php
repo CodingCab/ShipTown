@@ -32,9 +32,6 @@ class ApiClient
      */
     private GuzzleClient $guzzleClient;
 
-    /**
-     * @param Connection $connection
-     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
@@ -45,7 +42,6 @@ class ApiClient
     }
 
     /**
-     * @return string
      * @throws Exception
      */
     private function getGeoSession(): string
@@ -74,10 +70,6 @@ class ApiClient
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     * @param array $options
-     * @return ApiResponse|null
      * @throws Exception
      */
     public function request(string $method, string $uri = '', array $options = []): ?ApiResponse
@@ -110,8 +102,6 @@ class ApiClient
     }
 
     /**
-     * @param array $payload
-     * @return CreateShipmentResponse
      * @throws Exception
      */
     public function createShipment(array $payload): CreateShipmentResponse
@@ -141,8 +131,6 @@ class ApiClient
     }
 
     /**
-     * @param int $shipmentId
-     * @return GetShippingLabelResponse
      * @throws Exception
      */
     public function getShipmentLabel(int $shipmentId): GetShippingLabelResponse
@@ -158,7 +146,6 @@ class ApiClient
     }
 
     /**
-     * @return AuthenticationResponse
      * @throws Exception
      */
     private function postAuthenticationsRequest(): AuthenticationResponse
@@ -188,8 +175,6 @@ class ApiClient
     }
 
     /**
-     * @param array $payload
-     * @return string
      * @throws Exception
      */
     private function getNetworkCode(array $payload): string

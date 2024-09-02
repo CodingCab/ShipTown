@@ -24,8 +24,6 @@ class ProductPriceUpdatedEvent
 
     /**
      * Create a new event instance.
-     *
-     * @param ProductPrice $product_price
      */
     public function __construct(ProductPrice $product_price)
     {
@@ -34,8 +32,6 @@ class ProductPriceUpdatedEvent
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return Channel
      */
     public function broadcastOn(): Channel
     {

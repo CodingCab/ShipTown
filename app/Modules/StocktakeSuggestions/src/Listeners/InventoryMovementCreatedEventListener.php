@@ -17,9 +17,6 @@ class InventoryMovementCreatedEventListener
         $this->checkForNegativeStock($event);
     }
 
-    /**
-     * @param InventoryMovementCreatedEvent $event
-     */
     protected function checkForNegativeStock(InventoryMovementCreatedEvent $event): void
     {
         $reason = 'negative stock - have you received in the stock correctly?';

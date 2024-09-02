@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class AwsSns
 {
-    /**
-     * @param string $topic
-     * @param string $message
-     *
-     * @return bool
-     */
     public static function publish(string $topic, string $message): bool
     {
         $snsTopic = new SnsService($topic);

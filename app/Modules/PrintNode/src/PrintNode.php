@@ -16,9 +16,6 @@ class PrintNode
 {
     /**
      * Noop: Quick "ping" to see if communication and authentication works
-     *
-     * @param Client|null $printNodeClient
-     * @return bool
      */
     public static function noop(Client $printNodeClient = null): bool
     {
@@ -33,9 +30,6 @@ class PrintNode
         }
     }
 
-    /**
-     * @return array
-     */
     public static function getPrinters(): array
     {
         $printNodeClient = self::getFirstPrintNodeClient();
@@ -50,8 +44,6 @@ class PrintNode
     }
 
     /**
-     * @param PrintJob $printJob
-     * @return Response
      * @throws ShippingServiceException
      */
     public static function print(PrintJob $printJob): Response
@@ -66,9 +58,6 @@ class PrintNode
         return $printNodeClient->postRequest('printjobs', $printJob->toPrintNodePayload());
     }
 
-    /**
-     * @return Client|null
-     */
     public static function getFirstPrintNodeClient(): ?Client
     {
         $clients = Client::all();

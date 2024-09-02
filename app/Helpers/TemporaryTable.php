@@ -10,7 +10,6 @@ class TemporaryTable
     /**
      * @param $table_name
      * @param $subQuery
-     * @return bool
      */
     public static function create($table_name, $subQuery): bool
     {
@@ -26,11 +25,6 @@ class TemporaryTable
         return DB::statement($finalQuery, $subQuery->getBindings());
     }
 
-    /**
-     * @param string $table_name
-     * @param string $columnsStatement
-     * @return bool
-     */
     public static function createEmpty(
         string $table_name,
         string $columnsStatement = 'id bigint(20) unsigned NOT NULL AUTO_INCREMENT'

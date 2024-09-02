@@ -87,17 +87,11 @@ class Api2cartOrderImports extends BaseModel
         return parent::save($options);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function api2cartConnection(): BelongsTo
     {
         return $this->belongsTo(Api2cartConnection::class, 'connection_id');
     }
 
-    /**
-     * @return array
-     */
     public function extractShippingAddressAttributes(): array
     {
         return array_filter([
@@ -144,9 +138,6 @@ class Api2cartOrderImports extends BaseModel
         ]);
     }
 
-    /**
-     * @return array
-     */
     public function extractOrderProducts(): array
     {
         $result = [];
@@ -163,12 +154,6 @@ class Api2cartOrderImports extends BaseModel
         return $result;
     }
 
-    /**
-     * @param array|null $order
-     * @param bool $chronological
-     *
-     * @return Collection
-     */
     public function extractStatusHistory(array $order = null, bool $chronological = true): Collection
     {
         $statuses = Collection::make($this['raw_import']['status']['history']);
@@ -185,9 +170,6 @@ class Api2cartOrderImports extends BaseModel
         return $statuses;
     }
 
-    /**
-     * @return Carbon
-     */
     public function ordersCreateAt(): Carbon
     {
         $create_at = $this->raw_import['create_at'];

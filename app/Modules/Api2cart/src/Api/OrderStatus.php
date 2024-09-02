@@ -11,9 +11,6 @@ use GuzzleHttp\Exception\GuzzleException;
 class OrderStatus
 {
     /**
-     * @param string $store_key
-     * @param array $params
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function list(string $store_key, array $params = []): RequestResponse

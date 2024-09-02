@@ -48,9 +48,7 @@ class NextDayShippingService extends ShippingServiceAbstract
 
 
     /**
-     * @param Order $order
      *
-     * @return PreAdvice
      * @throws Exception|GuzzleException
      */
     private function createPreAdviceOrFail(Order $order): PreAdvice

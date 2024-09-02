@@ -14,9 +14,6 @@ class MailTemplateController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param MailTemplateIndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(MailTemplateIndexRequest $request) : AnonymousResourceCollection
     {
@@ -27,10 +24,6 @@ class MailTemplateController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param UpdateRequest $request
-     * @param MailTemplate $mailTemplate
-     * @return MailTemplateResource
      */
     public function update(UpdateRequest $request, MailTemplate $mailTemplate): MailTemplateResource
     {

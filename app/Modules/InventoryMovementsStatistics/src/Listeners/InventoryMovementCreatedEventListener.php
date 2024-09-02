@@ -13,9 +13,6 @@ class InventoryMovementCreatedEventListener
         $this->extracted($event);
     }
 
-    /**
-     * @param InventoryMovementCreatedEvent $event
-     */
     private function extracted(InventoryMovementCreatedEvent $event): void
     {
         $inventoryMovement = $event->inventoryMovement;

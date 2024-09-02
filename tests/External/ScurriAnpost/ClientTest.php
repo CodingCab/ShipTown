@@ -19,7 +19,6 @@ class ClientTest extends TestCase
     /**
      * A basic feature test example.
      *
-     * @return void
      * @throws Exception
      */
     public function test_successful_get_carriers(): void

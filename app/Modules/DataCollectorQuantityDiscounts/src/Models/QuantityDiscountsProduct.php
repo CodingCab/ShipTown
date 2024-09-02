@@ -43,9 +43,6 @@ class QuantityDiscountsProduct extends Model
             ->allowedIncludes(['discount', 'product', 'product.prices']);
     }
 
-    /**
-     * @return HasOne
-     */
     public function discount(): HasOne
     {
         return $this->hasOne(QuantityDiscount::class, 'id', 'quantity_discount_id');

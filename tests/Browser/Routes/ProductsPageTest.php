@@ -27,9 +27,7 @@ class ProductsPageTest extends DuskTestCase
     /**
      * A basic browser test example.
      *
-     * @return void
      * @throws Throwable
-     *
      */
     public function testNoProducts(): void
     {

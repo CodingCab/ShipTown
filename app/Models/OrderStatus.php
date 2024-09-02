@@ -55,9 +55,6 @@ class OrderStatus extends BaseModel
         'sync_ecommerce' => false,
     ];
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(OrderStatus::class)

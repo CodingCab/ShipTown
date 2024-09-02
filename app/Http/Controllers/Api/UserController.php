@@ -29,10 +29,6 @@ class UserController extends Controller
 
     /**
      * PUT api/admin/users.
-     *
-     * @param UserStoreRequest $request
-     *
-     * @return UserResource
      */
     public function store(UserStoreRequest $request): UserResource
     {

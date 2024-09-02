@@ -10,10 +10,6 @@ class ProductPriceUpdatedEventListener
 {
     /**
      * Handle the event.
-     *
-     * @param ProductPriceUpdatedEvent $event
-     *
-     * @return void
      */
     public function handle(ProductPriceUpdatedEvent $event): void
     {

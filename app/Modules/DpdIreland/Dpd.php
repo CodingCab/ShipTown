@@ -23,10 +23,7 @@ class Dpd
     const NOT_AUTH = 'NOT_AUTH';
 
     /**
-     * @param Order $order
-     * @param User|null $user
      *
-     * @return PreAdvice
      * @throws src\Exceptions\ConsignmentValidationException
      * @throws Exception
      * @throws AuthorizationException
@@ -49,9 +46,7 @@ class Dpd
     }
 
     /**
-     * @param Consignment $consignment
      *
-     * @return PreAdvice
      *
      * @throws PreAdviceRequestException|GuzzleException|AuthorizationException
      */
@@ -82,11 +77,8 @@ class Dpd
     }
 
     /**
-     * @param Order $order
      *
-     * @return Consignment
      * @throws src\Exceptions\ConsignmentValidationException
-     *
      */
     private static function getConsignmentData(Order $order): Consignment
     {

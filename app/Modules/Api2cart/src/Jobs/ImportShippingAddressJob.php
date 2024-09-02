@@ -22,8 +22,6 @@ class ImportShippingAddressJob implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param int $order_id
      */
     public function __construct(int $order_id)
     {
@@ -32,8 +30,6 @@ class ImportShippingAddressJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {

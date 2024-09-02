@@ -14,11 +14,6 @@ class OrderAddressController extends Controller
 {
     /**
      * Update the specified resource in storage.
-     *
-     * @param UpdateRequest $request
-     * @param OrderAddress  $address
-     *
-     * @return OrderAddressResource
      */
     public function update(UpdateOrderAddressRequest $request, OrderAddress $address): OrderAddressResource
     {

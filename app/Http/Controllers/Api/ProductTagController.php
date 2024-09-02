@@ -15,9 +15,6 @@ use Spatie\Tags\Tag;
  */
 class ProductTagController extends Controller
 {
-    /**
-     * @return AnonymousResourceCollection
-     */
     public function index(): AnonymousResourceCollection
     {
         $query = QueryBuilder::for(Taggable::class)

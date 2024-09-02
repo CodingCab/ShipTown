@@ -10,8 +10,6 @@ class RoutesCoverageTest extends TestCase
 {
     /**
      * A basic test to make sure all routes have minimum one test file.
-     *
-     * @return void
      */
     public function test_if_all_api_routes_have_test_file(): void
     {

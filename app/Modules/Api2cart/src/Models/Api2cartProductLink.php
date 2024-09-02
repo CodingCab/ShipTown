@@ -116,17 +116,11 @@ class Api2cartProductLink extends BaseModel
         return $this;
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function api2cartConnection(): BelongsTo
     {
         return $this->belongsTo(Api2cartConnection::class, 'api2cart_connection_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

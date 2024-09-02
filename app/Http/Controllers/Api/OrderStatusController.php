@@ -16,9 +16,6 @@ class OrderStatusController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param OrderStatusIndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(OrderStatusIndexRequest $request) : AnonymousResourceCollection
     {

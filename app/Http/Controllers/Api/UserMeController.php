@@ -12,21 +12,11 @@ use Illuminate\Http\Request;
  */
 class UserMeController extends Controller
 {
-    /**
-     * @param Request $request
-     *
-     * @return UserResource
-     */
     public function index(Request $request): UserResource
     {
         return new UserResource($request->user());
     }
 
-    /**
-     * @param UserMeStoreRequest $request
-     *
-     * @return UserResource
-     */
     public function store(UserMeStoreRequest $request): UserResource
     {
         $request->user()->update($request->validated());

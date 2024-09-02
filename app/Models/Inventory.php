@@ -128,9 +128,6 @@ class Inventory extends BaseModel
         'updated_at'         => 'datetime',
     ];
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Inventory::class)
@@ -281,9 +278,6 @@ class Inventory extends BaseModel
         return $query->whereBetween('inventory_source_quantity_available', [floatval($min), floatval($max)]);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -294,18 +288,12 @@ class Inventory extends BaseModel
         return $this->hasOne(ProductPrice::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
     }
 
 
-    /**
-     * @return HasMany
-     */
     public function productAliases(): HasMany
     {
         return $this->hasMany(ProductAlias::class, 'product_id', 'product_id');

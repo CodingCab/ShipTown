@@ -12,10 +12,6 @@ class InventoryUpdatedEventListener
 {
     /**
      * Handle the event.
-     *
-     * @param InventoryUpdatedEvent $event
-     *
-     * @return void
      */
     public function handle(InventoryUpdatedEvent $event): void
     {
@@ -32,10 +28,6 @@ class InventoryUpdatedEventListener
             ->update(['is_in_sync' => false]);
     }
 
-    /**
-     * @param Warehouse $warehouse
-     * @return bool
-     */
     private function warehouseHasRequiredTags(Warehouse $warehouse): bool
     {
         /** @var Api2cartConnection $api2cartProductLink */

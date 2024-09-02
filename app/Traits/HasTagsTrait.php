@@ -40,11 +40,6 @@ trait HasTagsTrait
         // override this function on model
     }
 
-    /**
-     * @param array|null $tags
-     *
-     * @return bool
-     */
     public function hasTags(array $tags = null): bool
     {
         return static::withAllTags($tags)->whereId($this->getKey())->exists();
@@ -69,9 +64,6 @@ trait HasTagsTrait
     }
 
     /**
-     * @param array $tags
-     * @param string|null $type
-     * @return $this
      * @throws Exception
      */
     public function attachTags(array $tags, string $type = null): self
@@ -98,11 +90,6 @@ trait HasTagsTrait
         return $this;
     }
 
-    /**
-     * @param array $tags
-     * @param string|null $type
-     * @return $this
-     */
     public function detachTags(array $tags, string $type = null): self
     {
         collect($tags)
@@ -121,9 +108,6 @@ trait HasTagsTrait
 
     /**
      * @param string|Tag  $tag
-     * @param string|null $type
-     *
-     * @return $this
      */
     public function detachTagSilently($tag, string $type = null): self
     {
@@ -135,11 +119,7 @@ trait HasTagsTrait
     }
 
     /**
-     * @param Builder               $query
      * @param array|ArrayAccess|Tag $tags
-     * @param string|null           $type
-     *
-     * @return Builder
      */
     public function scopeWithoutAllTags(Builder $query, $tags, string $type = null): Builder
     {
@@ -154,11 +134,6 @@ trait HasTagsTrait
         return $query;
     }
 
-    /**
-     * @param array|null $tags
-     *
-     * @return bool
-     */
     public function doesNotHaveTags(array $tags = null): bool
     {
         return !$this->hasTags($tags);

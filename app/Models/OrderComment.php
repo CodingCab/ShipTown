@@ -43,17 +43,11 @@ class OrderComment extends BaseModel
         'comment',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(OrderComment::class)

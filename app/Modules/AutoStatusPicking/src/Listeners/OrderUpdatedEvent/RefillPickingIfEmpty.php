@@ -12,10 +12,6 @@ class RefillPickingIfEmpty
 {
     /**
      * Handle the event.
-     *
-     * @param OrderUpdatedEvent $event
-     *
-     * @return void
      */
     public function handle(OrderUpdatedEvent $event): void
     {

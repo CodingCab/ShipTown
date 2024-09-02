@@ -63,9 +63,6 @@ class Connection extends BaseModel
         'geo_session'
     ];
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(self::class)
@@ -74,9 +71,6 @@ class Connection extends BaseModel
             ->allowedSorts([]);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function collectionAddress(): BelongsTo
     {
         return $this->belongsTo(OrderAddress::class);

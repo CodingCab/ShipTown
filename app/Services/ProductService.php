@@ -38,13 +38,6 @@ class ProductService
         return null;
     }
 
-    /**
-     * @param string $sku
-     * @param float  $quantity
-     * @param string $message
-     *
-     * @return bool
-     */
     public static function reserve(string $sku, float $quantity, string $message): bool
     {
         $aProduct = Product::query()->where(['sku' => $sku])->first();
@@ -60,13 +53,6 @@ class ProductService
         return false;
     }
 
-    /**
-     * @param string $sku
-     * @param float  $quantity
-     * @param string $message
-     *
-     * @return bool
-     */
     public static function release(string $sku, float $quantity, string $message): bool
     {
         $aProduct = Product::query()->where(['sku' => $sku])->first();

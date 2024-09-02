@@ -11,8 +11,6 @@ class ImportProductsJobTest extends TestCase
 {
     /**
      * @throws \Exception
-     *
-     * @return void
      */
     public function testBatchSaving(): void
     {

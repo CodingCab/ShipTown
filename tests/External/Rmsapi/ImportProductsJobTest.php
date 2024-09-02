@@ -16,8 +16,6 @@ class ImportProductsJobTest extends TestCase
      * A basic feature test example.
      *
      * @throws \Exception
-     *
-     * @return void
      */
     public function testIfJobRuns(): void
     {

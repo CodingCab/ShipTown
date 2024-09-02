@@ -84,12 +84,6 @@ class QuantityDiscount extends Model
             ->allowedIncludes(['products']);
     }
 
-    /**
-     * @param mixed $query
-     * @param string $text
-     *
-     * @return mixed
-     */
     public function scopeWhereHasText(mixed $query, string $text): mixed
     {
         return $query->where('name', $text)
@@ -98,17 +92,11 @@ class QuantityDiscount extends Model
             ->orWhere('job_class', 'like', '%' . $text . '%');
     }
 
-    /**
-     * @return HasMany
-     */
     public function products(): HasMany
     {
         return $this->hasMany(QuantityDiscountsProduct::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function dataCollectionRecords(): HasMany
     {
         return $this->hasMany(DataCollectionRecord::class, 'price_source_id', 'id');

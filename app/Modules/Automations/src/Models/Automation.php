@@ -45,19 +45,12 @@ class Automation extends BaseModel
         'enabled' => 'boolean'
     ];
 
-    /**
-     * @return Builder
-     */
     public static function enabled(): Builder
     {
         return self::query()->where(['enabled' => true]);
     }
 
 
-    /**
-     * @param Order $order
-     * @return bool
-     */
     public function allConditionsTrue(Order $order): bool
     {
         return $this->conditions
@@ -66,17 +59,11 @@ class Automation extends BaseModel
             });
     }
 
-    /**
-     * @return HasMany
-     */
     public function conditions(): HasMany
     {
         return $this->hasMany(Condition::class)->orderBy('id');
     }
 
-    /**
-     * @return HasMany
-     */
     public function actions(): HasMany
     {
         return $this->hasMany(Action::class)->orderBy('priority');

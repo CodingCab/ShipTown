@@ -229,7 +229,6 @@ class Consignment
     /**
      * Shipment constructor.
      *
-     * @param array $payload
      *
      * @throws ConsignmentValidationException
      * @throws ModelNotFoundException
@@ -248,9 +247,6 @@ class Consignment
         $this->config = DpdIreland::firstOrFail();
     }
 
-    /**
-     * @return string
-     */
     public function toXml(): string
     {
         $data = [
@@ -265,9 +261,6 @@ class Consignment
         );
     }
 
-    /**
-     * @return string
-     */
     public function toString(): string
     {
         $data = $this->toXml();
@@ -275,9 +268,6 @@ class Consignment
         return str_replace(PHP_EOL, '', $data);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         $fixedValues = collect([
@@ -296,9 +286,6 @@ class Consignment
             ->toArray();
     }
 
-    /**
-     * @return array
-     */
     private function getCollectionAddress(): array
     {
         $CollectionAddress = data_get($this->payload, 'CollectionAddress', $this->config->getCollectionAddress());

@@ -16,10 +16,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class ShippingLabelController extends Controller
 {
-    /**
-     * @param StoreShippingLabelRequest $request
-     * @return AnonymousResourceCollection
-     */
     public function store(StoreShippingLabelRequest $request): AnonymousResourceCollection
     {
         try {

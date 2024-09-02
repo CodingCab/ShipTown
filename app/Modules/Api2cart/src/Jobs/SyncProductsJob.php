@@ -21,8 +21,6 @@ class SyncProductsJob implements ShouldQueue
      * Execute the job.
      *
      * @throws Exception
-     *
-     * @return void
      */
     public function handle(): void
     {

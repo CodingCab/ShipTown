@@ -19,8 +19,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -44,8 +42,6 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes are PUBLICLY accessible !!!!
      * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
      */
     protected function mapPublicRoutes(): void
     {
@@ -57,8 +53,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "web" user routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
      */
     protected function mapWebRoutes(): void
     {
@@ -70,8 +64,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "api" user routes for the application.
      *
      * These routes are typically stateless.
-     *
-     * @return void
      */
     protected function mapApiRoutes(): void
     {

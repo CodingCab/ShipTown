@@ -11,11 +11,6 @@ use Illuminate\Support\Str;
  */
 class RoutesBuilder
 {
-    /**
-     * @param string $name
-     * @param array $options
-     * @return PendingResourceRegistration
-     */
     public static function apiResource(string $name, array $options = []): PendingResourceRegistration
     {
         $controllerClass  = static::getControllerClass($name);
@@ -25,10 +20,6 @@ class RoutesBuilder
         return Route::apiResource($name, $controllerClass, $options);
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
     private static function getControllerClass(string $name): string
     {
         // $name = modules/dpd-uk/dpduk-connections (sample)
@@ -66,10 +57,6 @@ class RoutesBuilder
         return $controllerPath. '\\' . $controllerName;
     }
 
-    /**
-     * @param string $name
-     * @return string
-     */
     private static function getRouteName(string $name): string
     {
         // $name modules/dpd-uk-connections (sample)

@@ -92,9 +92,6 @@ class ReportBase extends Model
         return $queryBuilder;
     }
 
-    /**
-     * @return array
-     */
     public function getMetaData(): array
     {
         return [
@@ -128,7 +125,6 @@ class ReportBase extends Model
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     private function getAllowedFilters(): array
@@ -151,8 +147,6 @@ class ReportBase extends Model
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @return QueryBuilder
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws InvalidSelectException
@@ -342,7 +336,6 @@ class ReportBase extends Model
     }
 
     /**
-     * @return array
      * @throws Exception
      */
     private function addGreaterThanFloat(): array

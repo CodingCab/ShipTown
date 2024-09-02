@@ -19,19 +19,11 @@ use Illuminate\Http\Response;
  */
 class RmsapiConnectionController extends Controller
 {
-    /**
-     * @return AnonymousResourceCollection
-     */
     public function index(RmsapiConnectionIndexRequest $request): AnonymousResourceCollection
     {
         return RmsapiConnectionResource::collection(RmsapiConnection::all());
     }
 
-    /**
-     * @param RmsapiConnectionStoreRequest $request
-     *
-     * @return RmsapiConnectionResource
-     */
     public function store(RmsapiConnectionStoreRequest $request): RmsapiConnectionResource
     {
         $rmsapiConnection = RmsapiConnection::query()
@@ -41,7 +33,6 @@ class RmsapiConnectionController extends Controller
     }
 
     /**
-     * @param RmsapiConnection $connection
      *
      * @throws Exception
      *

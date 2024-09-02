@@ -10,9 +10,6 @@ class OrderShipmentObserver
 {
     /**
      * Handle the order shipment "created" event.
-     *
-     * @param  OrderShipment  $orderShipment
-     * @return void
      */
     public function created(OrderShipment $orderShipment): void
     {

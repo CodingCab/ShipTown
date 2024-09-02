@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 class StatusCodeNotInCondition extends BaseOrderConditionAbstract
 {
     /**
-     * @param Builder $query
      * @param $expected_value
-     * @return Builder
      */
     public static function addQueryScope(Builder $query, $expected_value): Builder
     {

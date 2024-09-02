@@ -17,17 +17,12 @@ class DpdAddress
 
     /**
      * Shipment constructor.
-     *
-     * @param array $address
      */
     public function __construct(array $address)
     {
         $this->address = collect($address);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return [
@@ -44,9 +39,6 @@ class DpdAddress
         ];
     }
 
-    /**
-     * @return mixed
-     */
     public function getOnlyCorrectPostCode(): string
     {
         $countryCode = $this->address->get('CountryCode', '');

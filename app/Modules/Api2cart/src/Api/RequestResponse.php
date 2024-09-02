@@ -26,8 +26,6 @@ class RequestResponse
 
     /**
      * Api2CartResponse constructor.
-     *
-     * @param ResponseInterface $response
      */
     public function __construct(ResponseInterface $response)
     {
@@ -38,99 +36,61 @@ class RequestResponse
         $this->response_content = $response->getBody()->getContents();
     }
 
-    /**
-     * @return string
-     */
     public function getAsJson(): string
     {
         return $this->response_content;
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function getResponseRaw(): ResponseInterface
     {
         return $this->response;
     }
 
-    /**
-     * @return bool
-     */
     public function isSuccess(): bool
     {
         return ($this->response->getStatusCode() == 200) && ($this->isReturnCodeOK());
     }
 
-    /**
-     * @return bool
-     */
     public function isNotSuccess(): bool
     {
         return !$this->isSuccess();
     }
 
-    /**
-     * @return array
-     */
     public function asArray(): array
     {
         return json_decode($this->response_content, true);
     }
 
-    /**
-     * @return int
-     */
     public function getReturnCode(): int
     {
         return $this->asArray()['return_code'];
     }
 
-    /**
-     * @return string
-     */
     public function getReturnMessage(): string
     {
         return $this->asArray()['return_message'];
     }
 
-    /**
-     * @return array
-     */
     public function getResult(): array
     {
         return $this->asArray()['result'];
     }
 
-    /**
-     * @param int $return_code
-     *
-     * @return bool
-     */
     public function isReturnCode(int $return_code): bool
     {
         return $this->getReturnCode() == $return_code;
     }
 
-    /**
-     * @return bool
-     */
     public function isReturnCodeOK(): bool
     {
         return $this->isReturnCode(self::RETURN_CODE_OK);
     }
 
-    /**
-     * @return bool
-     */
     public function isReturnCodeModelNotFound(): bool
     {
         return $this->isReturnCode(self::RETURN_CODE_MODEL_NOT_FOUND);
     }
 
-    /**
-     * @return bool
-     */
     public function isReturnCodeProductSkuMustBeUnique(): bool
     {
         return $this->isReturnCode(self::RETURN_CODE_PRODUCT_SKU_MUST_BE_UNIQUE);

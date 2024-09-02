@@ -169,9 +169,6 @@ class AppInstall extends Command
         $automation->update(['enabled' => true]);
     }
 
-    /**
-     * @return void
-     */
     public function preconfigureDatabase(): void
     {
         $this->createDefaultUserRoles();
@@ -257,9 +254,6 @@ class AppInstall extends Command
         InventoryMovementsServiceProvider::enableModule();
     }
 
-    /**
-     * @return void
-     */
     public static function ensureAppKeysGenerated(): void
     {
         if (env('PASSPORT_PRIVATE_KEY', '') === '') {

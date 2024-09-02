@@ -122,8 +122,6 @@ class OrderServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testSimplestCreation(): void
     {
@@ -146,8 +144,6 @@ class OrderServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testCanFulfillMethod(): void
     {
@@ -187,8 +183,6 @@ class OrderServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testCanNotFulfillMethod(): void
     {
@@ -227,8 +221,6 @@ class OrderServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testFailedCanFulfill(): void
     {

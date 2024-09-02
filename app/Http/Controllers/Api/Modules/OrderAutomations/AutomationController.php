@@ -18,8 +18,6 @@ class AutomationController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return AnonymousResourceCollection
      */
     public function index(AutomationIndexRequest $request): AnonymousResourceCollection
     {
@@ -33,8 +31,6 @@ class AutomationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param AutomationStoreRequest $request
-     * @return AutomationResource
      * @throws Throwable
      */
     public function store(AutomationStoreRequest $request): AutomationResource

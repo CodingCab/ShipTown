@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class ShipRemainingProductsAction extends BaseOrderActionAbstract
 {
-    /**
-     * @param string $options
-     * @return bool
-     */
     public function handle(string $options = ''): bool
     {
         /** @var Warehouse $warehouse */

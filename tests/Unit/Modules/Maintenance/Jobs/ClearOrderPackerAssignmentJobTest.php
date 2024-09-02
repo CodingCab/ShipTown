@@ -38,8 +38,6 @@ class ClearOrderPackerAssignmentJobTest extends TestCase
 
     /**
      * A basic feature test.
-     *
-     * @return void
      */
     public function testIfClearsPackersAfter12hoursInactivity(): void
     {

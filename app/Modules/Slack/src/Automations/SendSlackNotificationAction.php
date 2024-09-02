@@ -10,10 +10,6 @@ use Illuminate\Support\Facades\URL;
 
 class SendSlackNotificationAction extends BaseOrderActionAbstract
 {
-    /**
-     * @param string $options
-     * @return bool
-     */
     public function handle(string $options = ''): bool
     {
         Log::debug('Automation Action', [

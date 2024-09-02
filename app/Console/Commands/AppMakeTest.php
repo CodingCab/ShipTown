@@ -30,8 +30,6 @@ class AppMakeTest extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string
     {
@@ -40,9 +38,6 @@ class AppMakeTest extends GeneratorCommand
 
     /**
      * Get the destination class path.
-     *
-     * @param  string  $name
-     * @return string
      */
     protected function getPath(string $name): string
     {
@@ -53,9 +48,6 @@ class AppMakeTest extends GeneratorCommand
 
     /**
      * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
      */
     protected function getDefaultNamespace(string $rootNamespace): string
     {
@@ -64,8 +56,6 @@ class AppMakeTest extends GeneratorCommand
 
     /**
      * Get the root namespace for the class.
-     *
-     * @return string
      */
     protected function rootNamespace(): string
     {

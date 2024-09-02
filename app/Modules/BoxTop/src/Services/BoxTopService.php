@@ -19,10 +19,6 @@ use Illuminate\Support\Str;
  */
 class BoxTopService
 {
-    /**
-     * @param Order $order
-     * @return ApiResponse
-     */
     public static function postOrder(Order $order): ApiResponse
     {
         self::refreshBoxTopWarehouseStock();
@@ -40,18 +36,11 @@ class BoxTopService
         }
     }
 
-    /**
-     * @return ApiClient
-     */
     public static function apiClient(): ApiClient
     {
         return new ApiClient();
     }
 
-    /**
-     * @param Order $order
-     * @return array
-     */
     private static function convertToBoxTopFormat(Order $order): array
     {
         $pickItems = $order->orderProducts->map(function (OrderProduct $orderProduct) {

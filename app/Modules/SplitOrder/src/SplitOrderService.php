@@ -47,9 +47,6 @@ class SplitOrderService
         }
     }
 
-    /**
-     * @return void
-     */
     private function extractFulfillableProducts(): void
     {
         $this->originalOrder->orderProducts
@@ -75,9 +72,6 @@ class SplitOrderService
         $this->newOrder?->unlockFromEditing();
     }
 
-    /**
-     * @return Order
-     */
     private function getNewOrderOrCreate(): Order
     {
         if ($this->newOrder) {
@@ -121,11 +115,6 @@ class SplitOrderService
         return $this->newOrder;
     }
 
-    /**
-     * @param OrderProduct $orderProduct
-     * @param int $quantity
-     * @param Inventory $inventory
-     */
     private function extractOrderProduct(OrderProduct $orderProduct, int$quantity, Inventory $inventory): void
     {
         $newOrderProduct = $orderProduct->replicate([

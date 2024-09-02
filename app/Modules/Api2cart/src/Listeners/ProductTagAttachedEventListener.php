@@ -11,10 +11,6 @@ class ProductTagAttachedEventListener
 {
     /**
      * Handle the event.
-     *
-     * @param ProductTagAttachedEvent $event
-     *
-     * @return void
      */
     public function handle(ProductTagAttachedEvent $event): void
     {

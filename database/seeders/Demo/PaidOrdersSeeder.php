@@ -12,8 +12,6 @@ class PaidOrdersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -154,9 +152,6 @@ class PaidOrdersSeeder extends Seeder
             });
     }
 
-    /**
-     * @return mixed
-     */
     public function createIrishShippingAddress(): mixed
     {
         return OrderAddress::factory()->create(['country_name' => 'Ireland', 'country_code' => 'IE']);

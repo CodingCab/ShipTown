@@ -41,8 +41,6 @@ class GetQuantityTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testEmptyInventoryWarehouseIds(): void
     {
@@ -51,8 +49,6 @@ class GetQuantityTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testSetInventoryWarehouseIds(): void
     {

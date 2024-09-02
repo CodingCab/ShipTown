@@ -30,9 +30,6 @@ class UnDistributePicksJob extends UniqueJob
         });
     }
 
-    /**
-     * @return void
-     */
     public function unDistributePicks(): void
     {
         Pick::query()

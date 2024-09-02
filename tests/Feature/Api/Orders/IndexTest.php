@@ -10,9 +10,6 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function test_has_tags_filter_exists(): void
     {
         Passport::actingAs(
@@ -42,8 +39,6 @@ class IndexTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_has_tags_filter_missing(): void
     {

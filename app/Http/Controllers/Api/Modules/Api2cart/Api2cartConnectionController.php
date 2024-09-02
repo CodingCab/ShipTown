@@ -20,19 +20,11 @@ use Illuminate\Http\Response;
  */
 class Api2cartConnectionController extends Controller
 {
-    /**
-     * @return AnonymousResourceCollection
-     */
     public function index(Api2cartConnectionIndexRequest $request): AnonymousResourceCollection
     {
         return JsonResource::collection(Api2cartConnection::all());
     }
 
-    /**
-     * @param Api2cartConnectionStoreRequest $request
-     *
-     * @return JsonResource
-     */
     public function store(Api2cartConnectionStoreRequest $request): JsonResource
     {
         $config = new Api2cartConnection();
@@ -45,7 +37,6 @@ class Api2cartConnectionController extends Controller
     }
 
     /**
-     * @param Api2cartConnection $connection
      *
      * @throws Exception
      *

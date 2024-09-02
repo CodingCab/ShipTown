@@ -42,9 +42,6 @@ class Condition extends BaseModel
         return $condition;
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function automation(): BelongsTo
     {
         return $this->belongsTo(Automation::class);

@@ -12,8 +12,6 @@ use League\Csv\Writer;
 trait CsvFileResponse
 {
     /**
-     * @param Collection $recordSet
-     * @param string     $filename
      *
      * @throws CannotInsertRecord
      *

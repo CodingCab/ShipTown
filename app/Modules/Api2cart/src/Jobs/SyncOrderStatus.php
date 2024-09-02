@@ -40,8 +40,6 @@ class SyncOrderStatus implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param Order $order
      */
     public function __construct(Order $order)
     {

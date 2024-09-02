@@ -29,10 +29,6 @@ class SplitBundleSkuAction extends BaseOrderActionAbstract
     ];
     private Collection $productsAdded;
 
-    /**
-     * @param string $options
-     * @return bool
-     */
     public function handle(string $options = ''): bool
     {
         parent::handle($options);
@@ -59,10 +55,6 @@ class SplitBundleSkuAction extends BaseOrderActionAbstract
         return true;
     }
 
-    /**
-     * @param string $options
-     * @return bool
-     */
     private function isValidInput(string $options): bool
     {
         $skus = array_filter(explode(',', $options));

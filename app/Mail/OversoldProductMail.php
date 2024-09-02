@@ -26,8 +26,6 @@ class OversoldProductMail extends TemplateMailable
 
     /**
      * Build the message.
-     *
-     * @return $this
      */
     public function build(): static
     {

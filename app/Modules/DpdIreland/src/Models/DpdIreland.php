@@ -86,8 +86,6 @@ class DpdIreland extends BaseModel
 
     /**
      * DpdIreland collection address as array.
-     *
-     * @return array
      */
     public function getCollectionAddress(): array
     {

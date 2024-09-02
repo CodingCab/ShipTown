@@ -40,10 +40,7 @@ class Api2cartService
     ];
 
     /**
-     * @param string $store_key
-     * @param string $sku
      *
-     * @return int|null
      * @throws GuzzleException
      */
     public static function getVariantID(string $store_key, string $sku): ?int
@@ -62,10 +59,7 @@ class Api2cartService
     }
 
     /**
-     * @param string $store_key
-     * @param array $product_data
      *
-     * @return RequestResponse
      *
      * @throws GuzzleException
      */
@@ -94,9 +88,6 @@ class Api2cartService
     }
 
     /**
-     * @param string $store_key
-     * @param array $data
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function updateSimpleProduct(string $store_key, array $data): RequestResponse
@@ -116,9 +107,6 @@ class Api2cartService
     /**
      * This will only update variant product, will not update simple product.
      *
-     * @param string $store_key
-     * @param array $data
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function updateVariant(string $store_key, array $data): RequestResponse
@@ -136,8 +124,6 @@ class Api2cartService
     }
 
     /**
-     * @param Api2cartProductLink $product_link
-     * @return RequestResponse
      * @throws GuzzleException
      */
     private static function productUpdateOrCreate(Api2cartProductLink $product_link): RequestResponse
@@ -260,11 +246,7 @@ class Api2cartService
     }
 
     /**
-     * @param Api2cartConnection $conn
-     * @param string $sku
-     * @param array|null $fields
      *
-     * @return array|null
      * @throws GuzzleException
      */
     public static function getSimpleProductInfo(Api2cartConnection $conn, string $sku, array $fields = null): ?array
@@ -320,11 +302,7 @@ class Api2cartService
     }
 
     /**
-     * @param Api2cartConnection $connection
-     * @param string $sku
-     * @param array|null $fields
      *
-     * @return array|null
      *
      * @throws GuzzleException
      */
@@ -336,11 +314,7 @@ class Api2cartService
     }
 
     /**
-     * @param Api2cartConnection $connection
-     * @param string $sku
-     * @param array|null $fields
      *
-     * @return array|null
      *
      * @throws GuzzleException
      */
@@ -351,10 +325,7 @@ class Api2cartService
     }
 
     /**
-     * @param string $store_key
-     * @param string $sku
      *
-     * @return int|null
      *
      * @throws GuzzleException
      */
@@ -374,10 +345,7 @@ class Api2cartService
     }
 
     /**
-     * @param string $store_key
-     * @param string $sku
      *
-     * @return array
      *
      * @throws GuzzleException
      */
@@ -410,12 +378,6 @@ class Api2cartService
         ];
     }
 
-    /**
-     * @param array       $product
-     * @param string|null $warehouse_id
-     *
-     * @return int
-     */
     public static function getQuantity(array $product, string $warehouse_id = null): int
     {
         if (is_null($warehouse_id)) {
@@ -436,8 +398,6 @@ class Api2cartService
 
     /**
      * @param $product
-     * @param Api2cartConnection $connection
-     * @return array
      */
     public static function transformProduct($product, Api2cartConnection $connection): array
     {
@@ -458,10 +418,6 @@ class Api2cartService
         return $product;
     }
 
-    /**
-     * @param Api2cartProductLink $productLink
-     * @return bool
-     */
     public static function updateSku(Api2cartProductLink $productLink): bool
     {
         try {
@@ -489,8 +445,6 @@ class Api2cartService
 
     /**
      * @param $date
-     *
-     * @return string
      */
     public static function formatDateForApi2cart($date): string
     {

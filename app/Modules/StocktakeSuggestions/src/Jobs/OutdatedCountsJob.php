@@ -23,11 +23,6 @@ class OutdatedCountsJob extends UniqueJob
         return true;
     }
 
-    /**
-     * @param string $reason
-     * @param int $points
-     * @return bool
-     */
     protected function addSuggestions(string $reason, int $points): bool
     {
         if (is_null($this->config->min_count_date)) {

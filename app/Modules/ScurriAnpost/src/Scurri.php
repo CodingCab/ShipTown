@@ -11,8 +11,6 @@ use App\Modules\ScurriAnpost\src\Api\Client;
 class Scurri
 {
     /**
-     * @param Order $order
-     * @return ShippingLabel
      * @throws ShippingServiceException
      */
     public static function makeShippingLabel(Order $order): ShippingLabel

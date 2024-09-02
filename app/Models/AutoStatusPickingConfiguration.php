@@ -42,17 +42,11 @@ class AutoStatusPickingConfiguration extends Model
         'max_order_age',
     ];
 
-    /**
-     * @return int
-     */
     public function getRequiredCountAttribute(): int
     {
         return $this->max_batch_size - $this->current_count_with_status;
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentCountWithStatusAttribute(): int
     {
         return Order::whereIn('status_code', ['picking'])->count();

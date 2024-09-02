@@ -17,10 +17,6 @@ class OrderProductShipmentController extends Controller
 {
     /**
      * Update the specified resource in storage.
-     *
-     * @param StoreRequest $request
-     *
-     * @return OrderProductShipmentResource
      */
     public function store(StoreRequest $request): ?OrderProductShipmentResource
     {

@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Auth;
  */
 class PacklistOrderController extends Controller
 {
-    /**
-     * @param PacklistOrderIndexRequest $request
-     *
-     * @return OrderResource
-     */
     public function index(PacklistOrderIndexRequest $request): OrderResource
     {
         // we clear packer ID from other orders first

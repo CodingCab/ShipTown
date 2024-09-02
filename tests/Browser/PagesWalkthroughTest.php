@@ -26,7 +26,6 @@ class PagesWalkthroughTest extends DuskTestCase
     /**
      * A Dusk test example.
      *
-     * @return void
      * @throws Throwable
      */
     public function testExample(): void

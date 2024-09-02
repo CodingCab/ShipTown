@@ -9,10 +9,6 @@ class ProductPriceObserver
 {
     /**
      * Handle the product "updated" event.
-     *
-     * @param ProductPrice $product_price
-     *
-     * @return void
      */
     public function updated(ProductPrice $product_price): void
     {

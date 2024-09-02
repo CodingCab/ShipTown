@@ -16,7 +16,6 @@ class NextDayShippingServiceTest extends TestCase
     /**
      * A basic feature test example.
      *
-     * @return void
      * @throws Exception
      */
     public function testExample(): void

@@ -9,10 +9,6 @@ class OrderProductShipmentObserver
 {
     /**
      * Handle the order product "created" event.
-     *
-     * @param OrderProductShipment $orderProductShipment
-     *
-     * @return void
      */
     public function created(OrderProductShipment $orderProductShipment): void
     {
@@ -21,9 +17,6 @@ class OrderProductShipmentObserver
         $this->logActivitiesAbout($orderProductShipment);
     }
 
-    /**
-     * @param OrderProductShipment $orderProductShipment
-     */
     private function logActivitiesAbout(OrderProductShipment $orderProductShipment): void
     {
         //  log activity on order

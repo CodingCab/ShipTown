@@ -15,8 +15,6 @@ class SyncProductsToApi2cartTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testExample(): void
     {

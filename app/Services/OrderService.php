@@ -14,10 +14,7 @@ use Illuminate\Support\Str;
 class OrderService
 {
     /**
-     * @param Order $order
      * @param $sourceLocationId
-     *
-     * @return bool
      */
     public static function canNotFulfill(Order $order, $sourceLocationId = null): bool
     {
@@ -25,10 +22,7 @@ class OrderService
     }
 
     /**
-     * @param Order $order
      * @param $warehouse_code
-     *
-     * @return bool
      */
     public static function canFulfill(Order $order, $warehouse_code = null): bool
     {
@@ -58,11 +52,8 @@ class OrderService
     }
 
     /**
-     * @param array $orderAttributes
      *
      * @throws Exception
-     *
-     * @return Order
      */
     public static function updateOrCreate(array $orderAttributes): Order
     {
@@ -114,7 +105,6 @@ class OrderService
 
 
     /**
-     * @param array $orderProductAttributes
      *
      * @return null
      */
@@ -136,11 +126,8 @@ class OrderService
 
     /**
      * @param $order_products
-     * @param Order $order
      *
      * @throws Exception
-     *
-     * @return Order
      */
     private static function syncOrderProducts($order_products, Order $order): Order
     {
@@ -178,9 +165,7 @@ class OrderService
     }
 
     /**
-     * @param OrderProduct $orderProduct
      * @param null $warehouse_code
-     * @return bool
      */
     public static function canFulfillOrderProduct(OrderProduct $orderProduct, $warehouse_code = null): bool
     {
@@ -196,9 +181,7 @@ class OrderService
     }
 
     /**
-     * @param OrderProduct $orderProduct
      * @param null $warehouse_code
-     * @return bool
      */
     public static function canNotFulfillOrderProduct(OrderProduct $orderProduct, $warehouse_code = null): bool
     {

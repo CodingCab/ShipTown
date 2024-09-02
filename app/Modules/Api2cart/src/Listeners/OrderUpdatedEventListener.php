@@ -11,9 +11,6 @@ use App\Modules\Api2cart\src\Jobs\SyncOrderStatus;
  */
 class OrderUpdatedEventListener
 {
-    /**
-     * @param OrderUpdatedEvent $event
-     */
     public function handle(OrderUpdatedEvent $event)
     {
         if ($event->order->isAttributeNotChanged('status_code')) {

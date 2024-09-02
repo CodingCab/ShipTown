@@ -90,7 +90,6 @@ class AppGenerateRoutesTests extends Command
 
     /**
      * @param $route
-     * @return string
      */
     public static function getWebRouteTestName($route): string
     {

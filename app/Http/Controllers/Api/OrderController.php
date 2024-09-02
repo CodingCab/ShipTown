@@ -19,11 +19,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class OrderController extends Controller
 {
-    /**
-     * @param Request $request
-     *
-     * @return AnonymousResourceCollection
-     */
     public function index(Request $request): AnonymousResourceCollection
     {
         $query = Order::getSpatieQueryBuilder()
@@ -33,11 +28,6 @@ class OrderController extends Controller
         return OrderResource::collection($query);
     }
 
-    /**
-     * @param StoreOrderRequest $request
-     *
-     * @return JsonResponse
-     */
     public function store(StoreOrderRequest $request): JsonResponse
     {
         $order = Order::query()->updateOrCreate(
@@ -88,11 +78,6 @@ class OrderController extends Controller
         return OrderResource::make($order->refresh());
     }
 
-    /**
-     * @param Request $request
-     * @param int $order_id
-     * @return JsonResource
-     */
     public function show(Request $request, int $order_id): JsonResource
     {
         $order = Order::findOrFail($order_id);

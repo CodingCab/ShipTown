@@ -77,9 +77,6 @@ class ImportShippingsJob extends UniqueJob
         return true;
     }
 
-    /**
-     * @param array $records
-     */
     public function importShippingRecords(array $records): void
     {
         collect($records)
@@ -95,10 +92,6 @@ class ImportShippingsJob extends UniqueJob
             });
     }
 
-    /**
-     * @param array $record
-     * @return Order
-     */
     private function firstOrCreateOrder(array $record): Order
     {
         /** @var Order $order */
@@ -209,8 +202,6 @@ class ImportShippingsJob extends UniqueJob
      * We not 100% sure where the stock is gonna be shipped from so
      * We will restock sold products and reserve from all stock until shipped
      * then transaction will be created in warehouse where product ships from
-     *
-     * @param OrderProduct $orderProduct
      */
     private function restockOriginForStockToBalance(OrderProduct $orderProduct): void
     {

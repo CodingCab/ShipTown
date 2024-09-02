@@ -9,9 +9,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class HeartbeatsController extends Controller
 {
-    /**
-     * @return AnonymousResourceCollection
-     */
     public function index(): AnonymousResourceCollection
     {
         $expiredHeartbeats = Heartbeat::expired()->limit(2)->get();

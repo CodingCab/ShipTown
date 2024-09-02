@@ -15,7 +15,6 @@ class BasePrices extends AbstractApi
      * @param $sku
      * @param $price
      * @param $store_id
-     * @return Response
      */
     public function update($sku, $price, $store_id): Response
     {

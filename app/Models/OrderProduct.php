@@ -131,9 +131,6 @@ class OrderProduct extends BaseModel
         ]);
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(OrderProduct::class)
@@ -185,12 +182,6 @@ class OrderProduct extends BaseModel
         return ($this->quantity_ordered - $this->quantity_split) * $this->price;
     }
 
-    /**
-     * @param Builder $query
-     * @param string  $currentLocation
-     *
-     * @return Builder
-     */
     public function scopeMinimumShelfLocation(Builder $query, string $currentLocation): Builder
     {
         return $query->where('inventory_source.inventory_source_shelf_location', '>=', $currentLocation);
@@ -209,12 +200,6 @@ class OrderProduct extends BaseModel
             });
     }
 
-    /**
-     * @param Builder $query
-     * @param array   $statusCodeArray
-     *
-     * @return Builder
-     */
     public function scopeWhereStatusCodeIn(Builder $query, array $statusCodeArray): Builder
     {
         return $query->whereHas('order', function ($query) use ($statusCodeArray) {
@@ -222,12 +207,6 @@ class OrderProduct extends BaseModel
         });
     }
 
-    /**
-     * @param Builder $query
-     * @param array   $statusCodeArray
-     *
-     * @return Builder
-     */
     public function scopeWhereStatusCodeNotIn(Builder $query, array $statusCodeArray): Builder
     {
         return $query->whereHas('order', function ($query) use ($statusCodeArray) {
@@ -236,8 +215,6 @@ class OrderProduct extends BaseModel
     }
 
     /**
-     * @param Builder $query
-     * @param bool    $in_stock
      *
      * @return mixed
      */
@@ -250,12 +227,6 @@ class OrderProduct extends BaseModel
         return $query->where('inventory_source.inventory_source_quantity', '>', 0);
     }
 
-    /**
-     * @param Builder $query
-     * @param int     $warehouse_id
-     *
-     * @return Builder
-     */
     public function scopeAddWarehouseSource(Builder $query, int $warehouse_id): Builder
     {
         $source_inventory = Inventory::query()

@@ -18,7 +18,6 @@ class RestockingReportController extends Controller
     use CsvFileResponse;
 
     /**
-     * @param Request $request
      *
      * @return Application|ResponseFactory|Factory|Response|View
      */

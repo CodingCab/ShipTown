@@ -96,17 +96,11 @@ class Pick extends Model
         ]);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -123,8 +117,6 @@ class Pick extends Model
     }
 
     /**
-     * @param Builder $query
-     * @param bool    $in_stock
      *
      * @return mixed
      */
@@ -137,23 +129,11 @@ class Pick extends Model
         return $query->where('inventory_source.inventory_source_quantity', '>', 0);
     }
 
-    /**
-     * @param Builder $query
-     * @param string  $currentLocation
-     *
-     * @return Builder
-     */
     public function scopeMinimumShelfLocation(Builder $query, string $currentLocation): Builder
     {
         return $query->where('inventory_source.inventory_source_shelf_location', '>=', $currentLocation);
     }
 
-    /**
-     * @param Builder $query
-     * @param int     $inventory_location_id
-     *
-     * @return Builder
-     */
     public function scopeAddInventorySource(Builder $query, int $inventory_location_id): Builder
     {
         $source_inventory = Inventory::query()
@@ -172,28 +152,17 @@ class Pick extends Model
 
     /**
      * @param $query
-     *
-     * @return Builder
      */
     public function scopeWhereNotPicked($query): Builder
     {
         return $query->whereNull('picked_at');
     }
 
-    /**
-     * @param Builder $query
-     *
-     * @return Builder
-     */
     public function scopeWherePicked(Builder $query): Builder
     {
         return $query->whereNotNull('picked_at');
     }
 
-    /**
-     * @param User  $picker
-     * @param float $quantity_picked
-     */
     public function pick(User $picker, float $quantity_picked)
     {
         if ($quantity_picked == 0) {
@@ -218,17 +187,12 @@ class Pick extends Model
 
     /**
      * @param $name
-     *
-     * @return bool
      */
     public function isAttributeValueChanged($name): bool
     {
         return $this->getAttribute($name) != $this->getOriginal($name);
     }
 
-    /**
-     * @return bool
-     */
     public function getIsPickedAttribute(): bool
     {
         return $this->picked_at != null;
@@ -236,10 +200,6 @@ class Pick extends Model
 
     /**
      * @param mixed $query
-     * @param float $min
-     * @param float $max
-     *
-     * @return QueryBuilder
      */
     public function scopeQuantityPickedBetween($query, float $min, float $max): QueryBuilder
     {
@@ -248,19 +208,12 @@ class Pick extends Model
 
     /**
      * @param mixed $query
-     * @param float $min
-     * @param float $max
-     *
-     * @return QueryBuilder
      */
     public function scopeQuantitySkippedBetween($query, float $min, float $max): QueryBuilder
     {
         return $query->whereBetween('quantity_skipped_picking', [$min, $max]);
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Pick::class)

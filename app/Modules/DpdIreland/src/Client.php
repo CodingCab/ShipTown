@@ -40,9 +40,6 @@ class Client
      */
     const AUTHORIZATION_CACHE_KEY = 'dpd.authorization';
 
-    /**
-     * @return string
-     */
     private static function getBaseUrl(): string
     {
         $config = DpdIreland::firstOrFail();
@@ -51,9 +48,7 @@ class Client
     }
 
     /**
-     * @param string $xml
      *
-     * @return string
      * @throws GuzzleException
      * @throws AuthorizationException
      */
@@ -100,7 +95,6 @@ class Client
     /**
      * Using cache we will not need to reauthorize every time.
      *
-     * @return array
      * @throws AuthorizationException|GuzzleException
      */
     public static function getCachedAuthorization(): array
@@ -121,7 +115,6 @@ class Client
     }
 
     /**
-     * @return array
      * @throws AuthorizationException|GuzzleException
      */
     private static function getAuthorization(): array
@@ -165,9 +158,6 @@ class Client
         ];
     }
 
-    /**
-     * @return GuzzleClient
-     */
     public static function getGuzzleClient(): GuzzleClient
     {
         return new GuzzleClient([

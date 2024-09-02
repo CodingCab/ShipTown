@@ -27,9 +27,6 @@ class LogResource extends JsonResource
         ];
     }
 
-    /**
-     * @return array
-     */
     private function getChanges(): array
     {
         $result = [];

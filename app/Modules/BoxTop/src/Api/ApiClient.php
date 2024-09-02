@@ -28,12 +28,6 @@ class ApiClient
         ]);
     }
 
-    /**
-     * @param string $method
-     * @param string $uri
-     * @param array $options
-     * @return ApiResponse
-     */
     public function request(string $method, string $uri = '', array $options = []): ApiResponse
     {
         $options['headers']['BoxTopKey'] = env('TEST_BOXTOP_KEY');
@@ -74,9 +68,6 @@ class ApiClient
         return $response;
     }
 
-    /**
-     * @return ApiResponse
-     */
     public function getAllProducts(): ApiResponse
     {
         return $this->request('GET', 'api/{siteCode}/Warehouse/GetAllProducts');
@@ -94,10 +85,6 @@ class ApiClient
         ]);
     }
 
-    /**
-     * @param string $sku
-     * @return ApiResponse
-     */
     public function getSkuQuantity(string $sku): ApiResponse
     {
         return $this->request('GET', 'api/{siteCode}/Warehouse/GetSKUQuantity', [
@@ -107,9 +94,6 @@ class ApiClient
         ]);
     }
 
-    /**
-     * @return ApiResponse
-     */
     public function getStockCheckByWarehouse(): ApiResponse
     {
         return $this->request('GET', 'api/{siteCode}/Warehouse/GetStockCheckByWarehouse', []);

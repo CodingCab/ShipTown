@@ -39,7 +39,6 @@ class ImportOrdersJobs extends UniqueJob
     }
 
     /**
-     * @param Api2cartConnection $api2cartConnection
      *
      * @throws Exception|GuzzleException
      */
@@ -94,10 +93,6 @@ class ImportOrdersJobs extends UniqueJob
         }
     }
 
-    /**
-     * @param Api2cartConnection $api2cartConnection
-     * @param array              $ordersCollection
-     */
     private function saveOrders(Api2cartConnection $api2cartConnection, array $ordersCollection): void
     {
         foreach ($ordersCollection as $order) {
@@ -114,7 +109,6 @@ class ImportOrdersJobs extends UniqueJob
     }
 
     /**
-     * @param Api2cartConnection $connection
      * @param $order
      */
     private function updateLastSyncedTimestamp(Api2cartConnection $connection, $order)

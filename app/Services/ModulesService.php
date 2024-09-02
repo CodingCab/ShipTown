@@ -12,8 +12,6 @@ class ModulesService
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public static function updateModulesTable(): void
     {

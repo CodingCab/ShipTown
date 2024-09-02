@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Http;
 class Client
 {
     /**
-     * @return PendingRequest
      * @throws Exception
      */
     private static function authenticatedClient(): PendingRequest
@@ -31,10 +30,6 @@ class Client
         return Http::withBasicAuth($username, $password);
     }
 
-    /**
-     * @param string $endpoint
-     * @return string
-     */
     private static function fullUrl(string $endpoint): string
     {
         $base_uri = config('scurri.base_uri');

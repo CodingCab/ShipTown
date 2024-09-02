@@ -25,7 +25,6 @@ class FetchSimpleProductsInfoJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      * @throws GuzzleException
      * @throws RequestException
      */

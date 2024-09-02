@@ -18,9 +18,6 @@ class Controller extends BaseController
      */
     private int $status_code = 200;
 
-    /**
-     * @param string $pdfString
-     */
     public function throwPdfResponse(string $pdfString)
     {
         $headers = [
@@ -39,12 +36,6 @@ class Controller extends BaseController
         )->throwResponse();
     }
 
-    /**
-     * @param QueryBuilder $query
-     * @param int $defaultPerPage
-     *
-     * @return LengthAwarePaginator
-     */
     public function getPaginatedResult(QueryBuilder $query, int $defaultPerPage = 10): LengthAwarePaginator
     {
         $perPage = request()->get('per_page', $defaultPerPage);

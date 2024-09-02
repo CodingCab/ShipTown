@@ -15,8 +15,6 @@ class DpdIrelandSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -43,9 +41,6 @@ class DpdIrelandSeeder extends Seeder
         $this->createTestOrder();
     }
 
-    /**
-     * @return void
-     */
     private function createTestOrder(): void
     {
         /** @var OrderAddress $testAddress */

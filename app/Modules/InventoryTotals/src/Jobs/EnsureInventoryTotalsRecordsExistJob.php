@@ -45,10 +45,6 @@ class EnsureInventoryTotalsRecordsExistJob extends UniqueJob
         } while ($maxID <= $this->productsMaxId);
     }
 
-    /**
-     * @param mixed $minID
-     * @param mixed $maxID
-     */
     private function insertMissingRecords(mixed $minID, mixed $maxID): void
     {
         DB::statement("DROP TEMPORARY TABLE IF EXISTS tempTable;");

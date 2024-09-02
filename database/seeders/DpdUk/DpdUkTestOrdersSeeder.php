@@ -13,8 +13,6 @@ class DpdUkTestOrdersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -34,9 +32,6 @@ class DpdUkTestOrdersSeeder extends Seeder
         $connection->save();
     }
 
-    /**
-     * @return OrderAddress
-     */
     private function createTestOrder(): OrderAddress
     {
         /** @var OrderAddress $testAddress */
@@ -62,9 +57,6 @@ class DpdUkTestOrdersSeeder extends Seeder
         return $testAddress;
     }
 
-    /**
-     * @return void
-     */
     private function createOrderWithTooLongStreetAddress(): void
     {
         /** @var OrderAddress $testAddress */
@@ -89,9 +81,6 @@ class DpdUkTestOrdersSeeder extends Seeder
         OrderProduct::factory()->count(3)->create(['order_id' => $order->getKey()]);
     }
 
-    /**
-     * @return void
-     */
     private function createOrderWithWrongPostCode(): void
     {
         /** @var OrderAddress $testAddress */

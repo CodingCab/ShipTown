@@ -21,10 +21,6 @@ class AutomationHelper
      *
      * We utilize power or database to run Automation Actions
      * only very specifically selected orders
-     *
-     * @param Builder $automationsToRunQuery
-     * @param Builder $ordersToRunQuery
-     * @return bool
      */
     public static function runAutomationsOnOrdersQuery(Builder $automationsToRunQuery, Builder $ordersToRunQuery): bool
     {
@@ -36,11 +32,6 @@ class AutomationHelper
             });
     }
 
-    /**
-     * @param Automation $automation
-     * @param Builder $ordersToRunQuery
-     * @return bool
-     */
     public static function runAutomation(Automation $automation, Builder $ordersToRunQuery): bool
     {
         $orders = clone $ordersToRunQuery;
@@ -66,11 +57,6 @@ class AutomationHelper
         return true;
     }
 
-    /**
-     * @param Automation $automation
-     * @param Builder $query
-     * @return bool
-     */
     public static function addAutomationConditions(Automation $automation, Builder $query): bool
     {
         try {
@@ -90,11 +76,6 @@ class AutomationHelper
         return true;
     }
 
-    /**
-     * @param Automation $automation
-     * @param Order $order
-     * @return bool
-     */
     public static function runIfValid(Automation $automation, Order $order): bool
     {
         // validate
@@ -114,11 +95,6 @@ class AutomationHelper
         return self::runActions($automation, $order);
     }
 
-    /**
-     * @param Automation $automation
-     * @param Order $order
-     * @return bool
-     */
     private static function runActions(Automation $automation, Order $order): bool
     {
         $lock = Cache::lock(implode('', [__METHOD__, $order->id]), 60);

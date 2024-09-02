@@ -28,8 +28,6 @@ class AppGenerateDuskTests extends Command
     /**
      * Command will not override existing files
      * It will only add new if do not exists.
-     *
-     * @return int
      */
     public function handle(): int
     {
@@ -65,7 +63,6 @@ class AppGenerateDuskTests extends Command
 
     /**
      * @param $route
-     * @return string
      */
     private function getWebRouteTestName($route): string
     {

@@ -25,9 +25,6 @@ class CreateSiteJob implements ShouldQueue
      */
     public string $domain;
 
-    /**
-     * @param string $domain
-     */
     public function __constructs(string $domain)
     {
         $this->domain = $domain;
@@ -35,8 +32,6 @@ class CreateSiteJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(): void
     {
@@ -51,11 +46,6 @@ class CreateSiteJob implements ShouldQueue
     }
 
 
-    /**
-     * @param string $token
-     * @param int $serverId
-     * @param string $siteDomain
-     */
     private function installSiteOnForge(string $token, int $serverId, string $siteDomain): void
     {
         $siteUsername = \Illuminate\Support\Str::camel($siteDomain);

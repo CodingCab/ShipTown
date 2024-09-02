@@ -14,13 +14,8 @@ use Illuminate\Support\Facades\Log;
 class Client
 {
     /**
-     * @param RmsapiConnection $connection
-     * @param string           $uri
-     * @param array            $query
      *
      * @throws GuzzleException
-     *
-     * @return RequestResponse
      */
     public static function GET(RmsapiConnection $connection, string $uri, array $query = []): RequestResponse
     {
@@ -47,13 +42,8 @@ class Client
     }
 
     /**
-     * @param RmsapiConnection $connection
-     * @param string           $uri
-     * @param array            $data
      *
      * @throws GuzzleException
-     *
-     * @return RequestResponse
      */
     public static function POST(RmsapiConnection $connection, string $uri, array $data): RequestResponse
     {
@@ -81,13 +71,8 @@ class Client
     }
 
     /**
-     * @param RmsapiConnection $connection
-     * @param string           $uri
-     * @param array            $query
      *
      * @throws GuzzleException
-     *
-     * @return RequestResponse
      */
     public static function DELETE(RmsapiConnection $connection, string $uri, array $query): RequestResponse
     {
@@ -96,11 +81,6 @@ class Client
         return new RequestResponse($response);
     }
 
-    /**
-     * @param RmsapiConnection $connection
-     *
-     * @return GuzzleClient
-     */
     public static function getGuzzleClient(RmsapiConnection $connection): GuzzleClient
     {
         return new GuzzleClient([

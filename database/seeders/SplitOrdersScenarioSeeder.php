@@ -26,8 +26,6 @@ class SplitOrdersScenarioSeeder extends Seeder
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run(): void
     {
@@ -73,17 +71,11 @@ class SplitOrdersScenarioSeeder extends Seeder
         OrderStatus::firstOrCreate(['code' => 'packing'], $newStatus->toArray());
     }
 
-    /**
-     * @param int $count
-     */
     protected function createSampleProducts(int $count)
     {
         $this->sampleProducts = Product::factory()->count($count)->create();
     }
 
-    /**
-     * @param int $count
-     */
     protected function createSampleSplitOrders(int $count)
     {
         /** @var Order $order */
@@ -124,9 +116,6 @@ class SplitOrdersScenarioSeeder extends Seeder
         });
     }
 
-    /**
-     * @param int $count
-     */
     protected function createSampleSplitSingleProductsOrders(int $count)
     {
         /** @var Order $order */

@@ -10,8 +10,6 @@ class AutomationStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -20,8 +18,6 @@ class AutomationStoreRequest extends FormRequest
 
     /**
      * Get the condition rules that apply to the request.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -42,8 +38,6 @@ class AutomationStoreRequest extends FormRequest
 
     /**
      * Get custom attributes for validator errors.
-     *
-     * @return array
      */
     public function attributes(): array
     {

@@ -246,9 +246,6 @@ class Order extends BaseModel
         return true;
     }
 
-    /**
-     * @return OrderStatus
-     */
     public function getPreviousOrderStatus(): OrderStatus
     {
         return OrderStatus::whereCode($this->getOriginal('status_code'))->first();
@@ -257,8 +254,6 @@ class Order extends BaseModel
     /**
      * @param $query
      * @param $text
-     *
-     * @return mixed
      */
     public function scopeWhereHasText($query, $text): mixed
     {
@@ -269,21 +264,11 @@ class Order extends BaseModel
             });
     }
 
-    /**
-     * @return int
-     */
     public function getAgeInDaysAttribute(): int
     {
         return Carbon::now()->ceilDay()->diffInDays($this->order_placed_at);
     }
 
-    /**
-     * @param mixed   $query
-     * @param string  $fromDateTime
-     * @param string  $toDateTime
-     *
-     * @return mixed
-     */
     public function scopePackedBetween(mixed $query, string $fromDateTime, string $toDateTime): mixed
     {
         try {
@@ -301,13 +286,6 @@ class Order extends BaseModel
         return $query->whereBetween('packed_at', $dates);
     }
 
-    /**
-     * @param mixed   $query
-     * @param string  $fromDateTime
-     * @param string  $toDateTime
-     *
-     * @return mixed
-     */
     public function scopeCreatedBetween(mixed $query, string $fromDateTime, string $toDateTime): mixed
     {
         try {
@@ -325,12 +303,6 @@ class Order extends BaseModel
         return $query->whereBetween('created_at', $dates);
     }
 
-    /**
-     * @param mixed $query
-     * @param int $age
-     *
-     * @return mixed
-     */
     public function scopeWhereAgeInDays(mixed $query, int $age): mixed
     {
         return $query->whereBetween('order_placed_at', [
@@ -339,11 +311,6 @@ class Order extends BaseModel
         ]);
     }
 
-    /**
-     * @param mixed $query
-     * @param int $warehouse_id
-     * @return mixed
-     */
     public function scopeAddInventorySource(mixed $query, int $warehouse_id): mixed
     {
         $source_inventory = OrderProduct::query()
@@ -364,41 +331,21 @@ class Order extends BaseModel
         });
     }
 
-    /**
-     * @param string $expected
-     *
-     * @return bool
-     */
     public function isNotStatusCode(string $expected): bool
     {
         return !$this->isStatusCode($expected);
     }
 
-    /**
-     * @param string $expected
-     *
-     * @return bool
-     */
     public function isStatusCode(string $expected): bool
     {
         return $this->getAttribute('status_code') === $expected;
     }
 
-    /**
-     * @param array $statusCodes
-     *
-     * @return bool
-     */
     public function isStatusCodeNotIn(array $statusCodes): bool
     {
         return !$this->isStatusCodeIn($statusCodes);
     }
 
-    /**
-     * @param array $statusCodes
-     *
-     * @return bool
-     */
     public function isStatusCodeIn(array $statusCodes): bool
     {
         $statusCode = $this->getAttribute('status_code');
@@ -406,12 +353,6 @@ class Order extends BaseModel
         return array_search($statusCode, $statusCodes) > -1;
     }
 
-    /**
-     * @param mixed $query
-     * @param bool $expected
-     *
-     * @return mixed
-     */
     public function scopeHasPacker(mixed $query, bool $expected): mixed
     {
         if ($expected === false) {
@@ -421,12 +362,6 @@ class Order extends BaseModel
         return $query->whereNotNull('packer_user_id');
     }
 
-    /**
-     * @param mixed $query
-     * @param bool $expected
-     *
-     * @return mixed
-     */
     public function scopeIsPicked(mixed $query, bool $expected): mixed
     {
         if ($expected === true) {
@@ -436,12 +371,6 @@ class Order extends BaseModel
         return $query->whereIsNotPicked();
     }
 
-    /**
-     * @param mixed $query
-     * @param bool $is_packing
-     *
-     * @return mixed
-     */
     public function scopeIsPacking(mixed $query, bool $is_packing): mixed
     {
         if ($is_packing) {
@@ -451,21 +380,11 @@ class Order extends BaseModel
         return $query->whereNull('packer_user_id');
     }
 
-    /**
-     * @param mixed $query
-     *
-     * @return mixed
-     */
     public function scopeWhereIsPicked(mixed $query): mixed
     {
         return $query->whereNotNull('picked_at');
     }
 
-    /**
-     * @param mixed $query
-     *
-     * @return mixed
-     */
     public function scopeWhereIsNotPicked(mixed $query): mixed
     {
         return $query->whereNull('picked_at');
@@ -497,65 +416,41 @@ class Order extends BaseModel
     }
 
 
-    /**
-     * @return BelongsTo
-     */
     public function orderStatus(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class, 'status_code', 'code');
     }
 
-    /**
-     * @return HasMany
-     */
     public function orderProducts(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function packlist(): HasMany
     {
         return $this->hasMany(Packlist::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function shippingAddress(): BelongsTo
     {
         return $this->belongsTo(OrderAddress::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function billingAddress(): BelongsTo
     {
         return $this->belongsTo(OrderAddress::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function packer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'packer_user_id');
     }
 
-    /**
-     * @return HasOne
-     */
     public function orderProductsTotals(): HasOne
     {
         return $this->hasOne(OrderProductTotal::class, 'order_id', 'id');
     }
 
-    /**
-     * @return HasMany
-     */
     public function orderShipments(): HasMany
     {
         return $this->hasMany(ShippingLabel::class)->latest();
@@ -569,9 +464,6 @@ class Order extends BaseModel
         return $this->hasMany(OrderComment::class)->orderByDesc('id');
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Order::class)

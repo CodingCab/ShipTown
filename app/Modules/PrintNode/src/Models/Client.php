@@ -48,8 +48,6 @@ class Client extends Model
 
     /**
      * Client constructor.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -94,9 +92,6 @@ class Client extends Model
         ];
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Client::class);

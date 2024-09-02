@@ -18,8 +18,6 @@ class FetchSimpleProductsInfoJobTest extends TestCase
      * A basic feature test example.
      *
      * @throws RequestException
-     *
-     * @return void
      */
     public function testExample(): void
     {

@@ -77,9 +77,6 @@ class Api2cartConnection extends Model
         parent::__construct($attributes);
     }
 
-    /**
-     * @return HasMany
-     */
     public function productLinks(): HasMany
     {
         return $this->hasMany(Api2cartProductLink::class);

@@ -59,9 +59,6 @@ class Warehouse extends BaseModel
         'id' => 'integer',
     ];
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Warehouse::class)
@@ -85,9 +82,6 @@ class Warehouse extends BaseModel
             ]);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function address(): BelongsTo
     {
         return $this->belongsTo(OrderAddress::class);

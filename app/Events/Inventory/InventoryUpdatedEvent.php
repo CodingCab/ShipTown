@@ -23,8 +23,6 @@ class InventoryUpdatedEvent
 
     /**
      * Create a new event instance.
-     *
-     * @param Inventory $inventory
      */
     public function __construct(Inventory $inventory)
     {
@@ -33,8 +31,6 @@ class InventoryUpdatedEvent
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return Channel
      */
     public function broadcastOn(): Channel
     {

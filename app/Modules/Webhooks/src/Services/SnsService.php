@@ -41,8 +41,6 @@ class SnsService
     }
     /**
      * SnsController constructor.
-     *
-     * @param string $topicName
      */
     public function __construct(string $topicName = '')
     {
@@ -51,9 +49,6 @@ class SnsService
         $this->topicName = $topicName;
     }
 
-    /**
-     * @return WebhooksConfiguration
-     */
     public static function getConfiguration(): WebhooksConfiguration
     {
         /** @var WebhooksConfiguration $model */
@@ -64,7 +59,6 @@ class SnsService
 
 
     /**
-     * @param string $endpoint
      * @return array|Result
      */
     public static function subscribeOrFail(string $endpoint)
@@ -105,10 +99,6 @@ class SnsService
         return $this->awsSnsClient->listSubscriptions();
     }
 
-    /**
-     * @param string|null $topic_name
-     * @return bool
-     */
     public function createTopic(string $topic_name = null): bool
     {
         if ($topic_name === null) {
@@ -127,10 +117,6 @@ class SnsService
         return true;
     }
 
-    /**
-     * @param string $subscription_url
-     * @return bool
-     */
     public static function subscribeToTopic(string $subscription_url): bool
     {
         self::client()->subscribe([
@@ -144,9 +130,7 @@ class SnsService
     }
 
     /**
-     * @param string $message
      * @param null $topic_name
-     * @return bool
      */
     public function publish(string $message, $topic_name = null): bool
     {
@@ -190,8 +174,6 @@ class SnsService
     }
 
     /**
-     * @param string $message
-     * @param array|null $message_attributes
      * @return Result
      *
      * "MessageAttributes" => [
@@ -200,7 +182,6 @@ class SnsService
      *     "StringValue" => "sampleAttributeValue"
      *   ],
      * ],
-     *
      */
     public static function publishNew(string $message, array $message_attributes = null): Result
     {
@@ -218,7 +199,6 @@ class SnsService
 
     /**
      * @param null $topic_name
-     * @return bool
      */
     public function deleteTopic($topic_name = null): bool
     {
@@ -235,19 +215,11 @@ class SnsService
         return true;
     }
 
-    /**
-     * @param string $topic_name
-     * @return string
-     */
     public static function getFullTopicName(string $topic_name): string
     {
         return config('sns.topic.prefix', '') . $topic_name;
     }
 
-    /**
-     * @param string|null $topic_name
-     * @return string
-     */
     public static function getTopicArn(string $topic_name = null): string
     {
         return implode(':', [

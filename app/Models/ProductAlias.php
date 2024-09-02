@@ -47,9 +47,6 @@ class ProductAlias extends Model
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(ProductAlias::class)

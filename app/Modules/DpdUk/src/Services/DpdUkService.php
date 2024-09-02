@@ -39,10 +39,6 @@ class DpdUkService
         $this->apiClient = new ApiClient($this->connection);
     }
 
-    /**
-     * @param Order $order
-     * @return array
-     */
     private function convertToDpdUkFormat(Order $order): array
     {
         try {
@@ -122,8 +118,6 @@ class DpdUkService
     }
 
     /**
-     * @param array $replaceArray
-     * @param string $subject
      * @return array|string|string[]
      */
     public function replaceArray(array $replaceArray, string $subject)
@@ -131,10 +125,6 @@ class DpdUkService
         return str_replace(array_keys($replaceArray), array_values($replaceArray), $subject);
     }
 
-    /**
-     * @param ShippingLabel $orderShipment
-     * @return string
-     */
     private function generateTrackingUrl(ShippingLabel $orderShipment): string
     {
         $baseUlr = 'https://track.dpd.co.uk/search';

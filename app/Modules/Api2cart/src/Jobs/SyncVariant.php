@@ -30,8 +30,6 @@ class SyncVariant implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
-     * @param Api2cartProductLink $api2cartProductLink
      */
     public function __construct(Api2cartProductLink $api2cartProductLink)
     {
@@ -41,7 +39,6 @@ class SyncVariant implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      * @throws GuzzleException
      */
     public function handle(): void

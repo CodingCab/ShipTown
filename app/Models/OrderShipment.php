@@ -75,25 +75,16 @@ class OrderShipment extends BaseModel
         'age_in_days',
     ];
 
-    /**
-     * @return BelongsTo
-     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return HasMany
-     */
     public function orderShipmentProducts(): HasMany
     {
         return $this->hasMany(OrderProductShipment::class);
@@ -109,9 +100,6 @@ class OrderShipment extends BaseModel
         return $query->whereRaw('DATEDIFF(now(), `'.$this->getConnection()->getTablePrefix().$this->getTable()."`.`created_at`) BETWEEN $ageInDaysFrom AND $ageInDaysTo");
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(OrderShipment::class)

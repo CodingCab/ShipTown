@@ -157,18 +157,11 @@ class OrderAddress extends BaseModel
         $this->attributes['email_encrypted'] = Crypt::encryptString($value);
     }
 
-    /**
-     * @return string
-     */
     public function getFullNameAttribute(): string
     {
         return $this->first_name.' '.$this->last_name;
     }
 
-    /**
-     * @param string $value
-     * @return void
-     */
     protected function setFullNameAttribute(string $value): void
     {
         $this->first_name = explode(' ', $value)[0];

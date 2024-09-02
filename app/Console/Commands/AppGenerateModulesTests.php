@@ -29,8 +29,6 @@ class AppGenerateModulesTests extends Command
     /**
      * Command will not override existing files
      * It will only add new if do not exists.
-     *
-     * @return int
      */
     public function handle(): int
     {

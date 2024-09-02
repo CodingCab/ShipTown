@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Log;
 class Client
 {
     /**
-     * @param string $store_key
-     * @param string $uri
-     * @param array $params
      *
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function GET(string $store_key, string $uri, array $params): RequestResponse
@@ -45,11 +41,7 @@ class Client
     }
 
     /**
-     * @param string $store_key
-     * @param string $uri
-     * @param array $data
      *
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function POST(string $store_key, string $uri, array $data): RequestResponse
@@ -83,11 +75,7 @@ class Client
     }
 
     /**
-     * @param string $store_key
-     * @param string $uri
-     * @param array $params
      *
-     * @return RequestResponse
      * @throws GuzzleException
      */
     public static function DELETE(string $store_key, string $uri, array $params): RequestResponse
@@ -104,9 +92,6 @@ class Client
         return new RequestResponse($response);
     }
 
-    /**
-     * @return GuzzleClient
-     */
     public static function getGuzzleClient(): GuzzleClient
     {
         return new GuzzleClient([
@@ -116,9 +101,6 @@ class Client
         ]);
     }
 
-    /**
-     * @return string
-     */
     public static function getApiKey(): string
     {
         return config('app.api2cart_api_key');

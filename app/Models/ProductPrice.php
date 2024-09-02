@@ -98,17 +98,11 @@ class ProductPrice extends BaseModel
         return ($this->sale_price < $this->price) && now()->between($this->sale_price_start_date, $this->sale_price_end_date);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);

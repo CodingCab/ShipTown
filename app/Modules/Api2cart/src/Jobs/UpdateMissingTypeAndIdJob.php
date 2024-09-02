@@ -25,7 +25,6 @@ class UpdateMissingTypeAndIdJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      * @throws GuzzleException
      *
      * @throws Exception
@@ -51,7 +50,6 @@ class UpdateMissingTypeAndIdJob implements ShouldQueue
     }
 
     /**
-     * @param Api2cartProductLink $link
      * @throws Exception|GuzzleException
      */
     private function updateTypeAndIdOrCreate(Api2cartProductLink $link): void
