@@ -20,7 +20,7 @@ class ConnectionSeeder extends Seeder
         $warehouse = Warehouse::query()->inRandomOrder()->first() ?? Warehouse::factory()->create();
 
         $product = Product::query()->inRandomOrder()->first() ?? Product::factory()->create(['sku' => '45']);
-        $product->attachTag('Available Online');
+        $product->attachTags(['Available Online']);
 
         $connection = MagentoConnection::query()->updateOrCreate([
             'base_url' => env('TEST_MODULES_MAGENTO2MSI_BASE_URL'),
