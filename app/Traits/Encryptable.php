@@ -44,7 +44,7 @@ trait Encryptable
      *
      * @return array
      */
-    public function attributesToArray()
+    public function attributesToArray(): array
     {
         $attributes = parent::attributesToArray();
         foreach ($this->encryptable as $key) {

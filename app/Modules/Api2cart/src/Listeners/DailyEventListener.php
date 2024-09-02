@@ -17,7 +17,7 @@ class DailyEventListener
      *
      * @return void
      */
-    public function handle(EveryDayEvent $event)
+    public function handle(EveryDayEvent $event): void
     {
         ResyncLastDayJob::dispatch();
         ResyncSyncErrorsTaggedJob::dispatch();

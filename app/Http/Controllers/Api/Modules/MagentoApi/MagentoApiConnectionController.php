@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Modules\MagentoApi;
 
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MagentoApiConnectionUpdateRequest;
 use App\Http\Resources\MagentoConnectionResource;
@@ -49,7 +50,7 @@ class MagentoApiConnectionController extends Controller
         return new MagentoConnectionResource($connection);
     }
 
-    public function destroy(MagentoApiConnectionDestroyRequest $request, MagentoConnection $connection)
+    public function destroy(MagentoApiConnectionDestroyRequest $request, MagentoConnection $connection): Response
     {
         $connection->delete();
 

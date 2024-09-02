@@ -32,7 +32,7 @@ class MailTemplateController extends Controller
      * @param MailTemplate $mailTemplate
      * @return MailTemplateResource
      */
-    public function update(UpdateRequest $request, MailTemplate $mailTemplate)
+    public function update(UpdateRequest $request, MailTemplate $mailTemplate): MailTemplateResource
     {
         $data = $request->validated();
 

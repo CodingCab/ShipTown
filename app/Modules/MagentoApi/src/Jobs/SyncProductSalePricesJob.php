@@ -26,7 +26,7 @@ class SyncProductSalePricesJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         MagentoProductPricesComparisonView::query()
             ->whereRaw('special_prices_fetched_at IS NOT NULL

@@ -29,7 +29,7 @@ class FetchSimpleProductsInfoJob implements ShouldQueue
      * @throws GuzzleException
      * @throws RequestException
      */
-    public function handle()
+    public function handle(): void
     {
         Api2cartConnection::query()
             ->get()

@@ -25,7 +25,7 @@ class EnsureProductRecordsExistJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $tag = Tag::findOrCreate(['name' => 'Available Online']);
 

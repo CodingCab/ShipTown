@@ -74,7 +74,7 @@ trait HasTagsTrait
      * @return $this
      * @throws Exception
      */
-    public function attachTags($tags, string $type = null): self
+    public function attachTags(array $tags, string $type = null): self
     {
         collect($tags)
             ->filter()
@@ -103,7 +103,7 @@ trait HasTagsTrait
      * @param string|null $type
      * @return $this
      */
-    public function detachTags($tags, string $type = null): self
+    public function detachTags(array $tags, string $type = null): self
     {
         collect($tags)
             ->filter()

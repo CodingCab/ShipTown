@@ -191,7 +191,7 @@ class OrderProduct extends BaseModel
      *
      * @return Builder
      */
-    public function scopeMinimumShelfLocation($query, $currentLocation)
+    public function scopeMinimumShelfLocation(Builder $query, string $currentLocation): Builder
     {
         return $query->where('inventory_source.inventory_source_shelf_location', '>=', $currentLocation);
     }
@@ -215,7 +215,7 @@ class OrderProduct extends BaseModel
      *
      * @return Builder
      */
-    public function scopeWhereStatusCodeIn($query, $statusCodeArray)
+    public function scopeWhereStatusCodeIn(Builder $query, array $statusCodeArray): Builder
     {
         return $query->whereHas('order', function ($query) use ($statusCodeArray) {
             $query->select(['id'])->whereIn('status_code', $statusCodeArray);
@@ -228,7 +228,7 @@ class OrderProduct extends BaseModel
      *
      * @return Builder
      */
-    public function scopeWhereStatusCodeNotIn($query, $statusCodeArray)
+    public function scopeWhereStatusCodeNotIn(Builder $query, array $statusCodeArray): Builder
     {
         return $query->whereHas('order', function ($query) use ($statusCodeArray) {
             $query->select(['id'])->whereNotIn('status_code', $statusCodeArray);
@@ -241,7 +241,7 @@ class OrderProduct extends BaseModel
      *
      * @return mixed
      */
-    public function scopeWhereInStock($query, $in_stock)
+    public function scopeWhereInStock(Builder $query, bool $in_stock)
     {
         if (!$in_stock) {
             return $query;
@@ -256,7 +256,7 @@ class OrderProduct extends BaseModel
      *
      * @return Builder
      */
-    public function scopeAddWarehouseSource($query, $warehouse_id)
+    public function scopeAddWarehouseSource(Builder $query, int $warehouse_id): Builder
     {
         $source_inventory = Inventory::query()
             ->select([

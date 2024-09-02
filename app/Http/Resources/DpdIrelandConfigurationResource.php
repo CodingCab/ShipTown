@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DpdIrelandConfigurationResource extends JsonResource
@@ -13,7 +14,7 @@ class DpdIrelandConfigurationResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'id'                        => $this->id,

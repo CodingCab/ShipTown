@@ -44,7 +44,7 @@ class RefillOldOrdersToPickingJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->configuration->required_count <= 0) {
             return;

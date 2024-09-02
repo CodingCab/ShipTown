@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DataCollectionCommentResource extends JsonResource
@@ -13,7 +14,7 @@ class DataCollectionCommentResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'data_collection_id' => $this->data_collection_id,

@@ -25,7 +25,7 @@ class SyncProductBasePricesJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         MagentoProductPricesComparisonView::query()
             ->whereRaw('base_prices_fetched_at IS NOT NULL AND IFNULL(magento_price, 0) != expected_price')

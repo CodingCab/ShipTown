@@ -15,7 +15,7 @@ class ProductPriceUpdatedEventListener
      *
      * @return void
      */
-    public function handle(ProductPriceUpdatedEvent $event)
+    public function handle(ProductPriceUpdatedEvent $event): void
     {
         $product_price = $event->product_price;
 

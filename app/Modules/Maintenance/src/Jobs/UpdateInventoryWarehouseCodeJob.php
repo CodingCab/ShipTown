@@ -31,7 +31,7 @@ class UpdateInventoryWarehouseCodeJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Inventory::query()
             ->where(['warehouse_id' => $this->warehouse->getKey()])

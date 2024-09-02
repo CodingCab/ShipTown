@@ -14,7 +14,7 @@ class OrderShipmentResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'order_id' => $this->order_id,

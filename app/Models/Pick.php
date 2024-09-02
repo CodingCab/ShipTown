@@ -128,7 +128,7 @@ class Pick extends Model
      *
      * @return mixed
      */
-    public function scopeWhereInStock($query, $in_stock)
+    public function scopeWhereInStock(Builder $query, bool $in_stock)
     {
         if (!$in_stock) {
             return $query;
@@ -143,7 +143,7 @@ class Pick extends Model
      *
      * @return Builder
      */
-    public function scopeMinimumShelfLocation($query, $currentLocation)
+    public function scopeMinimumShelfLocation(Builder $query, string $currentLocation): Builder
     {
         return $query->where('inventory_source.inventory_source_shelf_location', '>=', $currentLocation);
     }
@@ -154,7 +154,7 @@ class Pick extends Model
      *
      * @return Builder
      */
-    public function scopeAddInventorySource($query, $inventory_location_id)
+    public function scopeAddInventorySource(Builder $query, int $inventory_location_id): Builder
     {
         $source_inventory = Inventory::query()
             ->select([
@@ -175,7 +175,7 @@ class Pick extends Model
      *
      * @return Builder
      */
-    public function scopeWhereNotPicked($query)
+    public function scopeWhereNotPicked($query): Builder
     {
         return $query->whereNull('picked_at');
     }
@@ -185,7 +185,7 @@ class Pick extends Model
      *
      * @return Builder
      */
-    public function scopeWherePicked(Builder $query)
+    public function scopeWherePicked(Builder $query): Builder
     {
         return $query->whereNotNull('picked_at');
     }
@@ -221,7 +221,7 @@ class Pick extends Model
      *
      * @return bool
      */
-    public function isAttributeValueChanged($name)
+    public function isAttributeValueChanged($name): bool
     {
         return $this->getAttribute($name) != $this->getOriginal($name);
     }
@@ -229,7 +229,7 @@ class Pick extends Model
     /**
      * @return bool
      */
-    public function getIsPickedAttribute()
+    public function getIsPickedAttribute(): bool
     {
         return $this->picked_at != null;
     }

@@ -26,7 +26,7 @@ class FetchSpecialPricesJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         MagentoProduct::query()
             ->whereRaw('IFNULL(exists_in_magento, 1) = 1')

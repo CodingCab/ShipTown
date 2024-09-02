@@ -22,7 +22,7 @@ class RmsapiConnectionController extends Controller
     /**
      * @return AnonymousResourceCollection
      */
-    public function index(RmsapiConnectionIndexRequest $request)
+    public function index(RmsapiConnectionIndexRequest $request): AnonymousResourceCollection
     {
         return RmsapiConnectionResource::collection(RmsapiConnection::all());
     }
@@ -32,7 +32,7 @@ class RmsapiConnectionController extends Controller
      *
      * @return RmsapiConnectionResource
      */
-    public function store(RmsapiConnectionStoreRequest $request)
+    public function store(RmsapiConnectionStoreRequest $request): RmsapiConnectionResource
     {
         $rmsapiConnection = RmsapiConnection::query()
             ->updateOrCreate(['id' => $request->get('id')], $request->validated());
@@ -47,7 +47,7 @@ class RmsapiConnectionController extends Controller
      *
      * @return Application|ResponseFactory|Response
      */
-    public function destroy(RmsapiConnectionDestroyRequest $request, RmsapiConnection $connection)
+    public function destroy(RmsapiConnectionDestroyRequest $request, RmsapiConnection $connection): Response
     {
         $connection->delete();
 

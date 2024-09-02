@@ -32,7 +32,7 @@ class RequestResponse
     /**
      * @return string
      */
-    public function getAsJson()
+    public function getAsJson(): string
     {
         return $this->response_content;
     }
@@ -40,7 +40,7 @@ class RequestResponse
     /**
      * @return ResponseInterface
      */
-    public function getResponseRaw()
+    public function getResponseRaw(): ResponseInterface
     {
         return $this->response;
     }
@@ -48,7 +48,7 @@ class RequestResponse
     /**
      * @return bool
      */
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return $this->response->getStatusCode() == 200;
     }
@@ -56,7 +56,7 @@ class RequestResponse
     /**
      * @return bool
      */
-    public function isNotSuccess()
+    public function isNotSuccess(): bool
     {
         return !$this->isSuccess();
     }
@@ -64,7 +64,7 @@ class RequestResponse
     /**
      * @return array
      */
-    public function asArray()
+    public function asArray(): array
     {
         return json_decode($this->response_content, true);
     }
@@ -72,7 +72,7 @@ class RequestResponse
     /**
      * @return array
      */
-    public function getResult()
+    public function getResult(): array
     {
         return $this->asArray()['data'];
     }
