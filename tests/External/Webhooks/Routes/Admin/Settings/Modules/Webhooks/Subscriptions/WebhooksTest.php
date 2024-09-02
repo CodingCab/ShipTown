@@ -34,7 +34,7 @@ class WebhooksTest extends TestCase
     }
 
     /** @test */
-    public function test_if_uri_set()
+    public function test_if_uri_set(): void
     {
         $this->assertNotEmpty($this->uri);
     }
@@ -58,7 +58,7 @@ class WebhooksTest extends TestCase
 //    }
 
     /** @test */
-    public function test_admin_call()
+    public function test_admin_call(): void
     {
         $this->user->assignRole('admin');
 

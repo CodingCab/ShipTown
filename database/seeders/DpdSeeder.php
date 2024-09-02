@@ -12,7 +12,7 @@ class DpdSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DpdIreland::query()->create([
             'live'              => false,

@@ -13,7 +13,7 @@ class OrderPicklistResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'product_id'                      => $this->product_id,

@@ -17,7 +17,7 @@ class PacksheetPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasics()
+    public function testBasics(): void
     {
         $order = Order::factory()->create();
 
@@ -31,7 +31,7 @@ class PacksheetPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasicScenarios()
+    public function testBasicScenarios(): void
     {
         /** @var Order $order */
         $order = Order::factory()->create();

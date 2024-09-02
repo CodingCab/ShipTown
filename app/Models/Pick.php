@@ -99,7 +99,7 @@ class Pick extends Model
     /**
      * @return BelongsTo
      */
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
@@ -107,7 +107,7 @@ class Pick extends Model
     /**
      * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

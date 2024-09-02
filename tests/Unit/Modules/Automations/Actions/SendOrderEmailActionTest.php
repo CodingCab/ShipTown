@@ -16,7 +16,7 @@ class SendOrderEmailActionTest extends TestCase
 
     /**
      */
-    public function test_success_when_template_specified()
+    public function test_success_when_template_specified(): void
     {
         Mail::fake();
 

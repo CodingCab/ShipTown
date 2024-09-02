@@ -16,7 +16,7 @@ class SyncProductJobTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         Api2cartConnection::query()->forceDelete();
 

@@ -12,7 +12,7 @@ class ProductsTagsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $products = Product::all();
 

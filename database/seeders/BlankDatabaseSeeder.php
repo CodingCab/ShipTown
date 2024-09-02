@@ -14,7 +14,7 @@ class BlankDatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
             Demo\ConfigurationSeeder::class,

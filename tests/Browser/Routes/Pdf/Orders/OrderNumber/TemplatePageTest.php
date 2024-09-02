@@ -27,7 +27,7 @@ class TemplatePageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testPage()
+    public function testPage(): void
     {
         /** @var User $user */
         $user = User::factory()->create();
@@ -46,7 +46,7 @@ class TemplatePageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasics()
+    public function testBasics(): void
     {
         $this->basicUserAccessTest($this->uri, true);
         $this->basicAdminAccessTest($this->uri, true);

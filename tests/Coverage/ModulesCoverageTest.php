@@ -13,7 +13,7 @@ class ModulesCoverageTest extends TestCase
      *
      * @return void
      */
-    public function test_if_all_modules_have_test_file()
+    public function test_if_all_modules_have_test_file(): void
     {
         collect(File::directories('app/Modules'))
             ->map(function ($moduleDirectory) {

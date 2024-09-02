@@ -13,7 +13,7 @@ class DataCollectionCommentResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'data_collection_id' => $this->data_collection_id,

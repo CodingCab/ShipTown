@@ -8,7 +8,7 @@ use App\Models\OrderStatus;
 
 class OrderStatusObserver
 {
-    public function updated(OrderStatus $orderStatus)
+    public function updated(OrderStatus $orderStatus): void
     {
         OrderStatusUpdatedEvent::dispatch($orderStatus);
     }

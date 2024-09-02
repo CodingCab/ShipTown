@@ -13,7 +13,7 @@ class WebhooksTestSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         if (empty(env('TEST_SNS_TOPIC_ARN'))) {
             return;

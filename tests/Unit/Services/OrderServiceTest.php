@@ -18,7 +18,7 @@ class OrderServiceTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testIfUpdatesProductsQuantitiesAreCorrect()
+    public function testIfUpdatesProductsQuantitiesAreCorrect(): void
     {
         $orderFake = Order::factory()->make();
         $randomCount = rand(1, 10);
@@ -57,7 +57,7 @@ class OrderServiceTest extends TestCase
         $this->assertEquals($quantityExpected, OrderProduct::sum('quantity_ordered'));
     }
 
-    public function testIfUpdatesProductsCorrectly()
+    public function testIfUpdatesProductsCorrectly(): void
     {
         $orderFake = Order::factory()->make();
         $randomCount = rand(1, 10);
@@ -92,7 +92,7 @@ class OrderServiceTest extends TestCase
         $this->assertTrue($equals);
     }
 
-    public function testStatusCodeUpdate()
+    public function testStatusCodeUpdate(): void
     {
         // some automations listening to event might
         // automatically change status
@@ -125,7 +125,7 @@ class OrderServiceTest extends TestCase
      *
      * @return void
      */
-    public function testSimplestCreation()
+    public function testSimplestCreation(): void
     {
         OrderAddress::query()->forceDelete();
         OrderProduct::query()->forceDelete();
@@ -149,7 +149,7 @@ class OrderServiceTest extends TestCase
      *
      * @return void
      */
-    public function testCanFulfillMethod()
+    public function testCanFulfillMethod(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -190,7 +190,7 @@ class OrderServiceTest extends TestCase
      *
      * @return void
      */
-    public function testCanNotFulfillMethod()
+    public function testCanNotFulfillMethod(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -230,7 +230,7 @@ class OrderServiceTest extends TestCase
      *
      * @return void
      */
-    public function testFailedCanFulfill()
+    public function testFailedCanFulfill(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -255,7 +255,7 @@ class OrderServiceTest extends TestCase
         );
     }
 
-    public function testSuccessfulCanFulfill()
+    public function testSuccessfulCanFulfill(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 

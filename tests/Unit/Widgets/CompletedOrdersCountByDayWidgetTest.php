@@ -13,7 +13,7 @@ class CompletedOrdersCountByDayWidgetTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         Order::factory()->create(['order_closed_at' => now()]);
 

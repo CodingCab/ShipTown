@@ -20,7 +20,7 @@ class SequenceNumberJobTest extends TestCase
         InventoryMovementsServiceProvider::enableModule();
     }
 
-    public function testBasicScenario()
+    public function testBasicScenario(): void
     {
         $warehouse = Warehouse::factory()->create();
 

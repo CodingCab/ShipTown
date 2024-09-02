@@ -17,7 +17,7 @@ class AutomationsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         /** @var Automation $automation */
         $automation = Automation::create([

@@ -20,7 +20,7 @@ class IndexTest extends TestCase
     }
 
     /** @test */
-    public function test_index_call_returns_ok()
+    public function test_index_call_returns_ok(): void
     {
         // add expired heartbeat
         Heartbeat::updateOrCreate([

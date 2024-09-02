@@ -13,7 +13,7 @@ class ProductTagsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Tag::query()->firstOrCreate(['name' => 'slow']);
         Tag::query()->firstOrCreate(['name' => 'discontinued']);

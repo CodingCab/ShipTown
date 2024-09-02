@@ -37,7 +37,7 @@ class OrderPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasics()
+    public function testBasics(): void
     {
         $this->basicUserAccessTest($this->uri, true);
         $this->basicAdminAccessTest($this->uri, true);

@@ -25,7 +25,7 @@ class SplitOrderToWarehouseCodeActionTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         $random_number = rand(2,4);
 

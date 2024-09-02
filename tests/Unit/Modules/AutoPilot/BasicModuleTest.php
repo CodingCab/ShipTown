@@ -19,7 +19,7 @@ class BasicModuleTest extends TestCase
      *
      * @return void
      */
-    public function test_if_dispatches_jobs()
+    public function test_if_dispatches_jobs(): void
     {
         AutoPilotServiceProvider::enableModule();
         InventoryReservationsEventServiceProviderBase::enableModule();

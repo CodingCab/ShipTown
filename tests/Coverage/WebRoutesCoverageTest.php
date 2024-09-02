@@ -14,7 +14,7 @@ class WebRoutesCoverageTest extends TestCase
      *
      * @return void
      */
-    public function test_if_all_web_routes_have_test_file()
+    public function test_if_all_web_routes_have_test_file(): void
     {
         Artisan::call('route:list --json --env=production');
 

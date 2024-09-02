@@ -12,7 +12,7 @@ class UnpaidOrdersSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Order::factory()->count(rand(1, 10))
             ->with('orderProducts', 1)

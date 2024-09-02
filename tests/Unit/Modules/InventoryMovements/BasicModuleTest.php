@@ -46,7 +46,7 @@ class BasicModuleTest extends TestCase
     }
 
     /** @test */
-    public function testInventoryQuantityJob()
+    public function testInventoryQuantityJob(): void
     {
         $this->inventory->update([
             'recount_required' => true,
@@ -69,7 +69,7 @@ class BasicModuleTest extends TestCase
     }
 
     /** @test */
-    public function testEmptyDatabaseRun()
+    public function testEmptyDatabaseRun(): void
     {
         QuantityBeforeCheckJob::dispatch();
         QuantityDeltaCheckJob::dispatch();
@@ -80,7 +80,7 @@ class BasicModuleTest extends TestCase
     }
 
     /** @test */
-    public function testIfNoErrorsDuringEvents()
+    public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();
         EveryFiveMinutesEvent::dispatch();

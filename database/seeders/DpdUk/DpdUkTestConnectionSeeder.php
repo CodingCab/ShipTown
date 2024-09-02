@@ -16,7 +16,7 @@ class DpdUkTestConnectionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         if (env('TEST_DPDUK_USERNAME')) {
             DpdUkServiceProvider::enableModule();

@@ -20,7 +20,7 @@ class BasicModuleTest extends TestCase
     }
 
     public function
-    test_if_attaches_tag()
+    test_if_attaches_tag(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create();
@@ -35,7 +35,7 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_if_detaches_tag()
+    public function test_if_detaches_tag(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create();

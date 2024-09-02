@@ -21,7 +21,7 @@ class NormalOvernightTest extends TestCase
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_single_parcel()
+    public function normal_overnight_consignment_single_parcel(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -61,7 +61,7 @@ class NormalOvernightTest extends TestCase
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_between_2_and_10_parcels()
+    public function normal_overnight_consignment_between_2_and_10_parcels(): void
     {
         $consignment = new Consignment([
             'TotalParcels'    => rand(2, 10),
@@ -102,7 +102,7 @@ class NormalOvernightTest extends TestCase
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_more_than_10_parcels()
+    public function normal_overnight_consignment_more_than_10_parcels(): void
     {
         $consignment = new Consignment([
             'TotalParcels'    => rand(11, 20),
@@ -141,7 +141,7 @@ class NormalOvernightTest extends TestCase
      *
      * @throws ConsignmentValidationException
      */
-    public function test_if_removes_incorrect_postcode()
+    public function test_if_removes_incorrect_postcode(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -177,7 +177,7 @@ class NormalOvernightTest extends TestCase
      *
      * @throws ConsignmentValidationException
      */
-    public function test_if_preserves_correct_postcode()
+    public function test_if_preserves_correct_postcode(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -215,7 +215,7 @@ class NormalOvernightTest extends TestCase
      * @throws PreAdviceRequestException
      * @throws GuzzleException
      */
-    public function if_succeeds_with_wrong_postcode()
+    public function if_succeeds_with_wrong_postcode(): void
     {
         $consignment = new Consignment([
             'TotalParcels'    => rand(11, 20),

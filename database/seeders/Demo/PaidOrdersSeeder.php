@@ -15,7 +15,7 @@ class PaidOrdersSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Order::factory()
             ->count(1)

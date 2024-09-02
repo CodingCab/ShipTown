@@ -15,7 +15,7 @@ class ProcessApi2cartImportedOrderJobTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         Order::query()->forceDelete();
         OrderProduct::query()->forceDelete();

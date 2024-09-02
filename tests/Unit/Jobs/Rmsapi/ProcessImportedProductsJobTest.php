@@ -13,7 +13,7 @@ use Tests\TestCase;
 
 class ProcessImportedProductsJobTest extends TestCase
 {
-    public function testIfAddsAvailableOnlineTag()
+    public function testIfAddsAvailableOnlineTag(): void
     {
         /** @var RmsapiProductImport $importData */
         $importData = RmsapiProductImport::factory()->create();
@@ -33,7 +33,7 @@ class ProcessImportedProductsJobTest extends TestCase
         );
     }
 
-    public function testIfImportsAliases()
+    public function testIfImportsAliases(): void
     {
         // prepare
         RmsapiProductImport::query()->forceDelete();
@@ -51,7 +51,7 @@ class ProcessImportedProductsJobTest extends TestCase
         $this->assertTrue(ProductAlias::query()->exists(), 'Product aliases were not imported');
     }
 
-    public function testIfProcessesCorrectly()
+    public function testIfProcessesCorrectly(): void
     {
         // prepare
         RmsapiProductImport::query()->forceDelete();

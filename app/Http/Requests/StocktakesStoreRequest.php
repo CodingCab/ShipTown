@@ -11,7 +11,7 @@ class StocktakesStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class StocktakesStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'warehouse_id' => ['required', 'integer', 'exists:warehouses,id'],

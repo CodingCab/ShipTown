@@ -18,7 +18,7 @@ class DpdIrelandSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         if(empty(env('TEST_DPD_USER'))) {
             return;

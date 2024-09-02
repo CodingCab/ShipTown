@@ -13,7 +13,7 @@ class NewOrdersCountsWidgetTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         Order::factory()->create(['order_placed_at' => now()]);
 

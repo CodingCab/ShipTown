@@ -19,7 +19,7 @@ class BasicModuleTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         Mail::fake();
 

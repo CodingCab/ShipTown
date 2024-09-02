@@ -21,7 +21,7 @@ class FetchSimpleProductsInfoJobTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         /** @var Warehouse $warehouse */
         $warehouse = Warehouse::factory()->create();
