@@ -6,7 +6,6 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use App\Modules\MagentoApi\src\Jobs\EnsureProductRecordsExistJob;
 use App\Modules\MagentoApi\src\Models\MagentoConnection;
-use App\Modules\MagentoApi\src\Models\MagentoProduct;
 use Illuminate\Database\Seeder;
 
 class ConnectionSeeder extends Seeder
@@ -20,7 +19,7 @@ class ConnectionSeeder extends Seeder
         $warehouse = Warehouse::query()->inRandomOrder()->first() ?? Warehouse::factory()->create();
 
         $product = Product::query()->inRandomOrder()->first() ?? Product::factory()->create(['sku' => '45']);
-        $product->attachTags(['Available Online']);
+        $product->attachTag('Available Online');
 
         $connection = MagentoConnection::query()->updateOrCreate([
             'base_url' => env('TEST_MODULES_MAGENTO2MSI_BASE_URL'),
