@@ -27,6 +27,7 @@ class SyncProductBasePricesJob extends UniqueJob
                     );
 
                     $magentoProduct->update([
+                        'base_price_sync_required' => null,
                         'base_prices_fetched_at' => null,
                         'base_prices_raw_import' => null,
                         'magento_price'          => null,

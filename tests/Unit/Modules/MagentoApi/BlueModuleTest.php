@@ -72,11 +72,14 @@ class BlueModuleTest extends TestCase
         ray($magentoProduct->prices()->first());
 
         CheckIfSyncIsRequiredJob::dispatch();
-        $this->assertDatabaseMissing('modules_magento2api_products', ['base_price_sync_required' => null]);
+        $this->assertDatabaseHas('modules_magento2api_products', ['base_price_sync_required' => true]);
 
         SyncProductBasePricesJob::dispatch();
+        $this->assertDatabaseHas('modules_magento2api_products', ['base_prices_raw_import' => null]);
+        $this->assertDatabaseHas('modules_magento2api_products', ['base_price_sync_required' => null]);
+
         SyncProductSalePricesJob::dispatch();
-        $this->assertNotNull($magentoProduct->base_prices_fetched_at);
-        $this->assertNotNull($magentoProduct->special_prices_fetched_at);
+        $this->assertDatabaseHas('modules_magento2api_products', ['special_price_sync_required' => null]);
+        $this->assertDatabaseHas('modules_magento2api_products', ['special_prices_fetched_at' => null]);
     }
 }

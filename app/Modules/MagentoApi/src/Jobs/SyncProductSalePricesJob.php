@@ -21,11 +21,11 @@ class SyncProductSalePricesJob extends UniqueJob
                     MagentoApi::postProductsSpecialPrice(
                         $magentoProduct->magentoConnection->base_url,
                         $magentoProduct->magentoConnection->api_access_token,
+                        $magentoProduct->magentoConnection->magento_store_id ?? 0,
                         $magentoProduct->product->sku,
                         $magentoProduct->prices->sale_price,
                         $magentoProduct->prices->sale_price_start_date->format('Y-m-d H:i:s'),
                         $magentoProduct->prices->sale_price_end_date->format('Y-m-d H:i:s'),
-                        $magentoProduct->magentoConnection->magento_store_id ?? 0
                     );
 
                     $magentoProduct->update([
