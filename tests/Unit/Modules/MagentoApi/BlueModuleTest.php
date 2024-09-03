@@ -8,6 +8,7 @@ use App\Events\EveryHourEvent;
 use App\Events\EveryMinuteEvent;
 use App\Events\EveryTenMinutesEvent;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use App\Models\Warehouse;
 use App\Modules\MagentoApi\src\EventServiceProviderBase;
 use App\Modules\MagentoApi\src\Jobs\CheckIfSyncIsRequiredJob;
@@ -38,6 +39,13 @@ class BlueModuleTest extends TestCase
 
         $warehouse = Warehouse::factory()->create();
         $product = Product::factory()->create(['sku' => '45']);
+
+        ProductPrice::query()->update([
+            'price' => rand(1, 1000),
+            'sale_price' => rand(1, 1000),
+            'sale_price_start_date' => now()->subDays(rand(1, 10)),
+            'sale_price_end_date' => now()->addDays(rand(1, 10)),
+        ]);
 
         $magentoConnection = MagentoConnection::query()->create([
             'base_url' => env('TEST_MODULES_MAGENTO2MSI_BASE_URL'),
