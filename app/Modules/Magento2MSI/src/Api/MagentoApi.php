@@ -3,6 +3,7 @@
 namespace App\Modules\Magento2MSI\src\Api;
 
 use App\Modules\Magento2MSI\src\Models\Magento2msiConnection;
+use App\Modules\MagentoApi\src\Models\MagentoConnection;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 
@@ -177,14 +178,14 @@ class MagentoApi
         ]);
     }
 
-    public static function postProductsBasePrices($token, string $sku, float $price, int $store_id): ?Response
+    public static function postProductsBasePrices(MagentoConnection $connection, string $sku, float $price, int $store_id): ?Response
     {
-        return Client::post($token, '/rest/all/V1/products/base-prices', [
+        return Client::post($connection->api_access_token, $connection->base_url . '/rest/all/V1/products/base-prices', [
             'prices' => [
                 [
-                'sku' => $sku,
-                'price' => $price,
-                'store_id' => $store_id,
+                    'sku' => $sku,
+                    'price' => $price,
+                    'store_id' => $store_id,
                 ]
             ]
         ]);

@@ -3,6 +3,7 @@
 namespace App\Modules\MagentoApi\src\Jobs;
 
 use App\Abstracts\UniqueJob;
+use App\Modules\Magento2MSI\src\Api\MagentoApi;
 use App\Modules\MagentoApi\src\Models\MagentoProduct;
 use App\Modules\MagentoApi\src\Services\MagentoService;
 
@@ -18,10 +19,11 @@ class SyncProductBasePricesJob extends UniqueJob
             ->where(['base_price_sync_required' => true])
             ->chunkById(10, function ($products) {
                 collect($products)->each(function (MagentoProduct $magentoProduct) {
-                    MagentoService::updateBasePrice(
-                        $magentoProduct->product->sku,
+                    MagentoApi::postProductsBasePrices(
+                        $magentoProduct->magentoConnection,
+                        $magentoProduct->product,
                         $magentoProduct->prices->price,
-                        $magentoProduct->magentoConnection->magento_store_id
+                        $magentoProduct->magentoConnection->magento_store_id ?? 0
                     );
 
                     $magentoProduct->update([

@@ -47,6 +47,7 @@ class MagentoProduct extends BaseModel
         'special_prices_fetched_at',
         'special_prices_raw_import',
     ];
+
     protected $casts = [
         'base_price_sync_required' => 'boolean',
         'special_price_sync_required' => 'boolean',
@@ -72,6 +73,6 @@ class MagentoProduct extends BaseModel
 
     public function prices(): BelongsTo
     {
-        return $this->belongsTo(ProductPrice::class);
+        return $this->belongsTo(ProductPrice::class, 'product_price_id');
     }
 }

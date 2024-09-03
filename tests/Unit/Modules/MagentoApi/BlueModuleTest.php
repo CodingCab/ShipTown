@@ -1,0 +1,82 @@
+<?php
+
+namespace Tests\Unit\Modules\MagentoApi;
+
+use App\Events\EveryDayEvent;
+use App\Events\EveryFiveMinutesEvent;
+use App\Events\EveryHourEvent;
+use App\Events\EveryMinuteEvent;
+use App\Events\EveryTenMinutesEvent;
+use App\Models\Product;
+use App\Models\Warehouse;
+use App\Modules\MagentoApi\src\EventServiceProviderBase;
+use App\Modules\MagentoApi\src\Jobs\CheckIfSyncIsRequiredJob;
+use App\Modules\MagentoApi\src\Jobs\EnsureProductPriceIdIsFilledJob;
+use App\Modules\MagentoApi\src\Jobs\EnsureProductRecordsExistJob;
+use App\Modules\MagentoApi\src\Jobs\FetchBasePricesJob;
+use App\Modules\MagentoApi\src\Jobs\FetchSpecialPricesJob;
+use App\Modules\MagentoApi\src\Jobs\SyncProductBasePricesJob;
+use App\Modules\MagentoApi\src\Jobs\SyncProductSalePricesJob;
+use App\Modules\MagentoApi\src\Models\MagentoConnection;
+use App\Modules\MagentoApi\src\Models\MagentoProduct;
+use Tests\TestCase;
+
+class BlueModuleTest extends TestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        EventServiceProviderBase::enableModule();
+    }
+    /** @test */
+    public function test_module_basic_functionality()
+    {
+        if (env('TEST_MODULES_MAGENTO2MSI_BASE_URL') === null) {
+            $this->markTestSkipped('Magento base url not set');
+        }
+
+        $warehouse = Warehouse::factory()->create();
+        $product = Product::factory()->create(['sku' => '45']);
+
+        $magentoConnection = MagentoConnection::query()->create([
+            'base_url' => env('TEST_MODULES_MAGENTO2MSI_BASE_URL'),
+            'pricing_source_warehouse_id' => $warehouse->id,
+        ]);
+
+        $magentoConnection->api_access_token = env('TEST_MODULES_MAGENTO2MSI_ACCESS_TOKEN');
+        $magentoConnection->save();
+
+        $magentoProduct = MagentoProduct::query()->create([
+            'connection_id' => $magentoConnection->id,
+            'product_id' => $product->id,
+            'base_prices_fetched_at' => null,
+            'base_prices_raw_import' => null,
+            'exists_in_magento' => 1
+        ]);
+
+        EnsureProductRecordsExistJob::dispatch();
+        $this->assertDatabaseHas('modules_magento2api_products', ['product_id' => $product->id]);
+
+        EnsureProductPriceIdIsFilledJob::dispatch();
+        $this->assertDatabaseMissing('modules_magento2api_products', ['product_price_id' => null]);
+
+        FetchBasePricesJob::dispatch();
+        $this->assertDatabaseMissing('modules_magento2api_products', ['base_prices_raw_import' => null]);
+        $this->assertDatabaseMissing('modules_magento2api_products', ['magento_price' => null]);
+
+        FetchSpecialPricesJob::dispatch();
+        $this->assertDatabaseMissing('modules_magento2api_products', ['special_prices_raw_import' => null]);
+
+        ray($magentoProduct->refresh()->toArray());
+        ray($magentoProduct->prices()->first());
+
+        CheckIfSyncIsRequiredJob::dispatch();
+        $this->assertDatabaseMissing('modules_magento2api_products', ['base_price_sync_required' => null]);
+
+        SyncProductBasePricesJob::dispatch();
+        SyncProductSalePricesJob::dispatch();
+        $this->assertNotNull($magentoProduct->base_prices_fetched_at);
+        $this->assertNotNull($magentoProduct->special_prices_fetched_at);
+    }
+}
