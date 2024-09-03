@@ -2,11 +2,6 @@
 
 namespace Tests\Unit\Modules\MagentoApi;
 
-use App\Events\EveryDayEvent;
-use App\Events\EveryFiveMinutesEvent;
-use App\Events\EveryHourEvent;
-use App\Events\EveryMinuteEvent;
-use App\Events\EveryTenMinutesEvent;
 use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Warehouse;
@@ -22,7 +17,7 @@ use App\Modules\MagentoApi\src\Models\MagentoConnection;
 use App\Modules\MagentoApi\src\Models\MagentoProduct;
 use Tests\TestCase;
 
-class BlueModuleTest extends TestCase
+class BasicWorkflowTest extends TestCase
 {
     protected function setUp(): void
     {
