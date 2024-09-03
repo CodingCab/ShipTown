@@ -1,0 +1,36 @@
+<esc-center>
+    <esc-font-big>Store Name</esc-font-big>
+    <esc-font-normal>
+        21 STONEWALL DRIVE
+        <esc-br></esc-br>
+        DUBLIN 24
+        <esc-br></esc-br>
+        D24 TF12
+        <esc-br></esc-br>
+        <esc-br></esc-br>
+        Seller: {{seller}}
+        <esc-br></esc-br>
+        Date: {{transaction.created_at}}
+        <esc-br></esc-br>
+    </esc-font-normal>
+</esc-center>
+<esc-dashed-line></esc-dashed-line>
+<esc-left>
+    <esc-font-normal>
+        SKU Name <esc-tab> Quantity Price</esc-tab>
+        {{#products}}
+            {{sku}} {{name}}
+            <esc-tab> {{quantity}} ${{price}}</esc-tab>
+            <esc-br></esc-br>
+        {{/products}}
+    </esc-font-normal>
+    <esc-dashed-line></esc-dashed-line>
+    Discount:
+    <esc-tab>${{transaction.discount}}</esc-tab>
+    <esc-br></esc-br>
+    Total:
+    <esc-tab>${{transaction.total}}</esc-tab>
+</esc-left>
+<esc-br></esc-br>
+<esc-br></esc-br>
+<esc-cut></esc-cut>
