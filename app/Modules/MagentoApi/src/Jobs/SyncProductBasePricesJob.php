@@ -21,7 +21,7 @@ class SyncProductBasePricesJob extends UniqueJob
                 collect($products)->each(function (MagentoProduct $magentoProduct) {
                     MagentoApi::postProductsBasePrices(
                         $magentoProduct->magentoConnection,
-                        $magentoProduct->product,
+                        $magentoProduct->product->sku,
                         $magentoProduct->prices->price,
                         $magentoProduct->magentoConnection->magento_store_id ?? 0
                     );

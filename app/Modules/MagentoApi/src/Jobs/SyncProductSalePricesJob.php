@@ -15,7 +15,7 @@ class SyncProductSalePricesJob extends UniqueJob
     {
         MagentoProduct::query()
             ->with(['magentoConnection', 'product', 'prices'])
-            ->where(['base_price_sync_required' => true])
+            ->where(['special_price_sync_required' => true])
             ->chunkById(10, function ($products) {
                 collect($products)->each(function (MagentoProduct $magentoProduct) {
                     MagentoApi::postProductsSpecialPrice(
@@ -29,6 +29,7 @@ class SyncProductSalePricesJob extends UniqueJob
                     );
 
                     $magentoProduct->update([
+                        'special_price_sync_required'   => null,
                         'special_prices_fetched_at'     => null,
                         'special_prices_raw_import'     => null,
                         'magento_sale_price'            => null,
