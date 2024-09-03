@@ -79,6 +79,7 @@ class TransactionController extends Controller
                     'total' => $transaction->total_sold_price,
                     'shipping' => 0,
                     'tax' => 0,
+                    'seller' => 'ShipTown',
                     'created_at' => $transaction->created_at->format('Y-m-d H:i:s'),
                 ],
                 'products' => $products,
@@ -95,32 +96,6 @@ class TransactionController extends Controller
         $printJob->content_type = 'raw_base64';
         $printJob->save();
         return true;
-
-//        return $html;
-
-//        $pdfString = PdfService::fromMustacheTemplate($template->html_template, [
-//        $pdfString = PdfService::fromView('pdf/transaction/receipt', [
-//            'transaction' => [
-//                'id' => $transaction->id,
-//                'subtotal' => $transaction->total_sold_price,
-//                'total' => $transaction->total_sold_price,
-//                'shipping' => 0,
-//                'tax' => 0,
-//                'created_at' => $transaction->created_at->format('Y-m-d H:i:s'),
-//            ],
-//            'shipping_address' => $transaction->shippingAddress->toArray(),
-//            'billing_address' => $transaction->billingAddress->toArray(),
-//            'products' => $products,
-//        ]);
-
-//        return response()->stream(function () use ($pdfString) {
-//            echo $pdfString;
-//        }, '200', ['Content-Type' => 'application/pdf']);
-
-//        Mail::to($transaction->shippingAddress->email)->send($email);
-//
-//        ray($products);
-//        return true;
     }
 
     private function getProducts(DataCollection $transaction): array
@@ -138,119 +113,99 @@ class TransactionController extends Controller
 
     private function parseReceiptTemplate(string $template): string
     {
+        $esc = chr(27);
+
         $codes = [
-            'left' => 'ESC "a" 0',
-            'center' => 'ESC "a" 1',
-            'right' => 'ESC "a" 2',
-            'font-large' => 'GS "!" 68',
-            'font-big' => 'GS "!" 34',
-            'font-normal' => 'GS "!" 0',
-            'br' => 'ESC "d" 1',
-            'cut' => 'GS "V" 1',
-            'bold' => 'ESC "E" 1',
-            'bold-off' => 'ESC "E" 0',
-//            'barcode' => 'GS "H" 2',
-            'tab' => 'HT',
-            'dashed-line' => '------------------------------------------',
+            'left' => $esc . "a" . chr(0),
+            'center' => $esc . "a" . chr(1),
+            'right' => $esc . "a" . chr(2),
+            'font-large' => chr(29) . "!" . chr(68),
+            'font-big' => chr(29) . "!" . chr(34),
+            'font-normal' => chr(29) . "!" . chr(0),
+            'br' => chr(10),
+            'cut' => chr(29) . "V" . chr(1),
+            'bold' => $esc . "E" . chr(1),
+            'bold-off' => $esc . "E" . chr(0),
+            'tab' => chr(9),
+            'dashed-line' => $esc . "a" . chr(1) . '---------------------' . $esc . "a" . chr(0),
         ];
 
-        if (str_contains($template, '<esc-left>')) {
-            $template = str_replace('<esc-left>', $codes['left'], $template);
+        $tagsWithCodes = [
+            'left' => $codes['left'],
+            'center' => $codes['center'],
+            'right' => $codes['right'],
+            'bold' => $codes['bold'],
+            'bold-off' => $codes['bold-off'],
+            'br' => $codes['br'],
+            'cut' => $codes['cut'],
+            'font-large' => $codes['font-large'],
+            'font-big' => $codes['font-big'],
+            'font-normal' => $codes['font-normal'],
+            'tab' => $codes['tab'],
+            'dashed-line' => $codes['dashed-line']
+        ];
+
+        $tagsWithNonEmptyEnd = [
+            'center' => $codes['left'],
+            'right' => $codes['left'],
+            'bold' => $codes['bold-off'],
+            'font-large' => $codes['font-normal'],
+            'font-big' => $codes['font-normal']
+        ];
+
+        foreach ($tagsWithCodes as $tag => $code) {
+            $template = str_replace("<esc-$tag>", $code, $template);
+            if (isset($tagsWithNonEmptyEnd[$tag])) {
+                $template = str_replace("</esc-$tag>", $tagsWithNonEmptyEnd[$tag], $template);
+            } else {
+                $template = str_replace("</esc-$tag>", '', $template);
+            }
         }
 
-        if (str_contains($template, '</esc-left>')) {
-            $template = str_replace('</esc-left>', '', $template);
+        if (str_contains($template, '<esc-column>')) {
+            $columnStart = strpos($template, '<esc-column>');
+            while ($columnStart !== false) {
+                $columnEnd = strpos($template, '</esc-column>', $columnStart);
+                $column = substr($template, $columnStart, $columnEnd - $columnStart + 13);
+                $columnData = substr($column, 12, -13);
+                $parsedData = $this->columnify(explode(',', $columnData));
+                $template = str_replace($column, $parsedData, $template);
+                $columnStart = strpos($template, '<esc-column>');
+            }
         }
 
-        if (str_contains($template, '<esc-center>')) {
-            $template = str_replace('<esc-center>', $codes['center'], $template);
+        $parsedTemplate = $esc . "@";
+        $parsedTemplate .= $template;
+        $parsedTemplate .= $esc . "i";
+
+        ray($parsedTemplate);
+        return $parsedTemplate;
+    }
+
+    private function columnify($values, $space = 4)
+    {
+        $width = 48;
+        $colWidth = floor($width / count($values));
+        $wrapped = [];
+        $lines = [];
+
+        for ($i = 0; $i < count($values); $i++) {
+            $wrapped[$i] = wordwrap($values[$i], $colWidth, "\n", true);
+            $lines[$i] = explode("\n", $wrapped[$i]);
         }
 
-        if (str_contains($template, '</esc-center>')) {
-            $template = str_replace('</esc-center>', $codes['left'], $template);
+        $maxLines = max(array_map('count', $lines));
+        $allLines = [];
+
+        for ($i = 0; $i < $maxLines; $i++) {
+            $line = '';
+            for ($j = 0; $j < count($values); $j++) {
+                $line .= str_pad($lines[$j][$i] ?? '', $colWidth);
+                $line .= str_repeat(' ', $space);
+            }
+            $allLines[] = $line;
         }
 
-        if (str_contains($template, '<esc-right>')) {
-            $template = str_replace('<esc-right>', $codes['right'], $template);
-        }
-
-        if (str_contains($template, '</esc-right>')) {
-            $template = str_replace('</esc-right>', $codes['left'], $template);
-        }
-
-        if (str_contains($template, '<esc-bold>')) {
-            $template = str_replace('<esc-bold>', $codes['bold'], $template);
-        }
-
-        if (str_contains($template, '</esc-bold>')) {
-            $template = str_replace('</esc-bold>', $codes['bold-off'], $template);
-        }
-
-        if (str_contains($template, '<esc-br>')) {
-            $template = str_replace('<esc-br>', $codes['br'], $template);
-        }
-
-        if (str_contains($template, '</esc-br>')) {
-            $template = str_replace('</esc-br>', '', $template);
-        }
-
-        if (str_contains($template, '<esc-cut>')) {
-            $template = str_replace('<esc-cut>', $codes['cut'], $template);
-        }
-
-        if (str_contains($template, '</esc-cut>')) {
-            $template = str_replace('</esc-cut>', '', $template);
-        }
-
-        if (str_contains($template, '<esc-font-large>')) {
-            $template = str_replace('<esc-font-large>', $codes['font-large'], $template);
-        }
-
-        if (str_contains($template, '</esc-font-large>')) {
-            $template = str_replace('</esc-font-large>', $codes['font-normal'], $template);
-        }
-
-        if (str_contains($template, '<esc-font-big>')) {
-            $template = str_replace('<esc-font-big>', $codes['font-big'], $template);
-        }
-
-        if (str_contains($template, '</esc-font-big>')) {
-            $template = str_replace('</esc-font-big>', $codes['font-normal'], $template);
-        }
-
-        if (str_contains($template, '<esc-font-normal>')) {
-            $template = str_replace('<esc-font-normal>', $codes['font-normal'], $template);
-        }
-
-        if (str_contains($template, '</esc-font-normal>')) {
-            $template = str_replace('</esc-font-normal>', '', $template);
-        }
-
-//        if (str_contains($template, '<esc-barcode>')) {
-//            $template = str_replace('<esc-barcode>', $codes['barcode'], $template);
-//        }
-
-//        if (str_contains($template, '</esc-barcode>')) {
-//            $template = str_replace('</esc-barcode>', $codes['font-normal'], $template);
-//        }
-
-        if (str_contains($template, '<esc-tab>')) {
-            $template = str_replace('<esc-tab>', $codes['tab'], $template);
-        }
-
-        if (str_contains($template, '</esc-tab>')) {
-            $template = str_replace('</esc-tab>', '', $template);
-        }
-
-        if (str_contains($template, '<esc-dashed-line>')) {
-            $template = str_replace('<esc-dashed-line>', $codes['dashed-line'], $template);
-        }
-
-        if (str_contains($template, '</esc-dashed-line>')) {
-            $template = str_replace('</esc-dashed-line>', '', $template);
-        }
-
-        ray($template);
-        return $template;
+        return implode("\n", $allLines) . "\n";
     }
 }
