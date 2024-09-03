@@ -71,9 +71,9 @@ class MagentoApi
         ]);
     }
 
-    public static function postProductsSpecialPrice($token, $sku, $store_id, $price, $price_from, $price_to): ?Response
+    public static function postProductsSpecialPrice($baseUrl, $token, $sku, $store_id, $price, $price_from, $price_to): ?Response
     {
-        return Client::post($token, '/rest/all/V1/products/special-price', [
+        return Client::post($token, $baseUrl . '/rest/all/V1/products/special-price', [
             'prices' => [
                 [
                     'sku' => $sku,
