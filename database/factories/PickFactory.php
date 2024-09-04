@@ -24,12 +24,12 @@ class PickFactory extends Factory
         $skippingPick = (rand(1, 20) === 1);
 
         return [
-            'product_id'               => $product->getKey(),
-            'order_product_ids'        => $orderProducts->pluck('id')->toArray(),
-            'sku_ordered'              => $product->sku,
-            'name_ordered'             => $product->name,
-            'user_id'                  => $user->getKey(),
-            'quantity_picked'          => $skippingPick ? 0 : $quantity,
+            'product_id' => $product->getKey(),
+            'order_product_ids' => $orderProducts->pluck('id')->toArray(),
+            'sku_ordered' => $product->sku,
+            'name_ordered' => $product->name,
+            'user_id' => $user->getKey(),
+            'quantity_picked' => $skippingPick ? 0 : $quantity,
             'quantity_skipped_picking' => $skippingPick ? $quantity : 0,
         ];
     }

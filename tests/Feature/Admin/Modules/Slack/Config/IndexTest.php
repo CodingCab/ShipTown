@@ -5,14 +5,8 @@ namespace Tests\Feature\Admin\Modules\Slack\Config;
 use App\User;
 use Tests\TestCase;
 
-/**
- *
- */
 class IndexTest extends TestCase
 {
-    /**
-     * @var string
-     */
     protected string $uri = '/admin/modules/slack/config';
 
     protected mixed $user;

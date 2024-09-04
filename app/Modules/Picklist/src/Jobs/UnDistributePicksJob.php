@@ -10,9 +10,10 @@ use Cache;
 class UnDistributePicksJob extends UniqueJob
 {
     private ?Pick $pick;
+
     private string $key;
 
-    public function __construct(Pick $pick = null)
+    public function __construct(?Pick $pick = null)
     {
         $this->pick = $pick;
         $this->key = implode('_', [get_class($this), data_get($this->pick, 'id', 0)]);
@@ -30,9 +31,6 @@ class UnDistributePicksJob extends UniqueJob
         });
     }
 
-    /**
-     * @return void
-     */
     public function unDistributePicks(): void
     {
         Pick::query()
@@ -62,11 +60,11 @@ class UnDistributePicksJob extends UniqueJob
 
                 $orderProductPick->orderProduct->update([
                     'quantity_picked' => OrderProductPick::query()
-                            ->where('order_product_id', $orderProductPick->order_product_id)
-                            ->sum('quantity_picked') ?? 0,
+                        ->where('order_product_id', $orderProductPick->order_product_id)
+                        ->sum('quantity_picked') ?? 0,
                     'quantity_skipped_picking' => OrderProductPick::query()
-                            ->where('order_product_id', $orderProductPick->order_product_id)
-                            ->sum('quantity_skipped_picking') ?? 0,
+                        ->where('order_product_id', $orderProductPick->order_product_id)
+                        ->sum('quantity_skipped_picking') ?? 0,
                 ]);
 
                 $orderProductPick->pick->update([
