@@ -110,7 +110,6 @@ class DataCollectorService
         $destinationWarehouse = Warehouse::findOrFail($warehouse_id);
 
         DB::transaction(function () use (
-
             $sourceDataCollection,
             &$destinationDataCollection,
             $destinationWarehouse
