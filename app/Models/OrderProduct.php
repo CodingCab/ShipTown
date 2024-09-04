@@ -221,7 +221,7 @@ class OrderProduct extends BaseModel
         return $query->where('inventory_source.inventory_source_quantity', '>', 0);
     }
 
-    public function scopeAddWarehouseSource(Builder $query, int $warehouse_id): Builder
+    public function scopeAddWarehouseSource($query, int $warehouse_id)
     {
         $source_inventory = Inventory::query()
             ->select([
