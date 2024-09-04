@@ -11,5 +11,5 @@ class PickRequestsSeeder extends Seeder
      *
      * @return void
      */
-    public function run() {}
+    public function run(): void {}
 }

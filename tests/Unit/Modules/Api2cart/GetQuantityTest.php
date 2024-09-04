@@ -44,7 +44,7 @@ class GetQuantityTest extends TestCase
      *
      * @return void
      */
-    public function testEmptyInventoryWarehouseIds()
+    public function testEmptyInventoryWarehouseIds(): void
     {
         $this->assertEquals(0, ProductTransformer::toApi2cartPayload($this->productLink)['quantity']);
     }
@@ -54,7 +54,7 @@ class GetQuantityTest extends TestCase
      *
      * @return void
      */
-    public function testSetInventoryWarehouseIds()
+    public function testSetInventoryWarehouseIds(): void
     {
         Warehouse::query()
             ->select('id')

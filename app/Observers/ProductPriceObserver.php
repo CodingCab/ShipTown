@@ -13,7 +13,7 @@ class ProductPriceObserver
      *
      * @return void
      */
-    public function updated(ProductPrice $product_price)
+    public function updated(ProductPrice $product_price): void
     {
         $pricingChanged = $product_price->isAnyAttributeChanged([
             'price',

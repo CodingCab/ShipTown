@@ -11,7 +11,7 @@ class UserDeleteRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return $this->user()->hasRole('admin');
     }
@@ -21,7 +21,7 @@ class UserDeleteRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }

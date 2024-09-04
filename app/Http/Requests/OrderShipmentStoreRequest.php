@@ -11,7 +11,7 @@ class OrderShipmentStoreRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class OrderShipmentStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'order_id' => ['required', 'numeric', 'exists:orders,id'],

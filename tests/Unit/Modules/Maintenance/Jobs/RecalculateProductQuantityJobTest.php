@@ -17,7 +17,7 @@ class RecalculateProductQuantityJobTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 

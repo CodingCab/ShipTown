@@ -14,7 +14,7 @@ class ClosedOrdersSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $count = rand(15, 25);
 

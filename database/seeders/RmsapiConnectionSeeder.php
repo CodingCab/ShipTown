@@ -13,7 +13,7 @@ class RmsapiConnectionSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         if (empty(env('TEST_RMSAPI_WAREHOUSE_CODE'))) {
             return;

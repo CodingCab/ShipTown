@@ -15,7 +15,7 @@ class TransferToCorkBranchSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $sourceWarehouse = Warehouse::query()->firstOrCreate(['code' => 'DUB'], ['name' => 'Dublin']);
 

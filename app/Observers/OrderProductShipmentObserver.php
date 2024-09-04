@@ -13,7 +13,7 @@ class OrderProductShipmentObserver
      *
      * @return void
      */
-    public function created(OrderProductShipment $orderProductShipment)
+    public function created(OrderProductShipment $orderProductShipment): void
     {
         OrderProductShipmentCreatedEvent::dispatch($orderProductShipment);
 

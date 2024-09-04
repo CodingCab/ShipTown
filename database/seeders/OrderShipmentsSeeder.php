@@ -12,7 +12,7 @@ class OrderShipmentsSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         OrderShipment::factory()->count(rand(100, 200))->create();
     }

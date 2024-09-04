@@ -19,7 +19,7 @@ class ImportProductsJobTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testIfJobRuns()
+    public function testIfJobRuns(): void
     {
         Bus::fake();
         Event::fake();

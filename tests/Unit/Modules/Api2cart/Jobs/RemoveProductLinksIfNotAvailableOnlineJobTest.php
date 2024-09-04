@@ -14,7 +14,7 @@ class RemoveProductLinksIfNotAvailableOnlineJobTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         $product1 = Product::factory()->create();
         $product2 = Product::factory()->create();

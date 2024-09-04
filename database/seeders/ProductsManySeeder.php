@@ -12,7 +12,7 @@ class ProductsManySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $i = 50000;
         while ($i > 0) {

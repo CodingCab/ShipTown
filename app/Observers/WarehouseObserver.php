@@ -15,13 +15,13 @@ class WarehouseObserver
      *
      * @return void
      */
-    public function created(Warehouse $warehouse)
+    public function created(Warehouse $warehouse): void
     {
         EnsureAllInventoryRecordsExistsJob::dispatch();
         EnsureAllProductPriceRecordsExistsJob::dispatch();
     }
 
-    public function updated(Warehouse $warehouse)
+    public function updated(Warehouse $warehouse): void
     {
         UpdateInventoryWarehouseCodeJob::dispatch($warehouse);
         UpdateProductPriceWarehouseCodeJob::dispatch($warehouse);

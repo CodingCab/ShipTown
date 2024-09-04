@@ -35,7 +35,7 @@ class ExceptionHandlingTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         try {
             Order::factory()->create();

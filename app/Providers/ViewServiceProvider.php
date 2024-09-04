@@ -14,7 +14,7 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -24,7 +24,7 @@ class ViewServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         View::composer('layouts.nav', function ($view) {
             $navigationMenu = Cache::remember('navigationMenu', now()->addMinutes(2), function () {

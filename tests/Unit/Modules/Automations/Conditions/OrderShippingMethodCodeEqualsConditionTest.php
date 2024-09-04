@@ -24,7 +24,7 @@ class OrderShippingMethodCodeEqualsConditionTest extends TestCase
      *
      * @return void
      */
-    public function test_shipping_method_code_equals_validator()
+    public function test_shipping_method_code_equals_validator(): void
     {
         AutomationsServiceProvider::enableModule();
 

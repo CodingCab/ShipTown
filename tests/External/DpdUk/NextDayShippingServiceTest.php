@@ -19,7 +19,7 @@ class NextDayShippingServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function testExample()
+    public function testExample(): void
     {
         //        $connection = factory(Connection::class)->create([
         //            'username' => 'test',

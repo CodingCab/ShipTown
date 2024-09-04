@@ -17,7 +17,7 @@ class UpdateOrderClosedAtTest extends TestCase
      *
      * @return void
      */
-    public function testIfDoesNotFillClosedAtWhenCompletedStatus()
+    public function testIfDoesNotFillClosedAtWhenCompletedStatus(): void
     {
         OrderStatus::query()->forceDelete();
         RmsapiProductImport::query()->forceDelete();
@@ -44,7 +44,7 @@ class UpdateOrderClosedAtTest extends TestCase
      *
      * @return void
      */
-    public function testIfFillsClosedAtWhenCompletedStatus()
+    public function testIfFillsClosedAtWhenCompletedStatus(): void
     {
         OrderStatus::query()->forceDelete();
         RmsapiProductImport::query()->forceDelete();

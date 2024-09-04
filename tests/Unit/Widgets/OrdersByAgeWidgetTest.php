@@ -13,7 +13,7 @@ class OrdersByAgeWidgetTest extends TestCase
      *
      * @return void
      */
-    public function testIfRuns()
+    public function testIfRuns(): void
     {
         Order::factory()->create();
 

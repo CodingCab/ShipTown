@@ -12,7 +12,7 @@ class WarehousesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Warehouse::firstOrCreate(['code' => 'WEB'], ['name' => 'Website Orders'])->attachTag('ALL');
 

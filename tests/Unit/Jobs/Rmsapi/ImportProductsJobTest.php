@@ -14,7 +14,7 @@ class ImportProductsJobTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testBatchSaving()
+    public function testBatchSaving(): void
     {
 
         // cleanup data

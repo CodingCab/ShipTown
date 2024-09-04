@@ -17,7 +17,7 @@ class InventorySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $movements = Inventory::query()
             ->with('prices')
