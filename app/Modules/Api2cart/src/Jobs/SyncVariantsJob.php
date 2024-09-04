@@ -24,7 +24,7 @@ class SyncVariantsJob implements ShouldQueue
      *
      * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
         Api2cartVariant::query()
             ->where(['is_in_sync' => false])

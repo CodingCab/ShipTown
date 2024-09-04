@@ -22,7 +22,7 @@ class AddMissingOversoldTagsJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Log::debug('Starting AddMissingOversoldTagsJob');
 

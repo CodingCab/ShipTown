@@ -22,7 +22,7 @@ class RecalculateQuantityToPickJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $records = OrderProduct::query()
             ->whereRaw('(quantity_to_pick) <> (quantity_ordered - quantity_picked - quantity_skipped_picking)')

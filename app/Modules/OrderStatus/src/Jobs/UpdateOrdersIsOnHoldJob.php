@@ -31,7 +31,7 @@ class UpdateOrdersIsOnHoldJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Order::where([
             'status_code' => $this->orderStatus->code,

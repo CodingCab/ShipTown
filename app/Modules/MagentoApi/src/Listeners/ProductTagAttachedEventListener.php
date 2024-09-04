@@ -14,7 +14,7 @@ class ProductTagAttachedEventListener
      *
      * @return void
      */
-    public function handle(ProductTagAttachedEvent $event)
+    public function handle(ProductTagAttachedEvent $event): void
     {
         if ($event->tag === 'Available Online') {
             MagentoConnection::query()

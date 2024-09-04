@@ -21,7 +21,7 @@ class RemoveProductLinksIfNotAvailableOnlineJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Api2cartProductLink::query()
             ->whereDoesntHave('product', function ($query) {

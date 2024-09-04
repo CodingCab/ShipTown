@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapPublicRoutes()
+    protected function mapPublicRoutes(): void
     {
         Route::middleware(['web'])
             ->group(base_path('routes/public.php'));
@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoutes(): void
     {
         Route::middleware(['web', 'auth', 'twofactor'])
             ->group(base_path('routes/web.php'));
@@ -71,7 +71,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         Route::middleware(['auth:api', 'bindings'])
             ->prefix('api')

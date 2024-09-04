@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MailTemplate;
 
+use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -37,7 +38,7 @@ class UpdateRequest extends FormRequest
      *
      * @return void
      */
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
         $email = str_replace(' ', ',', $this->to);
         $email = str_replace(',,', ',', $email);
@@ -56,7 +57,7 @@ class UpdateRequest extends FormRequest
      * @param  \Illuminate\Validation\Validator  $validator
      * @return void
      */
-    public function withValidator($validator)
+    public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
             if ($validator->errors()->has('to.*')) {

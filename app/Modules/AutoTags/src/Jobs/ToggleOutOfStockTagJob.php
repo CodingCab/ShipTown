@@ -28,7 +28,7 @@ class ToggleOutOfStockTagJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         /** @var Product $product */
         $product = Product::find($this->product_id, ['id', 'quantity_available']);

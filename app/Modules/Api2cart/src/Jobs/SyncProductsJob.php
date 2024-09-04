@@ -24,7 +24,7 @@ class SyncProductsJob implements ShouldQueue
      *
      * @throws Exception
      */
-    public function handle()
+    public function handle(): void
     {
         Api2cartSimpleProduct::query()
             ->where(['is_in_sync' => false])

@@ -48,7 +48,7 @@ class Packlist extends Model
      * @param  int  $inventory_location_id
      * @return Builder
      */
-    public function scopeAddInventorySource($query, $inventory_location_id)
+    public function scopeAddInventorySource(Builder $query, int $inventory_location_id): Builder
     {
         $source_inventory = Inventory::query()
             ->select([
