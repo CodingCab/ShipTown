@@ -6,9 +6,6 @@ use Dompdf\Dompdf;
 
 class PdfService
 {
-    /**
-     * @return Dompdf
-     */
     public static function fromView(string $view, array $data, $raw = false): Dompdf|string
     {
         $html = view()->make($view, $data);

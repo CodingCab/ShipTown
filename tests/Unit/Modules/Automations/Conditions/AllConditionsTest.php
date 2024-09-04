@@ -40,8 +40,6 @@ class AllConditionsTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_if_thorws_any_exception(): void
     {

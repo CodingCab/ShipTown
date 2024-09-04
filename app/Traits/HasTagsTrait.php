@@ -58,8 +58,6 @@ trait HasTagsTrait
     }
 
     /**
-     * @param  array  $tags
-     * @return $this
      *
      * @throws Exception
      */
@@ -87,10 +85,6 @@ trait HasTagsTrait
         return $this;
     }
 
-    /**
-     * @param  array  $tags
-     * @return $this
-     */
     public function detachTags(array $tags, ?string $type = null): self
     {
         collect($tags)
@@ -109,7 +103,6 @@ trait HasTagsTrait
 
     /**
      * @param  string|Tag  $tag
-     * @return $this
      */
     public function detachTagSilently($tag, ?string $type = null): self
     {

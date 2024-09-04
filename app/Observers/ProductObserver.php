@@ -12,9 +12,6 @@ class ProductObserver
 {
     /**
      * Handle the product "created" event.
-     *
-     *
-     * @return void
      */
     public function created(Product $product): void
     {
@@ -25,7 +22,6 @@ class ProductObserver
      * Handle the product "updated" event.
      *
      *
-     * @return void
      *
      * @throws Exception
      */

@@ -37,8 +37,6 @@ trait Encryptable
     /**
      * When need to make sure that we iterate through
      * all the keys.
-     *
-     * @return array
      */
     public function attributesToArray(): array
     {

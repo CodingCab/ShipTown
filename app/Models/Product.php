@@ -221,9 +221,6 @@ class Product extends BaseModel
         $this->quantity_available = $this->quantity - $this->quantity_reserved;
     }
 
-    /**
-     * @return $this
-     */
     public function reserveStock(float $quantity): Product
     {
         $this->quantity_reserved += $quantity;

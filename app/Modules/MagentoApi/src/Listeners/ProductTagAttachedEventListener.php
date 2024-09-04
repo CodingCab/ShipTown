@@ -10,9 +10,6 @@ class ProductTagAttachedEventListener
 {
     /**
      * Handle the event.
-     *
-     *
-     * @return void
      */
     public function handle(ProductTagAttachedEvent $event): void
     {

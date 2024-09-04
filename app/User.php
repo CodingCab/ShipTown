@@ -133,9 +133,6 @@ class User extends Authenticatable
             ]);
     }
 
-    /**
-     * @return void
-     */
     public function generateTwoFactorCode(): void
     {
         $this->timestamps = false;
@@ -144,9 +141,6 @@ class User extends Authenticatable
         $this->save();
     }
 
-    /**
-     * @return void
-     */
     public function resetTwoFactorCode(): void
     {
         $this->timestamps = false;

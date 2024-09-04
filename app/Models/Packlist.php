@@ -43,11 +43,6 @@ class Packlist extends Model
         'is_packed',
     ];
 
-    /**
-     * @param  Builder  $query
-     * @param  int  $inventory_location_id
-     * @return Builder
-     */
     public function scopeAddInventorySource(Builder $query, int $inventory_location_id): Builder
     {
         $source_inventory = Inventory::query()

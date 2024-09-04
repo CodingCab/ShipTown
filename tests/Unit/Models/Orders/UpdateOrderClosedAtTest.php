@@ -14,8 +14,6 @@ class UpdateOrderClosedAtTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testIfDoesNotFillClosedAtWhenCompletedStatus(): void
     {
@@ -41,8 +39,6 @@ class UpdateOrderClosedAtTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testIfFillsClosedAtWhenCompletedStatus(): void
     {

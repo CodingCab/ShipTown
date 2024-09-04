@@ -23,8 +23,6 @@ class ProductServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testIfReservesCorrectly(): void
     {
@@ -57,8 +55,6 @@ class ProductServiceTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testIfReleasesQuantityCorrectly(): void
     {

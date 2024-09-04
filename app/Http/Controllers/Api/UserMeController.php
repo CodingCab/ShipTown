@@ -17,9 +17,6 @@ class UserMeController extends Controller
         return new UserResource($request->user());
     }
 
-    /**
-     * @return UserResource
-     */
     public function store(UserMeStoreRequest $request): UserResource
     {
         $request->user()->update($request->validated());
