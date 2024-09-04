@@ -258,12 +258,6 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->index([DB::raw('last_sequence_number DESC')]);
-            $table->index([DB::raw('last_movement_at DESC')]);
-            $table->index([DB::raw('first_received_at DESC')]);
-            $table->index([DB::raw('last_received_at DESC')]);
-            $table->index([DB::raw('first_sold_at DESC')]);
-
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
@@ -274,6 +268,12 @@ return new class extends Migration
                 ->references('id')
                 ->onDelete('cascade');
         });
+
+        DB::statement('CREATE INDEX last_sequence_number_desc_index ON inventory (last_sequence_number DESC)');
+        DB::statement('CREATE INDEX last_movement_at_desc_index ON inventory (last_movement_at DESC)');
+        DB::statement('CREATE INDEX first_received_at_desc_index ON inventory (first_received_at DESC)');
+        DB::statement('CREATE INDEX last_received_at_desc_index ON inventory (last_received_at DESC)');
+        DB::statement('CREATE INDEX first_sold_at_desc_index ON inventory (first_sold_at DESC)');
 
         Schema::create('orders_statuses', function (Blueprint $table) {
             $table->id();
