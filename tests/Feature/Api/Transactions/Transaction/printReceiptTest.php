@@ -8,6 +8,7 @@ use App\Models\OrderAddress;
 use App\Models\Warehouse;
 use App\User;
 use Spatie\Permission\Models\Role;
+use Str;
 use Tests\TestCase;
 
 class printReceiptTest extends TestCase
@@ -55,7 +56,7 @@ class printReceiptTest extends TestCase
         $response->assertSuccessful();
 
         // todo fix and more assertions
-        $this->assertContains('SKU    Name                     Qty.  Price', [$receiptRawText]);
+        $this->assertTrue(Str::contains($receiptRawText, 'SKU    Name                     Qty.  Price'));
         $this->assertDatabaseHas(
             'data_collections',
             [
