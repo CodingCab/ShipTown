@@ -162,36 +162,64 @@ class TransactionController extends Controller
             }
         }
 
-        if (str_contains($template, '<esc-column>')) {
-            $columnStart = strpos($template, '<esc-column>');
-            while ($columnStart !== false) {
-                $columnEnd = strpos($template, '</esc-column>', $columnStart);
-                $column = substr($template, $columnStart, $columnEnd - $columnStart + 13);
-                $columnData = substr($column, 12, -13);
-                $parsedData = $this->columnify(explode(',', $columnData));
-                $template = str_replace($column, $parsedData, $template);
-                $columnStart = strpos($template, '<esc-column>');
+        while (str_contains($template, '<esc-table>')) {
+            $tableStart = strpos($template, '<esc-table>');
+            $tableEnd = strpos($template, '</esc-table>', $tableStart);
+            $tableContent = substr($template, $tableStart, $tableEnd - $tableStart + 11);
+
+            // Parse <esc-column> tags within the table
+            $columns = [];
+            preg_match_all('/<esc-column[^>]*>(.*?)<\/esc-column>/', $tableContent, $matches, PREG_SET_ORDER);
+            foreach ($matches as $match) {
+                $columns[] = [
+                    'content' => $match[1],
+                    'attributes' => $this->parseAttributes($match[0])
+                ];
             }
+
+            $parsedTable = $this->columnify($columns);
+            $template = str_replace($tableContent, $parsedTable, $template);
         }
 
         $parsedTemplate = $esc . "@";
         $parsedTemplate .= $template;
+        $parsedTemplate .= $esc . 'd' . chr(5);
         $parsedTemplate .= $esc . "i";
+        $pinValue = 0 + 48; // Character '0' or '1'.
+        $onValue = intdiv(120, 2);
+        $offValue = intdiv(240, 2);
+        $parsedTemplate .= $esc . "p" . chr($pinValue) . chr($onValue) . chr($offValue);
+
 
         ray($parsedTemplate);
         return $parsedTemplate;
     }
 
-    private function columnify($values, $space = 4)
+    private function parseAttributes(string $tag): array
     {
-        $width = 48;
-        $colWidth = floor($width / count($values));
+        $attributes = [];
+        preg_match_all('/(\w+)="([^"]*)"/', $tag, $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            $attributes[$match[1]] = $match[2];
+        }
+        return $attributes;
+    }
+
+    private function columnify(array $columns, int $space = 2): string
+    {
         $wrapped = [];
         $lines = [];
+        $totalColumns = count($columns);
 
-        for ($i = 0; $i < count($values); $i++) {
-            $wrapped[$i] = wordwrap($values[$i], $colWidth, "\n", true);
-            $lines[$i] = explode("\n", $wrapped[$i]);
+        foreach ($columns as $index => $column) {
+            $colWidth = $column['attributes']['width'];
+            if ($index === 0 || $index === $totalColumns - 1) {
+                $colWidth -= $space / 2;
+            } else {
+                $colWidth -= $space;
+            }
+            $wrapped[$index] = wordwrap($column['content'], $colWidth, "\n", true);
+            $lines[$index] = explode("\n", $wrapped[$index]);
         }
 
         $maxLines = max(array_map('count', $lines));
@@ -199,9 +227,22 @@ class TransactionController extends Controller
 
         for ($i = 0; $i < $maxLines; $i++) {
             $line = '';
-            for ($j = 0; $j < count($values); $j++) {
-                $line .= str_pad($lines[$j][$i] ?? '', $colWidth);
-                $line .= str_repeat(' ', $space);
+            foreach ($columns as $index => $column) {
+                $colWidth = $column['attributes']['width'];
+                if ($index === 0 || $index === $totalColumns - 1) {
+                    $colWidth -= $space / 2;
+                } else {
+                    $colWidth -= $space;
+                }
+                $text = $lines[$index][$i] ?? '';
+                if (isset($column['attributes']['align']) && $column['attributes']['align'] === 'right') {
+                    $line .= str_pad($text, $colWidth, ' ', STR_PAD_LEFT);
+                } else {
+                    $line .= str_pad($text, $colWidth);
+                }
+                if ($index < $totalColumns - 1) {
+                    $line .= str_repeat(' ', $space);
+                }
             }
             $allLines[] = $line;
         }

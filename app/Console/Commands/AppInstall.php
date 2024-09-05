@@ -1177,57 +1177,40 @@ class AppInstall extends Command
         MailTemplate::query()->firstOrCreate(['code' => 'transaction_receipt'], [
             'mailable' => TransactionReceiptMail::class,
             'subject' => 'You just completed a #{{ variables.transaction.id }} transaction! Here is your receipt.',
-            'html_template' => '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml"
-          xmlns="http://www.w3.org/1999/xhtml"
-          style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>You just completed a transaction! Here is your receipt.</title>
-
-        <style>
-        @page {
-            size: 80mm;
-        }
-        *, *::after, *::before {
-            box-sizing: border-box;
-        }
-        img {
-            max-width: 100%;
-        }
-        body {
-            -webkit-font-smoothing: antialiased;
-            -webkit-text-size-adjust: none;
-            padding: 10px;
-            width: 100%;
-            height: 100%;
-            font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.5;
-            overflow: hidden;
-            word-break: break-word;
-        }
-        div {
-            page-break-inside: avoid !important;
-            page-break-after: avoid !important;
-            break-inside: avoid !important;
-        }
-        </style></head>
-        
-        <body>
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc blandit accumsan rhoncus. Nulla iaculis interdum mauris. Proin urna ex, auctor non orci ac, faucibus aliquam felis. Vestibulum mauris erat, faucibus non tortor sit amet, porttitor finibus orci. In ut eros et lorem auctor sodales non eget diam. Quisque in pulvinar nunc, nec sagittis sem. Quisque dictum massa et turpis pharetra gravida. Sed sodales diam nec ligula commodo rhoncus. Nam quis bibendum leo, ac ornare odio. Ut vitae posuere elit. Vestibulum laoreet velit in nibh ultrices, quis rutrum erat rhoncus.
-                Duis sem elit, consequat vitae odio id, semper dapibus nibh. Donec eget velit id tellus porttitor ultricies aliquam a magna. Vivamus dapibus tortor at varius suscipit. Praesent lobortis lorem suscipit facilisis semper. Curabitur in purus odio. Sed urna nibh, imperdiet in augue vel, pulvinar lobortis augue. Fusce dignissim turpis augue, et eleifend est vulputate sed. Morbi efficitur justo sit amet sem aliquam, id dapibus velit laoreet. Quisque ipsum ex, tincidunt quis purus vestibulum, sodales fermentum nulla. Nam massa nisi, convallis venenatis pellentesque quis, euismod ac ligula. Donec sagittis pretium convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-            </div>
-            <div>
-                Integer accumsan placerat neque, ut viverra libero sodales sed. Cras orci massa, dictum vitae elit vel, aliquet facilisis magna. Fusce suscipit malesuada ante, at viverra mi malesuada et. Duis mollis neque vitae lacus cursus, eget lacinia neque rutrum. Suspendisse aliquam posuere turpis, sit amet efficitur nisi sagittis at. Praesent congue lectus sed magna semper, a porta augue molestie. In ultrices commodo venenatis. Nulla ullamcorper in neque non rutrum. Donec lobortis accumsan nibh et malesuada.
-                Fusce in euismod nulla. In id molestie enim. In tortor purus, pulvinar sit amet ultrices ac, interdum nec eros. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam id condimentum mauris, non posuere mauris. Aenean tincidunt diam a tortor dignissim tincidunt. Suspendisse a odio diam. Curabitur congue consequat iaculis. In efficitur imperdiet orci, eu commodo dui porttitor eget. Nulla in magna non nibh interdum varius sit amet eu urna. Nam ullamcorper nibh risus, ut pellentesque ex ornare sit amet. Ut quis justo maximus nisi gravida blandit ac vel est. Praesent tristique vestibulum neque, id suscipit nunc elementum ac.
-            </div>
-        </body>
-        </html>
-        ',
-            'text_template' => 'test2'
+            'html_template' => '',
+            'text_template' => '<esc-center>
+                <esc-font-big>Store Name</esc-font-big>
+                <esc-font-normal>
+                21 STONEWALL DRIVE
+                DUBLIN 24
+                D24 TF12
+                <esc-br></esc-br>
+                Seller: {{transaction.seller}}
+                Date: {{transaction.created_at}}
+                </esc-font-normal>
+                </esc-center>
+                <esc-dashed-line></esc-dashed-line>
+                <esc-left>
+                <esc-table>
+                <esc-column width="6">SKU</esc-column>
+                <esc-column width="25">Name</esc-column>
+                <esc-column width="6" align="right">Qty.</esc-column>
+                <esc-column width="6" align="right">Price</esc-column>
+                </esc-table>
+                {{#products}}
+                <esc-table>
+                <esc-column width="6">{{sku}}</esc-column>
+                <esc-column width="25">{{name}}</esc-column>
+                <esc-column width="6" align="right">{{quantity}}</esc-column>
+                <esc-column width="6" align="right">{{price}}</esc-column>
+                </esc-table>
+                {{/products}}
+                </esc-left>
+                <esc-dashed-line></esc-dashed-line>
+                <esc-left>
+                Discount: <esc-tab>${{transaction.discount}}</esc-tab>
+                Total: <esc-tab>${{transaction.total}}</esc-tab>
+            </esc-left>'
         ]);
     }
 
@@ -1242,7 +1225,7 @@ class AppInstall extends Command
           style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
     <head>
         <meta name="viewport" content="width=device-width" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Type" c\ontent="text/html; charset=UTF-8" />
         <title>We shipped your order!</title>
 
         <style>img {
