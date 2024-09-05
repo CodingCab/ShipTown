@@ -159,7 +159,6 @@ class AppInstall extends Command
         $this->createDefaultMailTemplateShipmentNotification();
         $this->createDefaultMailTemplateOversoldProduct();
         $this->createDefaultTransactionEmailReceiptMailTemplate();
-        $this->createDefaultTransactionReceiptMailTemplate();
 
         $this->createNewToPaidAutomation();
 //        $this->createPaidToPickingAutomation();
@@ -985,7 +984,7 @@ class AppInstall extends Command
             }
         }
         </style></head>
-        
+
         <body style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6; margin: 0; padding: 0;" bgcolor="#f6f6f6">
             <table class="body-wrap" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; margin: 0; padding: 0;" bgcolor="#f6f6f6">
                 <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
@@ -1007,7 +1006,7 @@ class AppInstall extends Command
                                                     </p>
                                                 </td>
                                             </tr>
-                                            
+
                                             <!-------- addresses -------->
                                             <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                                 <td class="content-block" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;" valign="top">
@@ -1041,11 +1040,11 @@ class AppInstall extends Command
                                                     </table>
                                                 </td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td style="border-top-width: 1px; border-top-color: #eee; border-top-style: solid;"></td>
                                             </tr>
-                                            
+
                                             <!-------- products -------->
                                             <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                                 <td class="content-block" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 20px;" valign="top">
@@ -1092,11 +1091,11 @@ class AppInstall extends Command
                                                     </table>
                                                 </td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td style="border-top-width: 1px; border-top-color: #eee; border-top-style: solid;"></td>
                                             </tr>
-                                            
+
                                             <!-------- summary -------->
                                             <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                                 <td class="content-block" style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 20px;" valign="top">
@@ -1142,11 +1141,11 @@ class AppInstall extends Command
                                                     </table>
                                                 </td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td style="border-top-width: 1px; border-top-color: #eee; border-top-style: solid;"></td>
                                             </tr>
-                                        
+
                                             <!-------- footer -------->
                                             <tr style="font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                                 <td class="content-block" style="text-align: center; align-content: center; font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0 0 20px;" valign="top">
@@ -1169,48 +1168,6 @@ class AppInstall extends Command
         </body>
         </html>
         '
-        ]);
-    }
-
-    private function createDefaultTransactionReceiptMailTemplate()
-    {
-        MailTemplate::query()->firstOrCreate(['code' => 'transaction_receipt'], [
-            'mailable' => TransactionReceiptMail::class,
-            'subject' => 'You just completed a #{{ variables.transaction.id }} transaction! Here is your receipt.',
-            'html_template' => '',
-            'text_template' => '<esc-center>
-                <esc-font-big>Store Name</esc-font-big>
-                <esc-font-normal>
-                21 STONEWALL DRIVE
-                DUBLIN 24
-                D24 TF12
-                <esc-br></esc-br>
-                Seller: {{transaction.seller}}
-                Date: {{transaction.created_at}}
-                </esc-font-normal>
-                </esc-center>
-                <esc-dashed-line></esc-dashed-line>
-                <esc-left>
-                <esc-table>
-                <esc-column width="6">SKU</esc-column>
-                <esc-column width="25">Name</esc-column>
-                <esc-column width="6" align="right">Qty.</esc-column>
-                <esc-column width="6" align="right">Price</esc-column>
-                </esc-table>
-                {{#products}}
-                <esc-table>
-                <esc-column width="6">{{sku}}</esc-column>
-                <esc-column width="25">{{name}}</esc-column>
-                <esc-column width="6" align="right">{{quantity}}</esc-column>
-                <esc-column width="6" align="right">{{price}}</esc-column>
-                </esc-table>
-                {{/products}}
-                </esc-left>
-                <esc-dashed-line></esc-dashed-line>
-                <esc-left>
-                Discount: <esc-tab>${{transaction.discount}}</esc-tab>
-                Total: <esc-tab>${{transaction.total}}</esc-tab>
-            </esc-left>'
         ]);
     }
 

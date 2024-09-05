@@ -79,9 +79,9 @@ export default {
             let data = {
                 'printer_id': printer.id,
                 'content_type': 'raw_base64',
-                'content': btoa('Hello World/n' +
-                    'blue rectangle/n' +
-                    'A50,50'
+                'content': btoa('ShipTown - Raw Text Print /n' +
+                    '' +
+                    ''
                 ),
             };
 

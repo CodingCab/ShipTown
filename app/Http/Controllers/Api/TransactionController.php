@@ -165,7 +165,7 @@ class TransactionController extends Controller
         while (str_contains($template, '<esc-table>')) {
             $tableStart = strpos($template, '<esc-table>');
             $tableEnd = strpos($template, '</esc-table>', $tableStart);
-            $tableContent = substr($template, $tableStart, $tableEnd - $tableStart + 11);
+            $tableContent = substr($template, $tableStart, $tableEnd - $tableStart + 12);
 
             // Parse <esc-column> tags within the table
             $columns = [];
