@@ -12,6 +12,7 @@ use App\Mail\TransactionReceiptMail;
 use App\Models\DataCollection;
 use App\Models\MailTemplate;
 use App\Modules\PrintNode\src\Models\PrintJob;
+use App\Modules\PrintNode\src\Resources\PrintJobResource;
 use App\Services\PdfService;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -58,7 +59,7 @@ class TransactionController extends Controller
         return true;
     }
 
-    public function printReceipt(PrintReceiptRequest $request): bool
+    public function printReceipt(PrintReceiptRequest $request): PrintJobResource
     {
         $transaction = DataCollection::findOrFail($request->validated('id'));
 
@@ -95,7 +96,8 @@ class TransactionController extends Controller
         $printJob->content = base64_encode($template);
         $printJob->content_type = 'raw_base64';
         $printJob->save();
-        return true;
+
+        return PrintJobResource::make($printJob);
     }
 
     private function getProducts(DataCollection $transaction): array
