@@ -4,7 +4,6 @@ namespace Feature\Api\Transactions\Transaction;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
-use App\Models\OrderAddress;
 use App\Models\Warehouse;
 use App\User;
 use Spatie\Permission\Models\Role;
