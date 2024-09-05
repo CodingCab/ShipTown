@@ -14,7 +14,7 @@ class PrintReceiptRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['sometimes', 'integer', 'exists:data_collections,id'],
+            'id' => ['required', 'integer', 'exists:data_collections,id'],
             'printer_id' => ['required', 'integer'],
             'epl' => ['required', 'boolean'],
         ];
