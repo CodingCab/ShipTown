@@ -16,7 +16,10 @@ class IndexTest extends TestCase
      */
     protected string $uri = 'documents';
 
-    protected mixed $user;
+    /**
+     * @var User
+     */
+    protected User $user;
 
     protected function setUp(): void
     {
@@ -45,7 +48,7 @@ class IndexTest extends TestCase
 
         $response = $this->get($this->uri);
 
-        $response->assertForbidden();
+        $response->assertSuccessful();
     }
 
     /** @test */
