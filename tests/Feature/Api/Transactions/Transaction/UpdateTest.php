@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    private string $uri = '/api/transactions';
+    private string $uri = '/api/transactions/';
 
     /** @test */
     public function testIfCallReturnsOk()

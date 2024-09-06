@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Events\AfterInstallEvent;
 use App\Mail\TransactionEmailReceiptMail;
-use App\Mail\TransactionReceiptMail;
 use App\Modules;
 use App\Mail\OrderMail;
 use App\Models\Configuration;

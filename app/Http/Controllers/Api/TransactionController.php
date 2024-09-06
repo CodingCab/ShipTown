@@ -15,7 +15,6 @@ use App\Modules\PrintNode\src\Models\PrintJob;
 use App\Modules\PrintNode\src\Resources\PrintJobResource;
 use App\Services\PdfService;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class TransactionController extends Controller
 {
@@ -129,7 +128,7 @@ class TransactionController extends Controller
             'bold' => $esc . "E" . chr(1),
             'bold-off' => $esc . "E" . chr(0),
             'tab' => chr(9),
-            'dashed-line' => $esc . "a" . chr(1) . '---------------------' . $esc . "a" . chr(0),
+            'dashed-line' => $esc . "a" . chr(1) . '-------------------------' . $esc . "a" . chr(0),
         ];
 
         $tagsWithCodes = [
@@ -169,7 +168,6 @@ class TransactionController extends Controller
             $tableEnd = strpos($template, '</esc-table>', $tableStart);
             $tableContent = substr($template, $tableStart, $tableEnd - $tableStart + 12);
 
-            // Parse <esc-column> tags within the table
             $columns = [];
             preg_match_all('/<esc-column[^>]*>(.*?)<\/esc-column>/', $tableContent, $matches, PREG_SET_ORDER);
             foreach ($matches as $match) {
@@ -191,7 +189,6 @@ class TransactionController extends Controller
         $onValue = intdiv(120, 2);
         $offValue = intdiv(240, 2);
         $parsedTemplate .= $esc . "p" . chr($pinValue) . chr($onValue) . chr($offValue);
-
 
         ray($parsedTemplate);
         return $parsedTemplate;
