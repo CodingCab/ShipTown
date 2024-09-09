@@ -38,7 +38,7 @@ Route::view('quick-connect/magento', 'quick-connect.magento');
 Route::view('quick-connect/shopify', 'quick-connect.shopify');
 
 Route::apiResource('barcode-generator', BarcodeGeneratorController::class)->only(['index']);
-Route::resource('documents', DocumentController::class, ['index']);
+Route::resource('documents', DocumentController::class, ['index'])->only(['index']);
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('fulfillment-dashboard', [FulfillmentDashboardController::class, 'index'])->name('fulfillment-dashboard');

@@ -2,8 +2,9 @@
 
 namespace Tests\Feature\Documents;
 
+use App\Models\DataCollection;
+use App\Models\MailTemplate;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
@@ -21,10 +22,22 @@ class IndexTest extends TestCase
      */
     protected User $user;
 
+    /**
+     * @var MailTemplate
+     */
+    protected MailTemplate $mailTemplate;
+
+    /**
+     * @var DataCollection
+     */
+    protected DataCollection $dataCollection;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->mailTemplate = MailTemplate::factory()->create(['code' => 'transaction_email_receipt']);
+        $this->dataCollection = DataCollection::factory()->create();
     }
 
     /** @test */
@@ -46,7 +59,12 @@ class IndexTest extends TestCase
     {
         $this->actingAs($this->user, 'web');
 
-        $response = $this->get($this->uri);
+        $response = $this->get($this->uri . '?' . http_build_query([
+                'template_code' => $this->mailTemplate->code,
+                'data_collection_id' => $this->dataCollection->id,
+                'output_format' => 'pdf',
+            ]));
+        ray($response);
 
         $response->assertSuccessful();
     }
@@ -58,7 +76,11 @@ class IndexTest extends TestCase
 
         $this->actingAs($this->user, 'web');
 
-        $response = $this->get($this->uri);
+        $response = $this->get($this->uri . '?' . http_build_query([
+                'template_code' => $this->mailTemplate->code,
+                'data_collection_id' => $this->dataCollection->id,
+                'output_format' => 'pdf',
+            ]));
 
         $response->assertSuccessful();
     }

@@ -6,12 +6,11 @@ use App\Http\Requests\DocumentIndexRequest;
 use App\Models\DataCollection;
 use App\Models\MailTemplate;
 use App\Services\PdfService;
-use Mustache_Engine;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DocumentController extends Controller
 {
-    public function index(DocumentIndexRequest $request, Mustache_Engine $engine): StreamedResponse|string
+    public function index(DocumentIndexRequest $request): StreamedResponse|string
     {
         /** @var MailTemplate $template */
         $template = MailTemplate::query()
@@ -22,13 +21,11 @@ class DocumentController extends Controller
             'data_collection' => DataCollection::query()->where('id', $request->validated('data_collection_id'))->first(),
         ]);
 
-        switch ($request->validated('output_format', 'pdf')) {
-            case 'pdf':
-                return response()->stream(function () use ($pdfString) {
-                    echo $pdfString;
-                }, '200', ['Content-Type' => 'application/pdf']);
-            default:
-                return $pdfString;
-        }
+        return match ($request->validated('output_format', 'pdf')) {
+            'pdf' => response()->stream(function () use ($pdfString) {
+                echo $pdfString;
+            }, '200', ['Content-Type' => 'application/pdf']),
+            default => $pdfString,
+        };
     }
 }

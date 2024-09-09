@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 use Str;
 use Tests\TestCase;
 
-class printReceiptTest extends TestCase
+class PrintReceiptTest extends TestCase
 {
     private string $uri = '/api/transaction/receipt-print';
 
