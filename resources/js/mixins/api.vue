@@ -205,6 +205,10 @@ export default {
             return axios.post('/api/order/comments', data);
         },
 
+        apiUpdateOrderAddress: function (order_address_id, data) {
+            return axios.put('/api/order/addresses/' + order_address_id, data);
+        },
+
         apiPostActivity: function (data) {
             return axios.post('/api/activities', data);
         },
@@ -399,7 +403,7 @@ export default {
             return axios.put('/api/orders-statuses/' + id, params)
         },
         apiDeleteOrderStatus: function (id) {
-            return axios.delete('/api/settings/order-statuses/' + id)
+            return axios.delete('/api/orders-statuses/' + id)
         },
 
         apiGetMailTemplate: function () {

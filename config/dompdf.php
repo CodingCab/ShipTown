@@ -12,8 +12,8 @@ return [
     |
     */
     'show_warnings' => false,   // Throw an Exception on warnings from dompdf
-    'orientation'   => 'portrait',
-    'defines'       => [
+    'orientation' => 'portrait',
+    'defines' => [
         /**
          * The location of the DOMPDF font directory.
          *
@@ -69,7 +69,7 @@ return [
          * should be an absolute path.
          * This is only checked on command line call by dompdf.php, but not by
          * direct class use like:
-         * $dompdf = new DOMPDF();	$dompdf->load_html($htmldata); $dompdf->render(); $pdfdata = $dompdf->output();
+         * $dompdf = new DOMPDF();    $dompdf->load_html($htmldata); $dompdf->render(); $pdfdata = $dompdf->output();
          */
         'chroot' => realpath(base_path()),
 

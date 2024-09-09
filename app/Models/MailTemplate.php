@@ -8,6 +8,7 @@ use Spatie\MailTemplates\Models\MailTemplate as SpatieMailTemplate;
 
 /**
  * @mixin Eloquent
+ *
  * @property string code
  * @property string to
  * @property string reply_to
@@ -24,7 +25,7 @@ class MailTemplate extends SpatieMailTemplate
         'html_template',
         'text_template',
         'reply_to',
-        'to'
+        'to',
     ];
 
     public function getNameAttribute()

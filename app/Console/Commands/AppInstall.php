@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Events\AfterInstallEvent;
+use App\Mail\ShipmentConfirmationMail;
 use App\Mail\TransactionEmailReceiptMail;
 use App\Modules;
 use App\Mail\OrderMail;
 use App\Models\Configuration;
 use App\Models\MailTemplate;
 use App\Models\NavigationMenu;
+use App\Models\OrderStatus;
 use App\Models\Warehouse;
 use App\Modules\Automations\src\Actions\Order\SetStatusCodeAction;
 use App\Modules\Automations\src\Conditions\Order\HasAnyShipmentCondition;
@@ -37,9 +39,6 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-/**
- *
- */
 class AppInstall extends Command
 {
     /**
@@ -95,7 +94,7 @@ class AppInstall extends Command
         unlink(storage_path('oauth-private.key'));
         unlink(storage_path('oauth-public.key'));
 
-        info("Passport encryption keys generated successfully");
+        info('Passport encryption keys generated successfully');
     }
 
     private function createDefaultNavigationLinks(): void
@@ -103,19 +102,43 @@ class AppInstall extends Command
         NavigationMenu::query()->create([
             'name' => 'Status: paid',
             'url' => '/picklist?order.status_code=paid',
-            'group' => 'picklist'
+            'group' => 'picklist',
+        ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: picking',
+            'url' => '/picklist?order.status_code=picking',
+            'group' => 'picklist',
+        ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: store_collection',
+            'url' => '/picklist?order.status_code=store_collection',
+            'group' => 'picklist',
         ]);
 
         NavigationMenu::query()->create([
             'name' => 'Status: paid',
             'url' => '/autopilot/packlist?status=paid',
-            'group' => 'packlist'
+            'group' => 'packlist',
         ]);
 
         NavigationMenu::query()->create([
-            'name' => 'Status: picked',
-            'url' => '/autopilot/packlist?status=picked',
-            'group' => 'packlist'
+            'name' => 'Status: packing',
+            'url' => '/autopilot/packlist?status=packing',
+            'group' => 'packlist',
+        ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: single_line_orders',
+            'url' => '/autopilot/packlist?status=single_line_orders',
+            'group' => 'packlist',
+        ]);
+
+        NavigationMenu::query()->create([
+            'name' => 'Status: store_collection',
+            'url' => '/autopilot/packlist?status=store_collection',
+            'group' => 'packlist',
         ]);
     }
 
@@ -130,25 +153,22 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'new'
+            'condition_value' => 'new',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPaidCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'paid'
+            'action_value' => 'paid',
         ]);
 
         $automation->update(['enabled' => true]);
     }
 
-    /**
-     * @return void
-     */
     public function preconfigureDatabase(): void
     {
         $this->createDefaultUserRoles();
@@ -159,15 +179,20 @@ class AppInstall extends Command
         $this->createDefaultMailTemplateOversoldProduct();
         $this->createDefaultTransactionEmailReceiptMailTemplate();
 
+        $this->createDefaultOrderStatuses();
+
         $this->createNewToPaidAutomation();
-//        $this->createPaidToPickingAutomation();
+        $this->createNewToUnpaidAutomation();
+        $this->createUnpaidToPaidAutomation();
+        //        $this->createPaidToPickingAutomation();
         $this->createPickingToPackingAutomation();
         $this->createPackingToShippedAutomation();
-
-
-        $this->createPaidToCompleteAutomation();
+        $this->createStoreCollectionToReadyToCollect();
         $this->createPickedToCompleteAutomation();
+        $this->createPaidToCompleteAutomation();
         $this->createPaidToSingleLineOrdersAutomation();
+        $this->createPackingToCompleteAutomation();
+        $this->createSingleLineOrdersToCompleteAutomation();
 
         ModulesService::updateModulesTable();
 
@@ -230,9 +255,6 @@ class AppInstall extends Command
         InventoryMovementsServiceProvider::enableModule();
     }
 
-    /**
-     * @return void
-     */
     public static function ensureAppKeysGenerated(): void
     {
         if (env('PASSPORT_PRIVATE_KEY', '') === '') {
@@ -257,19 +279,19 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'paid'
+            'condition_value' => 'paid',
         ]);
 
         // todo - what other conditions should be here? If no others then this automation is redundant and we could just go new to picking
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPickedCondition::class,
-            'condition_value' => 'False'
+            'condition_value' => 'False',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'picking'
+            'action_value' => 'picking',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -286,17 +308,17 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'picking'
+            'condition_value' => 'picking',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPickedCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'packing'
+            'action_value' => 'packing',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -313,22 +335,22 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'packing'
+            'condition_value' => 'packing',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPackedCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => HasAnyShipmentCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'shipped'
+            'action_value' => 'shipped',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -345,17 +367,22 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'paid'
+            'condition_value' => 'paid',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPackedCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => HasAnyShipmentCondition::class,
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'complete'
+            'action_value' => 'complete',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -372,17 +399,22 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'picked'
+            'condition_value' => 'picked',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPackedCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => HasAnyShipmentCondition::class,
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'complete'
+            'action_value' => 'complete',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -399,17 +431,17 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'paid'
+            'condition_value' => 'paid',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => IsFullyPickedCondition::class,
-            'condition_value' => 'True'
+            'condition_value' => 'True',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'packing'
+            'action_value' => 'packing',
         ]);
 
         $automation->update(['enabled' => true]);
@@ -431,7 +463,7 @@ class AppInstall extends Command
     private function createDefaultMailTemplateShipmentNotification(): void
     {
         MailTemplate::create([
-            'mailable' => \App\Mail\ShipmentConfirmationMail::class,
+            'mailable' => ShipmentConfirmationMail::class,
             'code' => 'module_shipment_confirmation',
             'subject' => 'Your Order #{{ variables.order.order_number }} has been Shipped!',
             'html_template' => '
@@ -591,7 +623,7 @@ class AppInstall extends Command
 
     </body>
     </html>
-        '
+        ',
         ]);
     }
 
@@ -750,7 +782,7 @@ class AppInstall extends Command
 </table>
 
 </body>
-</html>'
+</html>',
         ]);
     }
 
@@ -916,7 +948,7 @@ class AppInstall extends Command
 
     </body>
     </html>
-        '
+        ',
         ]);
     }
 
@@ -1299,7 +1331,7 @@ class AppInstall extends Command
 
     </body>
     </html>
-        '
+        ',
         ]);
     }
 
@@ -1314,17 +1346,186 @@ class AppInstall extends Command
 
         $automation->conditions()->create([
             'condition_class' => StatusCodeEqualsCondition::class,
-            'condition_value' => 'paid'
+            'condition_value' => 'paid',
         ]);
 
         $automation->conditions()->create([
             'condition_class' => LineCountEqualsCondition::class,
-            'condition_value' => '1'
+            'condition_value' => '1',
         ]);
 
         $automation->actions()->create([
             'action_class' => SetStatusCodeAction::class,
-            'action_value' => 'single_line_orders'
+            'action_value' => 'single_line_orders',
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createPackingToCompleteAutomation(): void
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"packing" to "complete"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'packing',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPackedCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => HasAnyShipmentCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'complete',
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createNewToUnpaidAutomation(): void
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"new" to "unpaid"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'new',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPaidCondition::class,
+            'condition_value' => 'False',
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'unpaid',
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createUnpaidToPaidAutomation()
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"unpaid" to "new"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'unpaid',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPaidCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'paid',
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createDefaultOrderStatuses(): void
+    {
+        OrderStatus::query()->updateOrCreate([
+            'code' => 'canceled',
+        ], [
+            'name' => 'canceled',
+            'order_on_hold' => false,
+            'order_active' => false,
+        ]);
+
+        OrderStatus::query()->updateOrCreate([
+            'code' => 'unpaid',
+        ], [
+            'name' => 'unpaid',
+            'order_on_hold' => true,
+            'order_active' => true,
+        ]);
+    }
+
+    private function createStoreCollectionToReadyToCollect(): void
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"store_collection" to "ready_for_collection"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'store_collection',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPackedCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => HasAnyShipmentCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'ready_for_collection',
+        ]);
+
+        $automation->update(['enabled' => true]);
+    }
+
+    private function createSingleLineOrdersToCompleteAutomation(): void
+    {
+        /** @var Automation $automation */
+        $automation = Automation::create([
+            'name' => '"single_line_orders" to "complete"',
+            'priority' => 90,
+            'enabled' => false,
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => StatusCodeEqualsCondition::class,
+            'condition_value' => 'single_line_orders',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => IsFullyPackedCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->conditions()->create([
+            'condition_class' => HasAnyShipmentCondition::class,
+            'condition_value' => 'True',
+        ]);
+
+        $automation->actions()->create([
+            'action_class' => SetStatusCodeAction::class,
+            'action_value' => 'complete',
         ]);
 
         $automation->update(['enabled' => true]);

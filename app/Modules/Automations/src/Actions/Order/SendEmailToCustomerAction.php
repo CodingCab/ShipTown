@@ -9,15 +9,8 @@ use App\Modules\Automations\src\Abstracts\BaseOrderActionAbstract;
 //use App\Services\PdfService;
 use Illuminate\Support\Facades\Mail;
 
-/**
- *
- */
 class SendEmailToCustomerAction extends BaseOrderActionAbstract
 {
-    /**
-     * @param string $options
-     * @return bool
-     */
     public function handle(string $options = ''): bool
     {
         parent::handle($options);

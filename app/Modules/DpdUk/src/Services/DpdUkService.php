@@ -10,24 +10,12 @@ use App\User;
 use Carbon\Carbon;
 use Exception;
 
-/**
- *
- */
 class DpdUkService
 {
-    /**
-     * @var Connection
-     */
     private Connection $connection;
 
-    /**
-     * @var ApiClient
-     */
     private ApiClient $apiClient;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->connection = Connection::firstOrFail();
@@ -35,10 +23,6 @@ class DpdUkService
         $this->apiClient = new ApiClient($this->connection);
     }
 
-    /**
-     * @param Order $order
-     * @return array
-     */
     private function convertToDpdUkFormat(Order $order): array
     {
         try {
@@ -57,78 +41,85 @@ class DpdUkService
         $shippingAddress = $order->shippingAddress;
 
         return [
-            "jobId" => null,
-            "collectionOnDelivery" => false,
-            "invoice" => null,
-            "collectionDate" => Carbon::today(),
-            "consolidate" => false,
-            "consignment" => [
+            'jobId' => null,
+            'collectionOnDelivery' => false,
+            'invoice' => null,
+            'collectionDate' => Carbon::today(),
+            'consolidate' => false,
+            'consignment' => [
                 [
-                    "consignmentNumber" => null,
-                    "consignmentRef" => null,
-                    "parcel" => [],
-                    "collectionDetails" => [
-                        "contactDetails" => [
-                            "contactName"   => $collectionAddress->full_name,
-                            "telephone"     => $collectionAddress->phone
+                    'consignmentNumber' => null,
+                    'consignmentRef' => null,
+                    'parcel' => [],
+                    'collectionDetails' => [
+                        'contactDetails' => [
+                            'contactName' => $collectionAddress->full_name,
+                            'telephone' => $collectionAddress->phone,
                         ],
-                        "address" => [
-                            "organisation"  => $collectionAddress->company,
-                            "countryCode"   => self::replaceArray(['GBR' => "GB"], $collectionAddress->country_code),
-                            "postcode"      => $collectionAddress->postcode,
-                            "street"        => $collectionAddress->address1,
-                            "locality"      => $collectionAddress->address2,
-                            "town"          => $collectionAddress->city,
-                            "county"        => $collectionAddress->state_code,
+                        'address' => [
+                            'organisation' => $collectionAddress->company,
+                            'countryCode' => self::replaceArray(['GBR' => 'GB'], $collectionAddress->country_code),
+                            'postcode' => $collectionAddress->postcode,
+                            'street' => $collectionAddress->address1,
+                            'locality' => $collectionAddress->address2,
+                            'town' => $collectionAddress->city,
+                            'county' => $collectionAddress->state_code,
                         ],
                     ],
-                    "deliveryDetails" => [
-                        "contactDetails" => [
-                            "contactName"   => $shippingAddress->full_name,
-                            "telephone"     => $shippingAddress->phone
+                    'deliveryDetails' => [
+                        'contactDetails' => [
+                            'contactName' => $shippingAddress->full_name,
+                            'telephone' => $shippingAddress->phone,
                         ],
-                        "address" => [
-                            "organisation"  => $shippingAddress->company,
-                            "countryCode"   => self::replaceArray(['GBR' => "GB"], $shippingAddress->country_code),
-                            "postcode"      => $shippingAddress->postcode,
-                            "street"        => $shippingAddress->address1,
-                            "locality"      => $shippingAddress->address2,
-                            "town"          => $shippingAddress->city,
-                            "county"        => $shippingAddress->state_code
+                        'address' => [
+                            'organisation' => $shippingAddress->company,
+                            'countryCode' => self::replaceArray(['GBR' => 'GB'], $shippingAddress->country_code),
+                            'postcode' => $shippingAddress->postcode,
+                            'street' => $shippingAddress->address1,
+                            'locality' => $shippingAddress->address2,
+                            'town' => $shippingAddress->city,
+                            'county' => $shippingAddress->state_code,
                         ],
-                        "notificationDetails" => [
-                            "email"         => $shippingAddress->email,
-                            "mobile"        => $shippingAddress->phone
-                        ]
+                        'notificationDetails' => [
+                            'email' => $shippingAddress->email,
+                            'mobile' => $shippingAddress->phone,
+                        ],
                     ],
-                    "networkCode" => "1^12",
-                    "numberOfParcels" => 1,
-                    "totalWeight" => 10,
-                    "shippingRef1" => "#" . $order->order_number,
-                    "shippingRef2" => "",
-                    "shippingRef3" => "",
-                    "customsValue" => null,
-                    "deliveryInstructions" => "",
-                    "parcelDescription" => "",
-                    "liabilityValue" => null,
-                    "liability" => false,
+                    'networkCode' => '1^12',
+                    'numberOfParcels' => 1,
+                    'totalWeight' => 10,
+                    'shippingRef1' => '#' . $order->order_number,
+                    'shippingRef2' => '',
+                    'shippingRef3' => '',
+                    'customsValue' => null,
+                    'deliveryInstructions' => '',
+                    'parcelDescription' => '',
+                    'liabilityValue' => null,
+                    'liability' => false,
                 ],
             ],
         ];
     }
 
-    public function replaceArray(array $replaceArray, string $subject): array|string
+    /**
+     * @return array|string|string[]
+     */
+    public function replaceArray(array $replaceArray, string $subject)
     {
         return str_replace(array_keys($replaceArray), array_values($replaceArray), $subject);
     }
 
+    /**
+     * @param ShippingLabel $orderShipment
+     * @return string
+     */
     private function generateTrackingUrl(ShippingLabel $orderShipment): string
     {
         $baseUlr = 'https://track.dpd.co.uk/search';
         $referenceParam = 'reference=' . $orderShipment->shipping_number;
         $postcodeParam = 'postcode=' . $orderShipment->order()->first()->shippingAddress->postcode;
 
-        return $baseUlr .'?'. $referenceParam .'&'. $postcodeParam;
+        return $baseUlr . '?' . $referenceParam . '&' . $postcodeParam;
     }
 
     /**
@@ -143,7 +134,7 @@ class DpdUkService
 
         $content = $dpdShippingLabel->response->getBody()->getContents();
 
-        $shipment = new ShippingLabel();
+        $shipment = new ShippingLabel;
         $shipment->order_id = $order->id;
         $shipment->user_id = auth()->id();
         $shipment->carrier = 'DPD UK';

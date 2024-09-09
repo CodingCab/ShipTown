@@ -21,8 +21,8 @@ class PdfDownloadController extends Controller
         $pdfOutput = PdfService::fromView('pdf/' . $request->template, $request->data);
         $templateName = str_replace('/', '_', $request->template);
 
-        return response()->streamDownload(function () use ($pdfOutput, $templateName) {
-            echo $pdfOutput;
+        return response()->streamDownload(function () use ($pdfOutput) {
+            echo $pdfOutput->output();
         }, $templateName . '.pdf', ['Content-Type' => 'application/pdf']);
     }
 }

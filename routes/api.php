@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::name('api.')->group(function () {
-    Route::apiResource('jobs', Api\JobsController::class)->only(['store','index']);
+    Route::apiResource('jobs', Api\JobsController::class)->only(['store', 'index']);
     Route::apiResource('configurations', Api\ConfigurationController::class)->only(['index', 'store']);
     Route::apiResource('heartbeats', Api\HeartbeatsController::class)->only(['index']);
     Route::apiResource('inventory', Api\InventoryController::class)->only(['index', 'store']);
@@ -89,6 +89,7 @@ Route::apiResource('product/tags', Api\ProductTagController::class)->only(['inde
 Route::apiResource('data-collector/comments', Api\DataCollectionCommentController::class)->only(['index', 'store']);
 Route::apiResource('data-collector-records', Api\DataCollectorRecordController::class)->only(['store', 'index']);
 Route::apiResource('order/products', Api\OrderProductController::class, ['as' => 'order'])->only(['index', 'update']);
+Route::apiResource('order/addresses', Api\OrderAddressController::class)->only(['update']);
 Route::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class)->only(['store']);
 Route::apiResource('order/shipments', Api\OrderShipmentController::class)->only(['index', 'store']);
 Route::apiResource('order/comments', Api\OrderCommentController::class)->only(['index', 'store']);

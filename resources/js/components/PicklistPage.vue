@@ -223,7 +223,7 @@ export default {
                     this.picklist = data.data;
                 })
                 .catch( error => {
-                    this.$snotify.error('Action failed (Http code  '+ error.response.status+')');
+                    this.displayApiCallError(error);
                 })
                 .finally( () => {
                     this.hideLoading();
@@ -238,7 +238,7 @@ export default {
             };
             return this.apiPostPicklistPick(data)
                 .catch( error => {
-                    this.$snotify.error('Action failed (Http code  '+ error.response.status +')');
+                    this.displayApiCallError(error);
                 });
         },
 
@@ -248,14 +248,14 @@ export default {
                     'order_product_ids': pick['order_product_ids'],
                 })
                 .catch( error => {
-                    this.$snotify.error('Action failed (Http code  '+ error.response.status+')');
+                    this.displayApiCallError(error);
                 });
         },
 
         deletePick(pick) {
             return this.apiDeletePick(pick['id'])
                 .catch( error => {
-                    this.$snotify.error('Action failed (Http code  '+ error.response.status+')');
+                    this.displayApiCallError(error);
                 });
         },
 
@@ -265,14 +265,18 @@ export default {
 
         pickAll(pick) {
             this.current_shelf_location = pick['inventory_source_shelf_location'];
+            this.removeFromPicklist(pick);
+            this.setFocusOnBarcodeInput();
+
             this.postPick(pick, pick['quantity_required'], 0)
                 .then( (response) => {
                     this.displayPickedNotification(response.data['data'][0], pick['quantity_required']);
                     this.beep();
-                    this.removeFromPicklist(pick);
                     this.reloadPicks();
+                })
+                .catch( error => {
+                    this.displayApiCallError(error);
                 });
-            this.setFocusOnBarcodeInput();
         },
 
         skipPick: function (pick) {
@@ -411,7 +415,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

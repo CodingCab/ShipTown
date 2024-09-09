@@ -59,10 +59,15 @@ class ClearDatabaseCommand extends Command
         App\Modules\PrintNode\src\Models\Client::query()->forceDelete();
         App\Modules\DpdUk\src\Models\Connection::query()->forceDelete();
         App\Modules\Rmsapi\src\Models\RmsapiSaleImport::query()->forceDelete();
+        App\Modules\Magento2MSI\src\Models\Magento2msiProduct::query()->forceDelete();
         App\Modules\Magento2MSI\src\Models\Magento2msiConnection::query()->forceDelete();
+        App\Modules\MagentoApi\src\Models\MagentoProduct::query()->forceDelete();
+        App\Modules\MagentoApi\src\Models\MagentoConnection::query()->forceDelete();
 
         App\Models\InventoryReservation::query()->forceDelete();
 
+        App\Models\OrderProductPick::query()->forceDelete();
+        App\Models\Pick::query()->forceDelete();
         App\Models\NavigationMenu::query()->forceDelete();
         App\Models\ProductAlias::query()->forceDelete();
         App\Models\Product::query()->forceDelete();
@@ -112,8 +117,8 @@ class ClearDatabaseCommand extends Command
 
         if (file_exists($path)) {
             file_put_contents($path, str_replace(
-                $key . '=' . env($key),
-                $key . '=' . $value,
+                $key.'='.env($key),
+                $key.'='.$value,
                 file_get_contents($path)
             ));
         }

@@ -37,16 +37,21 @@ class TestOrdersSeeder extends Seeder
             'country_code' => 'IE',
         ]);
 
-        $order = Order::query()->create(['order_number' => 'T100001', 'order_placed_at' => now()->subDays(3), 'shipping_address_id' => $this->createIrishShippingAddress()->getKey()]);
-
-        OrderComment::create([
-            'order_id' => $order->getKey(),
-            'comment' => 'Product with SKU ordered does not exist in the system. This simulates scenario when product exists in remote system (Magento, Shopify etc) but no in our system.'
+        $order = Order::query()->create([
+            'status_code' => 'new',
+            'order_number' => 'T100001',
+            'order_placed_at' => now()->subDays(3),
+            'shipping_address_id' => $this->createIrishShippingAddress()->getKey(),
         ]);
 
         OrderComment::create([
             'order_id' => $order->getKey(),
-            'comment' => 'Test order'
+            'comment' => 'Product with SKU ordered does not exist in the system. This simulates scenario when product exists in remote system (Magento, Shopify etc) but no in our system.',
+        ]);
+
+        OrderComment::create([
+            'order_id' => $order->getKey(),
+            'comment' => 'Test order',
         ]);
 
         OrderProduct::create([
@@ -63,7 +68,12 @@ class TestOrdersSeeder extends Seeder
 
     protected function create_test_order_for_packing(): void
     {
-        $order = Order::query()->create(['order_number' => 'T100002 - Packsheet', 'status_code' => 'paid', 'order_placed_at' => now()->subDays(3), 'shipping_address_id' => $this->createIrishShippingAddress()->getKey()]);
+        $order = Order::query()->create([
+            'status_code' => 'new',
+            'order_number' => 'T100002 - Packsheet',
+            'order_placed_at' => now()->subDays(3),
+            'shipping_address_id' => $this->createIrishShippingAddress()->getKey(),
+        ]);
 
         Product::query()
             ->inRandomOrder()
@@ -84,7 +94,13 @@ class TestOrdersSeeder extends Seeder
 
     protected function create_test_unpaid_order(): void
     {
-        $order = Order::factory()->create(['order_number' => 'T100002 - Unpaid order', 'order_placed_at' => now()->subDays(3), 'total_paid' => 0, 'shipping_address_id' => $this->createIrishShippingAddress()->getKey()]);
+        $order = Order::factory()->create([
+            'status_code' => 'new',
+            'order_number' => 'T100002 - Unpaid order',
+            'order_placed_at' => now()->subDays(3),
+            'total_paid' => 0,
+            'shipping_address_id' => $this->createIrishShippingAddress()->getKey(),
+        ]);
 
         Product::query()
             ->inRandomOrder()
@@ -101,7 +117,7 @@ class TestOrdersSeeder extends Seeder
             });
     }
 
-    private function create_order_with_incorrect_address()
+    private function create_order_with_incorrect_address(): void
     {
         $orderAddress = OrderAddress::factory()->create([
             'address1' => 'This address is too long, over 50 characters, and some couriers might not accept it',
@@ -113,14 +129,15 @@ class TestOrdersSeeder extends Seeder
         ]);
 
         $order = Order::query()->create([
+            'status_code' => 'new',
             'shipping_address_id' => $orderAddress->getKey(),
             'order_number' => 'T100003 - Incorrect address',
-            'order_placed_at' => now()->subDays(3)
+            'order_placed_at' => now()->subDays(3),
         ]);
 
         OrderComment::create([
             'order_id' => $order->getKey(),
-            'comment' => 'Test with incorrect address (too long)'
+            'comment' => 'Test with incorrect address (too long)',
         ]);
 
         Product::query()
@@ -143,7 +160,11 @@ class TestOrdersSeeder extends Seeder
 
     private function create_test_paid_order(): void
     {
-        $order = Order::factory()->create(['status_code' => 'paid', 'order_placed_at' => now()->subDays(3), 'shipping_address_id' => $this->createIrishShippingAddress()->getKey()]);
+        $order = Order::factory()->create([
+            'status_code' => 'new',
+            'order_placed_at' => now()->subDays(3),
+            'shipping_address_id' => $this->createIrishShippingAddress()->getKey(),
+        ]);
 
         Product::query()
             ->inRandomOrder()

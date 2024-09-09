@@ -3,6 +3,7 @@
 namespace App\Modules\PrintNode\src\Models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Database\Eloquent\Model;
@@ -15,10 +16,18 @@ use Spatie\QueryBuilder\QueryBuilder;
 /**
  * Class Client.
  *
- * @property int         $id
- * @property string      $api_key
+ * @property int $id
+ * @property string $api_key
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ *
+ * @method static Builder|Client newModelQuery()
+ * @method static Builder|Client newQuery()
+ * @method static Builder|Client query()
+ * @method static Builder|Client whereApiKey($value)
+ * @method static Builder|Client whereCreatedAt($value)
+ * @method static Builder|Client whereId($value)
+ * @method static Builder|Client whereUpdatedAt($value)
  *
  * @mixin Eloquent
  */
@@ -36,23 +45,18 @@ class Client extends Model
      */
     protected $fillable = ['api_key'];
 
-    /**
-     * @var GuzzleClient
-     */
     private GuzzleClient $guzzleClient;
 
     /**
      * Client constructor.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
         $this->guzzleClient = new GuzzleClient([
-            'base_uri'   => 'https://api.printnode.com',
-            'timeout'    => 60,
+            'base_uri' => 'https://api.printnode.com',
+            'timeout' => 60,
             'exceptions' => true,
         ]);
     }
@@ -82,16 +86,13 @@ class Client extends Model
      */
     public function generateHeaders(): array
     {
-        return  [
-            'Authorization' => 'Basic '.base64_encode($this->api_key),
-            'Content-Type'  => 'application/json',
-            'Accept'        => 'application/json',
+        return [
+            'Authorization' => 'Basic ' . base64_encode($this->api_key),
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
         ];
     }
 
-    /**
-     * @return QueryBuilder
-     */
     public static function getSpatieQueryBuilder(): QueryBuilder
     {
         return QueryBuilder::for(Client::class);

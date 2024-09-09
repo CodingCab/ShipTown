@@ -46,9 +46,9 @@ jobs:
       - run: npm install
       - run: npm run production --no-git-tag-version
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver 126
+        run: php artisan dusk:chrome-driver
       - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
       - name: Migrate database
         run: php artisan migrate:fresh --force
       - name: Run Dusk Tests

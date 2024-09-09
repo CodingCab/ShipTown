@@ -3,10 +3,10 @@
 namespace Tests;
 
 use App\User;
-use Illuminate\Support\Collection;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Support\Collection;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Throwable;
@@ -17,6 +17,7 @@ abstract class DuskTestCase extends BaseTestCase
     use ResetsDatabase;
 
     protected int $shortDelay = 300;
+
     protected int $longDelay = 0;
 
     /**
@@ -37,6 +38,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function driver(): RemoteWebDriver
     {
         $options = (new ChromeOptions)->addArguments(collect([
+            '--disable-search-engine-choice-screen',
             $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=300,650',
         ])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
             return $items->merge([
@@ -70,7 +72,6 @@ abstract class DuskTestCase extends BaseTestCase
         return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
                isset($_ENV['DUSK_START_MAXIMIZED']);
     }
-
 
     /**
      * @throws Throwable
@@ -168,7 +169,7 @@ abstract class DuskTestCase extends BaseTestCase
         $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
 
         // If key does not exist, add it
-        if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
+        if (! $keyPosition || ! $endOfLinePosition || ! $oldLine) {
             $str .= "{$key}={$value}\n";
         } else {
             $str = str_replace($oldLine, "{$key}={$value}", $str);
