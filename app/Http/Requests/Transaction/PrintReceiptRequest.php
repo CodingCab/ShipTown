@@ -15,8 +15,7 @@ class PrintReceiptRequest extends FormRequest
     {
         return [
             'id' => ['required', 'integer', 'exists:data_collections,id'],
-            'printer_id' => ['required', 'integer'],
-            'epl' => ['required', 'boolean'],
+            'printer_id' => ['required', 'integer']
         ];
     }
 }

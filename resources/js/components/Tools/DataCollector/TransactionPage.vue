@@ -230,11 +230,11 @@
                     </button>
                     <br>
                     <br>
-                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt(false)" v-b-toggle
-                            class="col btn mb-2 btn-primary">Print Receipt (PDF)
-                    </button>
+<!--                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt(false)" v-b-toggle-->
+<!--                            class="col btn mb-2 btn-primary">Print Receipt (PDF)-->
+<!--                    </button>-->
                     <button :disabled="! buttonsEnabled" @click.prevent="printReceipt" v-b-toggle
-                            class="col btn mb-2 btn-primary">Print Receipt (EPL)
+                            class="col btn mb-2 btn-primary">Print Receipt
                     </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="emailPdfReceipt" v-b-toggle
                             class="col btn mb-2 btn-primary">Email Receipt
@@ -729,7 +729,7 @@ export default {
             }
         },
 
-        printReceipt(epl = false) {
+        printReceipt() {
             if (this.selectedPrinter === null) {
                 this.$snotify.error('Please select printer first');
                 return;
@@ -738,12 +738,11 @@ export default {
             let data = {
                 id: this.dataCollection.id,
                 printer_id: this.selectedPrinter.id,
-                epl: !!epl,
             };
 
             this.apiPrintTransactionReceipt(data)
                 .then(() => {
-                    this.notifySuccess(`${epl ? 'EPL' : 'PDF'} receipt sent to printer`);
+                    this.notifySuccess('Receipt sent to printer');
                 })
                 .catch(error => {
                     this.displayApiCallError(error);
