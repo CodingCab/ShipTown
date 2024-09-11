@@ -17,7 +17,6 @@
         "blackfire/php-sdk": "^1.31",
         "doctrine/dbal": "^3.5",
         "dompdf/dompdf": "^v3.0.0",
-        "grayloon/laravel-magento-api": "*",
         "guzzlehttp/guzzle": "^7.2",
         "hulkur/laravel-hasmany-keyby": "^6.0.0",
         "laravel/forge-sdk": "^3.3",

@@ -179,7 +179,7 @@ class ReportBase extends Model
                 }
 
                 if ($fieldValue instanceof Expression) {
-                    $queryBuilder->addSelect(DB::raw('('.$fieldValue.') as '.$selectFieldName));
+                    $queryBuilder->addSelect(DB::raw('('.$fieldValue->getValue($queryBuilder->getGrammar()).') as '.$selectFieldName));
 
                     return;
                 }

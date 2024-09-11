@@ -39,7 +39,7 @@ class AppMakeDuskTest extends GeneratorCommand
     /**
      * Get the destination class path.
      */
-    protected function getPath(string $name): string
+    protected function getPath($name): string
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
@@ -49,7 +49,7 @@ class AppMakeDuskTest extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      */
-    protected function getDefaultNamespace(string $rootNamespace): string
+    protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace.'\Browser';
     }
