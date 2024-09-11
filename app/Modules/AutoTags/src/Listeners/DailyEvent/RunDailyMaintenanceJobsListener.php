@@ -16,7 +16,7 @@ class RunDailyMaintenanceJobsListener
      *
      * @return void
      */
-    public function handle(EveryDayEvent $event)
+    public function handle(EveryDayEvent $event): void
     {
         RemoveWrongOutOfStockTagsJob::dispatch();
         AddMissingOutOfStockTagsJob::dispatch();

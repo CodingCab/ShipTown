@@ -38,7 +38,7 @@ class RefillPickingMissingStockJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $currentOrdersInProcessCount = $this->configuration->current_count_with_status;
 

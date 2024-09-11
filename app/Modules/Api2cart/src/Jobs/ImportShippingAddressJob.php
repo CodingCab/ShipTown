@@ -33,7 +33,7 @@ class ImportShippingAddressJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $order = Order::whereId($this->order_id)->first();
 

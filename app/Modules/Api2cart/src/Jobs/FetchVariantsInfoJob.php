@@ -26,7 +26,7 @@ class FetchVariantsInfoJob implements ShouldQueue
      *
      * @throws GuzzleException
      */
-    public function handle()
+    public function handle(): void
     {
         Api2cartConnection::query()
             ->get()

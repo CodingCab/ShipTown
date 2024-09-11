@@ -41,7 +41,7 @@ class AppMakeTest extends GeneratorCommand
      *
      * @param  string  $name
      */
-    protected function getPath($name): string
+    protected function getPath(string $name): string
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
@@ -53,7 +53,7 @@ class AppMakeTest extends GeneratorCommand
      *
      * @param  string  $rootNamespace
      */
-    protected function getDefaultNamespace($rootNamespace): string
+    protected function getDefaultNamespace(string $rootNamespace): string
     {
         return $rootNamespace;
     }

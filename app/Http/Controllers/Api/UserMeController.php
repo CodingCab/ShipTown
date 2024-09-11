@@ -20,7 +20,7 @@ class UserMeController extends Controller
     /**
      * @return UserResource
      */
-    public function store(UserMeStoreRequest $request)
+    public function store(UserMeStoreRequest $request): UserResource
     {
         $request->user()->update($request->validated());
 

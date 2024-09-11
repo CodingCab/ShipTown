@@ -16,7 +16,7 @@ class InventoryUpdatedEventListener
      *
      * @return void
      */
-    public function handle(InventoryUpdatedEvent $event)
+    public function handle(InventoryUpdatedEvent $event): void
     {
         if ($event->inventory->product->doesNotHaveTags(['Available Online'])) {
             return;

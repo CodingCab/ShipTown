@@ -41,7 +41,7 @@ class SyncProduct implements ShouldQueue
      *
      * @throws GuzzleException
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->product_link->api2cart_product_type != 'simple') {
             return;
