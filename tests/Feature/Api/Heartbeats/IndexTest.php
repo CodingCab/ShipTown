@@ -28,7 +28,7 @@ class IndexTest extends TestCase
             [
                 'expires_at' => now()->subMinutes(10),
                 'error_message' => 'Some error message',
-                'auto_heal_job_class' => 'App\Jobs\DispatchEveryDayEventJob',
+                'auto_heal_job_class' => \App\Jobs\DispatchEveryDayEventJob::class,
             ]
         );
 

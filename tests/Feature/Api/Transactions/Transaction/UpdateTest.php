@@ -22,7 +22,7 @@ class UpdateTest extends TestCase
         /** @var DataCollection $dataCollectionToUpdate */
         $dataCollectionToUpdate = DataCollection::factory()->create([
             'name' => 'Test Transaction',
-            'type' => 'App\Models\DataCollectionTransaction',
+            'type' => \App\Models\DataCollectionTransaction::class,
         ]);
 
         /** @var OrderAddress $shippingAddress */

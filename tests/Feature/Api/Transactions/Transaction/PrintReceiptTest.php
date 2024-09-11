@@ -30,7 +30,7 @@ class PrintReceiptTest extends TestCase
         /** @var DataCollection $dataCollectionToUpdate */
         $dataCollectionToUpdate = DataCollection::factory()->create([
             'name' => 'Test Transaction',
-            'type' => 'App\Models\DataCollectionTransaction',
+            'type' => \App\Models\DataCollectionTransaction::class,
             'warehouse_id' => $user->warehouse_id,
             'warehouse_code' => $user->warehouse_code,
         ]);

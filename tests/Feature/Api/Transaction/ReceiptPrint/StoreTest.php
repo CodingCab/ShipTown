@@ -45,7 +45,7 @@ class StoreTest extends TestCase
 
         $this->transaction = DataCollection::factory()->create([
             'name' => 'Test Transaction',
-            'type' => 'App\Models\DataCollectionTransaction',
+            'type' => \App\Models\DataCollectionTransaction::class,
             'warehouse_id' => $inventory->warehouse_id,
             'warehouse_code' => $inventory->warehouse_code,
 //            'shipping_address_id' => $shippingAddress->id,
