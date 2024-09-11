@@ -13,8 +13,6 @@ class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     *
-     * @param  Request  $request
      */
     public function toArray(Request $request): array
     {

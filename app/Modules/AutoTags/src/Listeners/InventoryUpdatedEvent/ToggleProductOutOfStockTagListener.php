@@ -9,9 +9,6 @@ class ToggleProductOutOfStockTagListener
 {
     /**
      * Handle the event.
-     *
-     *
-     * @return void
      */
     public function handle(InventoryUpdatedEvent $event): void
     {

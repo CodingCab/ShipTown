@@ -10,9 +10,6 @@ use Tests\TestCase;
 
 class IncludeShippingAddressTest extends TestCase
 {
-    /**
-     * @return void
-     */
     public function testIfCanIncludeShippingAddress(): void
     {
         Passport::actingAs(

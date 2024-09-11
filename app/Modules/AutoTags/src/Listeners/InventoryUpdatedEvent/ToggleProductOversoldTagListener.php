@@ -9,9 +9,6 @@ class ToggleProductOversoldTagListener
 {
     /**
      * Handle the event.
-     *
-     *
-     * @return void
      */
     public function handle(InventoryUpdatedEvent $event): void
     {

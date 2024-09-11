@@ -38,8 +38,6 @@ class AppMakeDuskTest extends GeneratorCommand
 
     /**
      * Get the destination class path.
-     *
-     * @param  string  $name
      */
     protected function getPath(string $name): string
     {
@@ -50,8 +48,6 @@ class AppMakeDuskTest extends GeneratorCommand
 
     /**
      * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
      */
     protected function getDefaultNamespace(string $rootNamespace): string
     {

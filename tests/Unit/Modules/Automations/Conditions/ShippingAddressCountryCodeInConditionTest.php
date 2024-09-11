@@ -21,8 +21,6 @@ class ShippingAddressCountryCodeInConditionTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_shipping_method_code_equals_validator(): void
     {

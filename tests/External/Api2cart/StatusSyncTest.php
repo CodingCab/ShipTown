@@ -19,8 +19,6 @@ class StatusSyncTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_if_store_key_is_configured(): void
     {
@@ -31,7 +29,6 @@ class StatusSyncTest extends TestCase
     /**
      * A basic feature test example.
      *
-     * @return void
      *
      * @throws RequestException
      * @throws GuzzleException
@@ -79,7 +76,6 @@ class StatusSyncTest extends TestCase
     /**
      * A basic feature test example.
      *
-     * @return void
      *
      * @throws RequestException
      * @throws GuzzleException

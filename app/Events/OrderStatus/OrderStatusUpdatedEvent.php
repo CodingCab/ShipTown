@@ -27,8 +27,6 @@ class OrderStatusUpdatedEvent
 
     /**
      * Get the channels the event should broadcast on.
-     *
-     * @return Channel
      */
     public function broadcastOn(): Channel
     {

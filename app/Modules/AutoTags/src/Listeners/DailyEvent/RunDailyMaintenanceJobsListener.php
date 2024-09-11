@@ -12,9 +12,6 @@ class RunDailyMaintenanceJobsListener
 {
     /**
      * Handle the event.
-     *
-     *
-     * @return void
      */
     public function handle(EveryDayEvent $event): void
     {

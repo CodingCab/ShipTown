@@ -17,8 +17,6 @@ class BasicIntegrationTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_successful_order_to_pick_integration(): void
     {
@@ -66,8 +64,6 @@ class BasicIntegrationTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testExample(): void
     {

@@ -25,7 +25,6 @@ class UpdateMissingTypeAndIdJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      *
      * @throws GuzzleException
      * @throws Exception

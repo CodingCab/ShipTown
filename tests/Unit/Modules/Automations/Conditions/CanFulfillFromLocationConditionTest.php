@@ -15,8 +15,6 @@ class CanFulfillFromLocationConditionTest extends TestCase
 {
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_can_not_fulfill_from_location_0_condition(): void
     {
@@ -53,8 +51,6 @@ class CanFulfillFromLocationConditionTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_can_fulfill_from_location_0_condition(): void
     {
@@ -91,8 +87,6 @@ class CanFulfillFromLocationConditionTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testCanNotFulfillCondition(): void
     {
@@ -129,8 +123,6 @@ class CanFulfillFromLocationConditionTest extends TestCase
 
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function test_can_fulfill_valid_condition(): void
     {

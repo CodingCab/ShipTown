@@ -14,8 +14,6 @@ class RecalculateProductQuantityJobTest extends TestCase
 {
     /**
      * A basic feature test example.
-     *
-     * @return void
      */
     public function testExample(): void
     {
