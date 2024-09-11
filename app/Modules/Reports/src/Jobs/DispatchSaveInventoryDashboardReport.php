@@ -24,6 +24,10 @@ class DispatchSaveInventoryDashboardReport extends UniqueJob
         ];
 
         $sourceWarehouses = Warehouse::withAnyTagsOfAnyType('fulfilment')->get();
+        if ($sourceWarehouses->isEmpty()) {
+            DB::table('modules_reports_inventory_dashboard_records')->delete();
+            return;
+        }
 
         $sql = "
             INSERT INTO modules_reports_inventory_dashboard_records (
