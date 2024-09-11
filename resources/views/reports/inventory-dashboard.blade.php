@@ -181,21 +181,21 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {{--                                    @foreach ($data as $report)--}}
-                                    <tr>
-                                        <td><a href='{{ url()->route('reports.restocking.index', [
+                                    @foreach($reports as $report)
+                                        <tr>
+                                            <td><a href='{{ url()->route('reports.restocking.index', [
                                                         'filter[warehouse_code]' => data_get($report, 'warehouse_code'),
                                                         'sort' => '-restock_level',
                                                         'filter[quantity_available]' => 0,
                                                         'filter[restock_level_between]' => '0.01,999999',
                                                         'per_page' => '999',
                                                     ]) }}'>
-                                                {{ data_get($report, 'warehouse_code') }}
-                                            </a>
-                                        </td>
-                                        <td class="text-right">{{ data_get($report, 'wh_products_out_of_stock') === 0 ? '-' : data_get($report, 'wh_products_out_of_stock')}}</td>
-                                    </tr>
-                                    {{--                                    @endforeach--}}
+                                                    {{ data_get($report, 'warehouse_code') }}
+                                                </a>
+                                            </td>
+                                            <td class="text-right">{{ data_get($report, 'wh_products_out_of_stock') === 0 ? '-' : data_get($report, 'wh_products_out_of_stock')}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
 
@@ -207,20 +207,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {{--                                    @foreach ($data as $report)--}}
-                                    <tr>
-                                        <td>
-                                            <a href='{{ url()->route('reports.restocking.index', [
+                                    @foreach($reports as $report)
+                                        <tr>
+                                            <td>
+                                                <a href='{{ url()->route('reports.restocking.index', [
                                                         'filter[warehouse_code]' => data_get($report, 'warehouse_code'),
                                                         'sort' => '-quantity_required,-quantity_incoming,quantity_available',
                                                         'per_page' => '999',
                                                     ]) }}'>
-                                                {{ data_get($report, 'warehouse_code') }}
-                                            </a>
-                                        </td>
-                                        <td class="text-right">{{ data_get($report, '`wh_products_available`') === 0 ? '-' : data_get($report, 'wh_products_available')}}</td>
-                                    </tr>
-                                    {{--                                    @endforeach--}}
+                                                    {{ data_get($report, 'warehouse_code') }}
+                                                </a>
+                                            </td>
+                                            <td class="text-right">{{ data_get($report, '`wh_products_available`') === 0 ? '-' : data_get($report, 'wh_products_available')}}</td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
