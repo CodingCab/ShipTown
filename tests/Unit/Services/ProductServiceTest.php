@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class ProductServiceTest extends TestCase
 {
-    public function testFindByAlias()
+    public function testFindByAlias(): void
     {
         $alias = ProductAlias::factory()->create();
 
@@ -26,7 +26,7 @@ class ProductServiceTest extends TestCase
      *
      * @return void
      */
-    public function testIfReservesCorrectly()
+    public function testIfReservesCorrectly(): void
     {
         Passport::actingAs(
             User::factory()->create()->assignRole('admin')
@@ -60,7 +60,7 @@ class ProductServiceTest extends TestCase
      *
      * @return void
      */
-    public function testIfReleasesQuantityCorrectly()
+    public function testIfReleasesQuantityCorrectly(): void
     {
         Passport::actingAs(
             User::factory()->create()->assignRole('admin')

@@ -13,7 +13,7 @@ class Orders_StorePickupDemoSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $menu = [
             [

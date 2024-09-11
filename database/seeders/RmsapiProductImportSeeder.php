@@ -12,7 +12,7 @@ class RmsapiProductImportSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         RmsapiProductImport::factory()->create();
     }

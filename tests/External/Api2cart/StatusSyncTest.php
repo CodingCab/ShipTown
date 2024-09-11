@@ -22,7 +22,7 @@ class StatusSyncTest extends TestCase
      *
      * @return void
      */
-    public function test_if_store_key_is_configured()
+    public function test_if_store_key_is_configured(): void
     {
         $this->assertNotEmpty(env('API2CART_API_KEY'), 'API2CART_API_KEY env key not set');
         $this->assertNotEmpty(config('api2cart.api2cart_test_store_key'), 'TEST_API2CART_STORE_KEY env key not set');
@@ -36,7 +36,7 @@ class StatusSyncTest extends TestCase
      * @throws RequestException
      * @throws GuzzleException
      */
-    public function test_if_syncs_status()
+    public function test_if_syncs_status(): void
     {
         Api2cartServiceProvider::enableModule();
 
@@ -84,7 +84,7 @@ class StatusSyncTest extends TestCase
      * @throws RequestException
      * @throws GuzzleException
      */
-    public function test_if_not_syncs_status_when_disabled()
+    public function test_if_not_syncs_status_when_disabled(): void
     {
         Api2cartServiceProvider::enableModule();
 

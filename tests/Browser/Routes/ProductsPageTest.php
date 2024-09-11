@@ -17,7 +17,7 @@ class ProductsPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasics()
+    public function testBasics(): void
     {
         $this->basicUserAccessTest($this->uri, true);
         $this->basicAdminAccessTest($this->uri, true);
@@ -31,7 +31,7 @@ class ProductsPageTest extends DuskTestCase
      *
      * @throws Throwable
      */
-    public function testNoProducts()
+    public function testNoProducts(): void
     {
         Product::query()->forceDelete();
 
@@ -56,7 +56,7 @@ class ProductsPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testIfDisplaysProducts()
+    public function testIfDisplaysProducts(): void
     {
         $this->browse(function (Browser $browser) {
             $warehouse = Warehouse::factory()->create();

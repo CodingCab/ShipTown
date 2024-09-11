@@ -18,7 +18,7 @@ class BasicModuleTest extends TestCase
      *
      * @return void
      */
-    public function testIfDispatchesJobs()
+    public function testIfDispatchesJobs(): void
     {
         Api2cartServiceProvider::enableModule();
 

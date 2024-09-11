@@ -44,7 +44,7 @@ use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         parent::register();
 
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerEnabledModules();
 

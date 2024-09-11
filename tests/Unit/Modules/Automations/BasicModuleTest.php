@@ -20,7 +20,7 @@ class BasicModuleTest extends TestCase
      *
      * @return void
      */
-    public function test_basic_automation()
+    public function test_basic_automation(): void
     {
         AutomationsServiceProvider::enableModule();
 

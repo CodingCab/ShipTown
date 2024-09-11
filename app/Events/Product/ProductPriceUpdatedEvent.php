@@ -31,7 +31,7 @@ class ProductPriceUpdatedEvent
      *
      * @return Channel
      */
-    public function broadcastOn()
+    public function broadcastOn(): Channel
     {
         return new PrivateChannel('channel-name');
     }

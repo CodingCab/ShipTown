@@ -13,7 +13,7 @@ class OrderShipmentObserver
      *
      * @return void
      */
-    public function created(OrderShipment $orderShipment)
+    public function created(OrderShipment $orderShipment): void
     {
         OrderProductShipment::where(['order_id' => $orderShipment->order_id])
             ->whereNull('order_shipment_id')

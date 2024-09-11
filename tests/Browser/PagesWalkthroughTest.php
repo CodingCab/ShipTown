@@ -32,7 +32,7 @@ class PagesWalkthroughTest extends DuskTestCase
      *
      * @throws Throwable
      */
-    public function testExample()
+    public function testExample(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->disableFitOnFailure();

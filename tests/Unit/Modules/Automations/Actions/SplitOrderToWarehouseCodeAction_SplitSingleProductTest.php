@@ -26,7 +26,7 @@ class SplitOrderToWarehouseCodeAction_SplitSingleProductTest extends TestCase
      *
      * @return void
      */
-    public function test_splitting_one_product_between_warehouses()
+    public function test_splitting_one_product_between_warehouses(): void
     {
         AutomationsServiceProvider::enableModule();
 

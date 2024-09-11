@@ -13,7 +13,7 @@ class ProductsPricesSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Product::query()
             ->chunkById(50, function ($productsList) {

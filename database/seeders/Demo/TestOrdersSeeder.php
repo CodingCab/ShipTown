@@ -17,7 +17,7 @@ class TestOrdersSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->create_test_paid_order();
 

@@ -12,7 +12,7 @@ class PicksSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         Pick::factory()->count(rand(50, 100))->create();
     }

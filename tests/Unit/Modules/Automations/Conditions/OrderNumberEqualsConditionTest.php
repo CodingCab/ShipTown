@@ -45,7 +45,7 @@ class OrderNumberEqualsConditionTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testExample(): void
     {
         OrderStatus::factory()->create(['code' => 'active', 'order_active' => true]);
 

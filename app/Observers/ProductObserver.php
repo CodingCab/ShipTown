@@ -16,7 +16,7 @@ class ProductObserver
      *
      * @return void
      */
-    public function created(Product $product)
+    public function created(Product $product): void
     {
         ProductCreatedEvent::dispatch($product);
     }
@@ -29,7 +29,7 @@ class ProductObserver
      *
      * @throws Exception
      */
-    public function updated(Product $product)
+    public function updated(Product $product): void
     {
         $this->upsertProductAliasRecords($product);
 

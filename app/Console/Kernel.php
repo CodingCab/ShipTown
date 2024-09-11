@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->job(new DispatchEveryMinuteEventJob)->everyMinute();
         $schedule->job(new DispatchEveryFiveMinutesEventJob)->everyFiveMinutes();
@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 
