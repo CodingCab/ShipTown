@@ -26,26 +26,37 @@ class DispatchSaveInventoryDashboardReport extends UniqueJob
         $sourceWarehouses = Warehouse::withAnyTagsOfAnyType('fulfilment')->get();
 
         $sql = "
-            INSERT INTO modules_reports_inventory_dashboard_records (warehouse_id, warehouse_code, data, created_at, updated_at)
-            SELECT JSON_OBJECT(
-                'warehouse_id', inventory.warehouse_id,
-                'warehouse_code', inventory.warehouse_code,
-                'missing_restock_levels', {$fields['missing_restock_levels']},
-                'wh_products_available', {$fields['wh_products_available']},
-                'wh_products_out_of_stock', {$fields['wh_products_out_of_stock']},
-                'wh_products_required', {$fields['wh_products_required']},
-                'wh_products_incoming', {$fields['wh_products_incoming']},
-                'wh_products_stock_level_ok', {$fields['wh_products_stock_level_ok']}
-            ) as data, NOW(), NOW()
+            INSERT INTO modules_reports_inventory_dashboard_records (
+                warehouse_id, warehouse_code, missing_restock_levels, wh_products_available, 
+                wh_products_out_of_stock, wh_products_required, wh_products_incoming, wh_products_stock_level_ok, 
+                created_at, updated_at
+            )
+            SELECT
+                inventory.warehouse_id,
+                inventory.warehouse_code,
+                {$fields['missing_restock_levels']} as missing_restock_levels,
+                {$fields['wh_products_available']} as wh_products_available,
+                {$fields['wh_products_out_of_stock']} as wh_products_out_of_stock,
+                {$fields['wh_products_required']} as wh_products_required,
+                {$fields['wh_products_incoming']} as wh_products_incoming,
+                {$fields['wh_products_stock_level_ok']} as wh_products_stock_level_ok,
+                NOW(), NOW()
             FROM inventory
             RIGHT JOIN inventory as inventory_source ON inventory_source.product_id = inventory.product_id
             AND inventory_source.warehouse_id IN (" . $sourceWarehouses->pluck('id')->implode(',') . ")
             AND inventory_source.quantity_available > 0
             LEFT JOIN products as product ON inventory.product_id = product.id
             WHERE inventory_source.quantity_available > 0
+            AND inventory.warehouse_id IS NOT NULL
+            AND inventory.warehouse_code IS NOT NULL
             GROUP BY inventory.warehouse_code, inventory.warehouse_id
-            ON DUPLICATE KEY UPDATE 
-                data = VALUES(data),
+            ON DUPLICATE KEY UPDATE
+                missing_restock_levels = VALUES(missing_restock_levels),
+                wh_products_available = VALUES(wh_products_available),
+                wh_products_out_of_stock = VALUES(wh_products_out_of_stock),
+                wh_products_required = VALUES(wh_products_required),
+                wh_products_incoming = VALUES(wh_products_incoming),
+                wh_products_stock_level_ok = VALUES(wh_products_stock_level_ok),
                 updated_at = VALUES(updated_at)
         ";
 

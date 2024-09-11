@@ -14,7 +14,12 @@ class InventoryDashboardRecords extends Model
     protected $fillable = [
         'warehouse_id',
         'warehouse_code',
-        'data',
+        'missing_restock_levels',
+        'wh_products_available',
+        'wh_products_out_of_stock',
+        'wh_products_required',
+        'wh_products_incoming',
+        'wh_products_stock_level_ok',
     ];
 
     protected $casts = [
