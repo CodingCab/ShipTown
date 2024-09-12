@@ -17,7 +17,7 @@ class DestroyTest extends TestCase
 
         $connection = Magento2msiConnection::factory()->create();
 
-        $response = $this->actingAs($user, 'api')->delete($this->uri.$connection->getKey(), []);
+        $response = $this->actingAs($user, 'api')->delete($this->uri.$connection->getKey());
 
         ray($response->json());
 

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use ArrayAccess;
+use Illuminate\Support\Collection;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -85,7 +86,7 @@ trait HasTagsTrait
         return $this;
     }
 
-    public function detachTags(array $tags, ?string $type = null): self
+    public function detachTags(array|Collection $tags, ?string $type = null): self
     {
         collect($tags)
             ->filter()

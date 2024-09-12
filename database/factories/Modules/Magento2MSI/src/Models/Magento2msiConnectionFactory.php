@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Modules\Magento2MSI\src\Models;
 
-use App\Modules\Magento2msi\src\Models\Magento2msiConnection;
+use App\Modules\Magento2MSI\src\Models\Magento2msiConnection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class Magento2msiConnectionFactory extends Factory
