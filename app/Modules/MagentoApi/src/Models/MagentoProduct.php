@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\ProductPrice;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use Makeable\LaravelFactory\HasFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property MagentoConnection $magentoConnection

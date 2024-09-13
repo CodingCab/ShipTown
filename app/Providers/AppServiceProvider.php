@@ -53,14 +53,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public const HOME = '/home';
 
-    public function register(): void
-    {
-        parent::register();
-
-        Passport::ignoreMigrations();
-        Telescope::ignoreMigrations();
-    }
-
     /**
      * Bootstrap any application services.
      */
@@ -86,8 +78,6 @@ class AppServiceProvider extends ServiceProvider
         DataCollectionRecord::observe(DataCollectionRecordObserver::class);
         Pick::observe(PickObserver::class);
         PrintJob::observe(PrintJobObserver::class);
-
-        $this->bootAuth();
     }
 
     private function registerEnabledModules(): void
@@ -112,10 +102,5 @@ class AppServiceProvider extends ServiceProvider
                 return;
             }
         });
-    }
-
-    public function bootAuth(): void
-    {
-        Passport::ignoreMigrations();
     }
 }
