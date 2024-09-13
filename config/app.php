@@ -15,27 +15,6 @@ return [
 
     'api2cart_api_key' => env('API2CART_API_KEY', ''),
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
-
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
-        App\Providers\ViewServiceProvider::class,
-        Aws\Laravel\AwsServiceProvider::class,
-        Sentry\Laravel\ServiceProvider::class,
-
-        Barryvdh\DomPDF\ServiceProvider::class,
-        Milon\Barcode\BarcodeServiceProvider::class,
-    ])->toArray(),
 
     'aliases' => Facade::defaultAliases()->merge([
         'AWS' => Aws\Laravel\AwsFacade::class,
