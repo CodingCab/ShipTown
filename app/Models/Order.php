@@ -157,23 +157,6 @@ class Order extends BaseModel
         'packer_user_id',
     ];
 
-    protected $casts = [
-        'is_active' => 'boolean',
-        'is_on_hold' => 'boolean',
-        'is_editing' => 'boolean',
-        'is_fully_paid' => 'boolean',
-        'total_products' => 'float',
-        'total_shipping' => 'float',
-        'total_paid' => 'float',
-        'total_discounts' => 'float',
-        'total_order' => 'float',
-        'total_outstanding' => 'float',
-        'order_placed_at' => 'datetime',
-        'picked_at' => 'datetime',
-        'packed_at' => 'datetime',
-        'order_closed_at' => 'datetime',
-    ];
-
     // we use attributes to set default values
     // we will not use db default values
     // as this is then not populated
@@ -189,6 +172,26 @@ class Order extends BaseModel
         'is_packed',
         'age_in_days',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+            'is_on_hold' => 'boolean',
+            'is_editing' => 'boolean',
+            'is_fully_paid' => 'boolean',
+            'total_products' => 'float',
+            'total_shipping' => 'float',
+            'total_paid' => 'float',
+            'total_discounts' => 'float',
+            'total_order' => 'float',
+            'total_outstanding' => 'float',
+            'order_placed_at' => 'datetime',
+            'picked_at' => 'datetime',
+            'packed_at' => 'datetime',
+            'order_closed_at' => 'datetime',
+        ];
+    }
 
     public static function active(): Builder
     {
