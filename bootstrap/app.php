@@ -1,12 +1,22 @@
 <?php
 
+use App\Http\Middleware\AddHeaderAccessToken;
+use App\Http\Middleware\TwoFactor;
 use Aws\Laravel\AwsServiceProvider;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 use Milon\Barcode\BarcodeServiceProvider;
 use Sentry\Laravel\ServiceProvider as SentryServiceProvider;
 use Barryvdh\DomPDF\ServiceProvider as DomPDFServiceProvider;
+use Spatie\Permission\Middleware\RoleMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
@@ -16,38 +26,38 @@ return Application::configure(basePath: dirname(__DIR__))
         BarcodeServiceProvider::class,
     ])
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        api: __DIR__.'/../routes/api.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
         // channels: __DIR__.'/../routes/channels.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectGuestsTo(fn() => route('login'));
         $middleware->redirectUsersTo('/dashboard');
 
-        $middleware->append(\App\Http\Middleware\AddHeaderAccessToken::class);
+        $middleware->append(AddHeaderAccessToken::class);
 
         $middleware->web([
-            \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+            AuthenticateSession::class,
+            CreateFreshApiToken::class,
         ]);
 
         $middleware->throttleApi('240,1');
 
         $middleware->alias([
-            'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
-            'twofactor' => \App\Http\Middleware\TwoFactor::class,
+            'bindings' => SubstituteBindings::class,
+            'role' => RoleMiddleware::class,
+            'twofactor' => TwoFactor::class,
         ]);
 
         $middleware->priority([
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\Authenticate::class,
-            \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \Illuminate\Auth\Middleware\Authorize::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            Authenticate::class,
+            AuthenticateSession::class,
+            SubstituteBindings::class,
+            Authorize::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
