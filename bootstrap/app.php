@@ -1,15 +1,19 @@
 <?php
 
+use Aws\Laravel\AwsServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Milon\Barcode\BarcodeServiceProvider;
+use Sentry\Laravel\ServiceProvider as SentryServiceProvider;
+use Barryvdh\DomPDF\ServiceProvider as DomPDFServiceProvider;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([
-        \Aws\Laravel\AwsServiceProvider::class,
-        \Sentry\Laravel\ServiceProvider::class,
-        \Barryvdh\DomPDF\ServiceProvider::class,
-        \Milon\Barcode\BarcodeServiceProvider::class,
+        AwsServiceProvider::class,
+        SentryServiceProvider::class,
+        DomPDFServiceProvider::class,
+        BarcodeServiceProvider::class,
     ])
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
