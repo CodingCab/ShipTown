@@ -14,7 +14,32 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo('/dashboard');
+
+        $middleware->append(\App\Http\Middleware\AddHeaderAccessToken::class);
+
+        $middleware->web([
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+        ]);
+
+        $middleware->throttleApi('240,1');
+
+        $middleware->alias([
+            'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+            'twofactor' => \App\Http\Middleware\TwoFactor::class,
+        ]);
+
+        $middleware->priority([
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            \App\Http\Middleware\Authenticate::class,
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Illuminate\Auth\Middleware\Authorize::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
