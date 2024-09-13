@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\SchemaLoadedListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Database\Events\SchemaLoaded;
@@ -24,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         SchemaLoaded::class => [
-            \App\Listeners\SchemaLoadedListener::class,
+            SchemaLoadedListener::class,
         ],
     ];
 

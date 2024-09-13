@@ -12,7 +12,6 @@ class InventoryDashboardController extends Controller
     public function index(Request $request): View
     {
         $reports = InventoryDashboardRecords::all();
-
         return view('reports.inventory-dashboard', compact('reports'));
     }
 }
