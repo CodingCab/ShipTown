@@ -44,6 +44,15 @@ use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * The path to your application's "home" route.
+     *
+     * Typically, users are redirected here after authentication.
+     *
+     * @var string
+     */
+    public const HOME = '/home';
+
     public function register(): void
     {
         parent::register();
@@ -77,6 +86,8 @@ class AppServiceProvider extends ServiceProvider
         DataCollectionRecord::observe(DataCollectionRecordObserver::class);
         Pick::observe(PickObserver::class);
         PrintJob::observe(PrintJobObserver::class);
+
+        $this->bootAuth();
     }
 
     private function registerEnabledModules(): void
@@ -101,5 +112,10 @@ class AppServiceProvider extends ServiceProvider
                 return;
             }
         });
+    }
+
+    public function bootAuth(): void
+    {
+        Passport::ignoreMigrations();
     }
 }
