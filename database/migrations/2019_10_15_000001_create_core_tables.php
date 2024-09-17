@@ -3,8 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 return new class extends Migration {
     public function up(): void
@@ -58,20 +56,6 @@ return new class extends Migration {
         }
 
         $this->installSpatiePermissions();
-        $this->createDefaultUserRoles();
-    }
-
-    private function createDefaultUserRoles(): void
-    {
-        Role::findOrCreate('user');
-        $admin = Role::findOrCreate('admin');
-
-        $defaultAdminPermissions = ['manage users', 'list users', 'invite users', 'list roles'];
-
-        foreach ($defaultAdminPermissions as $permissionName) {
-            $permission = Permission::firstOrCreate(['name' => $permissionName]);
-            $admin->givePermissionTo($permission);
-        }
     }
 
     private function installSpatiePermissions(): void
@@ -193,6 +177,40 @@ return new class extends Migration {
 
                 $table->primary([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
             });
+
+        Schema::create('telescope_entries', function (Blueprint $table) {
+            $table->bigIncrements('sequence');
+            $table->uuid('uuid');
+            $table->uuid('batch_id');
+            $table->string('family_hash')->nullable();
+            $table->boolean('should_display_on_index')->default(true);
+            $table->string('type', 20);
+            $table->longText('content');
+            $table->dateTime('created_at')->nullable();
+
+            $table->unique('uuid');
+            $table->index('batch_id');
+            $table->index('family_hash');
+            $table->index('created_at');
+            $table->index(['type', 'should_display_on_index']);
+        });
+
+        Schema::create('telescope_entries_tags', function (Blueprint $table) {
+            $table->uuid('entry_uuid');
+            $table->string('tag');
+
+            $table->primary(['entry_uuid', 'tag']);
+            $table->index('tag');
+
+            $table->foreign('entry_uuid')
+                ->references('uuid')
+                ->on('telescope_entries')
+                ->onDelete('cascade');
+        });
+
+        Schema::create('telescope_monitoring', function (Blueprint $table) {
+            $table->string('tag')->primary();
+        });
 
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)

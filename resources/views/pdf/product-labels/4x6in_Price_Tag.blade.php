@@ -1,7 +1,7 @@
 @extends('pdf.template')
 @section('content')
     @php
-        $users_warehouse_code = auth()->user()->warehouse_code;
+        $users_warehouse_code = auth()->guard('api')->user()->warehouse_code;
         $products = collect($product_sku)->map(function($sku) {
             return \App\Models\Product::whereSku($sku)->with(['prices'])->first()->toArray();
         })->toArray();

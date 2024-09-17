@@ -19,7 +19,7 @@ class PdfPrintController extends Controller
 
         $printJob = new PrintJob;
         $printJob->printer_id = $request->printer_id;
-        $printJob->title = $request->template.'_by_'.auth()->user()->id;
+        $printJob->title = $request->template.'_by_'.auth()->guard('api')->user()->id;
         $printJob->pdf = base64_encode($pdfString);
         $printJob->save();
 

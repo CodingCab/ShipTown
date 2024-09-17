@@ -29,7 +29,7 @@ class NextDayShippingService extends ShippingServiceAbstract
 
         $shippingLabel = new ShippingLabel;
         $shippingLabel->order_id = $order_id;
-        $shippingLabel->user_id = Auth::id();
+        $shippingLabel->user_id = Auth::guard('api')->id();
         $shippingLabel->carrier = 'DPD Ireland';
         $shippingLabel->service = 'next_day';
         $shippingLabel->shipping_number = $preAdvice->trackingNumber();
@@ -40,7 +40,7 @@ class NextDayShippingService extends ShippingServiceAbstract
 
         activity()
             ->on($order)
-            ->by(auth()->user())
+            ->by(auth()->guard('api')->user())
             ->log('generated shipping label '.$shippingLabel->shipping_number);
 
         return collect()->add($shippingLabel);
