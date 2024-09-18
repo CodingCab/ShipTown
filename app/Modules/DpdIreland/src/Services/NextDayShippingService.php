@@ -40,7 +40,7 @@ class NextDayShippingService extends ShippingServiceAbstract
 
         activity()
             ->on($order)
-            ->by(auth()->guard('api')->user())
+            ->by(auth()->user())
             ->log('generated shipping label '.$shippingLabel->shipping_number);
 
         return collect()->add($shippingLabel);

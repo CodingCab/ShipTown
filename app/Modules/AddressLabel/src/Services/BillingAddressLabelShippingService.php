@@ -30,7 +30,7 @@ class BillingAddressLabelShippingService extends ShippingServiceAbstract
 
         activity()
             ->on($order)
-            ->by(auth()->guard('api')->user())
+            ->by(auth()->user())
             ->log('generated generic address label');
 
         // we delete label after it was printed

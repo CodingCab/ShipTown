@@ -8,6 +8,6 @@ class SlackConfigIndexRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return auth()->guard('api')->user()->hasRole('admin');
+        return auth()->user()->hasRole('admin');
     }
 }
