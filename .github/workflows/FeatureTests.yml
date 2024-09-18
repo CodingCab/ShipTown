@@ -1,4 +1,4 @@
-name: PHP 8.1 - Feature Tests
+name: PHP 8.3 - Feature Tests
 on: [push, pull_request]
 
 env:

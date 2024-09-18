@@ -1,4 +1,4 @@
-name: PHP 8.1 - Coverage Tests
+name: PHP 8.3 - Coverage Tests
 on: [push, pull_request]
 
 env:

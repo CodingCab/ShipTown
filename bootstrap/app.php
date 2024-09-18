@@ -39,8 +39,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(AddHeaderAccessToken::class);
 
         $middleware->web([
+            'web',
+            'auth',
+            'twofactor',
             AuthenticateSession::class,
             CreateFreshApiToken::class,
+        ]);
+
+        $middleware->api([
+            'auth:api',
+            SubstituteBindings::class,
         ]);
 
         $middleware->throttleApi('240,1');

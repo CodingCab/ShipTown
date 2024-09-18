@@ -33,7 +33,7 @@ Route::redirect('/', 'dashboard');
 Route::redirect('home', '/')->name('home');
 
 
-Route::middleware('auth')->group(function () {
+//Route::middleware('auth')->group(function () {
     Route::resource('verify', Auth\TwoFactorController::class)->only(['index', 'store']);
     Route::view('quick-connect', 'quick-connect');
     Route::view('quick-connect/magento', 'quick-connect.magento');
@@ -114,4 +114,4 @@ Route::middleware('auth')->group(function () {
         Route::view('settings/modules/quantity-discounts', 'settings/modules/quantity-discounts/index')->name('settings.modules.quantity-discounts.index');
         Route::get('settings/modules/quantity-discounts/{id}', [QuantityDiscountsController::class, 'edit'])->name('settings.modules.quantity-discounts.edit');
     });
-});
+//});
