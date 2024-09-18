@@ -456,7 +456,7 @@ class AppInstall extends Command
         $defaultAdminPermissions = ['manage users', 'list users', 'invite users', 'list roles'];
 
         foreach ($defaultAdminPermissions as $permissionName) {
-            $permission = Permission::firstOrCreate(['name' => $permissionName]);
+            $permission = Permission::firstOrCreate(['name' => $permissionName, 'guard_name' => 'web']);
             $admin->givePermissionTo($permission);
         }
 
