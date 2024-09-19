@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->group(function () {
 Route::name('api.')->group(function () {
     Route::apiResource('jobs', Api\JobsController::class)->only(['store', 'index']);
     Route::apiResource('configurations', Api\ConfigurationController::class)->only(['index', 'store']);
@@ -101,4 +100,3 @@ Route::apiResource('settings/user/me', Api\UserMeController::class)->only(['inde
 Route::apiResource('settings/widgets', Api\WidgetController::class)->only(['store', 'update']);
 Route::apiResource('settings/modules/automations/run', Api\Modules\OrderAutomations\RunAutomationController::class, ['as' => 'settings.modules.automations'])->only(['store']);
 Route::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['as' => 'modules.autostatus.picking'])->only('index', 'store');
-//});
