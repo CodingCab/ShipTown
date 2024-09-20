@@ -76,6 +76,7 @@ class StocktakingPageTest extends DuskTestCase
                     $this->sendKeysTo($browser, rand(0, 10000));
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
                     $browser->pause($this->shortDelay);
+                    $browser->pause($this->shortDelay);
 
                     $browser->assertSee('Stocktake updated');
                     $browser->assertMissing('#quantity-request-input');
