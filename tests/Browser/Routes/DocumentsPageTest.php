@@ -20,6 +20,7 @@ class DocumentsPageTest extends DuskTestCase
         $user = User::factory()->create();
         $user->assignRole('admin');
 
+        dd(1);
         $this->browse(function (Browser $browser) use ($user) {
             $browser->disableFitOnFailure();
             $browser->loginAs($user);
