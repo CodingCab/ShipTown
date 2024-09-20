@@ -26,8 +26,8 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public static function prepare(): void
     {
-        if (! static::runningInSail()) {
-            static::startChromeDriver();
+        if (!static::runningInSail()) {
+            static::startChromeDriver(['--port=9515']);
         }
     }
 
@@ -60,7 +60,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function hasHeadlessDisabled(): bool
     {
         return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-               isset($_ENV['DUSK_HEADLESS_DISABLED']);
+            isset($_ENV['DUSK_HEADLESS_DISABLED']);
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class DuskTestCase extends BaseTestCase
     protected function shouldStartMaximized(): bool
     {
         return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
-               isset($_ENV['DUSK_START_MAXIMIZED']);
+            isset($_ENV['DUSK_START_MAXIMIZED']);
     }
 
     /**
@@ -156,7 +156,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $path = app()->environmentFilePath();
 
-        if (! file_exists($path)) {
+        if (!file_exists($path)) {
             return;
         }
 
@@ -168,7 +168,7 @@ abstract class DuskTestCase extends BaseTestCase
         $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
 
         // If key does not exist, add it
-        if (! $keyPosition || ! $endOfLinePosition || ! $oldLine) {
+        if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
             $str .= "{$key}={$value}\n";
         } else {
             $str = str_replace($oldLine, "{$key}={$value}", $str);
