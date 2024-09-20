@@ -79,7 +79,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $this->browse(function (Browser $browser) use ($uri, $allowed) {
             /** @var User $user */
-            $user = User::factory()->create();
+            $user = User::query()->inRandomOrder()->first() ?? User::factory()->create();
             $user->assignRole('user');
 
             $browser->disableFitOnFailure();
@@ -106,7 +106,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $this->browse(function (Browser $browser) use ($uri, $allowed) {
             /** @var User $admin */
-            $admin = User::factory()->create();
+            $admin = User::query()->inRandomOrder()->first() ?? User::factory()->create();
             $admin->assignRole('admin');
 
             $browser->disableFitOnFailure();
