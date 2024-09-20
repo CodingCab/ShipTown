@@ -75,17 +75,18 @@ abstract class DuskTestCase extends BaseTestCase
     /**
      * @throws Throwable
      */
-    public function basicUserAccessTest(string $uri, bool $allowed): void
+    public function basicUserAccessTest(string $uri, bool $allowed, User $user = null): void
     {
-        $this->browse(function (Browser $browser) use ($uri, $allowed) {
-            /** @var User $user */
-            $user = User::query()->inRandomOrder()->first() ?? User::factory()->create();
-            $user->assignRole('user');
+        $this->browse(function (Browser $browser) use ($uri, $allowed, $user) {
+            /** @var User $visitor */
+            $visitor = $user ?? User::factory()->create();
+            $visitor->assignRole('user');
 
             $browser->disableFitOnFailure();
 
-            $browser->loginAs($user);
+            $browser->loginAs($visitor);
             $browser->visit($uri);
+            $browser->pause(5000);
             $browser->pause($this->shortDelay);
 
             $browser->assertSourceMissing('Server Error');
