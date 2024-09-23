@@ -17,8 +17,9 @@ SFILES=${SFILES:-$STAGED_FILES_CMD}
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do
-    echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE\""
-    vendor/bin/phpunit --stop-on-failure --filter "$FILE"
+    FILE_NAME=$(basename "$FILE")
+    echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
+    vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME"
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
