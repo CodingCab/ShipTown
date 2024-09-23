@@ -16,7 +16,8 @@ class DispatchRecalculateInventoryRecordsJob extends UniqueJob
     {
         Inventory::where(['recount_required' => true])
             ->chunkById(100, function (Collection $records) {
-                $recordsUpdated = Inventory::whereIn('id', $records->pluck('id'))
+                $recordsUpdated = Inventory::query()
+                    ->whereIn('id', $records->pluck('id'))
                     ->update([
                         'recount_required' => false,
                         'quantity' => DB::raw('IFNULL((SELECT quantity_after FROM inventory_movements WHERE inventory_id = inventory.id ORDER BY occurred_at DESC, sequence_number DESC LIMIT 1), 0)'),
