@@ -17,6 +17,7 @@ SFILES=${SFILES:-$STAGED_FILES_CMD}
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do
+    echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE\""
     vendor/bin/phpunit --stop-on-failure --filter "$FILE"
     if [ $? != 0 ]
     then
