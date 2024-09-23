@@ -25,6 +25,13 @@ do
         echo "Fix the error before commit."
         exit 1
     fi
+    echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
+    php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME"
+    if [ $? != 0 ]
+    then
+        echo "Fix the error before commit."
+        exit 1
+    fi
     FILES="$FILES $PROJECT/$FILE"
 done
 
