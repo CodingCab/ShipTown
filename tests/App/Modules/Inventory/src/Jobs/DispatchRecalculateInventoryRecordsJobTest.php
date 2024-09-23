@@ -9,7 +9,7 @@ class DispatchRecalculateInventoryRecordsJobTest extends TestCase
 {
     public function test_basic_functionality()
     {
-        DispatchRecalculateInventoryRecordsJob::dispatchSync();
+        DispatchRecalculateInventoryRecordsJob::dispatch();
 
         $this->assertTrue(true, 'We ran the job without errors');
     }
