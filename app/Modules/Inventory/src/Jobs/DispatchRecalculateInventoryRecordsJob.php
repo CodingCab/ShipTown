@@ -32,7 +32,7 @@ class DispatchRecalculateInventoryRecordsJob extends UniqueJob
                         'first_sold_at'         => DB::raw("(SELECT MIN(occurred_at) FROM inventory_movements WHERE inventory_id = inventory.id AND type = 'sale')"),
                         'last_sold_at'          => DB::raw("(SELECT MAX(occurred_at) FROM inventory_movements WHERE inventory_id = inventory.id AND type = 'sale')"),
                         'first_received_at'     => DB::raw('(SELECT MIN(occurred_at) FROM inventory_movements WHERE inventory_id = inventory.id AND quantity_delta > 0)'),
-                        'last_received_at'      => DB::raw('(SELECT MAX(occurred_at) FROM inventory_movements WHERE inventory_id = inventory.id AND quantity_delta > 0)'),
+                        'last_received_at'      => DB::raw('(SdELECT MAX(occurred_at) FROM inventory_movements WHERE inventory_id = inventory.id AND quantity_delta > 0)'),
                         'updated_at'            => now(),
                         'recalculated_at'       => now(),
                     ]);
