@@ -15,6 +15,8 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use ResetsDatabase;
 
+    protected int $superShortDelay = 50;
+
     protected int $shortDelay = 300;
 
     protected int $longDelay = 0;
@@ -86,7 +88,6 @@ abstract class DuskTestCase extends BaseTestCase
 
             $browser->loginAs($visitor);
             $browser->visit($uri);
-            $browser->pause(5000);
             $browser->pause($this->shortDelay);
 
             $browser->assertSourceMissing('Server Error');
@@ -139,7 +140,7 @@ abstract class DuskTestCase extends BaseTestCase
 
             $browser->logout();
             $browser->visit($uri);
-            $browser->pause($this->shortDelay);
+            $browser->pause($this->superShortDelay);
 
             $browser->assertSourceMissing('Server Error');
             $browser->assertSourceMissing('snotify-error');
