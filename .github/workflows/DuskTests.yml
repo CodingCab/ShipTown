@@ -52,7 +52,7 @@ jobs:
       - name: Migrate database
         run: php artisan migrate:fresh --force
       - name: Run Dusk Tests
-        run: php artisan serve -v &> /dev/null & php artisan dusk
+        run: php artisan serve -v &> /dev/null & php artisan dusk --stop-on-failure --stop-on-error
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v4
