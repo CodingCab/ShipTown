@@ -42,7 +42,7 @@ class DispatchRecalculateInventoryRecordsJob extends UniqueJob
                 });
 
                 Log::info('Job processing', [
-                    'job' => self::class,
+                    'job'            => self::class,
                     'recordsUpdated' => $recordsUpdated,
                 ]);
 
