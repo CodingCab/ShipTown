@@ -574,8 +574,8 @@ export default {
 
         saveTransaction() {
             this.apiUpdateDataCollection(this.data_collection_id, {
-                'name': `TBD_name_${this.data_collection_id}`,
-                'custom_uuid': `TBD_custom_uuid_${this.data_collection_id}`,
+                'name': ``,
+                'custom_uuid': ``,
             })
                 .then(() => {
                     this.$snotify.success('Transaction saved successfully');
