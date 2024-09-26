@@ -247,10 +247,10 @@ class Order extends BaseModel
 
     public function scopeWhereHasText($query, $text): mixed
     {
-        return $query->where('order_number', 'like', '%' . $text . '%')
+        return $query->where('order_number', 'like', '%'.$text.'%')
             ->orWhere('status_code', '=', $text)
             ->orWhereHas('orderShipments', function ($query) use ($text) {
-                return $query->where('shipping_number', 'like', '%' . $text . '%');
+                return $query->where('shipping_number', 'like', '%'.$text.'%');
             });
     }
 
@@ -323,7 +323,7 @@ class Order extends BaseModel
 
     public function isNotStatusCode(string $expected): bool
     {
-        return !$this->isStatusCode($expected);
+        return ! $this->isStatusCode($expected);
     }
 
     public function isStatusCode(string $expected): bool
@@ -333,7 +333,7 @@ class Order extends BaseModel
 
     public function isStatusCodeNotIn(array $statusCodes): bool
     {
-        return !$this->isStatusCodeIn($statusCodes);
+        return ! $this->isStatusCodeIn($statusCodes);
     }
 
     public function isStatusCodeIn(array $statusCodes): bool
