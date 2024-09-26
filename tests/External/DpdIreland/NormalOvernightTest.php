@@ -15,7 +15,6 @@ class NormalOvernightTest extends TestCase
     use SeedDpdTestConfiguration;
 
     /**
-     *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
@@ -55,7 +54,6 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
@@ -96,7 +94,6 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
@@ -137,7 +134,6 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     *
      * @throws ConsignmentValidationException
      */
     public function testIfRemovesIncorrectPostcode(): void
@@ -172,7 +168,6 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     *
      * @throws ConsignmentValidationException
      */
     public function testIfPreservesCorrectPostcode(): void
@@ -207,7 +202,6 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     *
      * @throws ConsignmentValidationException
      * @throws AuthorizationException
      * @throws PreAdviceRequestException

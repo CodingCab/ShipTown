@@ -28,7 +28,6 @@ class DpdTest extends TestCase
     }
 
     /**
-     *
      * @throws ConsignmentValidationException
      */
     public function testIfRecordIdMatches(): void
