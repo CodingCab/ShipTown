@@ -16,8 +16,7 @@ class DestroyTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_destroy_call_returns_ok(): void
+    public function testDestroyCallReturnsOk(): void
     {
         $api2cart = Api2cartConnection::factory()->create();
         $response = $this->delete(route('api.modules.api2cart.connections.destroy', $api2cart));

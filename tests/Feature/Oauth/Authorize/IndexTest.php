@@ -6,14 +6,12 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /** @test */
-    public function test_admin_call(): void
+    public function testAdminCall(): void
     {
         self::markTestIncomplete();
     }
 
-    /** @test */
-    public function test_user_call(): void
+    public function testUserCall(): void
     {
         self::markTestIncomplete();
     }

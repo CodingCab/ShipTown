@@ -14,8 +14,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         OrderStatus::factory()->create([
             'code' => 'packing',
@@ -49,8 +48,7 @@ class IndexTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_index_call_returns_422(): void
+    public function testIndexCallReturns422(): void
     {
         $user = User::factory()->create();
 

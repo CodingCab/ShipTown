@@ -27,8 +27,7 @@ class BasicWorkflowTest extends TestCase
         EventServiceProviderBase::enableModule();
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         if (empty(env('TEST_MODULES_MAGENTO2MSI_BASE_URL'))) {
             $this->markTestSkipped('Magento base url not set');

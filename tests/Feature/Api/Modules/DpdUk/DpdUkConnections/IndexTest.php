@@ -11,8 +11,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         Connection::factory()->create();
 

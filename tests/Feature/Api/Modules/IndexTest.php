@@ -8,8 +8,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()
@@ -20,14 +19,14 @@ class IndexTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_index_call_should_be_loggedin(): void
+    public function testIndexCallShouldBeLoggedin(): void
     {
         $response = $this->get(route('api.modules.index'));
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_index_call_should_loggedin_as_admin(): void
+    public function testIndexCallShouldLoggedinAsAdmin(): void
     {
         Passport::actingAs(
             User::factory()->create()

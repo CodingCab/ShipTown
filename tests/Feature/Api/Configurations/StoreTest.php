@@ -15,8 +15,7 @@ class StoreTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_bulkupdate_call_returns_ok(): void
+    public function testBulkupdateCallReturnsOk(): void
     {
         Configuration::create([
             'business_name' => 'Some name',

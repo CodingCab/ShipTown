@@ -58,8 +58,7 @@ class IndexTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         Product::query()->forceDelete();
         Product::factory()->create();

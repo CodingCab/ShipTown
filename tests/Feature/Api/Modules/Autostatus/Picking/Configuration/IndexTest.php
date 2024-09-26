@@ -17,8 +17,7 @@ class IndexTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         $response = $this->get(route('modules.autostatus.picking.configuration.index'));
 

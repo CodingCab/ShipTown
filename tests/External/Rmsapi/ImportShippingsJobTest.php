@@ -28,7 +28,7 @@ class ImportShippingsJobTest extends TestCase
     /**
      * @throws GuzzleException
      */
-    public function test_endpoint(): void
+    public function testEndpoint(): void
     {
         $connection = RmsapiConnection::factory()->create([
             'location_id' => env('TEST_RMSAPI_WAREHOUSE_CODE'),

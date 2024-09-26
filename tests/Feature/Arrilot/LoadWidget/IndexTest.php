@@ -17,8 +17,7 @@ class IndexTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
-    public function test_if_uri_set(): void
+    public function testIfUriSet(): void
     {
         $this->assertNotEmpty($this->uri);
     }

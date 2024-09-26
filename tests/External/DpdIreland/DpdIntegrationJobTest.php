@@ -17,29 +17,20 @@ class DpdIntegrationJobTest extends TestCase
     use RefreshDatabase;
     use SeedDpdTestConfiguration;
 
-    /**
-     * @test
-     */
-    public function if_env_variables_are_set(): void
+    public function testIfEnvVariablesAreSet(): void
     {
         $this->assertNotEmpty(env('TEST_DPD_TOKEN'), 'TEST_DPD_TOKEN is not set');
         $this->assertNotEmpty(env('TEST_DPD_USER'), 'TEST_DPD_USER is not set');
         $this->assertNotEmpty(env('TEST_DPD_PASSWORD'), 'TEST_DPD_PASSWORD is not set');
     }
 
-    /**
-     * @test
-     */
-    public function if_authenticates(): void
+    public function testIfAuthenticates(): void
     {
         $auth = Client::getCachedAuthorization();
         $this->assertEquals('OK', $auth['authorization_response']['Status']);
     }
 
-    /**
-     * @test
-     */
-    public function if_record_id_matches(): void
+    public function testIfRecordIdMatches(): void
     {
         $address = OrderAddress::factory()->create([
             'company' => 'DPD Test',

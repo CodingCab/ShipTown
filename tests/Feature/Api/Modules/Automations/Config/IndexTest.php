@@ -17,8 +17,7 @@ class IndexTest extends TestCase
         AutomationsServiceProvider::enableModule();
     }
 
-    /** @test */
-    public function test_get_config_call_returns_ok(): void
+    public function testGetConfigCallReturnsOk(): void
     {
         $response = $this->get(route('api.modules.automations.config.index'));
 

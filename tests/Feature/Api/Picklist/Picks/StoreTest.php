@@ -12,8 +12,7 @@ class StoreTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function store_returns_an_ok_response(): void
+    public function testStoreReturnsAnOkResponse(): void
     {
         $user = User::factory()->create();
         $order = Order::factory()->create();

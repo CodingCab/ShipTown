@@ -16,7 +16,7 @@ class CanFulfillFromLocationConditionTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_can_not_fulfill_from_location_0_condition(): void
+    public function testCanNotFulfillFromLocation0Condition(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -52,7 +52,7 @@ class CanFulfillFromLocationConditionTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_can_fulfill_from_location_0_condition(): void
+    public function testCanFulfillFromLocation0Condition(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -124,7 +124,7 @@ class CanFulfillFromLocationConditionTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_can_fulfill_valid_condition(): void
+    public function testCanFulfillValidCondition(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 

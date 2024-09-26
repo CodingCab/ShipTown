@@ -11,9 +11,6 @@ class FixQuantityAvailableJobTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
     public function testExample(): void
     {
         Product::factory()->count(10)->create();

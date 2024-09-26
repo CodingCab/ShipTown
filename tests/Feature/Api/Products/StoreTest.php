@@ -18,8 +18,7 @@ class StoreTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_store_new_product_return_ok(): void
+    public function testStoreNewProductReturnOk(): void
     {
         $params = [
             'sku' => 'TestSku',
@@ -44,7 +43,7 @@ class StoreTest extends TestCase
         ]);
     }
 
-    public function test_store_available_product_return_ok(): void
+    public function testStoreAvailableProductReturnOk(): void
     {
         $product = Product::factory()->create();
         $params = [

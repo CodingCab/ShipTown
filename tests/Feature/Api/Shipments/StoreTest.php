@@ -15,7 +15,7 @@ class StoreTest extends TestCase
         $this->actingAs($user, 'api');
     }
 
-    public function test_successful(): void
+    public function testSuccessful(): void
     {
         $order = Order::factory()->create();
 
@@ -29,8 +29,7 @@ class StoreTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode(), $response->getContent());
     }
 
-    /** @test */
-    public function test_empty(): void
+    public function testEmpty(): void
     {
         $response = $this->postJson(route('api.shipments.store'), []);
 

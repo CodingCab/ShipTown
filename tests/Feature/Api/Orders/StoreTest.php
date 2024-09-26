@@ -15,8 +15,7 @@ class StoreTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_store_call_returns_ok(): void
+    public function testStoreCallReturnsOk(): void
     {
         $data = [
             'order_number' => '0123456789',

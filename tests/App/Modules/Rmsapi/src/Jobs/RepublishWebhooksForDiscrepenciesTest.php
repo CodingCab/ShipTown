@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class RepublishWebhooksForDiscrepenciesTest extends TestCase
 {
-    public function test_basic_functionality()
+    public function testBasicFunctionality()
     {
         RepublishWebhooksForDiscrepencies::dispatchSync();
 

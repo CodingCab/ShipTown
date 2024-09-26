@@ -19,8 +19,7 @@ class BasicModuleTest extends TestCase
         EventServiceProviderBase::enableModule();
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         if (env('TEST_MODULES_MAGENTO_BASE_URL') === null) {
             $this->markTestSkipped('Magento base url not set');
@@ -29,7 +28,6 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true, 'Most basic test... to be continued');
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

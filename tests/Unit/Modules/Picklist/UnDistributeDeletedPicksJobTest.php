@@ -17,7 +17,6 @@ class UnDistributeDeletedPicksJobTest extends TestCase
         PicklistServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $pick = Pick::factory()->create();

@@ -15,7 +15,7 @@ class International_CHE_Test extends TestCase
 {
     use SeedDpdTestConfiguration;
 
-    public function test_normal_overnight_consignment_single_parcel(): void
+    public function testNormalOvernightConsignmentSingleParcel(): void
     {
         //        $this->markTestIncomplete();
 

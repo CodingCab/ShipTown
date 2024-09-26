@@ -47,7 +47,6 @@ class BasicModuleTest extends TestCase
         SequenceNumberJob::dispatch();
     }
 
-    /** @test */
     public function testInventoryQuantityJob(): void
     {
         $this->inventory->update([
@@ -70,7 +69,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testEmptyDatabaseRun(): void
     {
         QuantityBeforeCheckJob::dispatch();
@@ -81,7 +79,6 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true, 'We did not run into any errors');
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();
@@ -93,7 +90,6 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true, 'Errors encountered while dispatching events');
     }
 
-    /** @test */
     public function testPreviousMovementIdJob(): void
     {
         $this->inventoryMovement02->update([
@@ -118,7 +114,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testQuantityDeltaAndAfterJob(): void
     {
         $inventoryMovement03 = InventoryService::adjust($this->inventory, 10);
@@ -136,7 +131,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testLastMovementIdJob(): void
     {
         Inventory::query()->update([

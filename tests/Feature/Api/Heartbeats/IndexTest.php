@@ -18,8 +18,7 @@ class IndexTest extends TestCase
         $this->actingAs($user, 'api');
     }
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         // add expired heartbeat
         Heartbeat::updateOrCreate([

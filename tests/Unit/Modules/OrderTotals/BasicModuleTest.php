@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
 {
-    public function test_if_updates_totals(): void
+    public function testIfUpdatesTotals(): void
     {
         OrderTotalsServiceProvider::enableModule();
 
@@ -31,8 +31,7 @@ class BasicModuleTest extends TestCase
         $this->assertDatabaseHas('orders_products_totals', ['quantity_shipped' => $orderProduct->quantity_shipped]);
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         OrderTotalsServiceProvider::enableModule();
 

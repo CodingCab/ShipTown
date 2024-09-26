@@ -26,7 +26,6 @@ class InventoryDatesUpdatesTest extends TestCase
         $this->inventory = Inventory::find($product->getKey(), $warehouse->getKey());
     }
 
-    /** @test */
     public function testTransferInType(): void
     {
         /** @var InventoryMovement $movement */
@@ -52,7 +51,6 @@ class InventoryDatesUpdatesTest extends TestCase
         $this->assertEquals($movement->occurred_at, $this->inventory->last_movement_at, 'last_movement_at');
     }
 
-    /** @test */
     public function testStocktakeType(): void
     {
         /** @var InventoryMovement $movement */
@@ -80,7 +78,6 @@ class InventoryDatesUpdatesTest extends TestCase
         $this->assertEquals($movement->occurred_at, $this->inventory->last_counted_at, 'last_movement_at');
     }
 
-    /** @test */
     public function testSaleType(): void
     {
         /** @var InventoryMovement $movement */

@@ -8,8 +8,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /** @test */
-    public function test_index_call_with_config(): void
+    public function testIndexCallWithConfig(): void
     {
         DpdIreland::query()->create([
             'live' => false,

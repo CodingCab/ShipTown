@@ -6,8 +6,7 @@ use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
-    /** @test */
-    public function test_store_call_returns_ok(): void
+    public function testStoreCallReturnsOk(): void
     {
         self::markTestIncomplete();
     }

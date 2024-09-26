@@ -27,7 +27,6 @@ class BasicModuleTest extends TestCase
         ActiveOrdersInventoryReservationsServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testIfUpdatesInventoryReservationWhenOrderProductsIsModifiedOnActiveOrder(): void
     {
         // prepare database
@@ -82,7 +81,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testIfDeletesInventoryReservationWhenOrderProductsIsDeletedFromActiveOrder(): void
     {
         // prepare database
@@ -141,7 +139,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testIfReservesInventoryWhenOrderProductsIsAddedToActiveOrder(): void
     {
         // prepare database
@@ -194,7 +191,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

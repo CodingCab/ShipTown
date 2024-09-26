@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class CourierLabelTemplateIsNotInConditionTest extends TestCase
 {
-    public function test_functionality(): void
+    public function testFunctionality(): void
     {
         $automation = Automation::factory()->create();
 

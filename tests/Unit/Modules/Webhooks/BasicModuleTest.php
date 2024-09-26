@@ -26,7 +26,6 @@ class BasicModuleTest extends TestCase
         WebhooksServiceProviderBase::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         if (empty(config('aws.credentials.secret'))) {
@@ -70,7 +69,6 @@ class BasicModuleTest extends TestCase
         //        ]);
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

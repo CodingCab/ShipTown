@@ -14,7 +14,7 @@ class SendOrderEmailActionTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_success_when_template_specified(): void
+    public function testSuccessWhenTemplateSpecified(): void
     {
         Mail::fake();
 

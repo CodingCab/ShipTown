@@ -17,10 +17,7 @@ class PrintDpdLabelControllerTest extends TestCase
     use RefreshDatabase;
     use SeedDpdTestConfiguration;
 
-    /**
-     * @test
-     */
-    public function storeReturnsOkResponse(): void
+    public function testStoreReturnsOkResponse(): void
     {
         $address = OrderAddress::factory()->create([
             'company' => 'TEST COMPANY',

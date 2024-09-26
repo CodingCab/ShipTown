@@ -65,7 +65,6 @@ class BuyXGetYForZPercentDiscountTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testExample(): void
     {
         /** @var DataCollection $dataCollection */

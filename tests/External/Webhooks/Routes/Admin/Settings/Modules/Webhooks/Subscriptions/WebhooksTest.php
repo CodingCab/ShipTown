@@ -20,22 +20,19 @@ class WebhooksTest extends TestCase
         WebhooksServiceProviderBase::enableModule();
     }
 
-    /** @test */
-    public function test_if_uri_set(): void
+    public function testIfUriSet(): void
     {
         $this->assertNotEmpty($this->uri);
     }
     //
-    //    /** @test */
-    //    public function test_guest_call()
+    //    //    public function test_guest_call()
     //    {
     //        $response = $this->get($this->uri);
     //
     //        $response->assertRedirect('/login');
     //    }
     //
-    //    /** @test */
-    //    public function test_user_call()
+    //    //    public function test_user_call()
     //    {
     //        $this->actingAs($this->user, 'web');
     //
@@ -44,8 +41,7 @@ class WebhooksTest extends TestCase
     //        $response->assertForbidden();
     //    }
 
-    /** @test */
-    public function test_admin_call(): void
+    public function testAdminCall(): void
     {
         $this->user->assignRole('admin');
 

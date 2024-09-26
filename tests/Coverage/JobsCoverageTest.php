@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class JobsCoverageTest extends TestCase
 {
-    public function test_all_jobs_have_tests()
+    public function testAllJobsHaveTests()
     {
         $jobFiles = $this->getJobFiles();
 

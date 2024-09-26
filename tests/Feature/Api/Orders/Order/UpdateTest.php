@@ -15,8 +15,7 @@ class UpdateTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_update_call_returns_ok(): void
+    public function testUpdateCallReturnsOk(): void
     {
         $order = Order::factory()->create();
         $user = User::factory()->create();

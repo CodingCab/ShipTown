@@ -22,7 +22,7 @@ class OrderShippingMethodCodeEqualsConditionTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_shipping_method_code_equals_validator(): void
+    public function testShippingMethodCodeEqualsValidator(): void
     {
         AutomationsServiceProvider::enableModule();
 

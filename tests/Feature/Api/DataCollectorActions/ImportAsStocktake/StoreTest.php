@@ -11,7 +11,6 @@ class StoreTest extends TestCase
 {
     private string $uri = 'api/data-collector-actions/import-as-stocktake';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $user = User::factory()->create()->assignRole('user');

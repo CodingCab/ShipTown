@@ -11,7 +11,6 @@ class UpdateTest extends TestCase
 {
     private string $uri = 'api/modules/active-orders-inventory-reservations/configuration/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $warehouse = Warehouse::factory()->create();
@@ -37,7 +36,6 @@ class UpdateTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testUserAccess(): void
     {
         $configuration = Configuration::query()->firstOrCreate();

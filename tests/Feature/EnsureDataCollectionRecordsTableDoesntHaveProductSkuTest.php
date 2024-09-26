@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 class EnsureDataCollectionRecordsTableDoesntHaveProductSkuTest extends TestCase
 {
-    /** @test */
     public function testIfColumnIsMissing(): void
     {
         // product_sku can be updated in the future

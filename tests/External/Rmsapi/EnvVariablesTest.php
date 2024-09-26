@@ -12,7 +12,7 @@ class EnvVariablesTest extends TestCase
      *
      * @throws \Exception
      */
-    public function test_if_variables_set(): void
+    public function testIfVariablesSet(): void
     {
         $this->assertNotEmpty(env('TEST_RMSAPI_WAREHOUSE_CODE'), 'TEST_RMSAPI_WAREHOUSE_CODE .env not set');
         $this->assertNotEmpty(env('TEST_RMSAPI_URL'), 'TEST_RMSAPI_URL .env not set');

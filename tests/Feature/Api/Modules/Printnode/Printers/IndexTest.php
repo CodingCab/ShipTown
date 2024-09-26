@@ -14,8 +14,7 @@ class IndexTest extends TestCase
         $this->actingAs($user, 'api');
     }
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         $response = $this->get('api/modules/printnode/printers');
 

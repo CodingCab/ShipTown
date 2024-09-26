@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 class AppInstallTest extends TestCase
 {
-    public function test_basic_functionality()
+    public function testBasicFunctionality()
     {
         $this->artisan('db:wipe');
         $this->artisan('migrate');

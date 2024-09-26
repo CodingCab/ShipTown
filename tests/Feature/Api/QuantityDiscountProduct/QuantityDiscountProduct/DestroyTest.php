@@ -13,7 +13,6 @@ class DestroyTest extends TestCase
 {
     private string $uri = 'api/quantity-discount-product/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         /** @var User $user */

@@ -26,8 +26,7 @@ class ConfigurationChangedTest extends TestCase
         ActiveOrdersInventoryReservationsServiceProvider::enableModule();
     }
 
-    /** @test */
-    public function test_if_releases_quantity_when_status_changed(): void
+    public function testIfReleasesQuantityWhenStatusChanged(): void
     {
         // prepare database
         $warehouse1 = Warehouse::factory()->create();
@@ -63,8 +62,7 @@ class ConfigurationChangedTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_if_works_when_alias_is_used(): void
+    public function testIfWorksWhenAliasIsUsed(): void
     {
         // prepare database
         $warehouse1 = Warehouse::factory()->create();

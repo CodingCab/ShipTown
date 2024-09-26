@@ -19,8 +19,7 @@ class IndexTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_show_call_returns_ok(): void
+    public function testShowCallReturnsOk(): void
     {
         $automation = Automation::create([
             'name' => 'Store Pickup',

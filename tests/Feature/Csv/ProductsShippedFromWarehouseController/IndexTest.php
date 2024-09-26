@@ -9,10 +9,7 @@ use Tests\TestCase;
  */
 class IndexTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function index_returns_an_ok_response(): void
+    public function testIndexReturnsAnOkResponse(): void
     {
         $user = \App\User::factory()->create();
 

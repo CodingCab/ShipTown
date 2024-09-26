@@ -10,7 +10,6 @@ class StoreTest extends TestCase
 {
     private string $uri = '/api/jobs';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $user = User::factory()->create()->assignRole('admin');
@@ -27,7 +26,6 @@ class StoreTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testUserAccess(): void
     {
         $user = User::factory()->create();

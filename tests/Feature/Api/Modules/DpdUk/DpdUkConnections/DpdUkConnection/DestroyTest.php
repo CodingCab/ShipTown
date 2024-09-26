@@ -9,7 +9,6 @@ class DestroyTest extends TestCase
 {
     private string $uri = 'api/modules/dpd-uk/dpd-uk-connections/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $user = User::factory()->create()->assignRole('admin');

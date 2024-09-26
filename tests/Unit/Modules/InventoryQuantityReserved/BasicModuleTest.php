@@ -25,10 +25,7 @@ class BasicModuleTest extends TestCase
         InventoryQuantityReservedServiceProvider::enableModule();
     }
 
-    /** @test */
-
-    /** @test */
-    public function correctQtyReservedAfterRecalculateInventoryRecordsJobTest(): void
+    public function testCorrectQtyReservedAfterRecalculateInventoryRecordsJobTest(): void
     {
         $warehouse = Warehouse::factory()->create();
         $product = Product::factory()->create();
@@ -66,7 +63,6 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

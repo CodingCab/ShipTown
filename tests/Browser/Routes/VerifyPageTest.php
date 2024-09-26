@@ -49,7 +49,7 @@ class VerifyPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function test_if_guest_not_allowed(): void
+    public function testIfGuestNotAllowed(): void
     {
         User::query()->delete();
 

@@ -10,7 +10,6 @@ class IndexTest extends TestCase
 {
     private string $uri = '/api/products-aliases';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         Product::factory()->create();
@@ -34,7 +33,6 @@ class IndexTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testUserAccess(): void
     {
         $user = User::factory()->create();

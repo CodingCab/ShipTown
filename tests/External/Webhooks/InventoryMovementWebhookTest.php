@@ -13,8 +13,7 @@ use Tests\TestCase;
 
 class InventoryMovementWebhookTest extends TestCase
 {
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         WebhooksServiceProviderBase::enableModule();
 

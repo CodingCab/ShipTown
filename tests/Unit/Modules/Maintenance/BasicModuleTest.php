@@ -15,8 +15,7 @@ class BasicModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         EventServiceProviderBase::enableModule();
 

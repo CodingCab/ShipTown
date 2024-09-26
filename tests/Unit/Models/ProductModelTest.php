@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ProductModelTest extends TestCase
 {
-    public function test_if_dispatched_tag_attached_event(): void
+    public function testIfDispatchedTagAttachedEvent(): void
     {
         Event::fake(ProductTagAttachedEvent::class);
 

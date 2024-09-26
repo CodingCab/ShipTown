@@ -14,7 +14,6 @@ use Tests\TestCase;
 
 class BasicModulesTest extends TestCase
 {
-    /** @test */
     public function testBasicFunctionality(): void
     {
         try {

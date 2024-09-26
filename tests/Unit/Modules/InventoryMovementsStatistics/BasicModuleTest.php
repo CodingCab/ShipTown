@@ -15,8 +15,7 @@ use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
 {
-    /** @test */
-    public function test_if_sales_are_removed_from_statistics(): void
+    public function testIfSalesAreRemovedFromStatistics(): void
     {
         InventoryMovementsStatisticsServiceProvider::enableModule();
 
@@ -72,8 +71,7 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_if_sales_are_added_to_statistics(): void
+    public function testIfSalesAreAddedToStatistics(): void
     {
         InventoryMovementsStatisticsServiceProvider::enableModule();
 
@@ -101,8 +99,7 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         InventoryMovementsStatisticsServiceProvider::enableModule();
 

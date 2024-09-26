@@ -12,7 +12,7 @@ class WebRoutesCoverageTest extends TestCase
     /**
      * A basic test to make sure all routes have minimum one test file.
      */
-    public function test_if_all_web_routes_have_test_file(): void
+    public function testIfAllWebRoutesHaveTestFile(): void
     {
         Artisan::call('route:list --json --env=production');
 

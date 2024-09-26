@@ -19,13 +19,11 @@ class BasicModuleTest extends TestCase
         Magento2MsiServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $this->markTestSkipped('This test has not been implemented yet.');
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

@@ -9,7 +9,6 @@ class StoreTest extends TestCase
 {
     private string $uri = 'api/modules/magento2msi/connections/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $connection = [
@@ -34,7 +33,6 @@ class StoreTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testUserAccess(): void
     {
         $user = User::factory()->create();

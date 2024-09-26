@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    public function test_has_tags_filter_exists(): void
+    public function testHasTagsFilterExists(): void
     {
         Passport::actingAs(
             User::factory()->create()
@@ -40,7 +40,7 @@ class IndexTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_has_tags_filter_missing(): void
+    public function testHasTagsFilterMissing(): void
     {
         Passport::actingAs(
             User::factory()->create()
@@ -56,8 +56,7 @@ class IndexTest extends TestCase
         $this->assertCount(0, $response->json('data'));
     }
 
-    /** @test */
-    public function test_index_call_returns_ok(): void
+    public function testIndexCallReturnsOk(): void
     {
         Order::query()->forceDelete();
         Order::factory()->create();

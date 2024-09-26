@@ -19,7 +19,7 @@ class BasicModuleTest extends TestCase
         EventServiceProviderBase::enableModule();
     }
 
-    public function test_if_attaches_tag(): void
+    public function testIfAttachesTag(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create();
@@ -34,7 +34,7 @@ class BasicModuleTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function test_if_detaches_tag(): void
+    public function testIfDetachesTag(): void
     {
         /** @var Product $product */
         $product = Product::factory()->create();

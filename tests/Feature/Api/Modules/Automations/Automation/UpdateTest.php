@@ -15,7 +15,7 @@ class UpdateTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    public function test_basic_scenarios(): void
+    public function testBasicScenarios(): void
     {
         $automation = Automation::create([
             'name' => 'Store Pickup',
@@ -36,8 +36,7 @@ class UpdateTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
-    public function test_update_call_returns_ok(): void
+    public function testUpdateCallReturnsOk(): void
     {
         $automation = Automation::create([
             'name' => 'Store Pickup',

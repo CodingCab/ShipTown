@@ -15,8 +15,7 @@ class DestroyTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_destroy_call_returns_ok(): void
+    public function testDestroyCallReturnsOk(): void
     {
         $orderStatus = OrderStatus::create([
             'name' => 'testing',
@@ -29,7 +28,7 @@ class DestroyTest extends TestCase
         $response->assertOk();
     }
 
-    public function test_cannot_delete_order_active(): void
+    public function testCannotDeleteOrderActive(): void
     {
         $orderStatus = OrderStatus::create([
             'name' => 'testing',
@@ -42,7 +41,7 @@ class DestroyTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_cannot_delete_sync_ecommerce(): void
+    public function testCannotDeleteSyncEcommerce(): void
     {
         $orderStatus = OrderStatus::create([
             'name' => 'testing',

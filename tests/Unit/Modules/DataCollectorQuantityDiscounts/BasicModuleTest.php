@@ -14,7 +14,6 @@ class BasicModuleTest extends TestCase
         QuantityDiscountsServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $this->assertTrue(true, 'Each quantity discounts has its own tests');

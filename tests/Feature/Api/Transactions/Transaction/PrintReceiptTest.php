@@ -15,8 +15,7 @@ class PrintReceiptTest extends TestCase
 {
     private string $uri = '/api/transaction/receipt-print';
 
-    /** @test */
-    public function test_printReceipt_route(): void
+    public function testPrintReceiptRoute(): void
     {
         $warehouse = Warehouse::query()->inRandomOrder()->first() ?? Warehouse::factory()->create();
 

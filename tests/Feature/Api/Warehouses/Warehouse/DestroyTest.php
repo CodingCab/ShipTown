@@ -15,8 +15,7 @@ class DestroyTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_destroy_call_returns_ok(): void
+    public function testDestroyCallReturnsOk(): void
     {
         $warehouse = Warehouse::factory()->create();
 

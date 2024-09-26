@@ -14,31 +14,24 @@ class DpdTest extends TestCase
     use RefreshDatabase;
     use SeedDpdTestConfiguration;
 
-    /**
-     * @test
-     */
-    public function if_env_variables_are_set(): void
+    public function testIfEnvVariablesAreSet(): void
     {
         $this->assertNotEmpty(config('dpd.test_token'), 'TEST_DPD_TOKEN is not set');
         $this->assertNotEmpty(config('dpd.test_user'), 'TEST_DPD_USER is not set');
         $this->assertNotEmpty(config('dpd.test_password'), 'TEST_DPD_PASSWORD is not set');
     }
 
-    /**
-     * @test
-     */
-    public function if_authenticates(): void
+    public function testIfAuthenticates(): void
     {
         $auth = Client::getCachedAuthorization();
         $this->assertEquals('OK', $auth['authorization_response']['Status']);
     }
 
     /**
-     * @test
      *
      * @throws ConsignmentValidationException
      */
-    public function if_record_id_matches(): void
+    public function testIfRecordIdMatches(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -70,10 +63,7 @@ class DpdTest extends TestCase
         $this->assertEquals($consignment->toArray()['RecordID'], $preAdvice->getAttribute('RecordID'));
     }
 
-    /**
-     * @test
-     */
-    public function if_authorization_is_cached(): void
+    public function testIfAuthorizationIsCached(): void
     {
         $auth1 = Client::getCachedAuthorization();
         $auth2 = Client::getCachedAuthorization();
@@ -82,10 +72,7 @@ class DpdTest extends TestCase
         $this->assertEquals($auth1['authorization_response']['AccessToken'], $auth2['authorization_response']['AccessToken']);
     }
 
-    /**
-     * @test
-     */
-    public function successfully_generate_preadvice(): void
+    public function testSuccessfullyGeneratePreadvice(): void
     {
         $consignment = new Consignment([
             'RecordID' => 1,

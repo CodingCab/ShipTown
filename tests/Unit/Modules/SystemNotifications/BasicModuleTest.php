@@ -19,13 +19,11 @@ class BasicModuleTest extends TestCase
         SystemNotificationsServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $this->assertTrue(true, 'Module does not have any functionality yet');
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

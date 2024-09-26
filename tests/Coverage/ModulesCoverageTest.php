@@ -11,7 +11,7 @@ class ModulesCoverageTest extends TestCase
     /**
      * A basic test to make sure all routes have minimum one test file.
      */
-    public function test_if_all_modules_have_test_file(): void
+    public function testIfAllModulesHaveTestFile(): void
     {
         collect(File::directories('app/Modules'))
             ->map(function ($moduleDirectory) {

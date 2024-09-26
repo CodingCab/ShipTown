@@ -12,8 +12,7 @@ use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
 {
-    //    /** @test */
-    //    public function test_module_basic_functionality()
+    //    //    public function test_module_basic_functionality()
     //    {
     //        NonInventoryProductTagServiceProvider::enableModule();
     //
@@ -34,7 +33,7 @@ class BasicModuleTest extends TestCase
     //        $this->assertEquals(0, $inventory->quantity);
     //    }
 
-    public function test_basic(): void
+    public function testBasic(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 

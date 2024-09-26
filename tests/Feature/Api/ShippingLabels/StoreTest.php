@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class TestShipmentService extends ShippingServiceAbstract
 {
-    public function ship(int $order_id): Collection
+    public function testShip(int $order_id): Collection
     {
         return collect();
     }
@@ -19,8 +19,7 @@ class TestShipmentService extends ShippingServiceAbstract
 
 class StoreTest extends TestCase
 {
-    /** @test */
-    public function test_store_call_returns_ok(): void
+    public function testStoreCallReturnsOk(): void
     {
         $user = User::factory()->create();
         $order = Order::factory()->create();

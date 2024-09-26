@@ -10,7 +10,6 @@ class DestroyTest extends TestCase
 {
     private string $uri = 'api/modules/magento2msi/connections/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         $user = User::factory()->create()->assignRole('admin');
@@ -30,7 +29,6 @@ class DestroyTest extends TestCase
         ]);
     }
 
-    /** @test */
     public function testUserAccess(): void
     {
         $connection = Magento2msiConnection::factory()->create();

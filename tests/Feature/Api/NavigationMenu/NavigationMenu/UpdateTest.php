@@ -30,8 +30,7 @@ class UpdateTest extends TestCase
         return $response;
     }
 
-    /** @test */
-    public function test_update_call_returns_ok(): void
+    public function testUpdateCallReturnsOk(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()
@@ -42,14 +41,14 @@ class UpdateTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_update_call_should_be_loggedin(): void
+    public function testUpdateCallShouldBeLoggedin(): void
     {
         $response = $this->simulationTest();
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_update_call_should_loggedin_as_admin(): void
+    public function testUpdateCallShouldLoggedinAsAdmin(): void
     {
         Passport::actingAs(
             User::factory()->create()
@@ -60,7 +59,7 @@ class UpdateTest extends TestCase
         $response->assertForbidden();
     }
 
-    public function test_all_field_is_required(): void
+    public function testAllFieldIsRequired(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()
@@ -75,7 +74,7 @@ class UpdateTest extends TestCase
         ]);
     }
 
-    public function test_group_not_packlist_or_picklist(): void
+    public function testGroupNotPacklistOrPicklist(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()

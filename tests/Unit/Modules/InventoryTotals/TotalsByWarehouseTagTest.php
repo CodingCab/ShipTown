@@ -16,8 +16,7 @@ use Tests\TestCase;
 
 class TotalsByWarehouseTagTest extends TestCase
 {
-    /** @test */
-    public function test_UpdateTotalsByWarehouseTagTableJob(): void
+    public function testUpdateTotalsByWarehouseTagTableJob(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 
@@ -70,8 +69,7 @@ class TotalsByWarehouseTagTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_EnsureTotalsByWarehouseTagRecordsExistJob(): void
+    public function testEnsureTotalsByWarehouseTagRecordsExistJob(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 
@@ -91,8 +89,7 @@ class TotalsByWarehouseTagTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_basic_scenario(): void
+    public function testBasicScenario(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 
@@ -134,8 +131,7 @@ class TotalsByWarehouseTagTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 

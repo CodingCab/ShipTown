@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
 {
-    public function test_if_order_is_active_updates(): void
+    public function testIfOrderIsActiveUpdates(): void
     {
         /** @var OrderStatus $orderStatus */
         $orderStatus = OrderStatus::factory()->create(['order_active' => true]);
@@ -23,7 +23,7 @@ class BasicModuleTest extends TestCase
         $this->assertDatabaseHas('orders', ['is_active' => false]);
     }
 
-    public function test_if_order_on_hold_updates(): void
+    public function testIfOrderOnHoldUpdates(): void
     {
         OrderStatusServiceProvider::enableModule();
 
@@ -39,8 +39,7 @@ class BasicModuleTest extends TestCase
         $this->assertDatabaseHas('orders', ['is_on_hold' => false]);
     }
 
-    /** @test */
-    public function test_if_can_enable(): void
+    public function testIfCanEnable(): void
     {
         OrderStatusServiceProvider::enableModule();
 

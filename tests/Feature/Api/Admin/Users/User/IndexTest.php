@@ -7,8 +7,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    /** @test */
-    public function test_show_call_returns_ok(): void
+    public function testShowCallReturnsOk(): void
     {
         $user = User::factory()->create()->assignRole('admin');
 

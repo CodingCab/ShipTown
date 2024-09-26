@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class DispatchRecalculateInventoryRecordsJobTest extends TestCase
 {
-    public function test_basic_functionality()
+    public function testBasicFunctionality()
     {
         DispatchRecalculateInventoryRecordsJob::dispatch();
 

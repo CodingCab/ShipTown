@@ -12,8 +12,7 @@ use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    /** @test */
-    public function test_transfer_in_scanned_action_call_returns_ok(): void
+    public function testTransferInScannedActionCallReturnsOk(): void
     {
         $randomQuantity = 10;
 
@@ -68,8 +67,7 @@ class UpdateTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_transfer_out_scanned_action_call_returns_ok(): void
+    public function testTransferOutScannedActionCallReturnsOk(): void
     {
         $randomQuantity = 10;
 

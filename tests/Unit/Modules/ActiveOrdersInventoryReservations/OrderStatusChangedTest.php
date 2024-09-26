@@ -24,8 +24,7 @@ class OrderStatusChangedTest extends TestCase
         ActiveOrdersInventoryReservationsServiceProvider::enableModule();
     }
 
-    /** @test */
-    public function test_if_releases_quantity_when_status_changed(): void
+    public function testIfReleasesQuantityWhenStatusChanged(): void
     {
         // prepare database
         $warehouse = Warehouse::factory()->create();

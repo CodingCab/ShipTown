@@ -20,7 +20,6 @@ class BasicModuleTest extends TestCase
         PicklistServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $pick = Pick::factory()->create();
@@ -33,7 +32,6 @@ class BasicModuleTest extends TestCase
 
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

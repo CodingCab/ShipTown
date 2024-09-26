@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function test_if_credentials_configured(): void
+    public function testIfCredentialsConfigured(): void
     {
         $this->assertNotNull(config('scurri.base_uri'), 'Scurri base_uri not configured');
         $this->assertNotNull(config('scurri.company_slug'), 'Scurri company_slug not configured');
@@ -22,7 +22,7 @@ class ClientTest extends TestCase
      *
      * @throws Exception
      */
-    public function test_successful_get_carriers(): void
+    public function testSuccessfulGetCarriers(): void
     {
         $response = Client::getCarriers();
 
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
     /**
      * @throws Exception
      */
-    public function test_successful_create_consignment(): void
+    public function testSuccessfulCreateConsignment(): void
     {
         $consignment = Client::createMultipleConsignments([
             0 => [
@@ -75,7 +75,7 @@ class ClientTest extends TestCase
     /**
      * @throws Exception
      */
-    public function test_successful_getPdfLabel(): void
+    public function testSuccessfulGetPdfLabel(): void
     {
         //        $this->markTestSkipped();
 

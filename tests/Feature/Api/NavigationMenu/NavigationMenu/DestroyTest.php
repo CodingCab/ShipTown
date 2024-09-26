@@ -20,8 +20,7 @@ class DestroyTest extends TestCase
         return $this->delete(route('api.navigation-menu.destroy', $navigationMenu));
     }
 
-    /** @test */
-    public function test_delete_call_returns_ok(): void
+    public function testDeleteCallReturnsOk(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()
@@ -32,7 +31,7 @@ class DestroyTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_delete_call_should_be_loggedin(): void
+    public function testDeleteCallShouldBeLoggedin(): void
     {
         $response = $this->simulationTest();
 

@@ -18,7 +18,7 @@ class BasicModuleTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_basic_automation(): void
+    public function testBasicAutomation(): void
     {
         AutomationsServiceProvider::enableModule();
 

@@ -12,7 +12,6 @@ class UpdateTest extends TestCase
 {
     private string $uri = '/api/transactions/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         /** @var User $user */

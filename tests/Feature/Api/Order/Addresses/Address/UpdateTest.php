@@ -8,8 +8,7 @@ use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    /** @test */
-    public function test_update_call_returns_ok(): void
+    public function testUpdateCallReturnsOk(): void
     {
         $user = User::factory()->create();
         $orderAddress = OrderAddress::factory()->create();

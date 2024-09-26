@@ -44,7 +44,7 @@ class BasicModuleTest extends TestCase
         $this->assertDatabaseHas('inventory_totals_by_warehouse_tag', ['product_id' => $product->getKey()]);
     }
 
-    public function test_sales_totals(): void
+    public function testSalesTotals(): void
     {
         $warehouse = Warehouse::factory()->create();
 
@@ -58,8 +58,7 @@ class BasicModuleTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function test_module_basic_functionality(): void
+    public function testModuleBasicFunctionality(): void
     {
         InventoryTotalsServiceProvider::enableModule();
 

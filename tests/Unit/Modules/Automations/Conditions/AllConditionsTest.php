@@ -41,7 +41,7 @@ class AllConditionsTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_if_thorws_any_exception(): void
+    public function testIfThorwsAnyException(): void
     {
         try {
             Order::factory()->create();

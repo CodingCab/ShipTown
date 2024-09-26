@@ -15,14 +15,13 @@ class NormalOvernightTest extends TestCase
     use SeedDpdTestConfiguration;
 
     /**
-     * @test
      *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_single_parcel(): void
+    public function testNormalOvernightConsignmentSingleParcel(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -56,14 +55,13 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_between_2_and_10_parcels(): void
+    public function testNormalOvernightConsignmentBetween2And10Parcels(): void
     {
         $consignment = new Consignment([
             'TotalParcels' => rand(2, 10),
@@ -98,14 +96,13 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @throws AuthorizationException
      * @throws ConsignmentValidationException
      * @throws GuzzleException
      * @throws PreAdviceRequestException
      */
-    public function normal_overnight_consignment_more_than_10_parcels(): void
+    public function testNormalOvernightConsignmentMoreThan10Parcels(): void
     {
         $consignment = new Consignment([
             'TotalParcels' => rand(11, 20),
@@ -140,11 +137,10 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @throws ConsignmentValidationException
      */
-    public function test_if_removes_incorrect_postcode(): void
+    public function testIfRemovesIncorrectPostcode(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -176,11 +172,10 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @throws ConsignmentValidationException
      */
-    public function test_if_preserves_correct_postcode(): void
+    public function testIfPreservesCorrectPostcode(): void
     {
         $consignment = new Consignment([
             'DeliveryAddress' => [
@@ -212,14 +207,13 @@ class NormalOvernightTest extends TestCase
     }
 
     /**
-     * @test
      *
      * @throws ConsignmentValidationException
      * @throws AuthorizationException
      * @throws PreAdviceRequestException
      * @throws GuzzleException
      */
-    public function if_succeeds_with_wrong_postcode(): void
+    public function testIfSucceedsWithWrongPostcode(): void
     {
         $consignment = new Consignment([
             'TotalParcels' => rand(11, 20),

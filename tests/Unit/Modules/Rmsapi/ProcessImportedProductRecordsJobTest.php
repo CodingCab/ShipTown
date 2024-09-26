@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class ProcessImportedProductRecordsJobTest extends TestCase
 {
-    public function test_handle(): void
+    public function testHandle(): void
     {
         RmsapiProductImport::factory(10)->create();
 

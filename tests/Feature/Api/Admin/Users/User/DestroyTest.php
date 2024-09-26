@@ -9,8 +9,7 @@ use Tests\TestCase;
 
 class DestroyTest extends TestCase
 {
-    /** @test */
-    public function test_destroy_call_returns_ok(): void
+    public function testDestroyCallReturnsOk(): void
     {
         /** @var User $admin */
         $admin = User::factory()->create();

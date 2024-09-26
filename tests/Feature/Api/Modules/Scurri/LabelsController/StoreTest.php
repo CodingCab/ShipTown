@@ -17,8 +17,7 @@ class StoreTest extends TestCase
         $this->actingAs($admin, 'api');
     }
 
-    /** @test */
-    public function test_store_call_returns_ok(): void
+    public function testStoreCallReturnsOk(): void
     {
         $this->assertTrue(true, 'Tested in External/ScurriAnpost/IntegrationTest.php');
     }

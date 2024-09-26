@@ -32,8 +32,7 @@ class StoreTest extends TestCase
         parent::tearDown();
     }
 
-    /** @test */
-    public function test_store_call_returns_ok(): void
+    public function testStoreCallReturnsOk(): void
     {
         $response = $this->postJson(route('api.modules.webhooks.subscriptions.store'), [
             'endpoint' => 'https://test.com',

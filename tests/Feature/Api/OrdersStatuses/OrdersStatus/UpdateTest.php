@@ -27,8 +27,7 @@ class UpdateTest extends TestCase
         return $response;
     }
 
-    /** @test */
-    public function test_update_call_returns_ok(): void
+    public function testUpdateCallReturnsOk(): void
     {
         Passport::actingAs(
             User::factory()->admin()->create()
@@ -39,14 +38,14 @@ class UpdateTest extends TestCase
         $response->assertSuccessful();
     }
 
-    public function test_update_call_should_be_loggedin(): void
+    public function testUpdateCallShouldBeLoggedin(): void
     {
         $response = $this->simulationTest();
 
         $response->assertRedirect(route('login'));
     }
 
-    public function test_update_call_should_loggedin_as_admin(): void
+    public function testUpdateCallShouldLoggedinAsAdmin(): void
     {
         Passport::actingAs(
             User::factory()->create()

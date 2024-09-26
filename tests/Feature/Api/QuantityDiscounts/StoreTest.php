@@ -10,7 +10,6 @@ class StoreTest extends TestCase
 {
     private string $uri = 'api/quantity-discounts/';
 
-    /** @test */
     public function testIfCallReturnsOk(): void
     {
         /** @var User $user */

@@ -17,22 +17,19 @@ class IndexTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /** @test */
-    public function test_if_uri_set()
+    public function testIfUriSet()
     {
         $this->assertNotEmpty($this->uri);
     }
 
-    /** @test */
-    public function test_guest_call()
+    public function testGuestCall()
     {
         $response = $this->get($this->uri);
 
         $response->assertSuccessful();
     }
 
-    /** @test */
-    public function test_user_call()
+    public function testUserCall()
     {
         $this->actingAs($this->user, 'web');
 
@@ -41,8 +38,7 @@ class IndexTest extends TestCase
         $response->assertSuccessful();
     }
 
-    /** @test */
-    public function test_admin_call()
+    public function testAdminCall()
     {
         $this->user->assignRole('admin');
 

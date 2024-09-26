@@ -20,13 +20,11 @@ class BasicModuleTest extends TestCase
         InventoryGroupsServiceProvider::enableModule();
     }
 
-    /** @test */
     public function testBasicFunctionality(): void
     {
         $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
-    /** @test */
     public function testIfNoErrorsDuringEvents(): void
     {
         EveryMinuteEvent::dispatch();

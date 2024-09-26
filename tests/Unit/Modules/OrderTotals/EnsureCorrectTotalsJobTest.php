@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class EnsureCorrectTotalsJobTest extends TestCase
 {
-    public function test_if_dispatches_job(): void
+    public function testIfDispatchesJob(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
@@ -25,7 +25,7 @@ class EnsureCorrectTotalsJobTest extends TestCase
         Bus::assertDispatched(EnsureCorrectTotalsJob::class);
     }
 
-    public function test_if_updates_totals(): void
+    public function testIfUpdatesTotals(): void
     {
         InventoryReservationsEventServiceProviderBase::enableModule();
 
