@@ -560,7 +560,19 @@ export default {
 
         apiPrintTransactionReceipt: function (data) {
             return axios.post('/api/transaction/receipt-print/', data);
-        }
+        },
+
+        apiGetPaymentTypes: function (params) {
+            return axios.get('/api/payment-types', {params: params});
+        },
+
+        apiPostTransactionPayment: function (data) {
+            return axios.post('/api/transaction/payments', data);
+        },
+
+        apiPutTransactionPayment: function (id, data) {
+            return axios.put('/api/transaction/payments/' + id, data);
+        },
     }
 }
 </script>

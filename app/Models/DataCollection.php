@@ -28,11 +28,13 @@ use Illuminate\Support\Carbon;
  * @property string $currently_running_task
  * @property int $shipping_address_id
  * @property int $billing_address_id
+ * @property int $payment_id
  * @property float $total_quantity_scanned
  * @property float $total_cost
  * @property float $total_full_price
  * @property float $total_discount
  * @property float $total_sold_price
+ * @property float $total_paid
  * @property float $total_profit
  * @property string $custom_uuid
  * @property Carbon $deleted_at
@@ -66,6 +68,7 @@ class DataCollection extends BaseModel
         'name',
         'custom_uuid',
         'currently_running_task',
+        'total_paid'
     ];
 
     protected function casts(): array
@@ -103,6 +106,12 @@ class DataCollection extends BaseModel
     public function shippingAddress(): BelongsTo
     {
         return $this->belongsTo(OrderAddress::class);
+    }
+
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(DataCollectionPayment::class, 'transaction_id');
     }
 
     /**

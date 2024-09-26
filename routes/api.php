@@ -51,6 +51,8 @@ Route::name('api.')->group(function () {
     Route::apiResource('quantity-discounts', Api\QuantityDiscountsController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class)->only(['index', 'store', 'destroy']);
     Route::apiResource('transactions', Api\TransactionController::class)->only(['update']);
+    Route::apiResource('payment-types', Api\PaymentTypeController::class)->only(['index']);
+    Route::apiResource('transaction/payments', Api\DataCollectionPaymentController::class)->only(['index', 'store', 'update']);
 });
 
 Route::prefix('modules')->name('api.modules.')->group(function () {

@@ -189,6 +189,7 @@ Vue.component('new-quantity-discount-modal', require('./modals/NewQuantityDiscou
 Vue.component('set-transaction-printer-modal', require('./modals/SetTransactionPrinterModal.vue').default);
 Vue.component('find-address-modal', require('./modals/FindAddressModal.vue').default);
 Vue.component('new-address-modal', require('./modals/NewAddressModal.vue').default);
+Vue.component('set-payment-type-modal', require('./modals/SetPaymentTypeModal.vue').default);
 
 Vue.component('stocktake-suggestions-page', require('./components/Settings/Modules/StocktakeSuggestionsPage.vue').default);
 Vue.component('activity-log-page', require('./components/ActivityLogPage.vue').default);

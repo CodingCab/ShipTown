@@ -49,7 +49,11 @@ const Modals = {
 
             showAddNewAddressModal(address = null) {
                 this.show('new-address-modal', {'address': address});
-            }
+            },
+
+            showSetPaymentTypeModal(paymentType = null) {
+                this.show('set-payment-type-modal', {'paymentType': paymentType});
+            },
         }
     }
 }

@@ -214,6 +214,9 @@
                     <button :disabled="! buttonsEnabled" @click.prevent="selectCustomer" v-b-toggle
                             class="col btn mb-2 btn-primary">Select Customer
                     </button>
+                    <button :disabled="! buttonsEnabled" @click.prevent="selectPayment" v-b-toggle
+                            class="col btn mb-2 btn-primary">Payment
+                    </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="autoScanAll" v-b-toggle
                             class="col btn mb-2 btn-primary">AutoScan ALL Records
                     </button>
@@ -230,9 +233,9 @@
                     </button>
                     <br>
                     <br>
-<!--                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt(false)" v-b-toggle-->
-<!--                            class="col btn mb-2 btn-primary">Print Receipt (PDF)-->
-<!--                    </button>-->
+                    <!--                    <button :disabled="! buttonsEnabled" @click.prevent="printReceipt(false)" v-b-toggle-->
+                    <!--                            class="col btn mb-2 btn-primary">Print Receipt (PDF)-->
+                    <!--                    </button>-->
                     <button :disabled="! buttonsEnabled" @click.prevent="printReceipt" v-b-toggle
                             class="col btn mb-2 btn-primary">Print Receipt
                     </button>
@@ -309,6 +312,7 @@
         <set-transaction-printer-modal/>
         <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
+        <set-payment-type-modal/>
     </div>
 </template>
 
@@ -364,8 +368,10 @@ export default {
                 'App\\Models\\DataCollectionStocktake': 'Stocktake',
             },
             selectedPrinter: null,
+            selectedPaymentType: null,
             selectedBillingAddress: null,
             selectedShippingAddress: null,
+            paymentTypeAlreadySelected: false,
         };
     },
 
@@ -381,6 +387,16 @@ export default {
 
         Modals.EventBus.$on('hide::modal::set-transaction-printer-modal', (printer) => {
             this.selectedPrinter = printer;
+        });
+
+        Modals.EventBus.$on('hide::modal::set-payment-type-modal', (data) => {
+            if (data.paymentType) {
+                this.selectedPaymentType = data.paymentType;
+            }
+
+            if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.selectedPaymentType) {
+                this.setTransactionPayment();
+            }
         });
 
         Modals.EventBus.$on('hide::modal::find-address-modal', (data) => {
@@ -491,7 +507,7 @@ export default {
             let params = {
                 'filter[id]': this.data_collection_id,
                 'filter[with_archived]': true,
-                'include': 'comments,comments.user,shippingAddress,billingAddress'
+                'include': 'comments,comments.user,shippingAddress,billingAddress,payments'
             }
 
             this.apiGetDataCollector(params)
@@ -502,6 +518,10 @@ export default {
                     }
                     if (this.dataCollection.billing_address_id) {
                         this.selectedBillingAddress = this.dataCollection.billing_address_id;
+                    }
+                    if (Array.isArray(this.dataCollection.payments) && this.dataCollection.payments.length) {
+                        this.selectedPaymentType = this.dataCollection.payments[this.dataCollection.payments.length - 1];
+                        this.paymentTypeAlreadySelected = true;
                     }
                 })
                 .catch(error => {
@@ -577,7 +597,11 @@ export default {
         },
 
         selectCustomer() {
-            this.$modal.showFindAddressModal(this.setTransactionCustomer);
+            this.$modal.showFindAddressModal();
+        },
+
+        selectPayment() {
+            this.$modal.showSetPaymentTypeModal(this.selectedPaymentType);
         },
 
         autoScanAll() {
@@ -777,6 +801,34 @@ export default {
                     this.displayApiCallError(error);
                 });
         },
+
+        setTransactionPayment() {
+            if (this.paymentTypeAlreadySelected) {
+                const payment = this.dataCollection.payments[this.dataCollection.payments.length - 1];
+                this.apiPutTransactionPayment(payment.id, {
+                    payment_type_id: this.selectedPaymentType.id
+                })
+                    .then(() => {
+                        this.notifySuccess('Payment type updated.');
+                        this.reloadDataCollection();
+                    })
+                    .catch(error => {
+                        this.displayApiCallError(error);
+                    });
+            } else {
+                this.apiPostTransactionPayment({
+                    transaction_id: this.dataCollection.id,
+                    payment_type_id: this.selectedPaymentType.id
+                })
+                    .then(() => {
+                        this.notifySuccess('Payment type selected.');
+                        this.reloadDataCollection();
+                    })
+                    .catch(error => {
+                        this.displayApiCallError(error);
+                    });
+            }
+        }
     },
 
     computed: {
