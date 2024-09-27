@@ -15,7 +15,6 @@ use Illuminate\Support\Carbon;
  *
  * @property-read OrderAddress|null $shippingAddress
  * @property-read OrderAddress|null $billingAddress
- *
  * @property int $id
  * @property int $warehouse_code
  * @property int $warehouse_id
@@ -28,7 +27,6 @@ use Illuminate\Support\Carbon;
  * @property string $currently_running_task
  * @property int $shipping_address_id
  * @property int $billing_address_id
- * @property int $payment_id
  * @property float $total_quantity_scanned
  * @property float $total_cost
  * @property float $total_full_price
