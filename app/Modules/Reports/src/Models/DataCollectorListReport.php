@@ -81,7 +81,8 @@ class DataCollectorListReport extends Report
         $this->addFilter(
             AllowedFilter::callback('without_transactions', function ($query, $value) {
                 if ($value === true) {
-                    $query->where('data_collections.type', '!=', 'App\Models\DataCollectionTransaction');
+                    $query->where('data_collections.type', '!=', 'App\\Models\\DataCollectionTransaction')
+                        ->orWhereNull('data_collections.type');
                 }
             })
         );
