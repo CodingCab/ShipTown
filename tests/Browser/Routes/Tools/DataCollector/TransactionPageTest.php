@@ -41,6 +41,7 @@ class TransactionPageTest extends DuskTestCase
                 ->assertPathIs($this->uri)
                 ->pause($this->shortDelay)
                 ->pause($this->shortDelay)
+                ->pause($this->shortDelay)
                 ->keys('@barcode-input-field', '4001')
                 ->keys('@barcode-input-field', '{ENTER}')
                 ->pause($this->shortDelay)
