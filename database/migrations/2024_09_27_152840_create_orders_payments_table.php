@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('order_payments', function (Blueprint $table) {
+        Schema::create('orders_payments', function (Blueprint $table) {
             $table->id();
             $table->dateTime('paid_at')->nullable();
             $table->unsignedBigInteger('order_id');

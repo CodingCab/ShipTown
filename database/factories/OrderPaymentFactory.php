@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OrderPaymentFactory extends Factory
@@ -16,6 +17,9 @@ class OrderPaymentFactory extends Factory
                 'id' => $this->faker->uuid,
                 'key' => 'value',
             ],
+            'order_id' => function () {
+                return Order::factory()->create()->getKey();
+            },
         ];
     }
 }
