@@ -9,12 +9,12 @@ return new class extends Migration {
     {
         Schema::create('payment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('payment_code')->unique();
-            $table->string('payment_name');
+            $table->string('code')->unique();
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index('payment_code');
+            $table->index('code');
         });
     }
 

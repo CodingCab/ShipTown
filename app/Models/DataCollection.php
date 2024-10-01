@@ -33,6 +33,7 @@ use Illuminate\Support\Carbon;
  * @property float $total_discount
  * @property float $total_sold_price
  * @property float $total_paid
+ * @property float $total_outstanding
  * @property float $total_profit
  * @property string $custom_uuid
  * @property Carbon $deleted_at
@@ -66,7 +67,8 @@ class DataCollection extends BaseModel
         'name',
         'custom_uuid',
         'currently_running_task',
-        'total_paid'
+        'total_paid',
+        'total_outstanding',
     ];
 
     protected function casts(): array
@@ -78,6 +80,8 @@ class DataCollection extends BaseModel
             'total_discount' => 'double',
             'total_sold_price' => 'double',
             'total_profit' => 'double',
+            'total_paid' => 'double',
+            'total_outstanding' => 'double',
         ];
     }
 

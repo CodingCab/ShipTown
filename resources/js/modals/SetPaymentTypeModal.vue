@@ -10,7 +10,7 @@
             <div class="card-body">
                 <div class="row align-items-center mb-2" v-for="type in paymentTypes" :key="type['id']"
                      :class="{'table-primary': isSelectedPaymentType(type['id'])}" style="min-height: 29px;">
-                    <div class="col-6">{{ type['payment_name'] }}</div>
+                    <div class="col-6">{{ type['name'] }}</div>
                     <div class="col-6 text-right">
                         <button type="button" @click.prevent="setChosenPaymentType(type)"
                                 v-show="!isSelectedPaymentType(type['id'])" class="btn btn-primary btn-sm">Select
@@ -69,6 +69,10 @@ export default {
         },
 
         isSelectedPaymentType: function (paymentTypeId) {
+            if (this.selectedPaymentType === null) {
+                return false;
+            }
+
             if (typeof this.selectedPaymentType.payment_type_id !== 'undefined') {
                 return this.selectedPaymentType && this.selectedPaymentType.payment_type_id && paymentTypeId === this.selectedPaymentType.payment_type_id;
             } else {

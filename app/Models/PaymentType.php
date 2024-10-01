@@ -13,8 +13,8 @@ use Spatie\QueryBuilder\QueryBuilder;
  * App\Models\PaymentType.
  *
  * @property int $id
- * @property string $payment_code
- * @property string $payment_name
+ * @property string $code
+ * @property string $name
  * @property string|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -25,8 +25,8 @@ class PaymentType extends Model
     use HasFactory;
 
     protected $fillable = [
-        'payment_code',
-        'payment_name',
+        'code',
+        'name',
     ];
 
     public function payments(): HasMany
@@ -39,8 +39,8 @@ class PaymentType extends Model
         return QueryBuilder::for(PaymentType::class)
             ->allowedSorts([
                 'id',
-                'payment_code',
-                'payment_name',
+                'code',
+                'name',
             ]);
     }
 }

@@ -14,20 +14,16 @@ class PaymentTypesSeeder extends Seeder
     {
         $paymentTypes = [
             [
-                'payment_code' => 'CASH',
-                'payment_name' => 'Cash',
+                'code' => 'CASH',
+                'name' => 'Cash',
             ],
             [
-                'payment_code' => 'CREDIT_CARD',
-                'payment_name' => 'Credit Card',
+                'code' => 'CREDIT_CARD',
+                'name' => 'Credit Card',
             ],
             [
-                'payment_code' => 'DEBIT_CARD',
-                'payment_name' => 'Debit Card',
-            ],
-            [
-                'payment_code' => 'BANK_TRANSFER',
-                'payment_name' => 'Bank Transfer',
+                'code' => 'CHEQUE',
+                'name' => 'Cheque',
             ],
         ];
 

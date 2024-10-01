@@ -66,6 +66,10 @@
                                      :number="dataCollection && dataCollection['total_quantity_scanned']"></number-card>
                         <number-card :label="'total to pay'"
                                      :number="dataCollection && dataCollection['total_sold_price']"></number-card>
+                        <number-card :label="'total paid'"
+                                     :number="dataCollection && dataCollection['total_paid']"></number-card>
+                        <number-card :label="'total outstanding'"
+                                     :number="dataCollection && dataCollection['total_outstanding']"></number-card>
                     </div>
                 </div>
             </template>
@@ -313,6 +317,7 @@
         <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
         <set-payment-type-modal/>
+        <add-payment-modal/>
     </div>
 </template>
 
@@ -372,6 +377,7 @@ export default {
             selectedBillingAddress: null,
             selectedShippingAddress: null,
             paymentTypeAlreadySelected: false,
+            paymentAmount: 0,
         };
     },
 
@@ -395,6 +401,18 @@ export default {
             }
 
             if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.selectedPaymentType) {
+                this.$modal.showAddPaymentModal({maxAmount: this.dataCollection['total_outstanding']});
+            }
+        });
+
+        Modals.EventBus.$on('show::modal::add-payment-modal', this.onAddPaymentModalShown);
+
+        Modals.EventBus.$on('hide::modal::add-payment-modal', (data) => {
+            if (data.amount) {
+                this.paymentAmount = data.amount;
+            }
+
+            if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.paymentAmount) {
                 this.setTransactionPayment();
             }
         });
@@ -518,10 +536,6 @@ export default {
                     }
                     if (this.dataCollection.billing_address_id) {
                         this.selectedBillingAddress = this.dataCollection.billing_address_id;
-                    }
-                    if (Array.isArray(this.dataCollection.payments) && this.dataCollection.payments.length) {
-                        this.selectedPaymentType = this.dataCollection.payments[this.dataCollection.payments.length - 1];
-                        this.paymentTypeAlreadySelected = true;
                     }
                 })
                 .catch(error => {
@@ -818,31 +832,37 @@ export default {
         },
 
         setTransactionPayment() {
-            if (this.paymentTypeAlreadySelected) {
-                const payment = this.dataCollection.payments[this.dataCollection.payments.length - 1];
-                this.apiPutTransactionPayment(payment.id, {
-                    payment_type_id: this.selectedPaymentType.id
+            // if (this.paymentTypeAlreadySelected) {
+            //     const payment = this.dataCollection.payments[this.dataCollection.payments.length - 1];
+            //     this.apiPutTransactionPayment(payment.id, {
+            //         payment_type_id: this.selectedPaymentType.id,
+            //         amount: this.paymentAmount
+            //     })
+            //         .then(() => {
+            //             this.notifySuccess('Payment type updated.');
+            //             this.reloadDataCollection();
+            //         })
+            //         .catch(error => {
+            //             this.displayApiCallError(error);
+            //         });
+            // } else {
+            // }
+            this.apiPostTransactionPayment({
+                transaction_id: this.dataCollection.id,
+                payment_type_id: this.selectedPaymentType.id,
+                amount: this.paymentAmount
+            })
+                .then(() => {
+                    this.notifySuccess('Payment type selected.');
+                    this.reloadDataCollection();
                 })
-                    .then(() => {
-                        this.notifySuccess('Payment type updated.');
-                        this.reloadDataCollection();
-                    })
-                    .catch(error => {
-                        this.displayApiCallError(error);
-                    });
-            } else {
-                this.apiPostTransactionPayment({
-                    transaction_id: this.dataCollection.id,
-                    payment_type_id: this.selectedPaymentType.id
-                })
-                    .then(() => {
-                        this.notifySuccess('Payment type selected.');
-                        this.reloadDataCollection();
-                    })
-                    .catch(error => {
-                        this.displayApiCallError(error);
-                    });
-            }
+                .catch(error => {
+                    this.displayApiCallError(error);
+                });
+        },
+
+        onAddPaymentModalShown() {
+            this.setFocusElementById('transaction_payment_amount', true);
         }
     },
 

@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('payment_type_id')->nullable();
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->decimal('amount', 20)->nullable();
+            $table->timestamp('occurred_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

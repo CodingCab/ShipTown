@@ -12,7 +12,7 @@ class PaymentTypeController extends Controller
 {
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
-        $query = PaymentType::getSpatieQueryBuilder()->defaultSort('payment_name');
+        $query = PaymentType::getSpatieQueryBuilder()->defaultSort('name');
 
         return PaymentTypeResource::collection($this->getPaginatedResult($query, 999));
     }
