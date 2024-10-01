@@ -19,7 +19,7 @@
         "dompdf/dompdf": "^v3.0.0",
         "guzzlehttp/guzzle": "^7.9",
         "hulkur/laravel-hasmany-keyby": "^7.0",
-        "laravel/forge-sdk": "^3.17",
+        "laravel/forge-sdk": "^3.18",
         "laravel/framework": "^11.26",
         "laravel/passport": "^12.3",
         "laravel/telescope": "^5.2",
@@ -37,7 +37,7 @@
         "spatie/laravel-ray": "^1.37",
         "spatie/laravel-tags": "^4.6",
         "thomasjohnkane/snooze": "^2.6",
-        "league/flysystem-aws-s3-v3": "^3.28"
+        "league/flysystem-aws-s3-v3": "^3.29"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
