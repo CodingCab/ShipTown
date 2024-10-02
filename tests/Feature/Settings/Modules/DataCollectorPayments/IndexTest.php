@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Settings\Modules\Payments;
+namespace Tests\Feature\Settings\Modules\DataCollectorPayments;
 
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

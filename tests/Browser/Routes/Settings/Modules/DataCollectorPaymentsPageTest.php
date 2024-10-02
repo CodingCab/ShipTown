@@ -7,7 +7,7 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Throwable;
 
-class PaymentsPageTest extends DuskTestCase
+class DataCollectorPaymentsPageTest extends DuskTestCase
 {
     private string $uri = '/settings/modules/data-collector-payments';
 
