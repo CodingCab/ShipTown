@@ -68,19 +68,20 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
     RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
     RouteService::apiResource('warehouses', Api\WarehouseController::class);
+
+    RouteService::apiResource('admin/user/roles', Api\UserRoleController::class, ['index']);
+    RouteService::apiResource('admin/users', Api\UserController::class, ['index', 'store', 'update', 'destroy', 'show']);
+    RouteService::apiResource('data-collector-records', Api\DataCollectorRecordController::class, ['store', 'index']);
+    RouteService::apiResource('order/addresses', Api\OrderAddressController::class, ['update']);
+    RouteService::apiResource('order/comments', Api\OrderCommentController::class, ['index', 'store']);
+    RouteService::apiResource('order/payments', Api\OrderPaymentController::class, ['index']);
+    RouteService::apiResource('order/products', Api\OrderProductController::class, ['index', 'update']);
+    RouteService::apiResource('order/shipments', Api\OrderShipmentController::class, ['index', 'store']);
 });
 
-Route::apiResource('admin/user/roles', Api\UserRoleController::class, ['as' => 'admin.users'])->only(['index']);
-Route::apiResource('admin/users', Api\UserController::class);
 Route::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class)->names('csv-import-data-collections')->only(['store']);
-Route::apiResource('data-collector-records', Api\DataCollectorRecordController::class)->only(['store', 'index']);
 Route::apiResource('data-collector/comments', Api\DataCollectionCommentController::class)->only(['index', 'store']);
 Route::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['as' => 'modules.autostatus.picking'])->only('index', 'store');
-Route::apiResource('order/addresses', Api\OrderAddressController::class, ['as' => 'orders'])->only(['update']);
-Route::apiResource('order/comments', Api\OrderCommentController::class, ['as' => 'orders'])->only(['index', 'store']);
-Route::apiResource('order/payments', Api\OrderPaymentController::class, ['as' => 'orders'])->only(['index']);
-Route::apiResource('order/products', Api\OrderProductController::class, ['as' => 'orders'])->only(['index', 'update']);
-Route::apiResource('order/shipments', Api\OrderShipmentController::class, ['as' => 'orders'])->only(['index', 'store']);
 Route::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class)->only(['store']);
 Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
 Route::apiResource('picklist/picks', Api\Picklist\PicklistPickController::class)->only(['store', 'destroy']);

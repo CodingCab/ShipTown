@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class RouteService
 {
-    public static function apiResource(string $uri, string $controllerClass = null, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
+    public static function apiResource(string $uri, string $controller = null, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
     {
         $endpoints = collect(explode('/', $uri));
 
@@ -19,10 +19,10 @@ class RouteService
                 ->singular();
         })->implode('\\');
 
-        $controllerClass = $controllerClass ?? 'App\\Http\\Controllers\\Api\\' . $proposedControllerName . 'Controller';
+        $controller = $controller ?? 'App\\Http\\Controllers\\Api\\' . $proposedControllerName . 'Controller';
 
         $endpoints->pop();
 
-        return Route::apiResource($uri, $controllerClass, ['as' => $endpoints->implode('.')])->only($only);
+        return Route::apiResource($uri, $controller, ['as' => $endpoints->implode('.')])->only($only);
     }
 }
