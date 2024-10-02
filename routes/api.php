@@ -54,24 +54,21 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('warehouses', Api\WarehouseController::class);
 
     RouteService::apiResource('modules/api2cart/connections', Api\Modules\Api2cart\Api2cartConnectionController::class, ['index', 'store', 'destroy']);
-    RouteService::apiResource('modules/api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['as' => 'api2cart'])->only(['index']);
-});
-
-Route::prefix('modules')->name('api.modules.')->group(function () {
-    Route::apiResource('automations/config', Api\Modules\OrderAutomations\ConfigController::class, ['as' => 'automations'])->only(['index']);
-    Route::apiResource('automations', Api\Modules\OrderAutomations\AutomationController::class);
-    Route::apiResource('dpd-ireland/connections', Api\Modules\DpdIreland\DpdIrelandController::class, ['as' => 'dpd-ireland'])->only(['index', 'store', 'destroy']);
-    Route::apiResource('dpd-uk/dpd-uk-connections', Api\Modules\DpdUk\DpdUkConnectionController::class, ['as' => 'dpd-uk'])->only(['index', 'store', 'destroy']);
-    Route::apiResource('printnode/clients', Api\Modules\Printnode\ClientController::class, ['as' => 'printnode'])->only(['index', 'store', 'destroy']);
-    Route::apiResource('printnode/printers', Api\Modules\Printnode\PrinterController::class)->only(['index']);
-    Route::apiResource('printnode/printjobs', Api\Modules\Printnode\PrintJobController::class, ['as' => 'printnode'])->only(['store']);
-    Route::apiResource('rms_api/connections', Api\Modules\Rmsapi\RmsapiConnectionController::class, ['as' => 'rmsapi'])->only(['index', 'store', 'destroy']);
-    Route::apiResource('slack/config', Api\Modules\Slack\ConfigController::class)->only(['index', 'store']);
-    Route::apiResource('stocktake-suggestions/configuration', Api\Modules\StocktakeSuggestions\ConfigurationController::class)->only(['index', 'store']);
-    Route::apiResource('webhooks/subscriptions', Api\Modules\Webhooks\SubscriptionController::class, ['as' => 'webhooks'])->only(['index', 'store']);
-    Route::apiResource('magento-api/connections', Api\Modules\MagentoApi\MagentoApiConnectionController::class, ['as' => 'magento-api'])->except(['show']);
-    Route::apiResource('magento2msi/connections', Api\Modules\Magento2msi\Magento2MsiConnectionController::class)->except(['show']);
-    Route::apiResource('active-orders-inventory-reservations/configuration', App\Modules\ActiveOrdersInventoryReservations\src\Http\Controllers\Api\Modules\ActiveOrdersInventoryReservationsController::class)->only(['index', 'update']);
+    RouteService::apiResource('modules/api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['index']);
+    RouteService::apiResource('modules/automations/config', Api\Modules\OrderAutomations\ConfigController::class, ['index']);
+    RouteService::apiResource('modules/automations', Api\Modules\OrderAutomations\AutomationController::class);
+    RouteService::apiResource('modules/dpd-ireland/connections', Api\Modules\DpdIreland\DpdIrelandController::class, ['index', 'store', 'destroy']);
+    RouteService::apiResource('modules/dpd-uk/dpd-uk-connections', Api\Modules\DpdUk\DpdUkConnectionController::class, ['index', 'store', 'destroy']);
+    RouteService::apiResource('modules/printnode/clients', Api\Modules\Printnode\ClientController::class, ['index', 'store', 'destroy']);
+    RouteService::apiResource('modules/printnode/printers', Api\Modules\Printnode\PrinterController::class, ['index']);
+    RouteService::apiResource('modules/printnode/printjobs', Api\Modules\Printnode\PrintJobController::class, ['store']);
+    RouteService::apiResource('modules/rms_api/connections', Api\Modules\Rmsapi\RmsapiConnectionController::class, ['index', 'store', 'destroy']);
+    RouteService::apiResource('modules/slack/config', Api\Modules\Slack\ConfigController::class, ['index', 'store']);
+    RouteService::apiResource('modules/stocktake-suggestions/configuration', Api\Modules\StocktakeSuggestions\ConfigurationController::class, ['index', 'store']);
+    RouteService::apiResource('modules/webhooks/subscriptions', Api\Modules\Webhooks\SubscriptionController::class, ['index', 'store']);
+    RouteService::apiResource('modules/magento-api/connections', Api\Modules\MagentoApi\MagentoApiConnectionController::class);
+    RouteService::apiResource('modules/magento2msi/connections', Api\Modules\Magento2msi\Magento2MsiConnectionController::class);
+    RouteService::apiResource('modules/active-orders-inventory-reservations/configuration', App\Modules\ActiveOrdersInventoryReservations\src\Http\Controllers\Api\Modules\ActiveOrdersInventoryReservationsController::class, ['index', 'update']);
 });
 
 Route::apiResource('admin/user/roles', Api\UserRoleController::class, ['as' => 'admin.users'])->only(['index']);
