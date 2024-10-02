@@ -52,11 +52,12 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
     RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
     RouteService::apiResource('warehouses', Api\WarehouseController::class);
+
+    RouteService::apiResource('modules/api2cart/connections', Api\Modules\Api2cart\Api2cartConnectionController::class, ['index', 'store', 'destroy']);
+    RouteService::apiResource('modules/api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['as' => 'api2cart'])->only(['index']);
 });
 
 Route::prefix('modules')->name('api.modules.')->group(function () {
-    Route::apiResource('api2cart/connections', Api\Modules\Api2cart\Api2cartConnectionController::class, ['as' => 'api2cart'])->only(['index', 'store', 'destroy']);
-    Route::apiResource('api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['as' => 'api2cart'])->only(['index']);
     Route::apiResource('automations/config', Api\Modules\OrderAutomations\ConfigController::class, ['as' => 'automations'])->only(['index']);
     Route::apiResource('automations', Api\Modules\OrderAutomations\AutomationController::class);
     Route::apiResource('dpd-ireland/connections', Api\Modules\DpdIreland\DpdIrelandController::class, ['as' => 'dpd-ireland'])->only(['index', 'store', 'destroy']);
