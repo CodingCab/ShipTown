@@ -9,6 +9,13 @@ class RouteService
 {
     public static function apiResource(string $str, string $controller, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
     {
-        return Route::apiResource($str, $controller, ['as' => ''])->only($only);
+        $uri = collect(explode('/', $str));
+
+        $uri->pop();
+
+        $endpoints = $uri->implode('');
+
+//        $endpoints= '';
+        return Route::apiResource($str, $controller, ['as' => $endpoints])->only($only);
     }
 }

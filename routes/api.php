@@ -19,8 +19,8 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('activities', Api\ActivityController::class, ['index', 'store']);
     RouteService::apiResource('configurations', Api\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('csv-import', Api\CsvImportController::class, ['store']);
-    Route::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class)->only(['store']);
-    Route::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class)->only(['store']);
+    RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
+    RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class)->only(['store']);
     RouteService::apiResource('data-collector', Api\DataCollectorController::class);
     RouteService::apiResource('heartbeats', Api\HeartbeatsController::class, ['index']);
     RouteService::apiResource('inventory-movements', Api\InventoryMovementController::class, ['store', 'index']);
@@ -31,7 +31,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('modules', Api\ModuleController::class, ['index', 'update']);
     RouteService::apiResource('navigation-menu', Api\NavigationMenuController::class);
     RouteService::apiResource('orders-addresses', Api\OrderAddressController::class, ['index', 'store']);
-    RouteService::apiResource('orders-statuses', Api\OrderStatusController::class, ['show']);
+    RouteService::apiResource('orders-statuses', Api\OrderStatusController::class);
     RouteService::apiResource('orders', Api\OrderController::class, ['index', 'store', 'update']);
     RouteService::apiResource('picklist', Api\PicklistController::class, ['index']);
     RouteService::apiResource('print-jobs', Api\PrintJobController::class, ['store']);
