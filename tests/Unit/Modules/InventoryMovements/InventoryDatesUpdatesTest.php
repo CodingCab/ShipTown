@@ -55,9 +55,11 @@ class InventoryDatesUpdatesTest extends TestCase
     /** @test */
     public function testStocktakeType(): void
     {
+        $fixedDateTime = now()->toDateTimeString();
+        
         /** @var InventoryMovement $movement */
         $movement = InventoryMovement::query()->create([
-            'occurred_at' => now()->toDateTimeString(),
+            'occurred_at' => $fixedDateTime,
             'type' => InventoryMovement::TYPE_STOCKTAKE,
             'inventory_id' => $this->inventory->getKey(),
             'product_id' => $this->inventory->product_id,
@@ -75,9 +77,9 @@ class InventoryDatesUpdatesTest extends TestCase
 
         $this->assertEquals($movement->quantity_after, $this->inventory->quantity, 'last_movement_id');
         $this->assertEquals($movement->getKey(), $this->inventory->last_movement_id, 'last_movement_id');
-        $this->assertEquals($movement->occurred_at, $this->inventory->first_movement_at, 'first_movement_at');
-        $this->assertEquals($movement->occurred_at, $this->inventory->last_movement_at, 'last_movement_at');
-        $this->assertEquals($movement->occurred_at, $this->inventory->last_counted_at, 'last_movement_at');
+        $this->assertEquals($fixedDateTime, $this->inventory->first_movement_at, 'first_movement_at');
+        $this->assertEquals($fixedDateTime, $this->inventory->last_movement_at, 'last_movement_at');
+        $this->assertEquals($fixedDateTime, $this->inventory->last_counted_at, 'last_movement_at');
     }
 
     /** @test */
@@ -109,3 +111,4 @@ class InventoryDatesUpdatesTest extends TestCase
         $this->assertEquals($movement->occurred_at, $this->inventory->last_sold_at, 'last_movement_at');
     }
 }
+
