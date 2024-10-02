@@ -32,7 +32,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('navigation-menu', Api\NavigationMenuController::class);
     RouteService::apiResource('orders-addresses', Api\OrderAddressController::class, ['index', 'store']);
     RouteService::apiResource('orders-statuses', Api\OrderStatusController::class);
-    RouteService::apiResource('orders', Api\OrderController::class, ['index', 'store', 'update']);
+    RouteService::apiResource('orders', Api\OrderController::class, ['index', 'store', 'update', 'show']);
     RouteService::apiResource('picklist', Api\PicklistController::class, ['index']);
     RouteService::apiResource('print-jobs', Api\PrintJobController::class, ['store']);
     RouteService::apiResource('products-aliases', Api\ProductAliasController::class, ['index', 'store']);
