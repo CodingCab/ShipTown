@@ -58,6 +58,10 @@ const Modals = {
             showAddPaymentModal(paymentDetails = null) {
                 this.show('add-payment-modal', {'paymentDetails': paymentDetails});
             },
+
+            showNewPaymentTypeModal(paymentType = null) {
+                this.show('new-payment-type-modal', {'paymentType': paymentType});
+            },
         }
     }
 }

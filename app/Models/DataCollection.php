@@ -68,7 +68,6 @@ class DataCollection extends BaseModel
         'custom_uuid',
         'currently_running_task',
         'total_paid',
-        'total_outstanding',
     ];
 
     protected function casts(): array

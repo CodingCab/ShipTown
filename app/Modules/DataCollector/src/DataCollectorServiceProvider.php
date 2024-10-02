@@ -43,7 +43,7 @@ class DataCollectorServiceProvider extends BaseModuleServiceProvider
         ],
 
         DataCollectionPaymentCreatedEvent::class => [
-            Listeners\DataCollectionPaymentCreatedEventListener::class,
+            \App\Modules\DataCollectorPayments\src\Listeners\DataCollectionPaymentCreatedEventListener::class,
         ],
 
         EveryMinuteEvent::class => [

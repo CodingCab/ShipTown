@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\DataCollection;
-use App\Models\PaymentType;
+use App\Modules\DataCollectorPayments\src\Models\PaymentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DataCollectionPaymentFactory extends Factory

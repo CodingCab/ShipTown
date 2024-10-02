@@ -566,6 +566,14 @@ export default {
             return axios.get('/api/payment-types', {params: params});
         },
 
+        apiPostPaymentTypes: function (data) {
+            return axios.post('/api/payment-types', data);
+        },
+
+        apiDeletePaymentType: function (id) {
+            return axios.delete('/api/payment-types/' + id);
+        },
+
         apiPostTransactionPayment: function (data) {
             return axios.post('/api/transaction/payments', data);
         },
