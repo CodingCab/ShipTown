@@ -12,10 +12,11 @@ class RouteService
     {
         $endpoints = collect(explode('/', $uri));
 
-        $proposedControllerName = Str::singular($endpoints->last());
-        $proposedControllerName = Str::ucfirst($proposedControllerName);
+        $proposedControllerName = Str::of($endpoints->last())
+            ->camel()
+            ->ucfirst()
+            ->singular();
 
-        // example: App\Http\Controllers\Api\WarehouseController
         $controllerClass = $controllerClass ?? 'App\\Http\\Controllers\\Api\\' . $proposedControllerName . 'Controller';
 
         $endpoints->pop();
