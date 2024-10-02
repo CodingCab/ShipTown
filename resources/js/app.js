@@ -191,7 +191,7 @@ Vue.component('find-address-modal', require('./modals/FindAddressModal.vue').def
 Vue.component('new-address-modal', require('./modals/NewAddressModal.vue').default);
 Vue.component('data-collection-choose-payment-type-modal', require('./modals/DataCollectionChoosePaymentTypeModal.vue').default);
 Vue.component('data-collection-add-payment-modal', require('./modals/DataCollectionAddPaymentModal.vue').default);
-Vue.component('module-data-collector-payments-new-payment-type-modal', require('./modals/NewPaymentTypeModal.vue').default);
+Vue.component('module-data-collector-payments-new-payment-type-modal', require('./modals/ModuleDataCollectorPaymentsNewPaymentModal.vue').default);
 
 Vue.component('stocktake-suggestions-page', require('./components/Settings/Modules/StocktakeSuggestionsPage.vue').default);
 Vue.component('activity-log-page', require('./components/ActivityLogPage.vue').default);
