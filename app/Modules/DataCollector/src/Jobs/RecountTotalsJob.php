@@ -27,10 +27,10 @@ class RecountTotalsJob extends UniqueJob
                     NOW() as calculated_at
                 FROM data_collections
 
-                WHERE recount_required = 1 OR (? IS NOT NULL AND data_collections.id = ?)
+                WHERE (? IS NULL AND recount_required = 1) OR (? IS NOT NULL AND data_collections.id = ?)
 
                 LIMIT 5;
-        ', [$this->dataCollectionId, $this->dataCollectionId]);
+        ', [$this->dataCollectionId, $this->dataCollectionId, $this->dataCollectionId]);
 
         DB::statement('
             CREATE TEMPORARY TABLE tempInventoryTotals AS
@@ -51,7 +51,7 @@ class RecountTotalsJob extends UniqueJob
 
                 LEFT JOIN data_collection_records
                     ON data_collection_records.data_collection_id = tempTable.data_collection_id
-                
+
                 WHERE data_collection_records.deleted_at IS NULL
 
                 GROUP BY tempTable.data_collection_id, tempTable.calculated_at;
@@ -69,7 +69,7 @@ class RecountTotalsJob extends UniqueJob
 
                 LEFT JOIN data_collection_payments
                     ON data_collection_payments.transaction_id = tempTable.data_collection_id
-                
+
                 WHERE data_collection_payments.deleted_at IS NULL
 
                 GROUP BY tempTable.data_collection_id;
@@ -80,7 +80,7 @@ class RecountTotalsJob extends UniqueJob
 
             INNER JOIN tempInventoryTotals
                 ON data_collections.id = tempInventoryTotals.data_collection_id
-                    
+
             INNER JOIN tempPaymentTotals
                 ON data_collections.id = tempPaymentTotals.data_collection_id
 
