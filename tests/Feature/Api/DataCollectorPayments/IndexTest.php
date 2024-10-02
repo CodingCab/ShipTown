@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\PaymentTypes;
+namespace Tests\Feature\Api\DataCollectorPayments;
 
 use App\User;
 use Spatie\Permission\Models\Role;
@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class IndexTest extends TestCase
 {
-    private string $uri = 'api/payment-types';
+    private string $uri = 'api/data-collector-payments/';
 
     /** @test */
     public function testIfCallReturnsOk()
@@ -26,7 +26,7 @@ class IndexTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'id'
+                    'id',
                 ],
             ],
         ]);

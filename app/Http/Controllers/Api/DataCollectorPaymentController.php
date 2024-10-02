@@ -10,7 +10,7 @@ use App\Http\Resources\DataCollectionPaymentResource;
 use App\Http\Resources\PaymentTypeResource;
 use App\Models\DataCollectionPayment;
 
-class DataCollectionPaymentController extends Controller
+class DataCollectorPaymentController extends Controller
 {
     public function index(IndexRequest $request)
     {

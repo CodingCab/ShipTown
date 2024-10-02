@@ -12,7 +12,7 @@
                     </div>
                 @endif
 
-                <payments-configuration-page></payments-configuration-page>
+                <data-collector-payments-configuration-page></data-collector-payments-configuration-page>
             </div>
         </div>
 @endsection

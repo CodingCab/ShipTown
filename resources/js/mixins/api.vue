@@ -567,23 +567,23 @@ export default {
         },
 
         apiGetPaymentTypes: function (params) {
-            return axios.get('/api/payment-types', {params: params});
+            return axios.get('/api/data-collector-payment-types', {params: params});
         },
 
         apiPostPaymentTypes: function (data) {
-            return axios.post('/api/payment-types', data);
+            return axios.post('/api/data-collector-payment-types', data);
         },
 
         apiDeletePaymentType: function (id) {
-            return axios.delete('/api/payment-types/' + id);
+            return axios.delete('/api/data-collector-payment-types/' + id);
         },
 
         apiPostTransactionPayment: function (data) {
-            return axios.post('/api/transaction/payments', data);
+            return axios.post('/api/data-collector-payments', data);
         },
 
         apiPutTransactionPayment: function (id, data) {
-            return axios.put('/api/transaction/payments/' + id, data);
+            return axios.put('/api/data-collector-payments/' + id, data);
         },
     }
 }

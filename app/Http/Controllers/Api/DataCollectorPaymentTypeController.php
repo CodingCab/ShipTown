@@ -9,7 +9,7 @@ use App\Http\Resources\PaymentTypeResource;
 use App\Modules\DataCollectorPayments\src\Models\PaymentType;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class PaymentTypeController extends Controller
+class DataCollectorPaymentTypeController extends Controller
 {
     public function index(IndexRequest $request): AnonymousResourceCollection
     {

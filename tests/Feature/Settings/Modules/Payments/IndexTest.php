@@ -13,7 +13,7 @@ class IndexTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected string $uri = '/settings/modules/payments';
+    protected string $uri = '/settings/modules/data-collector-payments';
 
     protected mixed $user;
 

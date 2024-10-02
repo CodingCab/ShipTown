@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\Transaction\Payments\Payment;
+namespace Tests\Feature\Api\DataCollectorPayments\DataCollectorPayment;
 
 use App\Models\DataCollectionPayment;
 use App\User;
@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    private string $uri = 'api/transaction/payments/';
+    private string $uri = 'api/data-collector-payments/';
 
     /** @test */
     public function testIfCallReturnsOk()

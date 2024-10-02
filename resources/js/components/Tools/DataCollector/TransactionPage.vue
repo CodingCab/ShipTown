@@ -316,8 +316,8 @@
         <set-transaction-printer-modal/>
         <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
-        <set-payment-type-modal/>
-        <add-payment-modal/>
+        <data-collection-choose-payment-type-modal/>
+        <data-collection-data-collection-add-payment-modal/>
     </div>
 </template>
 
@@ -395,7 +395,7 @@ export default {
             this.selectedPrinter = printer;
         });
 
-        Modals.EventBus.$on('hide::modal::set-payment-type-modal', (data) => {
+        Modals.EventBus.$on('hide::modal::data-collection-choose-payment-type-modal', (data) => {
             if (data.paymentType) {
                 this.selectedPaymentType = data.paymentType;
             }
@@ -405,9 +405,9 @@ export default {
             }
         });
 
-        Modals.EventBus.$on('show::modal::add-payment-modal', this.onAddPaymentModalShown);
+        Modals.EventBus.$on('show::modal::data-collection-data-collection-add-payment-modal', this.onAddPaymentModalShown);
 
-        Modals.EventBus.$on('hide::modal::add-payment-modal', (data) => {
+        Modals.EventBus.$on('hide::modal::data-collection-data-collection-add-payment-modal', (data) => {
             if (data.amount) {
                 this.paymentAmount = data.amount;
             }

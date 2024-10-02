@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\PaymentTypes;
+namespace Tests\Feature\Api\DataCollectorPaymentTypes;
 
 use App\User;
 use Spatie\Permission\Models\Role;
@@ -9,7 +9,7 @@ use Faker\Factory as Faker;
 
 class StoreTest extends TestCase
 {
-    private string $uri = 'api/payment-types/';
+    private string $uri = 'api/data-collector-payment-types/';
 
     /** @test */
     public function testIfCallReturnsOk()

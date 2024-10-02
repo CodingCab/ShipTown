@@ -12,7 +12,7 @@ class DataCollectorPaymentsServiceProvider extends BaseModuleServiceProvider
 
     public static string $module_description = 'Module provides an ability to add payment for the transaction.';
 
-    public static string $settings_link = '/settings/modules/payments';
+    public static string $settings_link = '/settings/modules/data-collector-payments';
 
     public static bool $autoEnable = true;
 

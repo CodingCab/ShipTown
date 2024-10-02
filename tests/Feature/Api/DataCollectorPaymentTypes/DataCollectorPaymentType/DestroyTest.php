@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Api\PaymentTypes\PaymentType;
+namespace Tests\Feature\Api\DataCollectorPaymentTypes\DataCollectorPaymentType;
 
 use App\Modules\DataCollectorPayments\src\Models\PaymentType;
 use App\User;
@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class DestroyTest extends TestCase
 {
-    private string $uri = 'api/payment-types/';
+    private string $uri = 'api/data-collector-payment-types/';
 
     /** @test */
     public function testIfCallReturnsOk(): void

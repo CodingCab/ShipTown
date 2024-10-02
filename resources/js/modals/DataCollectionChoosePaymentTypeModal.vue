@@ -47,7 +47,7 @@ export default {
 
     data() {
         return {
-            modalId: 'set-payment-type-modal',
+            modalId: 'data-collection-choose-payment-type-modal',
             selectedPaymentType: null,
             paymentTypes: [],
         }

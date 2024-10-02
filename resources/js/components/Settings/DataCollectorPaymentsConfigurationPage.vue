@@ -88,7 +88,7 @@ export default {
     mounted() {
         window.onscroll = () => this.loadMore();
 
-        Modals.EventBus.$on('hide::modal::new-payment-type-modal', () => {
+        Modals.EventBus.$on('hide::modal::module-data-collector-payments-new-payment-type-modal', () => {
             this.reloadPaymentTypesList();
         });
 

@@ -52,15 +52,15 @@ const Modals = {
             },
 
             showSetPaymentTypeModal(paymentType = null) {
-                this.show('set-payment-type-modal', {'paymentType': paymentType});
+                this.show('data-collection-choose-payment-type-modal', {'paymentType': paymentType});
             },
 
             showAddPaymentModal(paymentDetails = null) {
-                this.show('add-payment-modal', {'paymentDetails': paymentDetails});
+                this.show('data-collection-data-collection-add-payment-modal', {'paymentDetails': paymentDetails});
             },
 
             showNewPaymentTypeModal(paymentType = null) {
-                this.show('new-payment-type-modal', {'paymentType': paymentType});
+                this.show('module-data-collector-payments-new-payment-type-modal', {'paymentType': paymentType});
             },
         }
     }

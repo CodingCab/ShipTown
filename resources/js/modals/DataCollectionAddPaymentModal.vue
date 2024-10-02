@@ -52,7 +52,7 @@ export default {
 
     data() {
         return {
-            modalId: 'add-payment-modal',
+            modalId: 'data-collection-data-collection-add-payment-modal',
             amount: 0,
             maxAmount: 0
         }

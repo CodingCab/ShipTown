@@ -36,7 +36,7 @@ export default {
                 name: '',
                 code: '',
             },
-            modalId: 'new-payment-type-modal',
+            modalId: 'module-data-collector-payments-new-payment-type-modal',
             paymentType: undefined,
         }
     },

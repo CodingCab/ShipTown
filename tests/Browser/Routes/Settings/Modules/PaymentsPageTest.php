@@ -9,7 +9,7 @@ use Throwable;
 
 class PaymentsPageTest extends DuskTestCase
 {
-    private string $uri = '/settings/modules/payments';
+    private string $uri = '/settings/modules/data-collector-payments';
 
     /**
      * @throws Throwable
