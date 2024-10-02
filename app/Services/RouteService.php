@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 class RouteService
 {
-
     public static function apiResource(string $str, string $controller, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
     {
-        return Route::apiResource($str, $controller)->only($only);
+        return Route::apiResource($str, $controller, ['as' => ''])->only($only);
     }
 }
