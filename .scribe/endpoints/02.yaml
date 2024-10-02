@@ -1,12 +1,16 @@
-name: Products
+name: Order
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/products
+    uri: api/order/products
     metadata:
-      title: 'Get Product List.'
+      groupName: Order
+      groupDescription: ''
+      subgroup: null
+      subgroupDescription: null
+      title: 'Display a listing of the resource.'
       description: ''
       authenticated: false
       custom: []
@@ -14,8 +18,12 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
+    cleanQueryParameters: []
     bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
     responses:
       -
         status: 401
@@ -23,17 +31,69 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          x-ratelimit-limit: '120'
-          x-ratelimit-remaining: '114'
+          x-ratelimit-limit: '240'
+          x-ratelimit-remaining: '189'
           access-control-allow-origin: '*'
+          access-control-expose-headers: '*'
         description: null
+        custom: []
     responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/order/products/{id}'
+    metadata:
+      groupName: Order
+      groupDescription: ''
+      subgroup: null
+      subgroupDescription: null
+      title: 'Update the specified resource in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the product.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
   -
     httpMethods:
       - POST
-    uri: api/products
+    uri: api/orders/products/shipments
     metadata:
-      title: 'Update or Create Product.'
+      groupName: Order
+      groupDescription: ''
+      subgroup: null
+      subgroupDescription: null
+      title: 'Update the specified resource in storage.'
       description: ''
       authenticated: false
       custom: []
@@ -41,28 +101,178 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
+    cleanQueryParameters: []
     bodyParameters:
-      sku:
-        name: sku
-        description: 'Must not be greater than 50 characters.'
-        required: true
-        example: lmewfglpsxbezdpiedkii
-        type: string
-        custom: []
-      name:
-        name: name
-        description: 'Must not be greater than 100 characters.'
-        required: true
-        example: wjqquepoykk
-        type: string
-        custom: []
-      price:
-        name: price
+      sku_shipped:
+        name: sku_shipped
         description: ''
-        required: true
-        example: 42.773
-        type: number
+        required: false
+        example: enim
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
+      product_id:
+        name: product_id
+        description: ''
+        required: false
+        example: 20
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order_id:
+        name: order_id
+        description: ''
+        required: false
+        example: 15
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order_product_id:
+        name: order_product_id
+        description: ''
+        required: false
+        example: 18
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      warehouse_id:
+        name: warehouse_id
+        description: ''
+        required: false
+        example: 7
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      quantity_shipped:
+        name: quantity_shipped
+        description: ''
+        required: false
+        example: 44174.5
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order_shipment_id:
+        name: order_shipment_id
+        description: ''
+        required: false
+        example: 15
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      sku_shipped: enim
+      product_id: 20
+      order_id: 15
+      order_product_id: 18
+      warehouse_id: 7
+      quantity_shipped: 44174.5
+      order_shipment_id: 15
+    fileParameters: []
     responses: []
     responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/order/shipments
+    metadata:
+      groupName: Order
+      groupDescription: ''
+      subgroup: null
+      subgroupDescription: null
+      title: 'Display a listing of the resource.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '240'
+          x-ratelimit-remaining: '188'
+          access-control-allow-origin: '*'
+          access-control-expose-headers: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/order/shipments
+    metadata:
+      groupName: Order
+      groupDescription: ''
+      subgroup: null
+      subgroupDescription: null
+      title: 'Store a newly created resource in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      order_id:
+        name: order_id
+        description: ''
+        required: true
+        example: 372.0693
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      shipping_number:
+        name: shipping_number
+        description: ''
+        required: true
+        example: et
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      order_id: 372.0693
+      shipping_number: et
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
