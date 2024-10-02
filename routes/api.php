@@ -77,19 +77,20 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('order/payments', Api\OrderPaymentController::class, ['index']);
     RouteService::apiResource('order/products', Api\OrderProductController::class, ['index', 'update']);
     RouteService::apiResource('order/shipments', Api\OrderShipmentController::class, ['index', 'store']);
+
+    RouteService::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class, ['store']);
+    RouteService::apiResource('data-collector/comments', Api\DataCollectionCommentController::class, ['index', 'store']);
+    RouteService::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['index', 'store']);
+    RouteService::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class, ['store']);
+    RouteService::apiResource('packlist/order', Api\PacklistOrderController::class, ['index']);
+    RouteService::apiResource('picklist/picks', Api\Picklist\PicklistPickController::class, ['store', 'destroy']);
+    RouteService::apiResource('product/aliases', Api\ProductAliasController::class, ['index']);
+    RouteService::apiResource('product/tags', Api\ProductTagController::class, ['index']);
+    RouteService::apiResource('settings/modules/automations/run', Api\Modules\OrderAutomations\RunAutomationController::class, ['store']);
+    RouteService::apiResource('settings/user/me', Api\UserMeController::class, ['index', 'store']);
+    RouteService::apiResource('settings/widgets', Api\WidgetController::class, ['store', 'update']);
 });
 
-Route::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class)->names('csv-import-data-collections')->only(['store']);
-Route::apiResource('data-collector/comments', Api\DataCollectionCommentController::class)->only(['index', 'store']);
-Route::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['as' => 'modules.autostatus.picking'])->only('index', 'store');
-Route::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class)->only(['store']);
-Route::apiResource('packlist/order', Api\PacklistOrderController::class, ['as' => 'packlist'])->only(['index']);
-Route::apiResource('picklist/picks', Api\Picklist\PicklistPickController::class)->only(['store', 'destroy']);
-Route::apiResource('product/aliases', Api\ProductAliasController::class, ['as' => 'product'])->only(['index']);
-Route::apiResource('product/tags', Api\ProductTagController::class)->only(['index']);
-Route::apiResource('settings/modules/automations/run', Api\Modules\OrderAutomations\RunAutomationController::class, ['as' => 'settings.modules.automations'])->only(['store']);
-Route::apiResource('settings/user/me', Api\UserMeController::class)->only(['index', 'store']);
-Route::apiResource('settings/widgets', Api\WidgetController::class)->only(['store', 'update']);
 Route::post('pdf/download', [Api\PDF\PdfDownloadController::class, 'update']);
 Route::post('pdf/preview', [Api\PDF\PdfPreviewController::class, 'update']);
 Route::post('pdf/print', [Api\PDF\PdfPrintController::class, 'update']);
