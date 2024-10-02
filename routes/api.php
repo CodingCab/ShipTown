@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api;
+use App\Services\RouteService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::name('api.')->group(function () {
-    Route::apiResource('activities', Api\ActivityController::class)->only(['index', 'store']);
+    RouteService::apiResource('activities', Api\ActivityController::class, ['index', 'store']);
     Route::apiResource('configurations', Api\ConfigurationController::class)->only(['index', 'store']);
     Route::apiResource('csv-import', Api\CsvImportController::class)->only(['store']);
     Route::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class)->only(['store']);
