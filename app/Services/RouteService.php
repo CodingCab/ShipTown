@@ -12,15 +12,17 @@ class RouteService
     {
         $endpoints = collect(explode('/', $uri));
 
-        $proposedControllerName = Str::of($endpoints->last())
-            ->camel()
-            ->ucfirst()
-            ->singular();
+        $proposedControllerName = $endpoints->map(function ($endpoint) {
+            return Str::of($endpoint)
+                ->camel()
+                ->ucfirst()
+                ->singular();
+        })->implode('\\');
 
         $controllerClass = $controllerClass ?? 'App\\Http\\Controllers\\Api\\' . $proposedControllerName . 'Controller';
 
         $endpoints->pop();
 
-        return Route::apiResource($uri, $controllerClass, ['as' => $endpoints->implode('')])->only($only);
+        return Route::apiResource($uri, $controllerClass, ['as' => $endpoints->implode('.')])->only($only);
     }
 }

@@ -21,7 +21,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('csv-import', Api\CsvImportController::class, ['store']);
     RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class, ['store']);
-    RouteService::apiResource('data-collector');
+    RouteService::apiResource('data-collector', Api\DataCollectorController::class);
     RouteService::apiResource('heartbeats', Api\HeartbeatsController::class, ['index']);
     RouteService::apiResource('inventory-movements', Api\InventoryMovementController::class, ['store', 'index']);
     RouteService::apiResource('inventory', Api\InventoryController::class, ['index', 'store']);
@@ -50,8 +50,8 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('stocktake-suggestions-details', Api\StocktakeSuggestionDetailController::class, ['index']);
     RouteService::apiResource('stocktake-suggestions', Api\StocktakeSuggestionController::class, ['index']);
     RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
-    RouteService::apiResource('transactions', Api\TransactionController::class, only: ['update']);
-    RouteService::apiResource('warehouses');
+    RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
+    RouteService::apiResource('warehouses', Api\WarehouseController::class);
 });
 
 Route::prefix('modules')->name('api.modules.')->group(function () {
