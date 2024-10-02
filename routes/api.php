@@ -20,7 +20,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('configurations', Api\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('csv-import', Api\CsvImportController::class, ['store']);
     RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
-    RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class)->only(['store']);
+    RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class, ['store']);
     RouteService::apiResource('data-collector', Api\DataCollectorController::class);
     RouteService::apiResource('heartbeats', Api\HeartbeatsController::class, ['index']);
     RouteService::apiResource('inventory-movements', Api\InventoryMovementController::class, ['store', 'index']);
@@ -39,19 +39,19 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('products', Api\ProductController::class, ['index', 'store']);
     RouteService::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class, ['index', 'store', 'destroy']);
     RouteService::apiResource('quantity-discounts', Api\QuantityDiscountsController::class);
-    Route::apiResource('reports/inventory-transfers', Api\Reports\InventoryTransfersController::class)->only(['index']);
-    Route::apiResource('reports/inventory', Api\Reports\InventoryController::class)->only(['index']);
-    Route::apiResource('reports/picks', Api\Reports\PicksController::class)->only(['index']);
-    Route::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class)->only(['index']);
-    RouteService::apiResource('restocking', Api\RestockingController::class)->only(['index']);
-    RouteService::apiResource('shipments', Api\ShipmentController::class)->only(['store']);
-    RouteService::apiResource('shipping-labels', Api\ShippingLabelController::class)->only(['store']);
-    RouteService::apiResource('shipping-services', Api\ShippingServiceController::class)->only(['index']);
-    RouteService::apiResource('stocktake-suggestions-details', Api\StocktakeSuggestionDetailController::class)->only(['index']);
-    RouteService::apiResource('stocktake-suggestions', Api\StocktakeSuggestionController::class)->only(['index']);
-    RouteService::apiResource('stocktakes', Api\StocktakesController::class)->only(['store']);
-    RouteService::apiResource('transactions', Api\TransactionController::class)->only(['update']);
-    RouteService::apiResource('warehouses', Api\WarehouseController::class)->only(['index', 'store', 'update', 'destroy']);
+    RouteService::apiResource('reports/inventory-transfers', Api\Reports\InventoryTransfersController::class, ['index']);
+    RouteService::apiResource('reports/inventory', Api\Reports\InventoryController::class, ['index']);
+    RouteService::apiResource('reports/picks', Api\Reports\PicksController::class, ['index']);
+    RouteService::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class, ['index']);
+    RouteService::apiResource('restocking', Api\RestockingController::class, ['index']);
+    RouteService::apiResource('shipments', Api\ShipmentController::class, ['store']);
+    RouteService::apiResource('shipping-labels', Api\ShippingLabelController::class, ['store']);
+    RouteService::apiResource('shipping-services', Api\ShippingServiceController::class, ['index']);
+    RouteService::apiResource('stocktake-suggestions-details', Api\StocktakeSuggestionDetailController::class, ['index']);
+    RouteService::apiResource('stocktake-suggestions', Api\StocktakeSuggestionController::class, ['index']);
+    RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
+    RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
+    RouteService::apiResource('warehouses');
 });
 
 Route::prefix('modules')->name('api.modules.')->group(function () {

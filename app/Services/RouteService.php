@@ -4,18 +4,22 @@ namespace App\Services;
 
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class RouteService
 {
-    public static function apiResource(string $str, string $controller, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
+    public static function apiResource(string $uri, string $controllerClass = null, array $only = ['index', 'store', 'update', 'destroy']): PendingResourceRegistration
     {
-        $uri = collect(explode('/', $str));
+        $endpoints = collect(explode('/', $uri));
 
-        $uri->pop();
+        $proposedControllerName = Str::singular($endpoints->last());
+        $proposedControllerName = Str::ucfirst($proposedControllerName);
 
-        $endpoints = $uri->implode('');
+        // example: App\Http\Controllers\Api\WarehouseController
+        $controllerClass = $controllerClass ?? 'App\\Http\\Controllers\\Api\\' . $proposedControllerName . 'Controller';
 
-//        $endpoints= '';
-        return Route::apiResource($str, $controller, ['as' => $endpoints])->only($only);
+        $endpoints->pop();
+
+        return Route::apiResource($uri, $controllerClass, ['as' => $endpoints->implode('')])->only($only);
     }
 }
