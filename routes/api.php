@@ -17,11 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->group(function () {
     RouteService::apiResource('activities', Api\ActivityController::class, ['index', 'store']);
+    RouteService::apiResource('admin/user/roles', Api\UserRoleController::class, ['index']);
+    RouteService::apiResource('admin/users', Api\UserController::class, ['index', 'store', 'update', 'destroy', 'show']);
     RouteService::apiResource('configurations', Api\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('csv-import', Api\CsvImportController::class, ['store']);
+    RouteService::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class, ['store']);
     RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class, ['store']);
+    RouteService::apiResource('data-collector-records', Api\DataCollectorRecordController::class, ['store', 'index']);
     RouteService::apiResource('data-collector', Api\DataCollectorController::class);
+    RouteService::apiResource('data-collector/comments', Api\DataCollectionCommentController::class, ['index', 'store']);
     RouteService::apiResource('heartbeats', Api\HeartbeatsController::class, ['index']);
     RouteService::apiResource('inventory-movements', Api\InventoryMovementController::class, ['store', 'index']);
     RouteService::apiResource('inventory', Api\InventoryController::class, ['index', 'store']);
@@ -34,6 +39,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('modules/api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['index']);
     RouteService::apiResource('modules/automations', Api\Modules\OrderAutomations\AutomationController::class);
     RouteService::apiResource('modules/automations/config', Api\Modules\OrderAutomations\ConfigController::class, ['index']);
+    RouteService::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('modules/dpd-ireland/connections', Api\Modules\DpdIreland\DpdIrelandController::class, ['index', 'store', 'destroy']);
     RouteService::apiResource('modules/dpd-uk/dpd-uk-connections', Api\Modules\DpdUk\DpdUkConnectionController::class, ['index', 'store', 'destroy']);
     RouteService::apiResource('modules/magento-api/connections', Api\Modules\MagentoApi\MagentoApiConnectionController::class);
@@ -46,11 +52,21 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('modules/stocktake-suggestions/configuration', Api\Modules\StocktakeSuggestions\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('modules/webhooks/subscriptions', Api\Modules\Webhooks\SubscriptionController::class, ['index', 'store']);
     RouteService::apiResource('navigation-menu', Api\NavigationMenuController::class);
+    RouteService::apiResource('order/addresses', Api\OrderAddressController::class, ['update']);
+    RouteService::apiResource('order/comments', Api\OrderCommentController::class, ['index', 'store']);
+    RouteService::apiResource('order/payments', Api\OrderPaymentController::class, ['index']);
+    RouteService::apiResource('order/products', Api\OrderProductController::class, ['index', 'update']);
+    RouteService::apiResource('order/shipments', Api\OrderShipmentController::class, ['index', 'store']);
     RouteService::apiResource('orders-addresses', Api\OrderAddressController::class, ['index', 'store']);
     RouteService::apiResource('orders-statuses', Api\OrderStatusController::class);
     RouteService::apiResource('orders', Api\OrderController::class, ['index', 'store', 'update', 'show']);
+    RouteService::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class, ['store']);
+    RouteService::apiResource('packlist/order', Api\PacklistOrderController::class, ['index']);
     RouteService::apiResource('picklist', Api\PicklistController::class, ['index']);
+    RouteService::apiResource('picklist/picks', Api\Picklist\PicklistPickController::class, ['store', 'destroy']);
     RouteService::apiResource('print-jobs', Api\PrintJobController::class, ['store']);
+    RouteService::apiResource('product/aliases', Api\ProductAliasController::class, ['index']);
+    RouteService::apiResource('product/tags', Api\ProductTagController::class, ['index']);
     RouteService::apiResource('products-aliases', Api\ProductAliasController::class, ['index', 'store']);
     RouteService::apiResource('products', Api\ProductController::class, ['index', 'store']);
     RouteService::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class, ['index', 'store', 'destroy']);
@@ -60,6 +76,9 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('reports/picks', Api\Reports\PicksController::class, ['index']);
     RouteService::apiResource('reports/stocktake-suggestions', Api\Reports\StockTakeSuggestionsController::class, ['index']);
     RouteService::apiResource('restocking', Api\RestockingController::class, ['index']);
+    RouteService::apiResource('settings/modules/automations/run', Api\Modules\OrderAutomations\RunAutomationController::class, ['store']);
+    RouteService::apiResource('settings/user/me', Api\UserMeController::class, ['index', 'store']);
+    RouteService::apiResource('settings/widgets', Api\WidgetController::class, ['store', 'update']);
     RouteService::apiResource('shipments', Api\ShipmentController::class, ['store']);
     RouteService::apiResource('shipping-labels', Api\ShippingLabelController::class, ['store']);
     RouteService::apiResource('shipping-services', Api\ShippingServiceController::class, ['index']);
@@ -68,27 +87,6 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
     RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
     RouteService::apiResource('warehouses', Api\WarehouseController::class);
-
-    RouteService::apiResource('admin/user/roles', Api\UserRoleController::class, ['index']);
-    RouteService::apiResource('admin/users', Api\UserController::class, ['index', 'store', 'update', 'destroy', 'show']);
-    RouteService::apiResource('data-collector-records', Api\DataCollectorRecordController::class, ['store', 'index']);
-    RouteService::apiResource('order/addresses', Api\OrderAddressController::class, ['update']);
-    RouteService::apiResource('order/comments', Api\OrderCommentController::class, ['index', 'store']);
-    RouteService::apiResource('order/payments', Api\OrderPaymentController::class, ['index']);
-    RouteService::apiResource('order/products', Api\OrderProductController::class, ['index', 'update']);
-    RouteService::apiResource('order/shipments', Api\OrderShipmentController::class, ['index', 'store']);
-
-    RouteService::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class, ['store']);
-    RouteService::apiResource('data-collector/comments', Api\DataCollectionCommentController::class, ['index', 'store']);
-    RouteService::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['index', 'store']);
-    RouteService::apiResource('orders/products/shipments', Api\OrderProductShipmentController::class, ['store']);
-    RouteService::apiResource('packlist/order', Api\PacklistOrderController::class, ['index']);
-    RouteService::apiResource('picklist/picks', Api\Picklist\PicklistPickController::class, ['store', 'destroy']);
-    RouteService::apiResource('product/aliases', Api\ProductAliasController::class, ['index']);
-    RouteService::apiResource('product/tags', Api\ProductTagController::class, ['index']);
-    RouteService::apiResource('settings/modules/automations/run', Api\Modules\OrderAutomations\RunAutomationController::class, ['store']);
-    RouteService::apiResource('settings/user/me', Api\UserMeController::class, ['index', 'store']);
-    RouteService::apiResource('settings/widgets', Api\WidgetController::class, ['store', 'update']);
 });
 
 Route::post('pdf/download', [Api\PDF\PdfDownloadController::class, 'update']);
