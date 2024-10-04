@@ -75,6 +75,7 @@ return [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
+                    'Authorization' => 'Bearer {YOUR_AUTH_KEY}',
                 ],
 
                 /*
