@@ -4,7 +4,6 @@ namespace App\Modules\Reports\src\Models;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionTransaction;
-use App\Models\DataCollectionTransferIn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
