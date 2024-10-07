@@ -3,7 +3,10 @@
 namespace App\Modules\Reports\src\Models;
 
 use App\Models\DataCollection;
+use App\Models\DataCollectionStocktake;
 use App\Models\DataCollectionTransaction;
+use App\Models\DataCollectionTransferIn;
+use App\Models\DataCollectionTransferOut;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -87,7 +90,14 @@ class DataCollectorListReport extends Report
         $this->addFilter(
             AllowedFilter::callback('without_transactions', function (Builder $query, $value) {
                 if ($value === true) {
-                    $query->whereNotIn('data_collections.type', [DataCollectionTransaction::class]);
+                    $query->where(function (Builder $query) {
+                        $query->whereNotIn('data_collections.type', [
+                                DataCollectionTransferIn::class,
+                                DataCollectionTransferOut::class,
+                                DataCollectionStocktake::class,
+                            ])
+                            ->orWhereNull('data_collections.type');
+                    });
                 }
             })
         );
