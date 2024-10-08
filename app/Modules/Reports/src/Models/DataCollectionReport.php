@@ -70,9 +70,9 @@ class DataCollectionReport extends Report
             'product_sale_price' => 'products_prices.sale_price',
             'product_sale_price_start_date' => 'products_prices.sale_price_start_date',
             'product_sale_price_end_date' => 'products_prices.sale_price_end_date',
-            'last7days_sales' => DB::raw('-1 * inventory_movements_statistics.last7days_quantity_delta')->getValue(DB::getQueryGrammar()),
-            'last14days_sales' => DB::raw('-1 * inventory_movements_statistics.last14days_quantity_delta')->getValue(DB::getQueryGrammar()),
-            'last28days_sales' => DB::raw('-1 * inventory_movements_statistics.last28days_quantity_delta')->getValue(DB::getQueryGrammar()),
+            'last7days_sales' => DB::raw('(-1 * inventory_movements_statistics.last7days_quantity_delta)'),
+            'last14days_sales' => DB::raw('(-1 * inventory_movements_statistics.last14days_quantity_delta)'),
+            'last28days_sales' => DB::raw('(-1 * inventory_movements_statistics.last28days_quantity_delta)'),
         ];
 
         $this->casts = [
