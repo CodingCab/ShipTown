@@ -58,7 +58,7 @@ class StocktakingPageTest extends DuskTestCase
 
             $browser->loginAs($user);
             $browser->visit($this->uri);
-            $browser->pause($this->shortDelay);
+            $browser->pause($this->shortDelay * 2);
             $browser->assertSourceMissing('snotify-error');
 
             Product::factory(3)->create()
