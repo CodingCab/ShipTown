@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Jobs;
+namespace Tests\Modules\AutoStatusPicking\Jobs;
 
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -8,7 +8,7 @@ use App\Modules\AutoStatusPicking\src\Jobs\RefillPickingIfEmptyJob;
 use Carbon\Carbon;
 use Tests\TestCase;
 
-class RefillOldOrdersPickingJobTest extends TestCase
+class RefillPickingIfEmptyJobTest extends TestCase
 {
     /**
      * A basic feature test example.

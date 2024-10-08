@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Jobs\Maintenance;
+namespace Tests\Modules\Maintenance\Jobs;
 
 use App\Models\Product;
 use App\Modules\Maintenance\src\Jobs\Products\FixQuantityAvailableJob;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Jobs\Rmsapi;
+namespace Tests\Modules\Rmsapi\src\Jobs;
 
 use App\Models\Warehouse;
 use App\Modules\Rmsapi\src\Jobs\ProcessImportedProductRecordsJob;
