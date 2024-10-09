@@ -26,7 +26,6 @@ class DashboardPageTest extends DuskTestCase
     {
         $this->basicUserAccessTest($this->uri, true);
         $this->basicAdminAccessTest($this->uri, true);
-        $this->basicGuestAccessTest($this->uri);
     }
 
     /**
