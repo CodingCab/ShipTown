@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b21f297e8b14afa5b5297b8b8e6451c3",
+    "content-hash": "a5f9a5afa3998c8a3b3d2d59118a88fe",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -2397,16 +2397,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.27.0",
+            "version": "v11.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "fa6ce79f02d35c045605534bc9b105763c4eff1b"
+                "reference": "2634ad4a6a71da3288943f058a8abbfec6a65ebb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/fa6ce79f02d35c045605534bc9b105763c4eff1b",
-                "reference": "fa6ce79f02d35c045605534bc9b105763c4eff1b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2634ad4a6a71da3288943f058a8abbfec6a65ebb",
+                "reference": "2634ad4a6a71da3288943f058a8abbfec6a65ebb",
                 "shasum": ""
             },
             "require": {
@@ -2602,7 +2602,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-10-08T16:02:30+00:00"
+            "time": "2024-10-08T20:25:59+00:00"
         },
         {
             "name": "laravel/passport",
@@ -13708,5 +13708,5 @@
         "ext-simplexml": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
