@@ -2,11 +2,13 @@
 
 namespace Tests;
 
+use App\Console\Commands\ClearDatabaseCommand;
 use App\User;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
@@ -14,13 +16,32 @@ use Throwable;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use ResetsDatabase;
+    protected Browser $browser;
 
     protected int $superShortDelay = 50;
 
     protected int $shortDelay = 300;
 
     protected int $longDelay = 0;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        ray()->showApp();
+
+        ray()->clearAll();
+        ray()->className($this)->blue();
+
+        ClearDatabaseCommand::resetDatabase();
+
+        Artisan::call('app:install');
+
+        User::factory()->create([
+            'email' => 'demo-admin@ship.town',
+            'password' => bcrypt('secret1144'),
+        ]);
+    }
 
     #[BeforeClass]
     public static function prepare(): void
