@@ -58,7 +58,7 @@ class StocktakingPageTest extends DuskTestCase
 
             $browser->loginAs($user);
             $browser->visit($this->uri);
-            $browser->pause($this->shortDelay * 2);
+            $browser->pause($this->shortDelay);
             $browser->assertSourceMissing('snotify-error');
 
             Product::factory(3)->create()
@@ -69,6 +69,7 @@ class StocktakingPageTest extends DuskTestCase
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
                     $browser->pause($this->shortDelay);
                     $browser->pause($this->shortDelay);
+                    $browser->screenshot('stocktake-product');
 
                     $browser->assertFocused('@quantity-request-input');
                     $browser->assertSee($product->sku);
