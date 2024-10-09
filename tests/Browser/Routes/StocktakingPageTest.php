@@ -70,7 +70,6 @@ class StocktakingPageTest extends DuskTestCase
                     $browser->pause($this->shortDelay);
 
                     $browser->assertFocused('@quantity-request-input');
-                    $browser->pause(20);
                     $browser->assertSee($product->sku);
                     $browser->assertSee($product->name);
 
