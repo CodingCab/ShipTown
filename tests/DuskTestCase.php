@@ -11,6 +11,7 @@ use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use Throwable;
+use function RectorPrefix202410\React\Promise\all;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -94,33 +95,10 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public function basicAdminAccessTest(string $uri, bool $allowed): void
     {
-//        $this->browse(function (Browser $browser) use ($uri, $allowed) {
-//            /** @var User $admin */
-//            $admin = User::query()->inRandomOrder()->first() ?? User::factory()->create();
-//            $admin->assignRole('admin');
-//
-//            $browser->disableFitOnFailure();
-//
-//            $browser->loginAs($admin);
-//            $browser->visit($uri);
-//            $browser->pause($this->shortDelay);
-//
-//            $browser->assertSourceMissing('Server Error');
-//            $browser->assertSourceMissing('snotify-error');
-//
-//            if ($allowed) {
-//                $browser->assertPathIs($uri);
-//            } else {
-//                $browser->assertPathIs('login');
-//            }
-//        });
-    }
+        $user = User::factory()->create();
+        $user->assignRole('user');
 
-    /**
-     * @throws Throwable
-     */
-    public function basicGuestAccessTest(string $uri, bool $allowed = false): void
-    {
+        $this->basicUserAccessTest($uri, $allowed, $user);
     }
 
     protected static function setEnvironmentValue($key, $value): void

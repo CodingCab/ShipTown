@@ -22,17 +22,10 @@ class DashboardPageTest extends DuskTestCase
     /**
      * @throws Throwable
      */
-    public function testBasics(): void
-    {
-        $this->basicUserAccessTest($this->uri, true);
-        $this->basicAdminAccessTest($this->uri, true);
-    }
-
-    /**
-     * @throws Throwable
-     */
     public function testUserAccess(): void
     {
+        $this->basicUserAccessTest($this->uri, true);
+
         $this->browse(function (Browser $browser) {
             /** @var User $user */
             $user = User::factory()->create();
