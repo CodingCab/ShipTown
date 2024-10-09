@@ -67,9 +67,7 @@ class StocktakingPageTest extends DuskTestCase
 
                     $this->sendKeysTo($browser, $product->sku);
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
-                    $browser->screenshot('stocktake-product111');
                     $browser->pause($this->shortDelay);
-                    $browser->screenshot('stocktake-product1111');
                     $browser->pause($this->shortDelay);
                     $browser->screenshot('stocktake-product11111');
 
