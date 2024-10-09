@@ -65,12 +65,16 @@ class StocktakingPageTest extends DuskTestCase
                 ->each(function (Product $product) use ($browser) {
                     $browser->assertFocused('@barcode-input-field');
 
+                    $browser->pause(20);
                     $this->sendKeysTo($browser, $product->sku);
                     $browser->pause(20);
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
+                    $browser->pause(20);
                     $browser->pause($this->shortDelay);
+                    $browser->pause(20);
 
                     $browser->assertFocused('@quantity-request-input');
+                    $browser->pause(20);
                     $browser->assertSee($product->sku);
                     $browser->assertSee($product->name);
 
