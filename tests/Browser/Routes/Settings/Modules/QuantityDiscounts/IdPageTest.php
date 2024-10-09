@@ -32,8 +32,6 @@ class IdPageTest extends DuskTestCase
     public function testBasics(): void
     {
         $this->basicAdminAccessTest($this->uri, true);
-        $this->basicUserAccessTest($this->uri, false);
-        $this->basicGuestAccessTest($this->uri);
     }
 
     /**

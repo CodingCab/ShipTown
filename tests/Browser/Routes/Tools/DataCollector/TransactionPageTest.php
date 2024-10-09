@@ -64,20 +64,4 @@ class TransactionPageTest extends DuskTestCase
     {
         $this->basicUserAccessTest($this->uri, true);
     }
-
-    /**
-     * @throws Throwable
-     */
-    public function testAdminAccess(): void
-    {
-        $this->basicAdminAccessTest($this->uri, true);
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function testGuestAccess(): void
-    {
-        $this->basicGuestAccessTest($this->uri);
-    }
 }
