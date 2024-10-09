@@ -11,7 +11,6 @@ use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
 use Throwable;
-use function RectorPrefix202410\React\Promise\all;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -70,8 +69,7 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $this->browse(function (Browser $browser) use ($uri, $allowed, $user) {
             /** @var User $visitor */
-            $visitor = $user ?? User::factory()->create();
-            $visitor->assignRole('user');
+            $visitor = $user ?? User::factory()->create()->assignRole('user');
 
             $browser->disableFitOnFailure();
 
