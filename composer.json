@@ -31,11 +31,11 @@
         "sentry/sentry-laravel": "^4.9",
         "spatie/array-to-xml": "^2.15",
         "spatie/laravel-activitylog": "^4.8",
-        "spatie/laravel-database-mail-templates": "^3.6",
+        "spatie/laravel-database-mail-templates": "^3.7",
         "spatie/laravel-permission": "^6.9",
         "spatie/laravel-query-builder": "^5.8",
         "spatie/laravel-ray": "^1.37",
-        "spatie/laravel-tags": "^4.6",
+        "spatie/laravel-tags": "^4.7",
         "thomasjohnkane/snooze": "^2.6",
         "league/flysystem-aws-s3-v3": "^3.29"
     },
