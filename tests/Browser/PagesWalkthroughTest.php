@@ -10,7 +10,9 @@ use App\Models\Warehouse;
 use App\Modules\InventoryMovements\src\InventoryMovementsServiceProvider;
 use App\Modules\InventoryTotals\src\InventoryTotalsServiceProvider;
 use App\User;
+use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\WebDriverKeys;
+use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Throwable;
@@ -90,6 +92,9 @@ class PagesWalkthroughTest extends DuskTestCase
         ]);
     }
 
+    /**
+     * @throws TimeoutException
+     */
     private function packlist(Browser $browser): Browser
     {
         $browser->pause($this->shortDelay)->mouseover('#tools_link')
@@ -103,7 +108,11 @@ class PagesWalkthroughTest extends DuskTestCase
             /** @var OrderProduct $orderProduct */
             $orderProduct = $this->order->orderProducts()
                 ->where('quantity_to_ship', '>', 0)
-                ->orderBy('id')
+                ->leftJoin('inventory', function ($join) {
+                    $join->on('orders_products.product_id', '=', 'inventory.product_id');
+                    $join->on('inventory.warehouse_id', '=', DB::raw($this->user->warehouse_id));
+                })
+                ->orderBy('inventory.shelve_location')
                 ->get()
                 ->first();
 
