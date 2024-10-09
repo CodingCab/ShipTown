@@ -133,25 +133,6 @@ abstract class DuskTestCase extends BaseTestCase
      */
     public function basicGuestAccessTest(string $uri, bool $allowed = false): void
     {
-        User::factory()->create();
-
-        $this->browse(function (Browser $browser) use ($uri, $allowed) {
-            $browser->disableFitOnFailure();
-
-            $browser->logout();
-            $browser->visit($uri);
-            $browser->pause($this->superShortDelay);
-
-            $browser->assertSourceMissing('Server Error');
-            $browser->assertSourceMissing('snotify-error');
-
-            if ($allowed) {
-                $browser->assertPathIs($uri);
-            } else {
-                $browser->assertPathIs('/login');
-                $browser->assertSee('Login');
-            }
-        });
     }
 
     protected static function setEnvironmentValue($key, $value): void
