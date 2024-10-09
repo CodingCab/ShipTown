@@ -65,22 +65,29 @@ class StocktakingPageTest extends DuskTestCase
                 ->each(function (Product $product) use ($browser) {
                     $browser->pause($this->shortDelay);
                     $browser->assertFocused('@barcode-input-field');
+                    $browser->pause($this->shortDelay);
 
                     $this->sendKeysTo($browser, $product->sku);
+                    $browser->pause(20);
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
+                    $browser->waitFor('#quantity-request-input');
                     $browser->pause($this->shortDelay);
                     $browser->assertFocused('@quantity-request-input');
 
                     $browser->assertSee($product->sku);
                     $browser->assertSee($product->name);
 
-                    $this->sendKeysTo($browser, rand(0, 10000));
+                    $randomQuantity = rand(0, 10000);
+                    $this->sendKeysTo($browser, $randomQuantity);
+                    $browser->pause(20);
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
                     $browser->pause($this->shortDelay);
 
-                    $browser->assertSee('Stocktake updated');
+                    $browser->waitForText('Stocktake updated');
+                    $browser->waitForText($randomQuantity.' x '.$product->sku);
                     $browser->assertMissing('#quantity-request-input');
                     $browser->assertFocused('@barcode-input-field');
+
                 });
         });
     }
