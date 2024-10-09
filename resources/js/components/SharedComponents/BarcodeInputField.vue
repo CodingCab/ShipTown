@@ -127,7 +127,7 @@ export default {
                 barcode: '',
                 command: ['',''],
 
-                showOnScreenScannerButton: true,
+                showOnScreenScannerButton: false,
 
                 shelfLocationModalCommandScanCount: 0,
                 shelfLocationModalShowing: false,
@@ -136,7 +136,7 @@ export default {
         },
 
         mounted() {
-            this.showOnScreenScannerButton = localStorage.showOnScreenScannerButton === 'true' || localStorage.showOnScreenScannerButton === undefined;
+            this.showOnScreenScannerButton = localStorage.showOnScreenScannerButton === 'true';
 
             const isIos = () => !!window.navigator.userAgent.match(/iPad|iPhone/i);
 
