@@ -66,6 +66,7 @@ class StocktakingPageTest extends DuskTestCase
                     $browser->assertFocused('@barcode-input-field');
 
                     $this->sendKeysTo($browser, $product->sku);
+                    $browser->pause(20);
                     $this->sendKeysTo($browser, WebDriverKeys::ENTER);
                     $browser->pause($this->shortDelay);
 
