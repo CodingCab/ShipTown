@@ -97,10 +97,11 @@ class PagesWalkthroughTest extends DuskTestCase
      */
     private function packlist(Browser $browser): Browser
     {
-        $browser->pause($this->shortDelay)->mouseover('#tools_link')
-            ->pause($this->shortDelay)->clickLink('Tools')
-            ->pause($this->shortDelay)->clickLink('Packlist')
-            ->pause($this->shortDelay)->clickLink('Status: paid')
+        $browser->pause($this->shortDelay)
+            ->mouseover('#tools_link')->pause($this->shortDelay)
+            ->clickLink('Tools')->pause($this->shortDelay)
+            ->clickLink('Packlist')->waitForText('Status: paid')
+            ->clickLink('Status: paid')
             ->pause($this->longDelay);
 
         while (OrderProduct::query()->where(['order_id' => $this->order->getKey()])
