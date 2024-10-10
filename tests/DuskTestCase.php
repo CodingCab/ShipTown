@@ -16,7 +16,7 @@ use Throwable;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    protected Browser $browser;
+    private Browser $browser;
 
     protected int $superShortDelay = 50;
 
@@ -41,6 +41,28 @@ abstract class DuskTestCase extends BaseTestCase
             'email' => 'demo-admin@ship.town',
             'password' => bcrypt('secret1144'),
         ]);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->getBrowser()->quit();
+
+        parent::tearDown();
+    }
+
+    public function visit(string $uri, User $user = null): Browser
+    {
+        return $this->getBrowser()
+            ->disableFitOnFailure()
+            ->loginAs($user ?? User::factory()->create())
+            ->visit($uri);
+    }
+
+    public function getBrowser(): Browser
+    {
+        $this->browser = $this->browser ?? new Browser($this->driver());
+
+        return $this->browser;
     }
 
     #[BeforeClass]
@@ -69,18 +91,6 @@ abstract class DuskTestCase extends BaseTestCase
                 ChromeOptions::CAPABILITY, $options
             )
         );
-    }
-
-    protected function hasHeadlessDisabled(): bool
-    {
-        return isset($_SERVER['DUSK_HEADLESS_DISABLED']) ||
-            isset($_ENV['DUSK_HEADLESS_DISABLED']);
-    }
-
-    protected function shouldStartMaximized(): bool
-    {
-        return isset($_SERVER['DUSK_START_MAXIMIZED']) ||
-            isset($_ENV['DUSK_START_MAXIMIZED']);
     }
 
     /**
