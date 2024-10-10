@@ -55,7 +55,10 @@ abstract class DuskTestCase extends BaseTestCase
         return $this->getBrowser()
             ->disableFitOnFailure()
             ->loginAs($user ?? User::factory()->create())
-            ->visit($uri);
+            ->visit($uri)
+            ->pause($this->shortDelay)
+            ->assertSourceMissing('Server Error')
+            ->assertSourceMissing('snotify-error');
     }
 
     public function getBrowser(): Browser
