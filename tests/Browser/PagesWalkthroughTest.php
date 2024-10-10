@@ -120,9 +120,9 @@ class PagesWalkthroughTest extends DuskTestCase
             $browser->assertSee($orderProduct->product->sku);
 
             $browser->driver->getKeyboard()->sendKeys($orderProduct->product->sku);
-            $browser->pause($this->shortDelay);
+            $browser->pause(20);
             $browser->driver->getKeyboard()->sendKeys(WebDriverKeys::ENTER);
-            $browser->pause($this->shortDelay);
+            $browser->pause(1000);
         }
 
         $browser->pause($this->shortDelay);
