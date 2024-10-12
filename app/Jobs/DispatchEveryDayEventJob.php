@@ -9,6 +9,7 @@ class DispatchEveryDayEventJob extends UniqueJob
 {
     public function handle(): void
     {
+        throw new \Exception('This is a test exception');
         EveryDayEvent::dispatch('a '   . 'b');
     }
 }

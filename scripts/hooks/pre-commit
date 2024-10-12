@@ -28,6 +28,7 @@ echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do
     FILE_NAME=$(basename "$FILE" .php)
+
     echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
     vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >&1
 
