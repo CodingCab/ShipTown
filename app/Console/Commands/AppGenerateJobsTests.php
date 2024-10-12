@@ -37,6 +37,9 @@ class AppGenerateJobsTests extends Command
                 $jobFileName = Str::chopEnd($jobFileName, 'Test');
                 $jobFileName = Str::start($jobFileName, 'App\\\\');
 
+
+                $testFileName = app()->basePath().'/tests/'.$testFileName.'.php';
+
                 if (File::exists($testFileName)) {
                     return;
                 }
@@ -44,7 +47,12 @@ class AppGenerateJobsTests extends Command
                 $command = 'app:make-test '.$testFileName.' --stub=test.job --testedClass='.$jobFileName;
 
                 Artisan::call($command);
-                $this->info(Artisan::output());
+
+                $output = Artisan::output();
+
+
+                $this->info($command);
+                $this->info($output);
             });
     }
 

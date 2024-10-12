@@ -15,27 +15,27 @@ fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
 
 echo "Auto Generating Jobs tests..."
-php artisan app:generate-jobs-tests
+php artisan app:generate-jobs-tests >&1
 
 echo "Auto Generating Modules Jobs tests..."
-php artisan app:generate-modules-tests
+php artisan app:generate-modules-tests >&1
 
 echo "Auto Generating Web Routes Jobs tests..."
-php artisan app:generate-routes-tests
+php artisan app:generate-routes-tests >&1
 
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do
     FILE_NAME=$(basename "$FILE" .php)
     echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
-    vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >> /dev/null
+    vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >&1
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
         exit 1
     fi
     echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
-    php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >> /dev/null
+    php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >&1
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
