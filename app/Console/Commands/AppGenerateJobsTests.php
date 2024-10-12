@@ -32,19 +32,19 @@ class AppGenerateJobsTests extends Command
                 $testFileName = $this->getTestFileName($jobFile);
 
                 $jobFileName = $testFileName;
+                $jobFileName = str_replace('/app', '', $jobFileName);
                 $jobFileName = str_replace('/', '\\\\', $jobFileName);
                 $jobFileName = Str::ucfirst($jobFileName);
                 $jobFileName = Str::chopEnd($jobFileName, 'Test');
-//                $jobFileName = Str::start($jobFileName, 'App\\\\');
 
-
-                $diskTestFileName = app()->basePath().'/tests/'.$testFileName.'.php';
+                $diskTestFileName = str_replace('/app', '', $testFileName);
+                $diskTestFileName = app()->basePath().'/tests'.$diskTestFileName.'.php';
 
                 if (File::exists($diskTestFileName)) {
                     return;
                 }
 
-                $command = 'app:make-test '.$jobFileName.' --stub=test.job --testedClass='.$jobFileName;
+                $command = 'app:make-test '.$jobFileName.'Test --stub=test.job --testedClass=App\\'.$jobFileName;
 
                 Artisan::call($command);
 
