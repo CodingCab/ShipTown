@@ -2,13 +2,14 @@
 
 namespace {{ namespace }};
 
-use Tests\TestCase;
+use App\Abstracts\JobTestAbstract;
 
-class {{ class }} extends TestCase
+class {{ class }} extends JobTestAbstract
 {
-    /** @test */
     public function test_job()
     {
-        $this->assertTrue(false, 'This test has not been implemented yet');
+        $job = self::createJob();
+
+        $job::dispatch();
     }
 }
