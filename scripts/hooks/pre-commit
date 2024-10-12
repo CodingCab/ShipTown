@@ -17,12 +17,27 @@ SFILES=${SFILES:-$STAGED_FILES_CMD}
 
 echo "Auto Generating Jobs tests..."
 php artisan app:generate-jobs-tests >&1
+if [ $? -ne 0 ]
+then
+    echo "Error generating Jobs tests. Please fix the issue before commit."
+    exit 1
+fi
 
 echo "Auto Generating Modules Jobs tests..."
 php artisan app:generate-modules-tests >&1
+if [ $? -ne 0 ]
+then
+    echo "Error generating Modules Jobs tests. Please fix the issue before commit."
+    exit 1
+fi
 
 echo "Auto Generating Web Routes Jobs tests..."
 php artisan app:generate-routes-tests >&1
+if [ $? -ne 0 ]
+then
+    echo "Error generating Web Routes Jobs tests. Please fix the issue before commit."
+    exit 1
+fi
 
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
