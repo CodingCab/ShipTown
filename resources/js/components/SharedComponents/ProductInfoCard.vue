@@ -10,7 +10,7 @@
         <div v-if="showTags && product">
             <template v-for="tag in product['tags']">
                 <a class="badge text-uppercase btn btn-outline-primary" :key="tag.id"
-                   @click.prevent="goToTag(tag)">
+                   @click.prevent="filterByTag(tag)">
                     {{ getTagName(tag) }} </a>
             </template>
         </div>
@@ -41,7 +41,7 @@ export default {
             return tag.name instanceof Object ? tag.name['en'] : tag.name
         },
 
-        goToTag(tag) {
+        filterByTag(tag) {
             this.removeUrlParameter('search');
             this.setUrlParameterAngGo('filter[product_has_tags]', this.getTagName(tag));
         }
