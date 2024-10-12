@@ -2,14 +2,13 @@
 
 namespace {{ namespace }};
 
+use App;
 use App\Abstracts\JobTestAbstract;
 
 class {{ class }} extends JobTestAbstract
 {
     public function test_job()
     {
-        $job = self::createJob();
-
-        $job::dispatch();
+        {{testedClass}}::dispatchSync();
     }
 }

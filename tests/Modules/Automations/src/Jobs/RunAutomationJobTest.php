@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Modules\Api2cart\src\Jobs;
+namespace Tests\Modules\Automations\src\Jobs;
 
 use App\Abstracts\JobTestAbstract;
+use App\Modules\Automations\src\Jobs\RunAutomationJob;
 
-class SyncProductTest extends JobTestAbstract
+class RunAutomationJobTest extends JobTestAbstract
 {
     public function test_job()
     {

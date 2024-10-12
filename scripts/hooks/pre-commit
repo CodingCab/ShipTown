@@ -14,6 +14,9 @@ then
 fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
 
+echo "Generating jobs tests..."
+php artisan app:generate-jobs-tests
+
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do

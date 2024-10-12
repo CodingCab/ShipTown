@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class AppGenerateJobsTests extends Command
 {
@@ -22,10 +23,6 @@ class AppGenerateJobsTests extends Command
      */
     protected $description = 'Generates tests for all jobs';
 
-    /**
-     * Command will not override existing files
-     * It will only add new if do not exists.
-     */
     public function handle(): void
     {
         $jobFiles = $this->getJobFiles();
@@ -34,11 +31,17 @@ class AppGenerateJobsTests extends Command
             ->each(function ($jobFile) {
                 $testFileName = $this->getTestFileName($jobFile);
 
+                $jobFileName = $testFileName;
+                $jobFileName = str_replace('/', '\\\\', $jobFileName);
+                $jobFileName = Str::ucfirst($jobFileName);
+                $jobFileName = Str::chopEnd($jobFileName, 'Test');
+                $jobFileName = Str::start($jobFileName, 'App\\\\');
+
                 if (File::exists($testFileName)) {
                     return;
                 }
 
-                $command = 'app:make-test '.$testFileName.' --stub=test.job';
+                $command = 'app:make-test '.$testFileName.' --stub=test.job --testedClass='.$jobFileName;
 
                 Artisan::call($command);
                 $this->info(Artisan::output());
