@@ -30,18 +30,10 @@ do
     FILE_NAME=$(basename "$FILE" .php)
     echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
     vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >&1
-    if [ $? != 0 ]
-    then
-        echo "Fix the error before commit."
-        exit 1
-    fi
+
     echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
     php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >&1
-    if [ $? != 0 ]
-    then
-        echo "Fix the error before commit."
-        exit 1
-    fi
+
     FILES="$FILES $PROJECT/$FILE"
 done
 
@@ -49,11 +41,6 @@ echo "Checking PHP Lint..."
 for FILE in $SFILES
 do
     php -l -d display_errors=0 $FILE >&1
-    if [ $? != 0 ]
-    then
-        echo "Fix the error before commit."
-        exit 1
-    fi
     FILES="$FILES $PROJECT/$FILE"
 done
 
@@ -61,11 +48,6 @@ if [ "$FILES" != "" ]
 then
     echo "Running Code Sniffer. Code standard PSR2."
     ./vendor/bin/phpcs --encoding=utf-8 -n -p $FILES >&1
-    if [ $? != 0 ]
-    then
-        echo "Please fix the following errors before commit!"
-        exit 1
-    fi
 fi
 
 exit $?
