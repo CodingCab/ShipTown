@@ -7,7 +7,6 @@ use App\Services\ProductService;
 use App\User;
 use Illuminate\Support\Facades\Event;
 use Laravel\Passport\Passport;
-use Tests\ModelSample;
 use Tests\TestCase;
 
 class ProductServiceTest extends TestCase

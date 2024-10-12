@@ -11,12 +11,8 @@
     <testsuites>
         <testsuite name="Tests">
             <directory suffix="Test.php">./tests</directory>
-            <exclude>
-                <directory suffix=".php">tests/Browser</directory>
-            </exclude>
-            <exclude>
-                <directory suffix=".php">tests/External</directory>
-            </exclude>
+            <exclude>tests/Browser</exclude>
+            <exclude>tests/External</exclude>
         </testsuite>
     </testsuites>
     <php>
