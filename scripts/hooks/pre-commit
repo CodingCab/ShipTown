@@ -29,10 +29,10 @@ for FILE in $SFILES
 do
     FILE_NAME=$(basename "$FILE" .php)
 
-    echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
+#    echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
     vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >&1
 
-    echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
+#    echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
     php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >&1
 
     FILES="$FILES $PROJECT/$FILE"
