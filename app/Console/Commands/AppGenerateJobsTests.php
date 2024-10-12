@@ -38,9 +38,9 @@ class AppGenerateJobsTests extends Command
                 $jobFileName = Str::start($jobFileName, 'App\\\\');
 
 
-//                $testFileName = app()->basePath().'/tests/'.$testFileName.'.php';
+                $diskTestFileName = app()->basePath().'/tests/'.$testFileName.'.php';
 
-                if (File::exists($testFileName)) {
+                if (File::exists($diskTestFileName)) {
                     return;
                 }
 
