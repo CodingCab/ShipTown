@@ -9,6 +9,7 @@ class DispatchEveryDayEventJob extends UniqueJob
 {
     public function handle(): void
     {
+
         EveryDayEvent::dispatch();
     }
 }
