@@ -14,8 +14,14 @@ then
 fi
 SFILES=${SFILES:-$STAGED_FILES_CMD}
 
-echo "Generating jobs tests..."
+echo "Auto Generating Jobs tests..."
 php artisan app:generate-jobs-tests
+
+echo "Auto Generating Modules Jobs tests..."
+php artisan app:generate-modules-tests
+
+echo "Auto Generating Web Routes Jobs tests..."
+php artisan app:generate-routes-tests
 
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
