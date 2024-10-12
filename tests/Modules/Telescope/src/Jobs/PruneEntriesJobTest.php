@@ -10,8 +10,8 @@ class PruneEntriesJobTest extends TestCase
     /** @test */
     public function test_job()
     {
-        PruneEntriesJob::dispatchSync( );
+        PruneEntriesJob::dispatchSync();
 
-        $this->assertTrue (  true,'Job ran successfully');
+        $this->assertTrue(true,'Job ran successfully');
     }
 }
