@@ -1,4 +1,4 @@
-name: PHP 8.3 - Unit Tests
+name: PHP 8.3 - Console Tests
 on: [push, pull_request]
 
 env:
@@ -30,7 +30,7 @@ jobs:
       - name: Migrate database
         run: php artisan migrate:fresh --force
       - name: Run PHPUnit Tests
-        run: vendor/bin/phpunit --stop-on-failure --stop-on-error --filter='Tests\\Unit'
+        run: vendor/bin/phpunit --stop-on-failure --stop-on-error --filter='Tests\\Console'
       - name: Upload Console Logs
         if: failure()
         uses: actions/upload-artifact@v4
