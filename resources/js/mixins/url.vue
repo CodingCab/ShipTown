@@ -77,6 +77,11 @@
                 return this;
             },
 
+            replaceUrlParameterAndGo: function(param, value) {
+                this.updateUrl([]);
+                this.setUrlParameterAngGo(param, value);
+            },
+
             updateUrlParameters(params) {
                 for (let parameter in params) {
                     this.setUrlParameter(parameter, params[parameter]);

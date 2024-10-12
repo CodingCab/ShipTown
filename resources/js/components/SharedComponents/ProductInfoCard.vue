@@ -10,7 +10,7 @@
         <div v-if="showTags && product">
             <template v-for="tag in product['tags']">
                 <a class="badge text-uppercase btn btn-outline-primary" :key="tag.id"
-                   @click.prevent="setUrlParameterAngGo('filter[product_has_tags]', getTagName(tag))">
+                   @click.prevent="replaceUrlParameterAndGo('filter[product_has_tags]', getTagName(tag))">
                     {{ getTagName(tag) }} </a>
             </template>
         </div>
@@ -43,4 +43,3 @@ export default {
     }
 }
 </script>
-
