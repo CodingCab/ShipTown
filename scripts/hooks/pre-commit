@@ -58,7 +58,6 @@ do
         exit 1
     fi
 
-
     echo "Checking PHP Lint..."
     php -l -d display_errors=0 $FILE >&1
     if [ $? -ne 0 ]
