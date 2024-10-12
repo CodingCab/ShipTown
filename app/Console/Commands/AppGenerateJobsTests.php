@@ -35,7 +35,7 @@ class AppGenerateJobsTests extends Command
                 $jobFileName = str_replace('/', '\\\\', $jobFileName);
                 $jobFileName = Str::ucfirst($jobFileName);
                 $jobFileName = Str::chopEnd($jobFileName, 'Test');
-                $jobFileName = Str::start($jobFileName, 'App\\\\');
+//                $jobFileName = Str::start($jobFileName, 'App\\\\');
 
 
                 $diskTestFileName = app()->basePath().'/tests/'.$testFileName.'.php';
@@ -72,7 +72,7 @@ class AppGenerateJobsTests extends Command
     private function getTestFileName($file): string
     {
         $directory = \File::dirname($file);
-        $directory = str_replace(app()->basePath().'/app/', '', $directory);
+        $directory = str_replace(app()->basePath(), '', $directory);
         $directory = \Str::ucfirst($directory);
 
         $fileName = $directory.'/'.basename($file, '.php').'Test';
