@@ -75,9 +75,9 @@ do
     FILES="$FILES $PROJECT/$FILE"
 done
 
+echo "Running Code Sniffer. Code standard PSR2."
 if [ "$FILES" != "" ]
 then
-    echo "Running Code Sniffer. Code standard PSR2."
     ./vendor/bin/phpcs --encoding=utf-8 -n -p $FILES >&1
     if [ $? -ne 0 ]
     then

@@ -44,7 +44,7 @@ class AppGenerateJobsTests extends Command
                     return;
                 }
 
-                $command = 'app:make-test '.$testFileName.' --stub=test.job --testedClass='.$jobFileName;
+                $command = 'app:make-test '.$jobFileName.' --stub=test.job --testedClass='.$jobFileName;
 
                 Artisan::call($command);
 
