@@ -71,15 +71,11 @@
 
             setUrlParameterAngGo: function(param, value) {
                 this.setUrlParameter(param, value);
+                console.log(param, value);
                 this.$nextTick(() => {
                     this.$router.go();
                 });
                 return this;
-            },
-
-            replaceUrlParameterAndGo: function(param, value) {
-                this.updateUrl([]);
-                this.setUrlParameterAngGo(param, value);
             },
 
             updateUrlParameters(params) {
