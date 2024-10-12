@@ -22,14 +22,14 @@ for FILE in $SFILES
 do
     FILE_NAME=$(basename "$FILE" .php)
     echo "Executing: vendor/bin/phpunit --stop-on-failure --filter \"$FILE_NAME\""
-    vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME"
+    vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >> /dev/null
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
         exit 1
     fi
     echo "Executing: php artisan dusk --stop-on-failure --stop-on-error --filter \"$FILE_NAME\""
-    php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME"
+    php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >> /dev/null
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
@@ -41,7 +41,7 @@ done
 echo "Checking PHP Lint..."
 for FILE in $SFILES
 do
-    php -l -d display_errors=0 $FILE
+    php -l -d display_errors=0 $FILE >> /dev/null
     if [ $? != 0 ]
     then
         echo "Fix the error before commit."
