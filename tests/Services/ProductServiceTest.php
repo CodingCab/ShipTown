@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Services;
 
 use App\Models\ProductAlias;
 use App\Services\ProductService;

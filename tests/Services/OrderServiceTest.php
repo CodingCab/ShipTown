@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Services;
 
 use App\Models\Inventory;
 use App\Models\Order;

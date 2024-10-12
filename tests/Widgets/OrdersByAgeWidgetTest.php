@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Widgets;
+namespace Tests\Widgets;
 
 use App\Models\Order;
 use App\Widgets\OrdersByAgeWidget;

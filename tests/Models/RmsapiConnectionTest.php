@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace Tests\Models;
 
 use App\Modules\Rmsapi\src\Models\RmsapiConnection;
 use Tests\TestCase;

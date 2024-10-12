@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace Tests\Models;
 
 use App\Events\Product\ProductTagAttachedEvent;
 use App\Models\Product;
