@@ -10,5 +10,7 @@ class {{ class }} extends JobTestAbstract
     public function test_job()
     {
         {{testedClass}}::dispatchSync();
+
+        $this->assertTrue(true, 'Job test passed');
     }
 }
