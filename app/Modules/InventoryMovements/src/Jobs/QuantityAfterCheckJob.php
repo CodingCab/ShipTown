@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 class QuantityAfterCheckJob extends UniqueJob
 {
     private Carbon $date;
+    private int $batchSize = 1000; // todo For Review: Extracted batch size
+    private int $maxRounds = 500;  // todo For Review: Extracted max rounds
 
     public function __construct($date = null)
     {
@@ -18,23 +20,25 @@ class QuantityAfterCheckJob extends UniqueJob
 
     public function handle(): void
     {
-        $maxRounds = 500;
+        $roundsLeft = $this->maxRounds; // todo For Review: Use max rounds variable
 
         do {
-            $maxRounds--;
+            $roundsLeft--;
             DB::statement('DROP TEMPORARY TABLE IF EXISTS tempTable');
 
             DB::statement('
                 CREATE TEMPORARY TABLE tempTable AS
                 SELECT
                     id as inventory_movement_id,
-                    inventory_id
+                    inventory_id,
+                    occurred_at
                 FROM inventory_movements
                 WHERE
                     type != "stocktake"
                     AND quantity_after != quantity_before + quantity_delta
                     AND updated_at BETWEEN ? AND ?
-            ', [$this->date->startOfDay()->toDateTimeString(), $this->date->endOfDay()->toDateTimeString()]);
+                LIMIT ?
+            ', [$this->date->startOfDay()->toDateTimeString(), $this->date->endOfDay()->toDateTimeString(), $this->batchSize]); // todo For Review: Use batch size variable
 
             $recordsUpdated = DB::update('
                 UPDATE inventory_movements
@@ -60,6 +64,6 @@ class QuantityAfterCheckJob extends UniqueJob
             ]);
 
             usleep(100000); // 0.1 seconds
-        } while ($recordsUpdated > 0 && $maxRounds > 0);
+        } while ($recordsUpdated > 0 && $roundsLeft > 0); // todo For Review: Use rounds left variable
     }
 }
