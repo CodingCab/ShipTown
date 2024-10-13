@@ -9,12 +9,8 @@ class DispatchEveryDayEventJobTest extends JobTestAbstract
 {
     public function test_job()
    {
-        try {
-            App\Jobs\DispatchEveryDayEventJob::dispatchSync();
-        } catch (\Exception $e) {
-            $this->fail('Job failed to run');
-        }
+       App\Jobs\DispatchEveryDayEventJob::dispatchSync();
 
-        // $this->assertTrue(true, 'Job did not throw any exceptions');
-    }
+       $this->assertTrue(true, 'The job did not throw any exceptions');
+   }
 }

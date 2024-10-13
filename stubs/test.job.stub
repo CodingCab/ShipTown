@@ -9,12 +9,8 @@ class {{ class }} extends JobTestAbstract
 {
     public function test_job()
    {
-        try {
-            {{testedClass}}::dispatchSync();
-        } catch (\Exception $e) {
-            $this->fail('Job failed to run');
-        }
+        {{testedClass}}::dispatchSync();
 
-        // $this->assertTrue(true, 'Job did not throw any exceptions');
+        $this->assertTrue(true, 'Job did not throw any exceptions');
     }
 }
