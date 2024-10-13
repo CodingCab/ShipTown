@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Log;
 class QuantityAfterCheckJob extends UniqueJob
 {
     private Carbon $date;
-    private int $batchSize = 1000; // todo For Review: Extracted batch size
-    private int $maxRounds = 500;  // todo For Review: Extracted max rounds
+    private int $batchSize = 1000;
+    private int $maxRounds = 500;
 
     public function __construct($date = null)
     {
@@ -20,7 +20,7 @@ class QuantityAfterCheckJob extends UniqueJob
 
     public function handle(): void
     {
-        $roundsLeft = $this->maxRounds; // todo For Review: Use max rounds variable
+        $roundsLeft = $this->maxRounds;
 
         do {
             $roundsLeft--;
@@ -38,7 +38,7 @@ class QuantityAfterCheckJob extends UniqueJob
                     AND quantity_after != quantity_before + quantity_delta
                     AND updated_at BETWEEN ? AND ?
                 LIMIT ?
-            ', [$this->date->startOfDay()->toDateTimeString(), $this->date->endOfDay()->toDateTimeString(), $this->batchSize]); // todo For Review: Use batch size variable
+            ', [$this->date->startOfDay()->toDateTimeString(), $this->date->endOfDay()->toDateTimeString(), $this->batchSize]);
 
             $recordsUpdated = DB::update('
                 UPDATE inventory_movements
@@ -64,6 +64,6 @@ class QuantityAfterCheckJob extends UniqueJob
             ]);
 
             usleep(100000); // 0.1 seconds
-        } while ($recordsUpdated > 0 && $roundsLeft > 0); // todo For Review: Use rounds left variable
+        } while ($recordsUpdated > 0 && $roundsLeft > 0);
     }
 }
