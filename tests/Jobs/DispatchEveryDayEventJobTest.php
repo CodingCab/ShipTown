@@ -8,9 +8,13 @@ use App\Abstracts\JobTestAbstract;
 class DispatchEveryDayEventJobTest extends JobTestAbstract
 {
     public function test_job()
-    {
-        App\Jobs\DispatchEveryDayEventJob::dispatchSync();
+   {
+        try {
+            App\Jobs\DispatchEveryDayEventJob::dispatchSync();
+        } catch (\Exception $e) {
+            $this->fail('Job failed to run');
+        }
 
-        $this->assertTrue(true, 'Job test passed');
+        // $this->assertTrue(true, 'Job did not throw any exceptions');
     }
 }
