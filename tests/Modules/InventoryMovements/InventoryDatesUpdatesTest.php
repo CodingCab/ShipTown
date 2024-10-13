@@ -76,6 +76,8 @@ class InventoryDatesUpdatesTest extends TestCase
             'description' => 'test',
         ]);
 
+        RecalculateInventoryRecordsJob::dispatch();
+
         $this->inventory = $this->inventory->refresh();
 
         $this->assertEquals($movement->quantity_after, $this->inventory->quantity, 'quantity_after');
@@ -103,7 +105,6 @@ class InventoryDatesUpdatesTest extends TestCase
             'unit_price' => $this->inventory->prices->price,
             'description' => 'test',
         ]);
-
 
         RecalculateInventoryRecordsJob::dispatch();
 
