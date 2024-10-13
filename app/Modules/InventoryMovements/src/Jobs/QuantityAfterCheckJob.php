@@ -16,25 +16,48 @@ class QuantityAfterCheckJob extends UniqueJob
         $this->date = $date ?? Carbon::now();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $maxRounds = 500;
 
         do {
             $maxRounds--;
 
+            DB::statement('
+                CREATE TEMPORARY TABLE tempTable AS
+                SELECT
+                    id as inventory_movement_id,
+                    inventory_id
+                FROM inventory_movements
+                WHERE
+                    type != "stocktake"
+                    AND quantity_after != quantity_before + quantity_delta
+                    AND updated_at BETWEEN ? AND ?
+
+                LIKE 100;
+            ', [$this->date->startOfDay()->toDateTimeLocalString(), $this->date->endOfDay()->toDateTimeLocalString()]);
+
             $recordsUpdated = DB::update('
                 UPDATE inventory_movements
 
-                SET
-                    inventory_movements.quantity_after = quantity_before + quantity_delta,
-                    inventory_movements.updated_at = NOW()
+                INNER JOIN tempTable
+                    ON tempTable.inventory_movement_id = inventory_movements.id
 
-                WHERE
-                    inventory_movements.type != "stocktake"
-                    AND inventory_movements.quantity_after != quantity_before + quantity_delta
-                    AND inventory_movements.updated_at BETWEEN ? AND ?;
-            ', [$this->date->startOfDay()->toDateTimeLocalString(), $this->date->endOfDay()->toDateTimeLocalString()]);
+                SET
+                    inventory_movements.re = quantity_before + quantity_delta,
+                    inventory_movements.updated_at = NOW()
+            ');
+
+            DB::update('
+                UPDATE inventory
+
+                INNER JOIN tempTable
+                    ON tempTable.inventory_id = inventory.id
+
+                SET
+                    inventory_movements.recount_required = 1,
+                    inventory_movements.updated_at = NOW()
+            ');
 
             Log::info('Job processing', [
                 'job' => self::class,
