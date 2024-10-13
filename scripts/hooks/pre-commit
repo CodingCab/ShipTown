@@ -39,11 +39,21 @@ SFILES=${SFILES:-$STAGED_FILES_CMD}
 #    exit 1
 #fi
 
+echo "Running Coverage tests..."
+vendor/bin/phpunit --stop-on-failure --filter 'Coverage' >&1
+if [ $? -ne 0 ]
+then
+    echo "Coverage tests failed. Please fix the issue before commit."
+    exit 1
+fi
+
+# Run the tests on the changed files
 echo "Running PHPUnit tests..."
 for FILE in $SFILES
 do
     FILE_NAME=$(basename "$FILE" .php)
 
+    # Run PHPUnit tests
     vendor/bin/phpunit --stop-on-failure --filter "$FILE_NAME" >&1
     if [ $? -ne 0 ]
     then
@@ -51,6 +61,7 @@ do
         exit 1
     fi
 
+    # Run Dusk tests
     php artisan dusk --stop-on-failure --stop-on-error --filter "$FILE_NAME" >&1
     if [ $? -ne 0 ]
     then
@@ -58,6 +69,7 @@ do
         exit 1
     fi
 
+    # Run PHP Lint
     echo "Checking PHP Lint..."
     php -l -d display_errors=0 $FILE >&1
     if [ $? -ne 0 ]
@@ -72,6 +84,7 @@ done
 echo "Running Code Sniffer. Code standard PSR2."
 if [ "$FILES" != "" ]
 then
+    # Run PHP Code Sniffer
     ./vendor/bin/phpcs --encoding=utf-8 -n -p $FILES >&1
     if [ $? -ne 0 ]
     then
