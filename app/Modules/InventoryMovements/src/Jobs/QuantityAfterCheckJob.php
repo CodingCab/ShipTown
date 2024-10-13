@@ -22,6 +22,7 @@ class QuantityAfterCheckJob extends UniqueJob
 
         do {
             $maxRounds--;
+            DB::statement('DROP TEMPORARY TABLE IF EXISTS tempTable');
 
             DB::statement('
                 CREATE TEMPORARY TABLE tempTable AS
@@ -33,30 +34,24 @@ class QuantityAfterCheckJob extends UniqueJob
                     type != "stocktake"
                     AND quantity_after != quantity_before + quantity_delta
                     AND updated_at BETWEEN ? AND ?
-
-                LIKE 100;
-            ', [$this->date->startOfDay()->toDateTimeLocalString(), $this->date->endOfDay()->toDateTimeLocalString()]);
+            ', [$this->date->startOfDay()->toDateTimeString(), $this->date->endOfDay()->toDateTimeString()]);
 
             $recordsUpdated = DB::update('
                 UPDATE inventory_movements
-
                 INNER JOIN tempTable
                     ON tempTable.inventory_movement_id = inventory_movements.id
-
                 SET
-                    inventory_movements.re = quantity_before + quantity_delta,
+                    inventory_movements.quantity_after = inventory_movements.quantity_before + inventory_movements.quantity_delta,
                     inventory_movements.updated_at = NOW()
             ');
 
             DB::update('
                 UPDATE inventory
-
                 INNER JOIN tempTable
                     ON tempTable.inventory_id = inventory.id
-
                 SET
-                    inventory_movements.recount_required = 1,
-                    inventory_movements.updated_at = NOW()
+                    inventory.recount_required = 1,
+                    inventory.updated_at = NOW()
             ');
 
             Log::info('Job processing', [
