@@ -55,6 +55,7 @@ class GetProductIdsJob extends UniqueJob
             ->map(function ($item) use ($connection) {
                 return [
                     'connection_id' => $connection->getKey(),
+                    'product_id' => 0, // we only allow to sync products that are already in Magento
                     'sku' => $item['sku'],
                     'exists_in_magento' => true,
                     'magento_product_id' => $item['id'],
@@ -65,6 +66,7 @@ class GetProductIdsJob extends UniqueJob
             });
 
         MagentoProduct::query()->upsert($map->toArray(), ['connection_id', 'sku'], [
+            'product_id',
             'magento_product_id',
             'magento_product_type',
             'exists_in_magento',
