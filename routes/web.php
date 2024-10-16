@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['role:admin'])->group(function () {
         Route::view('settings/modules/magento2api', 'settings.modules.magento2api');
+        Route::view('settings/modules/magento2api/price-sync', 'settings/magento-api')->name('settings.modules.magento-api');
         Route::resource('settings/modules/magento2api/price-information', PriceInformationController::class)->only(['index']);
         Route::resource('settings/modules/magento2api/inventory-source-items', InventorySourceItemsController::class)->only(['index']);
         Route::view('settings/modules/stocktake-suggestions', 'settings/modules/stocktake-suggestions');
@@ -110,7 +111,6 @@ Route::middleware('auth')->group(function () {
         Route::view('settings/modules/dpd-uk', 'settings/dpd-uk')->name('settings.modules.dpd-uk');
         Route::get('settings/modules/webhooks/subscriptions', [SubscriptionController::class, 'index'])->name('webhooks::subscriptions');
         Route::view('modules/slack/config', 'modules/slack/config')->name('modules.slack.config');
-        Route::view('settings/modules/magento-api', 'settings/magento-api')->name('settings.modules.magento-api');
         Route::view('settings/modules/quantity-discounts', 'settings/modules/quantity-discounts/index')->name('settings.modules.quantity-discounts.index');
         Route::get('settings/modules/quantity-discounts/{id}', [QuantityDiscountsController::class, 'edit'])->name('settings.modules.quantity-discounts.edit');
         Route::view('settings/modules/data-collector-payments', 'settings/modules/payments/index')->name('settings.modules.payments.index');

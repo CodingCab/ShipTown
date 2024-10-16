@@ -1,5 +1,7 @@
 <template>
     <div>
+        <a class="btn btn-block btn-primary" :href="'/settings/modules/magento2api/price-information'">price-information</a>
+
         <div class="card card-default">
             <div class="card-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">

@@ -18,7 +18,7 @@ class InventorySyncServiceProvider extends BaseModuleServiceProvider
 
     public static string $module_description = 'Module provides ability to sync inventory with Magento 2 API (MSI)';
 
-    public static string $settings_link = '/settings/modules/magento2msi';
+    public static string $settings_link = '/settings/modules/magento2api';
 
     public static bool $autoEnable = false;
 

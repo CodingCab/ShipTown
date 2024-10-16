@@ -21,7 +21,7 @@ class PriceSyncServiceProvider extends BaseModuleServiceProvider
 
     public static string $module_description = 'Module provides ability to sync prices with Magento 2 API';
 
-    public static string $settings_link = '/settings/modules/magento-api';
+    public static string $settings_link = '/settings/modules/magento2api/price-sync';
 
     public static bool $autoEnable = false;
 
