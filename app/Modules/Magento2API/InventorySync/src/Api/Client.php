@@ -3,6 +3,7 @@
 namespace App\Modules\Magento2API\InventorySync\src\Api;
 
 use Exception;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -44,7 +45,10 @@ class Client
         return $response;
     }
 
-    public static function post($token, $url, $parameters = []): ?Response
+    /**
+     * @throws ConnectionException
+     */
+    public static function post($token, $url, $parameters = [], bool $throwExceptions = false): ?Response
     {
         try {
             $response = Http::withToken($token)->post($url, $parameters);
@@ -55,16 +59,24 @@ class Client
                 'parameters' => $parameters,
             ]);
 
+            if ($throwExceptions) {
+                throw $e;
+            }
+
             return null;
         }
 
         if ($response->failed()) {
-            Log::error('MAGENTO2API POST', [
+            Log::error('MAGENTO2API POST FAILED', [
                 'response' => implode(' ', [$response->status(), $response->reason()]),
                 'url' => $url,
                 'json' => $response->json(),
                 'parameters' => $parameters,
             ]);
+
+            if ($throwExceptions) {
+                throw new ConnectionException($response->json('message'), $response->status());
+            }
 
             return $response;
         }

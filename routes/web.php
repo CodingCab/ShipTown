@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::view('settings/warehouses', 'settings/warehouses')->name('settings.warehouses');
 
     Route::middleware(['role:admin'])->group(function () {
-        Route::view('settings/modules/magento2api', 'settings.modules.magento2api');
+        Route::view('settings/modules/magento2api/inventory-sync', 'settings.modules.magento2api');
         Route::view('settings/modules/magento2api/price-sync', 'settings/magento-api')->name('settings.modules.magento-api');
         Route::resource('settings/modules/magento2api/price-information', PriceInformationController::class)->only(['index']);
         Route::resource('settings/modules/magento2api/inventory-source-items', InventorySourceItemsController::class)->only(['index']);

@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Browser\Routes\Settings\Modules;
+namespace Tests\Browser\Routes\Settings\Modules\Magento2Api;
 
 use App\User;
 use Tests\DuskTestCase;
 use Throwable;
 
-class Magento2ApiPageTest extends DuskTestCase
+class InventorySyncPageTest extends DuskTestCase
 {
-    private string $uri = '/settings/modules/magento2api';
+    private string $uri = '/settings/modules/magento2api/inventory-sync';
 
     /**
      * @throws Throwable
@@ -17,7 +17,7 @@ class Magento2ApiPageTest extends DuskTestCase
     {
         /** @var User $user */
         $user = User::factory()->create();
-        $user->assignRole('admin');
+         $user->assignRole('admin');
 
         $this->visitAndInspect($this->uri, $user)
             ->assertPathIs($this->uri);

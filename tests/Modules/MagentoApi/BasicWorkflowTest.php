@@ -5,6 +5,7 @@ namespace Tests\Modules\MagentoApi;
 use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Warehouse;
+use App\Modules\Magento2API\PriceSync\src\Jobs\CheckIfProductsExistJob;
 use App\Modules\Magento2API\PriceSync\src\PriceSyncServiceProvider;
 use App\Modules\Magento2API\PriceSync\src\Jobs\CheckIfSyncIsRequiredJob;
 use App\Modules\Magento2API\PriceSync\src\Jobs\EnsureProductPriceIdIsFilledJob;
@@ -64,6 +65,8 @@ class BasicWorkflowTest extends TestCase
 
         EnsureProductSkuIsFilledJob::dispatch();
         $this->assertDatabaseMissing('modules_magento2api_products', ['sku' => null]);
+
+        CheckIfProductsExistJob::dispatch();
 
         FetchBasePricesJob::dispatch();
         $this->assertDatabaseHas('modules_magento2api_products', ['sku' => '45', 'exists_in_magento' => true]);

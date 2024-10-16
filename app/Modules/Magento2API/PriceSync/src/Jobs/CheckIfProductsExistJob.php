@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class GetProductIdsJob extends UniqueJob
+class CheckIfProductsExistJob extends UniqueJob
 {
     public function handle(): void
     {

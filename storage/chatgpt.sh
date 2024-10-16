@@ -1,79 +1,25 @@
 #!/bin/bash
 
-# Define function to create Artisan command
-create_artisan_command() {
-    local COMMAND_NAME=$1
-    local COMMAND_CLASS=$2
+# Step 1: Navigate to the Laravel project root
+cd ..
 
-    cd ../app/Console/Commands
+# Step 2: Create a new Artisan command
+php artisan make:command GenerateBashScript
 
-    # Create Command Class
-    cat <<EOL > $COMMAND_CLASS.php
-<?php
+# Check if the command was created successfully
+if [ $? -ne 0 ]; then
+  echo "Failed to create the Artisan command."
+  exit 1
+fi
 
-namespace App\Console\Commands;
+# Step 3: Modify the handle method of the new command
+sed -i '/public function handle()/,/}/c\
+    public function handle() {\
+        $bashScriptContent = "\"#!/bin/bash\\n\\n# Step 1: Navigation\\ncd ..\\n\\n# Step 2: Create a new Laravel controller\\nphp artisan make:controller SampleController\\n\\n# Step 3: Update .env file\\necho \"APP_NAME=NewAppName\" >> .env\\n\\n# Step 4: Create a new route\\necho \"Route::get(\'/sample\', \'SampleController@index\');\" >> routes/web.php\\n\";\
+        \
+        file_put_contents(\"./storage/sample_bash_script.sh\", $bashScriptContent);\
+        $this->info(\"Bash script created successfully!\");\
+    }' app/Console/Commands/GenerateBashScript.php
 
-use Illuminate\Console\Command;
-
-class $COMMAND_CLASS extends Command
-{
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected \$signature = 'make:bash-script';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected \$description = 'Generate a bash script file';
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        \$scriptContent = <<<'SCRIPT'
-#!/bin/bash
-
-echo "Modifying files..."
-
-# Example of modifying a file
-# sed -i 's/original/new/g' ../path/to/file
-
-echo "Creating new files..."
-
-# Example of creating a new file
-# echo "File content" > ../path/to/newfile
-
-SCRIPT;
-
-        file_put_contents(storage_path('bash_script.sh'), \$scriptContent);
-        chmod(storage_path('bash_script.sh'), 0755);
-
-        \$this->info('Bash script generated successfully.');
-        return 0;
-    }
-}
-EOL
-
-    cd ../../..
-
-    # Register command in Kernel
-    sed -i "/protected \$commands = \[/a \        App\\\\Console\\\\Commands\\\\$COMMAND_CLASS::class," ./app/Console/Kernel.php
-
-    echo "Artisan command created and registered successfully."
-}
-
-# Variables for Artisan command
-COMMAND_NAME="make:bash-script"
-COMMAND_CLASS="GenerateBashScript"
-
-create_artisan_command $COMMAND_NAME $COMMAND_CLASS
-
-echo "Operation completed."
+# Step 4: Inform the user
+echo "Artisan command 'GenerateBashScript' has been created and configured."
