@@ -14,6 +14,6 @@ class FulfillmentStatisticsPageTest extends DuskTestCase
      */
     public function testPage(): void
     {
-        $this->visit($this->uri);
+        $this->visitAndInspect($this->uri);
     }
 }

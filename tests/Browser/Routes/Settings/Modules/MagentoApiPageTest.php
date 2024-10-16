@@ -20,7 +20,7 @@ class MagentoApiPageTest extends DuskTestCase
 
         $admin = User::factory()->create()->assignRole('admin');
 
-        $this->visit($this->uri, $admin)
+        $this->visitAndInspect($this->uri, $admin)
             ->waitForText('Magento Api Configurations');
     }
 }

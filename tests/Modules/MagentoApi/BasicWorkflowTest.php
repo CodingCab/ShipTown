@@ -15,7 +15,7 @@ use App\Modules\Magento2API\PriceSync\src\Jobs\FetchSpecialPricesJob;
 use App\Modules\Magento2API\PriceSync\src\Jobs\SyncProductBasePricesBulkJob;
 use App\Modules\Magento2API\PriceSync\src\Jobs\SyncProductSalePricesBulkJob;
 use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 use Tests\TestCase;
 
 class BasicWorkflowTest extends TestCase
@@ -74,7 +74,7 @@ class BasicWorkflowTest extends TestCase
         $this->assertDatabaseHas('modules_magento2api_products', ['sku' => '46', 'base_prices_raw_import' => null]);
 
         FetchSpecialPricesJob::dispatch();
-        ray(MagentoProduct::query()->with('prices')->get()->toArray())->expand(2);
+        ray(PriceInformation::query()->with('prices')->get()->toArray())->expand(2);
 
         $this->assertDatabaseMissing('modules_magento2api_products', ['sku' => '45', 'special_prices_fetched_at' => null]);
         $this->assertDatabaseMissing('modules_magento2api_products', ['sku' => '45', 'special_prices_raw_import' => null]);

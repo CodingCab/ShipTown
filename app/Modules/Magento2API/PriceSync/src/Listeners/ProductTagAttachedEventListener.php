@@ -4,7 +4,7 @@ namespace App\Modules\Magento2API\PriceSync\src\Listeners;
 
 use App\Events\Product\ProductTagAttachedEvent;
 use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 
 class ProductTagAttachedEventListener
 {
@@ -14,7 +14,7 @@ class ProductTagAttachedEventListener
             MagentoConnection::query()
                 ->get()
                 ->each(function (MagentoConnection $connection) use ($event) {
-                    MagentoProduct::query()->firstOrCreate([
+                    PriceInformation::query()->firstOrCreate([
                         'connection_id' => $connection->getKey(),
                         'product_id' => $event->product->id,
                     ], []);

@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property MagentoProduct $magentoProduct
+ * @property PriceInformation $magentoProduct
  * @property int $magento_store_id
  * @property string $sku
  * @property float $expected_price
@@ -33,6 +33,6 @@ class MagentoProductPricesComparisonView extends BaseModel
 
     public function magentoProduct(): BelongsTo
     {
-        return $this->belongsTo(MagentoProduct::class, 'modules_magento2api_products_id');
+        return $this->belongsTo(PriceInformation::class, 'modules_magento2api_products_id');
     }
 }

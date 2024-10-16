@@ -27,7 +27,7 @@ class EnsureProductRecordsExistJob extends UniqueJob
                 now()
 
             FROM taggables
-            LEFT JOIN modules_magento2api_connections ON 1=1
+            INNER JOIN modules_magento2api_connections ON 1=1
             LEFT JOIN products_prices
                 ON products_prices.product_id = taggables.taggable_id
                 AND products_prices.warehouse_id = modules_magento2api_connections.pricing_source_warehouse_id

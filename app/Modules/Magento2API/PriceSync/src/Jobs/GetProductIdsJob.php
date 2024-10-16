@@ -6,7 +6,7 @@ use App\Abstracts\UniqueJob;
 use App\Helpers\TemporaryTable;
 use App\Modules\Magento2API\InventorySync\src\Api\MagentoApi;
 use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +19,7 @@ class GetProductIdsJob extends UniqueJob
         MagentoConnection::query()
             ->get()
             ->each(function (MagentoConnection $connection) {
-                MagentoProduct::query()
+                PriceInformation::query()
                     ->where('connection_id', $connection->getKey())
                     ->whereNull('exists_in_magento')
                     ->with('product')
@@ -87,7 +87,7 @@ class GetProductIdsJob extends UniqueJob
                 modules_magento2api_products.updated_at = tempTable_MagentoProductIds.updated_at
         ');
 
-        MagentoProduct::query()
+        PriceInformation::query()
             ->whereIn('id', $products->pluck('id'))
             ->whereNull('exists_in_magento')
             ->update([

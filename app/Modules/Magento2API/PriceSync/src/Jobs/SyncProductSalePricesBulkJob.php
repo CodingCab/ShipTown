@@ -5,7 +5,7 @@ namespace App\Modules\Magento2API\PriceSync\src\Jobs;
 use App\Abstracts\UniqueJob;
 use App\Modules\Magento2API\InventorySync\src\Api\MagentoApi;
 use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,12 +17,12 @@ class SyncProductSalePricesBulkJob extends UniqueJob
     {
         MagentoConnection::query()
             ->each(function (MagentoConnection $magentoConnection) {
-                MagentoProduct::query()
+                PriceInformation::query()
                     ->with(['product', 'prices'])
                     ->where('connection_id', $magentoConnection->id)
                     ->where(['special_price_sync_required' => true])
                     ->chunkById(10, function (Collection $chunk) use ($magentoConnection) {
-                        $specialPrices = $chunk->map(function (MagentoProduct $magentoProduct) use ($magentoConnection) {
+                        $specialPrices = $chunk->map(function (PriceInformation $magentoProduct) use ($magentoConnection) {
                             return [
                                 'sku' => $magentoProduct->product->sku,
                                 'store_id' => $magentoConnection->magento_store_id ?? 0,
@@ -38,7 +38,7 @@ class SyncProductSalePricesBulkJob extends UniqueJob
                             $specialPrices->toArray()
                         );
 
-                        MagentoProduct::query()
+                        PriceInformation::query()
                             ->whereIn('id', $chunk->pluck('id'))
                             ->update([
                                 'special_price_sync_required' => null,

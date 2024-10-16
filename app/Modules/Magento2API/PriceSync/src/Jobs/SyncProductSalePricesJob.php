@@ -4,7 +4,7 @@ namespace App\Modules\Magento2API\PriceSync\src\Jobs;
 
 use App\Abstracts\UniqueJob;
 use App\Modules\Magento2API\InventorySync\src\Api\MagentoApi;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 
 /**
  * Class SyncCheckFailedProductsJob.
@@ -13,11 +13,11 @@ class SyncProductSalePricesJob extends UniqueJob
 {
     public function handle(): void
     {
-        MagentoProduct::query()
+        PriceInformation::query()
             ->with(['magentoConnection', 'product', 'prices'])
             ->where(['special_price_sync_required' => true])
             ->chunkById(10, function ($products) {
-                collect($products)->each(function (MagentoProduct $magentoProduct) {
+                collect($products)->each(function (PriceInformation $magentoProduct) {
                     MagentoApi::postProductsSpecialPrice(
                         $magentoProduct->magentoConnection->base_url,
                         $magentoProduct->magentoConnection->api_access_token,

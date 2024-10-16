@@ -6,7 +6,7 @@ use App\Abstracts\UniqueJob;
 use App\Helpers\TemporaryTable;
 use App\Modules\Magento2API\InventorySync\src\Api\MagentoApi;
 use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 use Exception;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
@@ -24,7 +24,7 @@ class FetchBasePricesJob extends UniqueJob
             MagentoConnection::query()
                 ->get()
                 ->each(function (MagentoConnection $magentoConnection) {
-                    MagentoProduct::query()
+                    PriceInformation::query()
                         ->with(['product'])
                         ->where('connection_id', $magentoConnection->getKey())
                         ->where('exists_in_magento', true)
@@ -32,7 +32,7 @@ class FetchBasePricesJob extends UniqueJob
                         ->orWhereNull('base_prices_raw_import')
                         ->chunkById(100, function (Collection $chunk) use ($magentoConnection) {
                             Log::debug('Fetching base prices for '.$chunk->count().' products', ['job' => self::class]);
-                            $productSkus = $chunk->map(function (MagentoProduct $product) {
+                            $productSkus = $chunk->map(function (PriceInformation $product) {
                                 return $product->product->sku;
                             });
 
@@ -83,7 +83,7 @@ class FetchBasePricesJob extends UniqueJob
                             Log::debug('Updating '.$chunk->count().' missing records', ['job' => self::class]);
 
                             // Update missing records
-                            MagentoProduct::query()
+                            PriceInformation::query()
                                 ->whereIn('id', $chunk->pluck('id'))
                                 ->whereNotIn('sku', $responseRecords->pluck('sku'))
                                 ->update([

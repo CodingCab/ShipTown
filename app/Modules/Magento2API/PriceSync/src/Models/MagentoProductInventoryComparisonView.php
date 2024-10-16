@@ -6,7 +6,7 @@ use App\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @property MagentoProduct $magentoProduct
+ * @property PriceInformation $magentoProduct
  * @property float $expected_quantity
  */
 class MagentoProductInventoryComparisonView extends BaseModel
@@ -15,6 +15,6 @@ class MagentoProductInventoryComparisonView extends BaseModel
 
     public function magentoProduct(): BelongsTo
     {
-        return $this->belongsTo(MagentoProduct::class, 'modules_magento2api_products_id');
+        return $this->belongsTo(PriceInformation::class, 'modules_magento2api_products_id');
     }
 }

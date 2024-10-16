@@ -5,7 +5,7 @@ namespace App\Modules\Magento2API\PriceSync\src\Services;
 use App\Modules\Magento2API\InventorySync\src\Api\Client;
 use App\Modules\Magento2API\InventorySync\src\Api\MagentoApi;
 use App\Modules\Magento2API\PriceSync\src\Exceptions\UnauthorizedException;
-use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\Models\PriceInformation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
@@ -16,7 +16,7 @@ class MagentoService
         return new MagentoApi;
     }
 
-    public static function fetchSpecialPrices(MagentoProduct $magentoProduct): void
+    public static function fetchSpecialPrices(PriceInformation $magentoProduct): void
     {
         $connection = $magentoProduct->magentoConnection;
 
@@ -59,7 +59,7 @@ class MagentoService
     /**
      * @throws UnauthorizedException
      */
-    public static function fetchBasePrices(MagentoProduct $magentoProduct): void
+    public static function fetchBasePrices(PriceInformation $magentoProduct): void
     {
         $connection = $magentoProduct->magentoConnection;
 
