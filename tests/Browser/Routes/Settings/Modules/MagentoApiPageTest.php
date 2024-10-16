@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Routes\Settings\Modules;
 
-use App\Modules\MagentoApi\src\EventServiceProviderBase;
+use App\Modules\Magento2API\PriceSync\src\PriceSyncServiceProvider;
 use App\User;
 use Tests\DuskTestCase;
 use Throwable;
@@ -16,7 +16,7 @@ class MagentoApiPageTest extends DuskTestCase
      */
     public function testBasics(): void
     {
-        EventServiceProviderBase::enableModule();
+        PriceSyncServiceProvider::enableModule();
 
         $admin = User::factory()->create()->assignRole('admin');
 

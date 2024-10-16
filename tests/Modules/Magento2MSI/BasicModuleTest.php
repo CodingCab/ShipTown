@@ -7,7 +7,7 @@ use App\Events\EveryFiveMinutesEvent;
 use App\Events\EveryHourEvent;
 use App\Events\EveryMinuteEvent;
 use App\Events\EveryTenMinutesEvent;
-use App\Modules\Magento2MSI\src\Magento2MsiServiceProvider;
+use App\Modules\Magento2API\InventorySync\src\InventorySyncServiceProvider;
 use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
@@ -16,7 +16,7 @@ class BasicModuleTest extends TestCase
     {
         parent::setUp();
 
-        Magento2MsiServiceProvider::enableModule();
+        InventorySyncServiceProvider::enableModule();
     }
 
     /** @test */

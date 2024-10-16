@@ -7,7 +7,7 @@ use App\Events\EveryFiveMinutesEvent;
 use App\Events\EveryHourEvent;
 use App\Events\EveryMinuteEvent;
 use App\Events\EveryTenMinutesEvent;
-use App\Modules\MagentoApi\src\EventServiceProviderBase;
+use App\Modules\Magento2API\PriceSync\src\PriceSyncServiceProvider;
 use Tests\TestCase;
 
 class BasicModuleTest extends TestCase
@@ -16,7 +16,7 @@ class BasicModuleTest extends TestCase
     {
         parent::setUp();
 
-        EventServiceProviderBase::enableModule();
+        PriceSyncServiceProvider::enableModule();
     }
 
     /** @test */

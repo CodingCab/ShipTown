@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Modules\MagentoApi\src\Models\MagentoConnection;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
 
 class SetupController extends Controller
 {

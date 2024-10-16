@@ -5,17 +5,17 @@ namespace Tests\Modules\MagentoApi;
 use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Warehouse;
-use App\Modules\MagentoApi\src\EventServiceProviderBase;
-use App\Modules\MagentoApi\src\Jobs\CheckIfSyncIsRequiredJob;
-use App\Modules\MagentoApi\src\Jobs\EnsureProductPriceIdIsFilledJob;
-use App\Modules\MagentoApi\src\Jobs\EnsureProductRecordsExistJob;
-use App\Modules\MagentoApi\src\Jobs\EnsureProductSkuIsFilledJob;
-use App\Modules\MagentoApi\src\Jobs\FetchBasePricesJob;
-use App\Modules\MagentoApi\src\Jobs\FetchSpecialPricesJob;
-use App\Modules\MagentoApi\src\Jobs\SyncProductBasePricesBulkJob;
-use App\Modules\MagentoApi\src\Jobs\SyncProductSalePricesBulkJob;
-use App\Modules\MagentoApi\src\Models\MagentoConnection;
-use App\Modules\MagentoApi\src\Models\MagentoProduct;
+use App\Modules\Magento2API\PriceSync\src\PriceSyncServiceProvider;
+use App\Modules\Magento2API\PriceSync\src\Jobs\CheckIfSyncIsRequiredJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\EnsureProductPriceIdIsFilledJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\EnsureProductRecordsExistJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\EnsureProductSkuIsFilledJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\FetchBasePricesJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\FetchSpecialPricesJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\SyncProductBasePricesBulkJob;
+use App\Modules\Magento2API\PriceSync\src\Jobs\SyncProductSalePricesBulkJob;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoProduct;
 use Tests\TestCase;
 
 class BasicWorkflowTest extends TestCase
@@ -24,7 +24,7 @@ class BasicWorkflowTest extends TestCase
     {
         parent::setUp();
 
-        EventServiceProviderBase::enableModule();
+        PriceSyncServiceProvider::enableModule();
     }
 
     /** @test */

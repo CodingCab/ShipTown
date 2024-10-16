@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Modules\Magento2MSI;
 
-use App\Modules\Magento2MSI\src\Models\Magento2msiConnection;
+use App\Modules\Magento2API\InventorySync\src\Models\Magento2msiConnection;
 use Illuminate\Database\Seeder;
 use Spatie\Tags\Tag;
 

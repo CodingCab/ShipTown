@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api\Modules\Magento2msi\Connections\Connection;
 
-use App\Modules\Magento2msi\src\Models\Magento2msiConnection;
+use App\Modules\Magento2API\InventorySync\src\Models\Magento2msiConnection;
 use App\User;
 use Tests\TestCase;
 

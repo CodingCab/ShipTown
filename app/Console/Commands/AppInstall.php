@@ -246,7 +246,7 @@ class AppInstall extends Command
         Modules\Webhooks\src\WebhooksServiceProviderBase::installModule();
         Modules\Api2cart\src\Api2cartServiceProvider::installModule();
         Modules\Rmsapi\src\RmsapiModuleServiceProvider::installModule();
-        Modules\MagentoApi\src\EventServiceProviderBase::installModule();
+        Modules\Magento2API\PriceSync\src\PriceSyncServiceProvider::installModule();
         Modules\ScurriAnpost\src\ScurriServiceProvider::installModule();
         Modules\DpdUk\src\DpdUkServiceProvider::installModule();
         Modules\AddressLabel\src\AddressLabelServiceProvider::installModule();

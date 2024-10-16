@@ -1,12 +1,12 @@
 <?php
 
-use App\Modules\Magento2MSI\src\Magento2MsiServiceProvider;
+use App\Modules\Magento2API\InventorySync\src\InventorySyncServiceProvider;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        Magento2MsiServiceProvider::installModule();
+        InventorySyncServiceProvider::installModule();
     }
 };

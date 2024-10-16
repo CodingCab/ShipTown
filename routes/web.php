@@ -26,7 +26,7 @@ use App\Http\Controllers\PdfOrderController;
 use App\Http\Controllers\ProductsMergeController;
 use App\Http\Controllers\Reports;
 use App\Http\Controllers\ShippingLabelController;
-use App\Modules\Magento2MSI\src\Http\Controllers\InventorySourceItemsController;
+use App\Modules\Magento2API\InventorySync\src\Http\Controllers\InventorySourceItemsController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'login')->middleware('guest');

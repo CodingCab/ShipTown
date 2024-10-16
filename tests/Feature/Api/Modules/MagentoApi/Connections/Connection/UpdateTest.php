@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api\Modules\MagentoApi\Connections\Connection;
 
 use App\Models\Warehouse;
-use App\Modules\MagentoApi\src\Models\MagentoConnection;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
 use App\User;
 use Tests\TestCase;
 
