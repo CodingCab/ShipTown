@@ -244,6 +244,12 @@
                                     {{ name }} = {{ value }}
                                 </div>
                             </div>
+
+                            <div class="mt-2">
+                                <a :href="activityLogsLink">
+                                    See All <font-awesome-icon icon="arrow-right" class="fa fa-xs"></font-awesome-icon>
+                                </a>
+                            </div>
                         </template>
 
                     </div>
@@ -325,6 +331,10 @@
             quantityOrdered() {
                 return this.ordered
             },
+
+            activityLogsLink() {
+                return `/reports/activity-log?sort=-id&filter[subject_type]=App\\Models\\Product&filter[subject_id]=${this.product.id}`
+            }
         },
 
         created: function () {
@@ -377,7 +387,6 @@
             },
 
             orderProduct(quantity) {
-                console.log(this.$ref);
                 this.ordered = quantity;
                 this.hide();
             },
@@ -446,7 +455,7 @@
                     'filter[subject_id]': this.product['id'],
                     'sort': '-id',
                     'include': 'causer',
-                    'per_page': 100
+                    'per_page': 15
                 }
 
                 this.apiGetActivityLog(params)
