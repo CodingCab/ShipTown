@@ -455,7 +455,7 @@
                     'filter[subject_id]': this.product['id'],
                     'sort': '-id',
                     'include': 'causer',
-                    'per_page': 15
+                    'per_page': 100
                 }
 
                 this.apiGetActivityLog(params)
