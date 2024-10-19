@@ -76,6 +76,8 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
                 'service_provider_class' => get_called_class(),
             ], [
                 'enabled' => self::$autoEnable,
+                'name' => self::$module_name,
+                'description' => self::$module_description,
             ]);
 
             return $module->enabled;
@@ -93,7 +95,13 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
 
     public static function enableModule(): bool
     {
-        $module = Module::firstOrCreate(['service_provider_class' => get_called_class()], ['enabled' => false]);
+        $module = Module::firstOrCreate([
+            'service_provider_class' => get_called_class()
+        ], [
+            'enabled' => false,
+            'name' => self::$module_name,
+            'description' => self::$module_description,
+        ]);
 
         if ($module->enabled) {
             return true;
@@ -144,6 +152,8 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
                 'service_provider_class' => $moduleServiceProvider,
             ], [
                 'enabled' => $moduleServiceProvider::$autoEnable,
+                'name' => $moduleServiceProvider::$module_name,
+                'description' => $moduleServiceProvider::$module_description,
             ]);
 
             return true;
@@ -160,6 +170,8 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
             'service_provider_class' => get_called_class(),
         ], [
             'enabled' => false,
+            'name' => self::$module_name,
+            'description' => self::$module_description,
         ]);
 
         if ($module->enabled) {

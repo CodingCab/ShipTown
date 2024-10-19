@@ -21,12 +21,19 @@ export default {
         placeholder: {
             type: String,
             default: 'Search filter...'
+        },
+        searchValue: {
+            type: String,
+            default: ''
         }
     },
     data() {
         return {
             searchInput: ''
         }
+    },
+    mounted() {
+        this.searchInput = this.searchValue
     },
 }
 </script>
