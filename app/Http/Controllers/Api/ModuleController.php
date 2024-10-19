@@ -13,9 +13,9 @@ class ModuleController extends Controller
 {
     public function index(ModuleIndexRequest $request): AnonymousResourceCollection
     {
-        $modules = Module::query()->get();
-
-        $collection = $modules->sortBy('name');
+        $collection = Module::getSpatieQueryBuilder()
+            ->simplePaginate(request()->input('per_page', 10))
+            ->appends(request()->query());
 
         return ModuleResource::collection($collection);
     }

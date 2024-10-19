@@ -6,6 +6,7 @@ use App\BaseModel;
 use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * App\Module.
@@ -32,6 +33,8 @@ class Module extends BaseModel
     protected $fillable = [
         'service_provider_class',
         'enabled',
+        'name',
+        'description',
     ];
 
     protected $appends = [
@@ -59,5 +62,13 @@ class Module extends BaseModel
     public function getSettingsLinkAttribute()
     {
         return $this->service_provider_class::$settings_link;
+    }
+
+    public static function getSpatieQueryBuilder(): QueryBuilder
+    {
+        return QueryBuilder::for(Module::class)
+            ->allowedFilters([
+                'name',
+            ]);
     }
 }

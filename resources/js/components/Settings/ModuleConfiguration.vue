@@ -1,6 +1,11 @@
 <template>
     <div>
-        <div class="list-group">
+        <search-and-option-bar-observer/>
+        <search-and-option-bar :isStickable="true">
+            <search-filter placeholder="Search " @search="searchModule" :searchValue="getUrlFilter('name')"></search-filter>
+        </search-and-option-bar>
+
+        <div class="list-group mt-2">
             <template v-for="module in modules" >
                 <div class="setting-list">
 
@@ -30,9 +35,15 @@
 <script>
 import api from "../../mixins/api";
 import helpers from "../../mixins/helpers";
+import url from "../../mixins/url";
+import SearchFilter from "../../components/UI/SearchFilter.vue";
 
 export default {
-    mixins: [api, helpers],
+    mixins: [api, helpers, url],
+
+    components: {
+        SearchFilter
+    },
 
     created() {
         this.loadModules();
@@ -40,12 +51,17 @@ export default {
 
     data: () => ({
         error: false,
-        modules: []
+        modules: [],
     }),
 
     methods: {
         loadModules() {
-            this.apiGetModules()
+            const params = {
+                'filter[name]': this.getUrlFilter('name'),
+                'sort': 'name',
+                'per_page': 999
+            }
+            this.apiGetModules(params)
                 .then(({ data }) => {
                     this.modules = data.data;
                 }).catch((error) => {
@@ -53,28 +69,29 @@ export default {
                 });
         },
 
+        searchModule(q) {
+            this.setUrlParameterAngGo('filter[name]', q);
+        },
+
         updateModule(module) {
             this.apiPostModule(module.id, {
-                    'enabled': module.enabled
-                })
-                .catch((error) => {
-                    let errorMsg = 'Error ' + error.response.status + ': ' + JSON.stringify(error.response.data);
+                'enabled': module.enabled
+            })
+            .catch((error) => {
+                let errorMsg = 'Error ' + error.response.status + ': ' + JSON.stringify(error.response.data);
 
-                    this.notifyError(errorMsg, {
-                        closeOnClick: true,
-                        timeout: 0,
-                        buttons: [
-                            {text: 'OK', action: null},
-                        ]
-                    });
-
-                    this.loadModules();
-                }).finally(() => {
-                    this.loadModules();
+                this.notifyError(errorMsg, {
+                    closeOnClick: true,
+                    timeout: 0,
+                    buttons: [
+                        { text: 'OK', action: null },
+                    ]
                 });
 
-
-
+                this.loadModules();
+            }).finally(() => {
+                this.loadModules();
+            });
         }
     }
 }

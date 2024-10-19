@@ -152,7 +152,6 @@
     import IconArrowRight from "../UI/Icons/IconArrowRight.vue";
     import IconArrowLeft from "../UI/Icons/IconArrowLeft.vue";
     import ModalDateBetweenSelector from "../Widgets/ModalDateBetweenSelector.vue";
-    import SearchFilter from "./SearchFilter.vue";
     import ReportHead from "./ReportHead.vue";
     import moment from "moment";
     import helpers from "../../helpers";
@@ -163,7 +162,7 @@
 
         components: {
             ProductSkuButton,
-            IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, SearchFilter, ReportHead},
+            IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, ReportHead},
 
         props: {
             metaString: String,
