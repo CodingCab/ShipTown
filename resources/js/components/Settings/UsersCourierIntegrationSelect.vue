@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import Vue from "vue";
 import helpers from "../../mixins/helpers";
 

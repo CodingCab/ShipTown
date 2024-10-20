@@ -135,15 +135,15 @@
     import beep from '../mixins/beep';
     import loadingOverlay from '../mixins/loading-overlay';
 
-    import PacklistEntry from './Packlist/PacklistEntry';
-    import PackedEntry from './Packlist/PackedEntry';
+    import PacklistEntry from './Packlist/PacklistEntry.vue';
+    import PackedEntry from './Packlist/PackedEntry.vue';
 
-    import OrderDetails from "./Packlist/OrderDetails";
-    import BarcodeInputField from "./SharedComponents/BarcodeInputField";
-    import FiltersModal from "./Packlist/FiltersModal";
-    import url from "../mixins/url";
-    import SetShippingNumberModal from "./Packlist/ShippingNumberModal";
-    import api from "../mixins/api";
+    import OrderDetails from "./Packlist/OrderDetails.vue";
+    import BarcodeInputField from "./SharedComponents/BarcodeInputField.vue";
+    import FiltersModal from "./Packlist/FiltersModal.vue";
+    import url from "../mixins/url.vue";
+    import SetShippingNumberModal from "./Packlist/ShippingNumberModal.vue";
+    import api from "../mixins/api.vue";
     import helpers from "../mixins/helpers";
     import Vue from "vue";
 

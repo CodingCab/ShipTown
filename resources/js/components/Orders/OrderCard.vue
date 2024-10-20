@@ -533,9 +533,9 @@
 </template>
 
 <script>
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import helpers from "../../mixins/helpers";
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 import Vue from "vue";
 
 export default {

@@ -124,10 +124,10 @@
 <script>
 import loadingOverlay from '../../mixins/loading-overlay';
 import helpers from "../../mixins/helpers";
-import api from "../../mixins/api";
-import url from "../../mixins/url";
-import ProductCard from "../Products/ProductCard";
-import BarcodeInputField from "../SharedComponents/BarcodeInputField";
+import api from "../../mixins/api.vue";
+import url from "../../mixins/url.vue";
+import ProductCard from "../Products/ProductCard.vue";
+import BarcodeInputField from "../SharedComponents/BarcodeInputField.vue";
 import moment from "moment";
 
 export default {

@@ -69,7 +69,7 @@
 <script>
 
 import helpers from "./../../mixins/helpers";
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 
 export default {
     mixins: [helpers, url],

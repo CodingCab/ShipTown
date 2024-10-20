@@ -31,7 +31,7 @@
     import Swiper from 'swiper';
     // import Swiper styles
     import 'swiper/swiper-bundle.css';
-    import EntryCard from "./EntryCard";
+    import EntryCard from "./EntryCard.vue";
 
     export default {
         name: 'PackedEntry',

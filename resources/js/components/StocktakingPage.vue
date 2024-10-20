@@ -69,10 +69,10 @@
 
 <script>
 import loadingOverlay from '../mixins/loading-overlay';
-import api from "../mixins/api";
+import api from "../mixins/api.vue";
 import helpers from "../mixins/helpers";
-import url from "../mixins/url";
-import SuggestionRecord from "./StocktakingPage/SuggestionRecord";
+import url from "../mixins/url.vue";
+import SuggestionRecord from "./StocktakingPage/SuggestionRecord.vue";
 
 export default {
         mixins: [loadingOverlay, url, api, helpers],

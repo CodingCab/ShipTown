@@ -57,10 +57,10 @@
 
 <script>
     import loadingOverlay from '../mixins/loading-overlay';
-    import ProductCard from "./Products/ProductCard";
-    import BarcodeInputField from "./SharedComponents/BarcodeInputField";
-    import url from "../mixins/url";
-    import api from "../mixins/api";
+    import ProductCard from "./Products/ProductCard.vue";
+    import BarcodeInputField from "./SharedComponents/BarcodeInputField.vue";
+    import url from "../mixins/url.vue";
+    import api from "../mixins/api.vue";
     import helpers from "../mixins/helpers";
     import Modals from "../plugins/Modals";
     import Breadcrumbs from "./Reports/Breadcrumbs.vue";

@@ -82,8 +82,8 @@
 <script>
     import { BModal, VBModal, BButton} from 'bootstrap-vue';
 
-    import Api2CartConfigurationForm from '../SharedComponents/Api2CartConfigurationForm';
-    import api from "../../mixins/api";
+    import Api2CartConfigurationForm from '../SharedComponents/Api2CartConfigurationForm.vue';
+    import api from "../../mixins/api.vue";
 
     export default {
         components: {

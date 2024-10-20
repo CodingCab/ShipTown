@@ -265,7 +265,7 @@
 </template>
 
 <script>
-    import api from "../../mixins/api";
+    import api from "../../mixins/api.vue";
     import helpers from "../../mixins/helpers";
     import VuePdfEmbed from "vue-pdf-embed/dist/vue2-pdf-embed";
     import ProductLabelPreview from "../Tools/LabelPrinter/ProductLabelPreview.vue";

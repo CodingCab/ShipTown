@@ -79,7 +79,7 @@
 </template>
 
 <script>
-    import api from "../../../../../resources/js/mixins/api";
+    import api from "../../../../../resources/js/mixins/api.vue";
     import helpers from "../../../../../resources/js/mixins/helpers";
 
     export default {

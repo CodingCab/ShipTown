@@ -33,7 +33,7 @@
 
 <script>
     import Swiper from "swiper";
-    import EntryCard from "./EntryCard";
+    import EntryCard from "./EntryCard.vue";
     // import Swiper styles
     import 'swiper/swiper-bundle.css';
 

@@ -326,7 +326,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 
 import Loading from "../../mixins/loading-overlay";
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 
 export default {
     components: {

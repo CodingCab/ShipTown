@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import url from "../../mixins/url";
-import FiltersModal from "../Packlist/FiltersModal";
-import api from "../../mixins/api";
+import url from "../../mixins/url.vue";
+import FiltersModal from "../Packlist/FiltersModal.vue";
+import api from "../../mixins/api.vue";
 import BarcodeScanner from "../../modals/BarcodeScannerModal.vue";
 import helpers from "../../helpers";
 

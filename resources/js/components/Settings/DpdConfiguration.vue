@@ -87,7 +87,7 @@
     import { BModal, VBModal, BButton} from 'bootstrap-vue';
 
     import DpdConfigurationForm from '../SharedComponents/DpdConfigurationForm.vue';
-    import api from "../../mixins/api";
+    import api from "../../mixins/api.vue";
 
     export default {
         components: {

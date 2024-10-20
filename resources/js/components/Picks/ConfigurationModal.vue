@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 import Vue from "vue";
 
 export default {

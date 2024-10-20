@@ -27,7 +27,7 @@
 
 <script>
 import loadingOverlay from '../../../mixins/loading-overlay';
-import api from "../../../mixins/api";
+import api from "../../../mixins/api.vue";
 
 export default {
     mixins: [api, loadingOverlay],

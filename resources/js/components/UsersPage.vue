@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import Create from './Users/Create';
-import Edit from './Users/Edit';
-import api from "../mixins/api";
+import Create from './Users/Create.vue';
+import Edit from './Users/Edit.vue';
+import api from "../mixins/api.vue";
 import Vue from "vue";
 import moment from "moment";
 

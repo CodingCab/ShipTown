@@ -211,7 +211,7 @@
 </template>
 
 <script>
-    import api from "../../mixins/api";
+    import api from "../../mixins/api.vue";
 
     export default {
 

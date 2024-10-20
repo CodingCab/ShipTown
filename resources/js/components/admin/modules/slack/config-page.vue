@@ -32,8 +32,8 @@
 <script>
     import { BModal, VBModal, BButton } from 'bootstrap-vue';
 
-    import RMSApiConfigurationForm from '../../../Settings/RmsapiConfigurationForm';
-    import api from "../../../../mixins/api";
+    import RMSApiConfigurationForm from '../../../Settings/RmsapiConfigurationForm.vue';
+    import api from "../../../../mixins/api.vue";
 
     export default {
         mixins: [api],

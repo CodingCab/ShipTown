@@ -81,9 +81,9 @@
 
 <script>
 
-import CreateModal from "../Automations/CreateModal";
-import EditModal from "../Automations/EditModal";
-import api from "../../../mixins/api";
+import CreateModal from "../Automations/CreateModal.vue";
+import EditModal from "../Automations/EditModal.vue";
+import api from "../../../mixins/api.vue";
 import * as url from "url";
 
 export default {

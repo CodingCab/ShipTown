@@ -110,10 +110,10 @@
 
 <script>
     import loadingOverlay from '../mixins/loading-overlay';
-    import OrderCard from "./Orders/OrderCard";
-    import url from "../mixins/url";
-    import BarcodeInputField from "./SharedComponents/BarcodeInputField";
-    import api from "../mixins/api";
+    import OrderCard from "./Orders/OrderCard.vue";
+    import url from "../mixins/url.vue";
+    import BarcodeInputField from "./SharedComponents/BarcodeInputField.vue";
+    import api from "../mixins/api.vue";
     import helpers from "../mixins/helpers";
     import Vue from "vue";
     import Breadcrumbs from "./Reports/Breadcrumbs.vue";

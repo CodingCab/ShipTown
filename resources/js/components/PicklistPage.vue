@@ -83,12 +83,12 @@
 <script>
 import PickCard from "./Picks/PickCard.vue";
 import loadingOverlay from '../mixins/loading-overlay';
-import BarcodeInputField from "./SharedComponents/BarcodeInputField";
+import BarcodeInputField from "./SharedComponents/BarcodeInputField.vue";
 import PicklistConfigurationModalNew from './Picks/ConfigurationModal.vue';
 
-import url from "../mixins/url";
+import url from "../mixins/url.vue";
 import beep from "../mixins/beep";
-import api from "../mixins/api";
+import api from "../mixins/api.vue";
 import Vue from "vue";
 import helpers from "../mixins/helpers";
 

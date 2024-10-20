@@ -47,9 +47,9 @@
 
 <script>
 
-import CreateModal from './Automations/CreateModal';
-import EditModal from './Automations/EditModal';
-import StatusIcon from './Automations/StatusIcon';
+import CreateModal from './Automations/CreateModal.vue';
+import EditModal from './Automations/EditModal.vue';
+import StatusIcon from './Automations/StatusIcon.vue';
 import api from "../../mixins/api.vue";
 
 export default {

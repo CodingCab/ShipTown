@@ -58,11 +58,11 @@
 
 <script>
     import loadingOverlay from '../mixins/loading-overlay';
-    import ProductCard from "./Products/ProductCard";
-    import BarcodeInputField from "./SharedComponents/BarcodeInputField";
-    import InventoryMovementCard from './SharedComponents/InventoryMovementCard';
-    import url from "../mixins/url";
-    import api from "../mixins/api";
+    import ProductCard from "./Products/ProductCard.vue";
+    import BarcodeInputField from "./SharedComponents/BarcodeInputField.vue";
+    import InventoryMovementCard from './SharedComponents/InventoryMovementCard.vue';
+    import url from "../mixins/url.vue";
+    import api from "../mixins/api.vue";
     import helpers from "../mixins/helpers";
 
     export default {

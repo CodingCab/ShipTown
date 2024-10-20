@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import CreateModal from './MagentoApi/CreateModal.vue';
 import EditModal from './MagentoApi/EditModal.vue';
 

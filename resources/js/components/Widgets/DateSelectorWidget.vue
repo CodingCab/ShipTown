@@ -27,7 +27,7 @@
 
 <script>
 import moment from "moment"
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 import ModalDateBetweenSelector from "./ModalDateBetweenSelector.vue";
 
 export default {

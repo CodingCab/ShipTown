@@ -49,8 +49,8 @@
 
 <script>
 
-import CreateModal from './Warehouse/CreateModal';
-import EditModal from './Warehouse/EditModal';
+import CreateModal from './Warehouse/CreateModal.vue';
+import EditModal from './Warehouse/EditModal.vue';
 import api from "../../mixins/api.vue";
 
 export default {

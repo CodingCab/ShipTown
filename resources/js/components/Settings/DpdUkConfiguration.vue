@@ -67,9 +67,9 @@
 <script>
     import { BModal, VBModal, BButton} from 'bootstrap-vue';
 
-    import api from "../../mixins/api";
+    import api from "../../mixins/api.vue";
     import helpers from "../../mixins/helpers";
-    import DpdUkNewConnectionForm from "../SharedComponents/DpdUkNewConnectionForm";
+    import DpdUkNewConnectionForm from "../SharedComponents/DpdUkNewConnectionForm.vue";
 
     export default {
         components: {

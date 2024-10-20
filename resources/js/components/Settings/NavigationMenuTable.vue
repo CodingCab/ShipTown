@@ -52,8 +52,8 @@
 
 <script>
 
-import CreateModal from './NavigationMenu/CreateModal';
-import EditModal from './NavigationMenu/EditModal';
+import CreateModal from './NavigationMenu/CreateModal.vue';
+import EditModal from './NavigationMenu/EditModal.vue';
 import api from "../../mixins/api.vue";
 
 export default {

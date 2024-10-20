@@ -31,8 +31,8 @@
 </template>
 
 <script>
-    import url from "../mixins/url";
-    import api from "../mixins/api";
+    import url from "../mixins/url.vue";
+    import api from "../mixins/api.vue";
     import beep from "../mixins/beep";
     import Vue from "vue";
     import helpers from "../mixins/helpers";

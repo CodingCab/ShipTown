@@ -50,10 +50,10 @@
 
 <script>
     import loadingOverlay from '../../mixins/loading-overlay';
-    import BarcodeInputField from "../SharedComponents/BarcodeInputField";
-    import api from "../../mixins/api";
+    import BarcodeInputField from "../SharedComponents/BarcodeInputField.vue";
+    import api from "../../mixins/api.vue";
     import helpers from "../../mixins/helpers";
-    import url from "../../mixins/url";
+    import url from "../../mixins/url.vue";
     import Modals from "../../plugins/Modals";
 
     export default {

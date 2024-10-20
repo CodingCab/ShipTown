@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 
 export default {
     mixins: [url],

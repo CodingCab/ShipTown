@@ -126,13 +126,13 @@
 import beep from '../mixins/beep';
 import loadingOverlay from '../mixins/loading-overlay';
 
-import FiltersModal from "./Packlist/FiltersModal";
-import url from "../mixins/url";
-import api from "../mixins/api";
+import FiltersModal from "./Packlist/FiltersModal.vue";
+import url from "../mixins/url.vue";
+import api from "../mixins/api.vue";
 import helpers from "../mixins/helpers";
 import Vue from "vue";
-import NumberCard from "./SharedComponents/NumberCard";
-import SwipingCard from "./SharedComponents/SwipingCard";
+import NumberCard from "./SharedComponents/NumberCard.vue";
+import SwipingCard from "./SharedComponents/SwipingCard.vue";
 
 export default {
     mixins: [loadingOverlay, beep, url, api, helpers],

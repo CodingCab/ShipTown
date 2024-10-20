@@ -19,7 +19,7 @@
 
 <script>
 import helpers from "../../mixins/helpers";
-import url from "../../mixins/url";
+import url from "../../mixins/url.vue";
 import ProductSkuButton from "./ProductSkuButton.vue";
 
 export default {

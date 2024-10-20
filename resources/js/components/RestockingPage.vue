@@ -49,8 +49,8 @@
 
 <script>
 import loadingOverlay from '../mixins/loading-overlay';
-import url from "../mixins/url";
-import api from "../mixins/api";
+import url from "../mixins/url.vue";
+import api from "../mixins/api.vue";
 import helpers from "../mixins/helpers";
 
 export default {

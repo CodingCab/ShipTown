@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import Vue from "vue";
 import helpers from "../../mixins/helpers";
-import StatusIcon from "./Automations/StatusIcon";
+import StatusIcon from "./Automations/StatusIcon.vue";
 
 export default {
     components: {

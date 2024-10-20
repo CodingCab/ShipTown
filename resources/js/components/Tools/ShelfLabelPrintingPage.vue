@@ -56,7 +56,7 @@ import url from "../../mixins/url.vue";
 import helpers  from "../../helpers";
 import helpersMixin from "../../mixins/helpers";
 import VuePdfEmbed from 'vue-pdf-embed/dist/vue2-pdf-embed'
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import loadingOverlay from "../../mixins/loading-overlay";
 
 export default {

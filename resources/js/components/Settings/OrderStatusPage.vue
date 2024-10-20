@@ -48,9 +48,9 @@
 
 <script>
 
-import CreateModal from './OrderStatus/CreateModal';
-import EditModal from './OrderStatus/EditModal';
-import StatusIcon from './OrderStatus/StatusIcon';
+import CreateModal from './OrderStatus/CreateModal.vue';
+import EditModal from './OrderStatus/EditModal.vue';
+import StatusIcon from './OrderStatus/StatusIcon.vue';
 import api from "../../mixins/api.vue";
 
 export default {

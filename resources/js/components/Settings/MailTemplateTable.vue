@@ -39,7 +39,7 @@
 
 <script>
 
-import EditModal from './MailTemplate/EditModal';
+import EditModal from './MailTemplate/EditModal.vue';
 import api from "../../mixins/api.vue";
 
 export default {

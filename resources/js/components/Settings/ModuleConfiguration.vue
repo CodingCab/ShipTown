@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import api from "../../mixins/api";
+import api from "../../mixins/api.vue";
 import helpers from "../../mixins/helpers";
 
 export default {
