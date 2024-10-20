@@ -61,10 +61,10 @@ class ClearDatabaseCommand extends Command
         App\Modules\PrintNode\src\Models\Client::query()->forceDelete();
         App\Modules\DpdUk\src\Models\Connection::query()->forceDelete();
         App\Modules\Rmsapi\src\Models\RmsapiSaleImport::query()->forceDelete();
-        App\Modules\Magento2MSI\src\Models\Magento2msiProduct::query()->forceDelete();
-        App\Modules\Magento2MSI\src\Models\Magento2msiConnection::query()->forceDelete();
-        App\Modules\MagentoApi\src\Models\MagentoProduct::query()->forceDelete();
-        App\Modules\MagentoApi\src\Models\MagentoConnection::query()->forceDelete();
+        App\Modules\Magento2API\InventorySync\src\Models\Magento2msiProduct::query()->forceDelete();
+        App\Modules\Magento2API\InventorySync\src\Models\Magento2msiConnection::query()->forceDelete();
+        App\Modules\Magento2API\PriceSync\src\Models\PriceInformation::query()->forceDelete();
+        App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection::query()->forceDelete();
 
         App\Models\InventoryReservation::query()->forceDelete();
 
@@ -95,8 +95,8 @@ class ClearDatabaseCommand extends Command
         App\Modules\Api2cart\src\Models\Api2cartProductLink::query()->forceDelete();
         App\Modules\Api2cart\src\Models\Api2cartConnection::query()->forceDelete();
         App\Modules\Rmsapi\src\Models\RmsapiConnection::query()->forceDelete();
-        App\Modules\MagentoApi\src\Models\MagentoProduct::query()->forceDelete();
-        App\Modules\MagentoApi\src\Models\MagentoConnection::query()->forceDelete();
+        App\Modules\Magento2API\PriceSync\src\Models\PriceInformation::query()->forceDelete();
+        App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection::query()->forceDelete();
         App\Modules\DpdIreland\src\Models\DpdIreland::query()->forceDelete();
         App\User::query()->forceDelete();
 

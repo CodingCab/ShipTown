@@ -31,8 +31,9 @@
             </div>
         </div>
 
-        <a class="btn btn-block" :href="'/settings/modules/magento2msi/inventory-source-items'">inventory-source-items</a>
+        <a class="btn btn-block btn-primary" :href="'/settings/modules/magento2api/inventory-source-items'">inventory-source-items</a>
 
+        <br>
         <table style="width: 100%" class="table table-fit table-hover table-borderless table-responsive mb-0 rounded">
             <thead>
                 <tr class="small table-active w-auto w-100">

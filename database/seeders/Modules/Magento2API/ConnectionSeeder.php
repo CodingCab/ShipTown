@@ -4,8 +4,8 @@ namespace Database\Seeders\Modules\Magento2API;
 
 use App\Models\Product;
 use App\Models\Warehouse;
-use App\Modules\MagentoApi\src\Jobs\EnsureProductRecordsExistJob;
-use App\Modules\MagentoApi\src\Models\MagentoConnection;
+use App\Modules\Magento2API\PriceSync\src\Jobs\EnsureProductRecordsExistJob;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
 use Illuminate\Database\Seeder;
 
 class ConnectionSeeder extends Seeder

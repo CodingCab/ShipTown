@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MagentoApiConnectionUpdateRequest;
 use App\Http\Resources\MagentoConnectionResource;
 use App\Models\Configuration;
-use App\Modules\MagentoApi\src\Http\Requests\MagentoApiConnectionDestroyRequest;
-use App\Modules\MagentoApi\src\Http\Requests\MagentoApiConnectionIndexRequest;
-use App\Modules\MagentoApi\src\Http\Requests\MagentoApiConnectionStoreRequest;
-use App\Modules\MagentoApi\src\Models\MagentoConnection;
+use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionDestroyRequest;
+use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionIndexRequest;
+use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionStoreRequest;
+use App\Modules\Magento2API\PriceSync\src\Models\MagentoConnection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\Tags\Tag;
 

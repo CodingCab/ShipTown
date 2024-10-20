@@ -50,7 +50,7 @@ abstract class DuskTestCase extends BaseTestCase
         parent::tearDown();
     }
 
-    public function visit(string $uri, User $user = null): Browser
+    public function visitAndInspect(string $uri, User $user = null): Browser
     {
         return $this->getBrowser()
             ->disableFitOnFailure()

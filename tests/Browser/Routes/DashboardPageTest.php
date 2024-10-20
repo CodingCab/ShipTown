@@ -17,7 +17,7 @@ class DashboardPageTest extends DuskTestCase
     {
         Configuration::query()->update(['ecommerce_connected' => true]);
 
-        $this->visit($this->uri)
+        $this->visitAndInspect($this->uri)
             ->assertSee('Orders - Packed')
             ->assertSee('Orders - Active')
             ->assertSee('Active Orders By Age');
