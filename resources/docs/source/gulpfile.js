@@ -1,5 +1,5 @@
 var elixir = require('laravel-elixir');
-require('laravel-elixir-stylus');
+import 'laravel-elixir-stylus';
 var gulp = require('gulp');
 var shell = require('gulp-shell');
 var Task = elixir.Task;

@@ -5,9 +5,9 @@
  */
 
 
-require('./bootstrap');
+import './bootstrap';
 
-require('./registerServiceWorker');
+import './registerServiceWorker';
 window.Vue = require('vue').default;
 
 // Vue 2
