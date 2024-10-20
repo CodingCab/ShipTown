@@ -15,6 +15,7 @@ _ide_helper.php
 /.scribe/*
 /node_modules
 /public/hot
+/public/build
 /public/storage
 /storage/*.key
 /storage/framework/cache/*
