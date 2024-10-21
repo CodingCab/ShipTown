@@ -9,10 +9,10 @@ class NavigationSeeder extends Seeder
 {
     public function run(): void
     {
-        //        NavigationMenu::query()->create([
-        //            'name' => 'Status: packing',
-        //            'url' => '/autopilot/packlist?status=packing',
-        //            'group' => 'packlist'
-        //        ]);
+        NavigationMenu::query()->create([
+            'name' => '7 Day - Best Sellers',
+            'url' => '/reports/inventory?filter%5Bwarehouse_code%5D=DUB&sort=-last_7_days_sales',
+            'group' => 'reports'
+        ]);
     }
 }
