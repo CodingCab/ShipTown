@@ -56,7 +56,7 @@ const Modals = {
             },
 
             showAddPaymentModal(paymentDetails = null) {
-                this.show('data-collection-data-collection-add-payment-modal', {'paymentDetails': paymentDetails});
+                this.show('data-collection-add-payment-modal', {'paymentDetails': paymentDetails});
             },
 
             showNewPaymentTypeModal(paymentType = null) {

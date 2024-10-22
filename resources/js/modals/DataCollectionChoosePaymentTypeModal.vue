@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row align-items-center mb-2" v-for="type in paymentTypes" :key="type['id']"
+                <div class="row align-items-center mb-2" v-for="type in paymentTypes" :key="type['id']" :data-code="type['code']"
                      :class="{'table-primary': isSelectedPaymentType(type['id'])}" style="min-height: 29px;">
                     <div class="col-6">{{ type['name'] }}</div>
                     <div class="col-6 text-right">
@@ -21,8 +21,8 @@
                 <hr class="mt4">
 
                 <div class="row mt-4 d-flex justify-content-end">
-                    <b-button variant="secondary" class="mr-2" @click="closeModal">Cancel</b-button>
-                    <b-button variant="primary" @click="closeModal(true)">Save</b-button>
+                    <b-button variant="secondary" class="mr-2" @click="closeModal(false)">Cancel</b-button>
+                    <b-button variant="primary" @click="closeModal(true)" data-choose-payment>Save</b-button>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@ export default {
             }
         },
 
-        closeModal(saveChanges = false) {
+        closeModal(saveChanges) {
             this.$bvModal.hide(this.modalId);
 
             Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {

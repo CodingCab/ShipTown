@@ -67,7 +67,7 @@
                         <number-card :label="'total to pay'"
                                      :number="dataCollection && dataCollection['total_sold_price']"></number-card>
                         <number-card :label="'total paid'"
-                                     :number="dataCollection && dataCollection['total_paid']"></number-card>
+                                     :number="dataCollection && dataCollection['total_paid']" id="total_paid"></number-card>
                         <number-card :label="'total outstanding'"
                                      :number="dataCollection && dataCollection['total_outstanding']"></number-card>
                     </div>
@@ -218,7 +218,7 @@
                     <button :disabled="! buttonsEnabled" @click.prevent="selectCustomer" v-b-toggle
                             class="col btn mb-2 btn-primary">Select Customer
                     </button>
-                    <button :disabled="! buttonsEnabled" @click.prevent="selectPayment" v-b-toggle
+                    <button id="choose-payment-type" :disabled="! buttonsEnabled" @click.prevent="selectPayment" v-b-toggle
                             class="col btn mb-2 btn-primary">Payment
                     </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="autoScanAll" v-b-toggle
@@ -317,7 +317,7 @@
         <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
         <data-collection-choose-payment-type-modal/>
-        <data-collection-data-collection-add-payment-modal/>
+        <data-collection-add-payment-modal/>
     </div>
 </template>
 
@@ -396,18 +396,20 @@ export default {
         });
 
         Modals.EventBus.$on('hide::modal::data-collection-choose-payment-type-modal', (data) => {
+            console.log(data, 'data');
             if (data.paymentType) {
                 this.selectedPaymentType = data.paymentType;
             }
 
+            console.log(data.saveChanges, 'saveChanges');
             if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.selectedPaymentType) {
                 this.$modal.showAddPaymentModal({maxAmount: this.dataCollection['total_outstanding']});
             }
         });
 
-        Modals.EventBus.$on('show::modal::data-collection-data-collection-add-payment-modal', this.onAddPaymentModalShown);
+        Modals.EventBus.$on('show::modal::data-collection-add-payment-modal', this.onAddPaymentModalShown);
 
-        Modals.EventBus.$on('hide::modal::data-collection-data-collection-add-payment-modal', (data) => {
+        Modals.EventBus.$on('hide::modal::data-collection-add-payment-modal', (data) => {
             if (data.amount) {
                 this.paymentAmount = data.amount;
             }
@@ -832,21 +834,6 @@ export default {
         },
 
         setTransactionPayment() {
-            // if (this.paymentTypeAlreadySelected) {
-            //     const payment = this.dataCollection.payments[this.dataCollection.payments.length - 1];
-            //     this.apiPutTransactionPayment(payment.id, {
-            //         payment_type_id: this.selectedPaymentType.id,
-            //         amount: this.paymentAmount
-            //     })
-            //         .then(() => {
-            //             this.notifySuccess('Payment type updated.');
-            //             this.reloadDataCollection();
-            //         })
-            //         .catch(error => {
-            //             this.displayApiCallError(error);
-            //         });
-            // } else {
-            // }
             this.apiPostTransactionPayment({
                 transaction_id: this.dataCollection.id,
                 payment_type_id: this.selectedPaymentType.id,

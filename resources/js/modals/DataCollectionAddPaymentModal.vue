@@ -25,7 +25,7 @@
 
                 <div class="row mt-4 d-flex justify-content-end">
                     <b-button variant="secondary" class="mr-2" @click="closeModal">Cancel</b-button>
-                    <b-button variant="primary" @click="closeModal(true)">Save</b-button>
+                    <b-button variant="primary" @click="closeModal(true)" data-save-amount>Save</b-button>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@ export default {
 
     data() {
         return {
-            modalId: 'data-collection-data-collection-add-payment-modal',
+            modalId: 'data-collection-add-payment-modal',
             amount: 0,
             maxAmount: 0
         }
