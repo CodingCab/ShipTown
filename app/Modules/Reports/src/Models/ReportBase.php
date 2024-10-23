@@ -141,6 +141,7 @@ class ReportBase extends Model
         $filters = $filters->merge($this->addNullFilters());
         $filters = $filters->merge($this->addNotEqualFilters());
         $filters = $filters->merge($this->addStartsWithFilters());
+        $filters = $filters->merge($this->addNotStartsWithFilters());
 
         return $filters->toArray();
     }
@@ -492,6 +493,27 @@ class ReportBase extends Model
         return $allowedFilters;
     }
 
+    private function addNotStartsWithFilters(): array
+    {
+        $allowedFilters = [];
+
+        collect($this->fields)
+            ->filter(function ($value, $key) {
+                $type = data_get($this->casts, $key);
+
+                return in_array($type, ['string', 'datetime', 'float', null]);
+            })
+            ->each(function ($type, $alias) use (&$allowedFilters) {
+                $filterName = $alias.'_not_starts_with';
+
+                $allowedFilters[] = AllowedFilter::callback($filterName, function ($query, $value) use ($alias) {
+
+                    $query->where($this->fields[$alias], 'NOT LIKE', "$value%");
+                });
+            });
+        return $allowedFilters;
+    }
+
     protected function getFieldType($field): string
     {
         return match ($this->casts[$field] ?? null) {
@@ -503,7 +525,7 @@ class ReportBase extends Model
     protected function getFieldTypeOperators($field): array
     {
         return match ($this->getFieldType($field)) {
-            'string' => ['equals', 'not equal', 'btwn', 'contains', 'greater than', 'lower than', 'starts with'],
+            'string' => ['equals', 'not equal', 'btwn', 'contains', 'greater than', 'lower than', 'starts with', 'not starts with'],
             'numeric' => ['equals', 'not equal', 'btwn', 'greater than', 'lower than'],
             'date' => ['btwn'],
             'datetime' => ['btwn'],

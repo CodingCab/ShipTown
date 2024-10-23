@@ -308,6 +308,7 @@
                         fieldName = fieldName.replaceAll('_lower_than','');
                         fieldName = fieldName.replaceAll('_greater_than','');
                         fieldName = fieldName.replaceAll('_starts_with','');
+                        fieldName = fieldName.replaceAll('_not_starts_with','');
 
                         let filterOperator = filterName.replace(fieldName, '');
                         let filterOperatorHumanString = filterOperator;
@@ -335,6 +336,9 @@
                             break;
                           case '_starts_with':
                             filterOperatorHumanString = 'starts with'
+                            break;
+                          case 'not_starts_with':
+                            filterOperatorHumanString = 'not starts with'
                             break;
                           default:
                             filterOperatorHumanString = filterOperator
@@ -384,6 +388,10 @@
                     break;
                   case 'starts with':
                     filterName = `filter[${selectedField.name}_starts_with]`;
+                    filterValue = value;
+                    break;
+                  case 'not starts with':
+                    filterName = `filter[${selectedField.name}_not_starts_with]`;
                     filterValue = value;
                     break;
                   default:
