@@ -2,7 +2,7 @@
     <div>
         <search-and-option-bar-observer/>
         <search-and-option-bar :isStickable="true">
-            <search-filter placeholder="Search " @search="searchModule" :searchValue="getUrlFilter('search')"></search-filter>
+            <search-filter placeholder="Search " @search="searchModule" :searchValue="getUrlFilter('search')" autofocus></search-filter>
         </search-and-option-bar>
 
         <div class="list-group mt-2">
@@ -63,13 +63,15 @@ export default {
             this.apiGetModules(params)
                 .then(({ data }) => {
                     this.modules = data.data;
+                    this.setFocusElementById('search-filter');
                 }).catch((error) => {
                     this.displayApiCallError(error);
                 });
         },
 
         searchModule(q) {
-            this.setUrlParameterAngGo('filter[search]', q);
+            this.setUrlParameter('filter[search]', q);
+            this.loadModules();
         },
 
         updateModule(module) {
