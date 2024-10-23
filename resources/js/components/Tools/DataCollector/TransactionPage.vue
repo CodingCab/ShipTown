@@ -67,7 +67,8 @@
                         <number-card :label="'total to pay'"
                                      :number="dataCollection && dataCollection['total_sold_price']"></number-card>
                         <number-card :label="'total paid'"
-                                     :number="dataCollection && dataCollection['total_paid']" id="total_paid"></number-card>
+                                     :number="dataCollection && dataCollection['total_paid']"
+                                     id="total_paid"></number-card>
                         <number-card :label="'total outstanding'"
                                      :number="dataCollection && dataCollection['total_outstanding']"></number-card>
                     </div>
@@ -218,7 +219,8 @@
                     <button :disabled="! buttonsEnabled" @click.prevent="selectCustomer" v-b-toggle
                             class="col btn mb-2 btn-primary">Select Customer
                     </button>
-                    <button id="choose-payment-type" :disabled="! buttonsEnabled" @click.prevent="selectPayment" v-b-toggle
+                    <button id="choose-payment-type" :disabled="! buttonsEnabled" @click.prevent="selectPayment"
+                            v-b-toggle
                             class="col btn mb-2 btn-primary">Payment
                     </button>
                     <button :disabled="! buttonsEnabled" @click.prevent="autoScanAll" v-b-toggle
@@ -316,8 +318,9 @@
         <set-transaction-printer-modal/>
         <find-address-modal :transaction-details="dataCollection"/>
         <new-address-modal/>
-        <data-collection-choose-payment-type-modal/>
+        <data-collection-choose-payment-type-modal :details="dataCollection"/>
         <data-collection-add-payment-modal/>
+        <data-collection-transaction-status-modal :details="dataCollection" :printer="selectedPrinter"/>
     </div>
 </template>
 
@@ -391,19 +394,20 @@ export default {
 
         window.onscroll = () => this.loadMoreWhenNeeded();
 
-        Modals.EventBus.$on('hide::modal::set-transaction-printer-modal', (printer) => {
-            this.selectedPrinter = printer;
+        Modals.EventBus.$on('hide::modal::set-transaction-printer-modal', (data) => {
+            this.selectedPrinter = data.printer;
+            if (typeof data.openTransactionStatusModal !== 'undefined' && data.openTransactionStatusModal) {
+                this.$modal.showTransactionStatusModal();
+            }
         });
 
         Modals.EventBus.$on('hide::modal::data-collection-choose-payment-type-modal', (data) => {
-            console.log(data, 'data');
             if (data.paymentType) {
                 this.selectedPaymentType = data.paymentType;
             }
 
-            console.log(data.saveChanges, 'saveChanges');
             if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.selectedPaymentType) {
-                this.$modal.showAddPaymentModal({maxAmount: this.dataCollection['total_outstanding']});
+                this.$modal.showAddPaymentModal();
             }
         });
 
@@ -539,6 +543,13 @@ export default {
                     if (this.dataCollection.billing_address_id) {
                         this.selectedBillingAddress = this.dataCollection.billing_address_id;
                     }
+                    if (this.dataCollection.total_outstanding !== null && this.dataCollection.total_outstanding <= 0) {
+                        if (this.selectedPrinter === null) {
+                            this.$modal.showSetTransactionPrinterModal(this.selectedPrinter, true);
+                        } else {
+                            this.$modal.showTransactionStatusModal();
+                        }
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -633,6 +644,7 @@ export default {
 
         selectPayment() {
             this.$modal.showSetPaymentTypeModal(this.selectedPaymentType);
+            this.$bvModal.hide('configuration-modal');
         },
 
         autoScanAll() {
@@ -790,7 +802,7 @@ export default {
                 return;
             }
 
-            let data = {
+            const data = {
                 id: this.dataCollection.id,
                 printer_id: this.selectedPrinter.id,
             };
@@ -840,7 +852,7 @@ export default {
                 amount: this.paymentAmount
             })
                 .then(() => {
-                    this.notifySuccess('Payment type selected.');
+                    this.notifySuccess('Payment saved.');
                     this.reloadDataCollection();
                 })
                 .catch(error => {

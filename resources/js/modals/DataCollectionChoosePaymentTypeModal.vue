@@ -8,22 +8,30 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row align-items-center mb-2" v-for="type in paymentTypes" :key="type['id']" :data-code="type['code']"
-                     :class="{'table-primary': isSelectedPaymentType(type['id'])}" style="min-height: 29px;">
+                <div class="row align-items-center mb-2" v-for="type in paymentTypes" :key="type['id']"
+                     :data-code="type['code']" style="min-height: 29px;">
                     <div class="col-6">{{ type['name'] }}</div>
                     <div class="col-6 text-right">
                         <button type="button" @click.prevent="setChosenPaymentType(type)"
-                                v-show="!isSelectedPaymentType(type['id'])" class="btn btn-primary btn-sm">Select
+                                class="btn btn-primary btn-sm">Select
                         </button>
                     </div>
                 </div>
-
-                <hr class="mt4">
-
-                <div class="row mt-4 d-flex justify-content-end">
-                    <b-button variant="secondary" class="mr-2" @click="closeModal(false)">Cancel</b-button>
-                    <b-button variant="primary" @click="closeModal(true)" data-choose-payment>Save</b-button>
+                <hr>
+                <div class="mt-4">
+                    <div class="d-flex justify-content-between">
+                        Total Due: <span>{{ displaySoldPrice }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        Total Tendered: <span>{{ displayTotalPaid }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        Balance: <span :class="balanceClass">{{ displayBalance }}</span>
+                    </div>
                 </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end">
+                <b-button variant="secondary" class="mr-2" @click="closeModal">Cancel</b-button>
             </div>
         </div>
     </b-modal>
@@ -36,6 +44,13 @@ import Modals from "../plugins/Modals";
 
 export default {
     mixins: [api],
+
+    props: {
+        details: {
+            type: Object,
+            required: true
+        }
+    },
 
     beforeMount() {
         Modals.EventBus.$on(`show::modal::${this.modalId}`, (data) => {
@@ -53,6 +68,24 @@ export default {
         }
     },
 
+    computed: {
+        displaySoldPrice() {
+            return this.details.total_sold_price ?? 0;
+        },
+        displayTotalPaid() {
+            return this.details.total_paid ?? 0;
+        },
+        displayBalance() {
+            if (this.details.total_outstanding === null) {
+                return Number(this.details.total_sold_price) - Number(this.details.total_paid);
+            }
+            return Number(this.details.total_outstanding);
+        },
+        balanceClass() {
+            return this.displayBalance <= 0 ? 'text-success' : 'text-danger';
+        },
+    },
+
     methods: {
         loadPaymentTypes() {
             this.apiGetPaymentTypes()
@@ -65,28 +98,16 @@ export default {
         },
 
         setChosenPaymentType(paymentType) {
-            this.selectedPaymentType = paymentType;
-        },
-
-        isSelectedPaymentType: function (paymentTypeId) {
-            if (this.selectedPaymentType === null) {
-                return false;
-            }
-
-            if (typeof this.selectedPaymentType.payment_type_id !== 'undefined') {
-                return this.selectedPaymentType && this.selectedPaymentType.payment_type_id && paymentTypeId === this.selectedPaymentType.payment_type_id;
-            } else {
-                return this.selectedPaymentType && this.selectedPaymentType.id && paymentTypeId === this.selectedPaymentType.id;
-            }
-        },
-
-        closeModal(saveChanges) {
             this.$bvModal.hide(this.modalId);
 
             Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
-                paymentType: this.selectedPaymentType,
-                saveChanges: saveChanges
+                paymentType,
+                saveChanges: true
             });
+        },
+
+        closeModal() {
+            this.$bvModal.hide(this.modalId);
         }
     }
 };

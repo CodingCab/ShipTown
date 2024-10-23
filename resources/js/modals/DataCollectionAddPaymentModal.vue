@@ -15,7 +15,6 @@
                            type="number"
                            inputmode="numeric"
                            min="0"
-                           :max="maxAmount"
                            step="0.01"
                            class="form-control text-center"
                     >
@@ -24,7 +23,7 @@
                 <hr class="mt4">
 
                 <div class="row mt-4 d-flex justify-content-end">
-                    <b-button variant="secondary" class="mr-2" @click="closeModal">Cancel</b-button>
+                    <b-button variant="secondary" class="mr-2" @click="closeModal(false)">Cancel</b-button>
                     <b-button variant="primary" @click="closeModal(true)" data-save-amount>Save</b-button>
                 </div>
             </div>
@@ -44,28 +43,26 @@ export default {
     beforeMount() {
         Modals.EventBus.$on(`show::modal::${this.modalId}`, (data) => {
             this.$bvModal.show(this.modalId);
-            if (typeof data.paymentDetails !== 'undefined' && typeof data.paymentDetails.maxAmount !== 'undefined') {
-                this.maxAmount = data.paymentDetails.maxAmount;
-            }
         })
     },
 
     data() {
         return {
             modalId: 'data-collection-add-payment-modal',
-            amount: 0,
-            maxAmount: 0
+            amount: 0
         }
     },
 
     methods: {
-        closeModal(saveChanges = false) {
+        closeModal(saveChanges) {
             this.$bvModal.hide(this.modalId);
 
             Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
                 amount: this.amount,
                 saveChanges
             });
+
+            this.amount = 0;
         }
     }
 };

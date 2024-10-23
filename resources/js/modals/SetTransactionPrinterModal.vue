@@ -37,8 +37,7 @@
                 <hr class="mt4">
 
                 <div class="row mt-4 d-flex justify-content-end">
-                    <b-button variant="secondary" class="mr-2" @click="$bvModal.hide(modalId);">Cancel</b-button>
-                    <b-button variant="primary" @click="$bvModal.hide(modalId);">Save</b-button>
+                    <b-button variant="primary" @click="closeModal">Close</b-button>
                 </div>
             </div>
         </div>
@@ -63,6 +62,7 @@ export default {
         Modals.EventBus.$on(`show::modal::${this.modalId}`, (data) => {
             this.loadPrinters();
             this.selectedPrinter = data.printer;
+            this.openTransactionStatusModal = data.openTransactionStatusModal;
             this.$bvModal.show(this.modalId);
         })
     },
@@ -71,6 +71,7 @@ export default {
         return {
             modalId: 'set-transaction-printer-modal',
             selectedPrinter: null,
+            openTransactionStatusModal: false,
             printers: [],
         }
     },
@@ -147,7 +148,14 @@ export default {
         },
 
         emitNotification() {
-            Modals.EventBus.$emit(`hide::modal::${this.modalId}`, this.selectedPrinter);
+            Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
+                printer: this.selectedPrinter,
+                openTransactionStatusModal: this.openTransactionStatusModal
+            });
+        },
+
+        closeModal() {
+            this.$bvModal.hide(this.modalId);
         }
     }
 };

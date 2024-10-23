@@ -55,13 +55,9 @@ class TransactionPageTest extends DuskTestCase
                 ->pause($this->shortDelay)
                 ->click('#data-collection-choose-payment-type-modal [data-code="CASH"] button')
                 ->pause($this->shortDelay)
-                ->click('#data-collection-choose-payment-type-modal button[data-choose-payment]')
-                ->pause($this->shortDelay)
                 ->value('#transaction_payment_amount', '100')
                 ->pause($this->shortDelay)
                 ->click('#data-collection-add-payment-modal button[data-save-amount]')
-                ->pause($this->shortDelay)
-                ->click('#configuration-modal footer .btn-primary')
                 ->pause($this->shortDelay)
                 ->assertSourceMissing('Server Error');
         });
