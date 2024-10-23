@@ -14,7 +14,8 @@ class ActivityReport extends Report
         $this->report_name = 'Activity Log';
         $this->defaultSort = '-id';
 
-        $this->baseQuery = Activity::query();
+        $this->baseQuery = Activity::query()
+            ->leftJoin('users', 'activity_log.causer_id', '=', 'users.id');
 
         $this->fields = [
             'id' => 'activity_log.id',
@@ -24,6 +25,7 @@ class ActivityReport extends Report
             'subject_id' => 'activity_log.subject_id',
             'causer_id' => 'activity_log.causer_id',
             'causer_type' => 'activity_log.causer_type',
+            'causer_name' => 'users.name',
             'properties' => 'activity_log.properties',
         ];
 
