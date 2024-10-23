@@ -8,9 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // TODO: remove this if not used anymore
         Schema::table('modules', function (Blueprint $table) {
-            $table->string('name')->nullable();
-            $table->text('description')->nullable();
+            if (!Schema::hasColumn('modules', 'name')) {
+                $table->string('name')->nullable();
+            }
+            if (!Schema::hasColumn('modules', 'description')) {
+                $table->text('description')->nullable();
+            }
         });
     }
 };

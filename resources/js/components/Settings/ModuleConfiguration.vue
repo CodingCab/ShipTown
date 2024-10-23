@@ -2,7 +2,7 @@
     <div>
         <search-and-option-bar-observer/>
         <search-and-option-bar :isStickable="true">
-            <search-filter placeholder="Search " @search="searchModule" :searchValue="getUrlFilter('name')"></search-filter>
+            <search-filter placeholder="Search " @search="searchModule" :searchValue="getUrlFilter('search')"></search-filter>
         </search-and-option-bar>
 
         <div class="list-group mt-2">
@@ -57,9 +57,8 @@ export default {
     methods: {
         loadModules() {
             const params = {
-                'filter[name]': this.getUrlFilter('name'),
+                'filter[search]': this.getUrlFilter('search'),
                 'sort': 'name',
-                'per_page': 999
             }
             this.apiGetModules(params)
                 .then(({ data }) => {
@@ -70,7 +69,7 @@ export default {
         },
 
         searchModule(q) {
-            this.setUrlParameterAngGo('filter[name]', q);
+            this.setUrlParameterAngGo('filter[search]', q);
         },
 
         updateModule(module) {

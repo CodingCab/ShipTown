@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ModuleIndexRequest;
 use App\Http\Requests\ModuleUpdateRequest;
 use App\Http\Resources\ModuleResource;
 use App\Models\Module;
+use App\Modules\Reports\src\Models\ModuleReport;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ModuleController extends Controller
 {
-    public function index(ModuleIndexRequest $request): AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
-        $collection = Module::getSpatieQueryBuilder()
-            ->simplePaginate(request()->input('per_page', 10))
-            ->appends(request()->query());
+        $modules = new ModuleReport;
 
-        return ModuleResource::collection($collection);
+        return ModuleResource::collection($modules->queryBuilder()->get());
     }
 
     public function update(ModuleUpdateRequest $request, int $module_id): ModuleResource
