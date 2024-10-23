@@ -476,10 +476,11 @@ class ReportBase extends Model
     private function addStartsWithFilters(): array
     {
         $allowedFilters = [];
+        collect($this->fields)
+            ->filter(function ($value, $key) {
+                $type = data_get($this->casts, $key);
 
-        collect($this->casts)
-            ->filter(function ($type) {
-                return in_array($type, ['string', 'datetime', 'float']);
+                return in_array($type, ['string', 'datetime', 'float', null]);
             })
             ->each(function ($type, $alias) use (&$allowedFilters) {
                 $filterName = $alias.'_starts_with';
@@ -490,7 +491,7 @@ class ReportBase extends Model
                 });
             });
 
-        return $allowedFilters;
+            return $allowedFilters;
     }
 
     private function addNotStartsWithFilters(): array
