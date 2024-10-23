@@ -12,7 +12,7 @@ class ModuleReport extends Report
         parent::__construct($attributes);
 
         $this->report_name = 'Module Index';
-        $this->defaultSort = '-id';
+        $this->defaultSort = '-name';
 
         $this->baseQuery = Module::query();
 
