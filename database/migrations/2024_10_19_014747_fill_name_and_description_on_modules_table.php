@@ -9,6 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // TODO: remove this file if not used anymore
         Module::whereNull('name')->orWhereNull('description')->get()
             ->each(function (Module $module) {
                 $module->name = $module->name;

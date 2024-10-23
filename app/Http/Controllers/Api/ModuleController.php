@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ModuleIndexRequest;
 use App\Http\Requests\ModuleUpdateRequest;
 use App\Http\Resources\ModuleResource;
 use App\Models\Module;
@@ -11,7 +12,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ModuleController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(ModuleIndexRequest $request): AnonymousResourceCollection
     {
         $modules = new ModuleReport;
 
