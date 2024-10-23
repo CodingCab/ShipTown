@@ -337,7 +337,7 @@
                             filterOperatorHumanString = 'starts with'
                             break;
                           case '_not_starts_with':
-                            filterOperatorHumanString = 'not starts with'
+                            filterOperatorHumanString = 'does not start with'
                             break;
                           default:
                             filterOperatorHumanString = filterOperator
