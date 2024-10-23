@@ -42,7 +42,6 @@
 
             getUrlParameter: function(param, defaultValue = null) {
                 const $urlParameters = this.$router.currentRoute.query;
-                console.log($urlParameters, param);
                 return this.getValueOrDefault($urlParameters[param], defaultValue);
             },
 

@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // TODO: remove this file if not used anymore
         Schema::table('modules', function (Blueprint $table) {
             if (!Schema::hasColumn('modules', 'name')) {
                 $table->string('name')->nullable();
