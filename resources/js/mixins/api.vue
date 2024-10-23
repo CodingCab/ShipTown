@@ -378,8 +378,8 @@ export default {
             return axios.delete('/api/picklist/picks/' + id)
         },
 
-        apiGetModules: function () {
-            return axios.get('/api/modules')
+        apiGetModules: function (params) {
+            return axios.get('/api/modules', {params})
         },
         apiPostModule: function (id, params) {
             return axios.put('/api/modules/' + id, params)

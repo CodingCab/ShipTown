@@ -579,6 +579,8 @@ return new class extends Migration
             $table->id();
             $table->string('service_provider_class');
             $table->boolean('enabled')->default(false);
+            $table->string('name');
+            $table->string('description');
             $table->timestamps();
 
             $table->unique('service_provider_class');

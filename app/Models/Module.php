@@ -6,6 +6,7 @@ use App\BaseModel;
 use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * App\Module.
@@ -16,15 +17,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @method static Builder|Module newModelQuery()
- * @method static Builder|Module newQuery()
- * @method static Builder|Module query()
- * @method static Builder|Module whereCreatedAt($value)
- * @method static Builder|Module whereEnabled($value)
- * @method static Builder|Module whereId($value)
- * @method static Builder|Module whereServiceProviderClass($value)
- * @method static Builder|Module whereUpdatedAt($value)
- *
  * @mixin Eloquent
  */
 class Module extends BaseModel
@@ -32,6 +24,8 @@ class Module extends BaseModel
     protected $fillable = [
         'service_provider_class',
         'enabled',
+        'name',
+        'description',
     ];
 
     protected $appends = [
