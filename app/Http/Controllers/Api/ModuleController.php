@@ -8,15 +8,14 @@ use App\Http\Requests\ModuleUpdateRequest;
 use App\Http\Resources\ModuleResource;
 use App\Models\Module;
 use App\Modules\Reports\src\Models\ModuleReport;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ModuleController extends Controller
 {
-    public function index(ModuleIndexRequest $request): AnonymousResourceCollection
+    public function index(ModuleIndexRequest $request)
     {
-        $modules = new ModuleReport;
+        $report = new ModuleReport;
 
-        return ModuleResource::collection($modules->queryBuilder()->get());
+        return $report->toJsonResource();
     }
 
     public function update(ModuleUpdateRequest $request, int $module_id): ModuleResource
