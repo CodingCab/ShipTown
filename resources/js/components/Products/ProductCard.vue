@@ -245,10 +245,8 @@
                                 </div>
                             </div>
 
-                            <div class="mt-2">
-                                <a :href="activityLogsLink">
-                                    See All <font-awesome-icon icon="arrow-right" class="fa fa-xs"></font-awesome-icon>
-                                </a>
+                            <div class="mt-2 text-center font-weight-bod text-uppercase">
+                                <a :href="activityLogsLink">See All</a>
                             </div>
                         </template>
 
