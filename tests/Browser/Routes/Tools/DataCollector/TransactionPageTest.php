@@ -5,6 +5,7 @@ namespace Tests\Browser\Routes\Tools\DataCollector;
 use App\Models\Product;
 use App\Models\ProductPrice;
 use App\Models\Warehouse;
+use App\Modules\DataCollectorPayments\src\Models\PaymentType;
 use App\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -25,6 +26,8 @@ class TransactionPageTest extends DuskTestCase
         Product::factory()->create(['sku' => '4001']);
 
         ProductPrice::query()->update(['price' => 10]);
+
+        PaymentType::query()->firstOrCreate(['code' => 'CASH', 'name' => 'Cash']);
 
         /** @var User $user */
         $user = User::factory()->create([
