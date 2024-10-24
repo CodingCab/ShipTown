@@ -152,7 +152,6 @@
     import IconArrowRight from "../UI/Icons/IconArrowRight.vue";
     import IconArrowLeft from "../UI/Icons/IconArrowLeft.vue";
     import ModalDateBetweenSelector from "../Widgets/ModalDateBetweenSelector.vue";
-    import SearchFilter from "./SearchFilter.vue";
     import ReportHead from "./ReportHead.vue";
     import moment from "moment";
     import helpers from "../../helpers";
@@ -163,7 +162,7 @@
 
         components: {
             ProductSkuButton,
-            IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, SearchFilter, ReportHead},
+            IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, ReportHead},
 
         props: {
             metaString: String,
@@ -308,6 +307,7 @@
                         fieldName = fieldName.replaceAll('_lower_than','');
                         fieldName = fieldName.replaceAll('_greater_than','');
                         fieldName = fieldName.replaceAll('_starts_with','');
+                        fieldName = fieldName.replaceAll('_not_starts_with','');
 
                         let filterOperator = filterName.replace(fieldName, '');
                         let filterOperatorHumanString = filterOperator;
@@ -334,6 +334,9 @@
                             filterOperatorHumanString = 'lower than'
                           case '_starts_with':
                             filterOperatorHumanString = 'starts with'
+                            break;
+                          case '_not_starts_with':
+                            filterOperatorHumanString = 'does not start with'
                             break;
                           default:
                             filterOperatorHumanString = filterOperator
@@ -383,6 +386,10 @@
                     break;
                   case 'starts with':
                     filterName = `filter[${selectedField.name}_starts_with]`;
+                    filterValue = value;
+                    break;
+                  case 'not starts with':
+                    filterName = `filter[${selectedField.name}_not_starts_with]`;
                     filterValue = value;
                     break;
                   default:

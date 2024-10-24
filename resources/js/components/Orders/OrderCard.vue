@@ -520,6 +520,10 @@
                                             {{ name }} = {{ value }}
                                         </div>
                                     </div>
+
+                                    <div class="mt-2 text-center font-weight-bod text-uppercase">
+                                        <a :href="activityLogsLink">See All</a>
+                                    </div>
                                 </template>
                             </div>
                         </div>
@@ -583,6 +587,12 @@ export default {
                 this.toggleOrderDetails();
             }
         },
+    },
+
+    computed: {
+        activityLogsLink() {
+            return `/reports/activity-log?sort=-id&filter[subject_type]=App\\Models\\Order&filter[subject_id]=${this.order.id}`
+        }
     },
 
     methods: {

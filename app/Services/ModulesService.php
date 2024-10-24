@@ -22,6 +22,8 @@ class ModulesService
                 'service_provider_class' => $module_class,
             ], [
                 'enabled' => $module_class::$autoEnable,
+                'name' => $module_class::$module_name,
+                'description' => $module_class::$module_description,
             ]);
 
             if ($module_class::$autoEnable) {
