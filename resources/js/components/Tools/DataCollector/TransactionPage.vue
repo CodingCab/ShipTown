@@ -414,6 +414,7 @@ export default {
         Modals.EventBus.$on('show::modal::data-collection-add-payment-modal', this.onAddPaymentModalShown);
 
         Modals.EventBus.$on('hide::modal::data-collection-add-payment-modal', (data) => {
+
             if (data.amount) {
                 this.paymentAmount = data.amount;
             }
@@ -438,6 +439,12 @@ export default {
                 (this.selectedShippingAddress !== this.dataCollection['shipping_address_id'] || this.selectedBillingAddress !== this.dataCollection['billing_address_id'])
             ) {
                 this.setTransactionCustomer();
+            }
+        });
+
+        Modals.EventBus.$on('hide::modal::data-collection-transaction-status-modal', (data) => {
+            if (typeof data.archiveTransaction !== 'undefined' && data.archiveTransaction) {
+                this.archiveTransaction();
             }
         });
 
@@ -544,15 +551,11 @@ export default {
                         this.selectedBillingAddress = this.dataCollection.billing_address_id;
                     }
                     if (this.dataCollection.total_outstanding !== null && this.dataCollection.total_outstanding <= 0) {
-                        if (this.selectedPrinter === null) {
-                            this.$modal.showSetTransactionPrinterModal(this.selectedPrinter, true);
-                        } else {
-                            this.$modal.showTransactionStatusModal();
-                        }
+                        this.$modal.showTransactionStatusModal();
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                     this.displayApiCallError(error);
                 });
         },
@@ -772,7 +775,7 @@ export default {
 
                 })
                 .catch((error) => {
-                    console.log(error)
+                    console.error(error)
                     this.displayApiCallError(error);
                 });
         },

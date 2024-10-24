@@ -10,15 +10,17 @@
                 <div class="d-flex justify-content-between">
                     Status: <strong>{{ displayStatus }}</strong>
                 </div>
-                <hr>
-                <div class="mt-4">
-                    <div class="d-flex justify-content-between">
-                        Change: <span>{{ displayChange }}</span>
+                <template v-if="displayChange !== '0.00'">
+                    <hr>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between">
+                            Change: <span>{{ displayChange }}</span>
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
             <div class="card-footer d-flex justify-content-end">
-                <b-button variant="secondary" class="mr-2" @click="closeModal">Close</b-button>
+                <b-button variant="secondary" class="mr-2" @click="closeModal" data-close>Close</b-button>
             </div>
         </div>
     </b-modal>
@@ -38,15 +40,19 @@ export default {
             required: true
         },
         printer: {
-            type: Object,
+            type: Object | null,
             required: true
         }
     },
 
     beforeMount() {
-        Modals.EventBus.$on(`show::modal::${this.modalId}`, (data) => {
+        Modals.EventBus.$on(`show::modal::${this.modalId}`, () => {
             this.$bvModal.show(this.modalId);
-            this.printReceipt();
+            if (this.printer) {
+                this.printReceipt();
+            } else {
+                this.status = 'posted';
+            }
         })
     },
 
@@ -66,12 +72,18 @@ export default {
                 return 'Posting transaction';
             } else if (this.status === 'printing') {
                 return 'Printing receipt';
+            } else if (this.status === 'printed') {
+                return 'Receipt printed';
+            } else {
+                return 'Transaction posted';
             }
         }
     },
 
     methods: {
         printReceipt() {
+            this.status = 'printing';
+
             const data = {
                 id: this.details.id,
                 printer_id: this.printer.id,
@@ -79,7 +91,7 @@ export default {
 
             this.apiPrintTransactionReceipt(data)
                 .then(() => {
-                    this.status = 'printing';
+                    this.status = 'printed';
                 })
                 .catch(e => {
                     this.displayApiCallError(e);
@@ -88,7 +100,10 @@ export default {
 
         closeModal() {
             this.$bvModal.hide(this.modalId);
-            // TODO: finish transaction and begin a new one
+
+            Modals.EventBus.$emit(`hide::modal::${this.modalId}`, {
+                archiveTransaction: true,
+            });
         }
     }
 };

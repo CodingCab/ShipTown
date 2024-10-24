@@ -64,6 +64,6 @@ export default {
 
             this.amount = 0;
         }
-    }
+    },
 };
 </script>

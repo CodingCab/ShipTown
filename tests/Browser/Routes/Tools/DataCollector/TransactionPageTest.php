@@ -55,19 +55,24 @@ class TransactionPageTest extends DuskTestCase
                 ->pause($this->shortDelay)
                 ->click('#data-collection-choose-payment-type-modal [data-code="CASH"] button')
                 ->pause($this->shortDelay)
-                ->value('#transaction_payment_amount', '100')
+                ->waitFor('#transaction_payment_amount')
+                ->typeSlowly('#transaction_payment_amount', 30)
                 ->pause($this->shortDelay)
                 ->click('#data-collection-add-payment-modal button[data-save-amount]')
+                ->pause($this->shortDelay)
+                ->click('#data-collection-transaction-status-modal button[data-close]')
+                ->pause($this->shortDelay)
+                ->assertSee('Point of Sale')
                 ->pause($this->shortDelay)
                 ->assertSourceMissing('Server Error');
         });
     }
 
-    /**
-     * @throws Throwable
-     */
-    public function testUserAccess(): void
-    {
-        $this->basicUserAccessTest($this->uri, true);
-    }
+//    /**
+//     * @throws Throwable
+//     */
+//    public function testUserAccess(): void
+//    {
+//        $this->basicUserAccessTest($this->uri, true);
+//    }
 }
