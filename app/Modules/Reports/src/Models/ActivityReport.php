@@ -15,7 +15,10 @@ class ActivityReport extends Report
         $this->defaultSort = '-id';
 
         $this->baseQuery = Activity::query()
-            ->leftJoin('users', 'activity_log.causer_id', '=', 'users.id');
+            ->leftJoin('users', function ($join) {
+                $join->on('activity_log.causer_id', '=', 'users.id')
+                    ->where('activity_log.causer_type', 'App\User');
+            });
 
         $this->fields = [
             'id' => 'activity_log.id',
@@ -25,7 +28,7 @@ class ActivityReport extends Report
             'subject_id' => 'activity_log.subject_id',
             'causer_id' => 'activity_log.causer_id',
             'causer_type' => 'activity_log.causer_type',
-            'causer_name' => 'users.name',
+            'user_name' => 'users.name',
             'properties' => 'activity_log.properties',
         ];
 
