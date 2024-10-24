@@ -68,11 +68,11 @@ class TransactionPageTest extends DuskTestCase
         });
     }
 
-//    /**
-//     * @throws Throwable
-//     */
-//    public function testUserAccess(): void
-//    {
-//        $this->basicUserAccessTest($this->uri, true);
-//    }
+    /**
+     * @throws Throwable
+     */
+    public function testUserAccess(): void
+    {
+        $this->basicUserAccessTest($this->uri, true);
+    }
 }
