@@ -43,7 +43,7 @@ class ImportAsSaleInventoryMovementJob extends UniqueJob
                 ->with('inventory')
                 ->with('inventory.prices')
                 ->whereNull('is_processed')
-                ->limit(100)
+                ->limit(10)
                 ->get();
 
             if ($dataCollectionRecords->isEmpty()) {
@@ -59,13 +59,10 @@ class ImportAsSaleInventoryMovementJob extends UniqueJob
             $inventoryMovementRecords = $dataCollectionRecords
                 ->map(function (DataCollectionRecord $record) use ($dataCollection) {
                     $current_date_time = now()->utc()->toDateTimeLocalString();
-                    $custom_uuid = implode('-',
-                        [
-                            "data_collection_record_id_{$record->getKey()}",
-                            "data_collection_records_updated_at_$current_date_time"
-                        ]);
-
-                    $record->update(['total_transferred_out' => $record->quantity_scanned]);
+                    $custom_uuid = implode('-', [
+                        "data_collection_record_id_{$record->getKey()}",
+                        "data_collection_records_updated_at_$current_date_time"
+                    ]);
 
                     return [
                         'custom_unique_reference_id' => $custom_uuid,
@@ -89,11 +86,18 @@ class ImportAsSaleInventoryMovementJob extends UniqueJob
                 });
 
             DB::transaction(function () use ($dataCollection, $inventoryMovementRecords, $dataCollectionRecords) {
-                InventoryMovement::query()->upsert(
+                $affectedRows = InventoryMovement::query()->upsert(
                     $inventoryMovementRecords->toArray(),
                     ['custom_unique_reference_id'],
                     ['sequence_number', 'quantity_after', 'updated_at', 'description']
                 );
+
+                if ($affectedRows > 0 && $inventoryMovementRecords->count() === $affectedRows) {
+                    $dataCollectionRecords->each(function (DataCollectionRecord $record) {
+                        $record->increment('total_transferred_out', $record->quantity_scanned);
+                        $record->update(['quantity_scanned' => 0]);
+                    });
+                }
 
                 DataCollectionRecord::query()
                     ->whereIn('id', $dataCollectionRecords->pluck('id'))
