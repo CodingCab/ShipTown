@@ -42,6 +42,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('modules/api2cart/products', Api\Modules\Api2cart\ProductsController::class, ['index']);
     RouteService::apiResource('modules/automations', Api\Modules\OrderAutomations\AutomationController::class);
     RouteService::apiResource('modules/automations/config', Api\Modules\OrderAutomations\ConfigController::class, ['index']);
+    Route::get('modules/automations/{automation}', [Api\Modules\OrderAutomations\AutomationController::class, 'show'])->name('modules.automations.show');
     RouteService::apiResource('modules/autostatus/picking/configuration', Api\Modules\AutoStatus\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('modules/dpd-ireland/connections', Api\Modules\DpdIreland\DpdIrelandController::class, ['index', 'store', 'destroy']);
     RouteService::apiResource('modules/dpd-uk/dpd-uk-connections', Api\Modules\DpdUk\DpdUkConnectionController::class, ['index', 'store', 'destroy']);
