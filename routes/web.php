@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('reports/inventory-movements-summary', Reports\InventoryMovementsSummaryController::class)->only('index');
         Route::resource('reports/inventory-movements', Reports\InventoryMovementController::class)->only('index');
         Route::resource('reports/inventory-transfers', Reports\InventoryTransfersController::class)->only('index');
+        Route::resource('reports/inventory-reservations', Reports\InventoryReservationsController::class)->only('index');
         Route::resource('reports/order', Reports\OrderController::class)->only('index');
     });
 
