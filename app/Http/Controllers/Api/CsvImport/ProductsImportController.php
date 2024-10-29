@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\CsvImport;
 use App\Helpers\TemporaryTable;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -96,7 +97,14 @@ class ProductsImportController extends Controller
             $product = Product::where('sku', $item['sku'])->first();
             $tags = [$item['department'] ?? '', $item['category'] ?? '', $item['supplier'] ?? ''];
 
-            ray(array_filter($tags));
+            ProductPrice::where('product_id', $product->id)->update([
+                'price' => $item['price'],
+                'sale_price' => $item['sale_price'],
+                'sale_price_start_date' => $item['sale_price_start_date'],
+                'sale_price_end_date' => $item['sale_price_end_date'],
+                'is_on_sale' => $item['sale_price_end_date'] > now('Y-m-d'),
+            ]);
+
             $product?->attachTags(array_filter($tags));
         }
 
