@@ -62,6 +62,10 @@ const Modals = {
             showNewPaymentTypeModal(paymentType = null) {
                 this.show('module-data-collector-payments-new-payment-type-modal', {'paymentType': paymentType});
             },
+
+            showUpdateDataCollectionRecordQuantityModal(details = null) {
+                this.show('data-collection-record-update-quantity-modal', {'details': details});
+            }
         }
     }
 }

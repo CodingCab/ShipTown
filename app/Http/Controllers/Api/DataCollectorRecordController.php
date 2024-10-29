@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DataCollectionRecordUpdateRequest;
 use App\Http\Requests\DataCollectorStoreRequest;
 use App\Http\Resources\DataCollectionRecordResource;
 use App\Models\DataCollectionRecord;
@@ -56,6 +57,18 @@ class DataCollectorRecordController extends Controller
             'quantity_scanned' => $collectionRecord->quantity_scanned + $request->validated('quantity_scanned', 0),
             'quantity_requested' => $collectionRecord->quantity_requested + $request->validated('quantity_requested', 0),
         ]);
+
+        return DataCollectionRecordResource::make($collectionRecord);
+    }
+
+    public function update(DataCollectionRecordUpdateRequest $request, int $id): DataCollectionRecordResource
+    {
+        $attributes = $request->validated();
+
+        /** @var DataCollectionRecord $collectionRecord */
+        $collectionRecord = DataCollectionRecord::query()->findOrFail($id);
+
+        $collectionRecord->update($attributes);
 
         return DataCollectionRecordResource::make($collectionRecord);
     }
