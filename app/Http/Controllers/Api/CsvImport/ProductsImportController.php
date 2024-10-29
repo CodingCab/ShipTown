@@ -6,6 +6,7 @@ use App\Helpers\TemporaryTable;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductPrice;
+use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -102,7 +103,7 @@ class ProductsImportController extends Controller
                 'sale_price' => $item['sale_price'],
                 'sale_price_start_date' => $item['sale_price_start_date'],
                 'sale_price_end_date' => $item['sale_price_end_date'],
-                'is_on_sale' => $item['sale_price_end_date'] > now('Y-m-d'),
+                'is_on_sale' => Carbon::parse($item['sale_price_end_date']) > Carbon::now(),
             ]);
 
             $product?->attachTags(array_filter($tags));
