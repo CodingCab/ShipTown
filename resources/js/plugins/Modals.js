@@ -62,6 +62,10 @@ const Modals = {
             showNewPaymentTypeModal(paymentType = null) {
                 this.show('module-data-collector-payments-new-payment-type-modal', {'paymentType': paymentType});
             },
+
+            showImportProductsModal() {
+                this.show('import-products-modal');
+            }
         }
     }
 }

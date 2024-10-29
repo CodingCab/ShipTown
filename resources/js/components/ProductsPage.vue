@@ -52,6 +52,8 @@
                 </b-button>
             </template>
         </b-modal>
+
+        <import-products-modal></import-products-modal>
     </div>
 </template>
 
@@ -91,6 +93,12 @@
                 this.setUrlParameter('search', newProduct.sku);
                 this.reloadProductList();
                 this.setFocusElementById('barcode_input');
+            });
+
+            Modals.EventBus.$on('hide::modal::import-products-modal', (data) => {
+                if (typeof data.refreshList !== 'undefined' && data.refreshList) {
+                    this.reloadProductList();
+                }
             });
 
             this.reloadProductList();
