@@ -1,23 +1,29 @@
 <?php
 
-namespace Tests\Feature\Api\DataCollectorActions\ImportAsStocktake;
+namespace Tests\Feature\Api\DataCollectorActions\ImportAsSaleInventoryMovement;
 
 use App\Models\DataCollection;
 use App\Models\DataCollectionRecord;
 use App\Models\DataCollectionTransaction;
 use App\User;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
-    private string $uri = 'api/data-collector-actions/import-as-stocktake';
+    private string $uri = 'api/data-collector-actions/import-as-sale-inventory-movement';
 
     /** @test */
     public function testIfCallReturnsOk(): void
     {
-        $user = User::factory()->create()->assignRole('user');
+        /** @var User $user */
+        $user = User::factory()->create();
+        $user->assignRole(Role::findOrCreate('user', 'api'));
 
-        $dataCollection = DataCollection::factory()->create();
+        /** @var DataCollection $dataCollection */
+        $dataCollection = DataCollection::factory()->create([
+            'type' => DataCollectionTransaction::class,
+        ]);
 
         DataCollectionRecord::factory()->create([
             'data_collection_id' => $dataCollection->getKey(),
@@ -31,11 +37,17 @@ class StoreTest extends TestCase
 
         ray($response->json());
 
+        $this->assertDatabaseHas('data_collections', [
+            'id' => $dataCollection->getKey(),
+            'custom_uuid' => null,
+            'type' => DataCollectionTransaction::class,
+        ]);
+
         $response->assertSuccessful();
 
         $response->assertJsonStructure([
             'data' => [
-                'data_collection_id',
+                'data_collection_id'
             ],
         ]);
     }
