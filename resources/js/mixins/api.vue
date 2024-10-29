@@ -141,6 +141,10 @@ export default {
             return axios.post('/api/data-collector-records', data);
         },
 
+        apiUpdateDataCollectorRecord(id, data) {
+            return axios.put('/api/data-collector-records/' + id, data);
+        },
+
         apiPostDataCollectorActionsAddProduct(data) {
             return axios.post('/api/data-collector-actions/add-product', data);
         },

@@ -150,8 +150,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-5 text-right">
-                            <number-card label="quantity" :number="record['quantity_scanned']"
-                                         v-bind:class="{'bg-warning': record['quantity_scanned'] > 0 && record['quantity_requested'] &&  record['quantity_requested'] < record['quantity_scanned'] + record['total_transferred_out'] + record['total_transferred_in']}"></number-card>
+                            <div @click="updateQuantity(record)" class="d-inline-block">
+                                <number-card label="quantity" :number="record['quantity_scanned']"
+                                             v-bind:class="{'bg-warning': record['quantity_scanned'] > 0 && record['quantity_requested'] &&  record['quantity_requested'] < record['quantity_scanned'] + record['total_transferred_out'] + record['total_transferred_in']}"></number-card>
+                            </div>
                             <number-card label="unit price" :number="record['unit_sold_price']"
                                          v-bind:class="{'bg-warning': record['unit_discount'] > 0 }"></number-card>
                             <number-card label="total price" :number="record['total_price']"></number-card>
@@ -318,6 +320,7 @@
         <new-address-modal/>
         <data-collection-choose-payment-type-modal/>
         <data-collection-data-collection-add-payment-modal/>
+        <data-collection-record-update-quantity-modal/>
     </div>
 </template>
 
@@ -414,6 +417,17 @@ export default {
 
             if ((typeof data.saveChanges !== 'undefined' && data.saveChanges) && this.paymentAmount) {
                 this.setTransactionPayment();
+            }
+        });
+
+        Modals.EventBus.$on('hide::modal::data-collection-record-update-quantity-modal', (data) => {
+            if (
+                typeof data.quantity !== 'undefined' &&
+                typeof data.id !== 'undefined' &&
+                typeof data.saveChanges !== 'undefined' &&
+                data.saveChanges
+            ) {
+                this.updateCollectionRecordQuantity(data.id, data.quantity);
             }
         });
 
@@ -863,6 +877,23 @@ export default {
 
         onAddPaymentModalShown() {
             this.setFocusElementById('transaction_payment_amount', true);
+        },
+
+        updateQuantity(record) {
+            this.$modal.showUpdateDataCollectionRecordQuantityModal(record);
+        },
+
+        updateCollectionRecordQuantity(id, quantity) {
+            this.apiUpdateDataCollectorRecord(id, {
+                'quantity_scanned': quantity,
+            })
+                .then(() => {
+                    this.notifySuccess('Quantity updated');
+                    this.reloadDataCollection();
+                })
+                .catch(error => {
+                    this.displayApiCallError(error);
+                });
         }
     },
 

@@ -25,7 +25,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-sale-inventory-movement', Api\DataCollectorActions\ImportAsSaleInventoryMovementController::class, ['store']);
-    RouteService::apiResource('data-collector-records', Api\DataCollectorRecordController::class, ['store', 'index']);
+    RouteService::apiResource('data-collector-records', Api\DataCollectorRecordController::class, ['index', 'store', 'update']);
     RouteService::apiResource('data-collector', Api\DataCollectorController::class);
     RouteService::apiResource('data-collector/comments', Api\DataCollectionCommentController::class, ['index', 'store']);
     RouteService::apiResource('data-collector-payment-types', Api\DataCollectorPaymentTypeController::class, ['index', 'store', 'destroy']);
