@@ -38,6 +38,10 @@
         </button>
 
         <template #modal-footer>
+
+            <b-button variant="primary" class="float-right mr-2" href="/templates/product_import_template.csv" target="_blank">
+                Download Template
+            </b-button>
             <b-button variant="secondary" class="float-right mr-2" @click="$bvModal.hide(modalId);">
                 Cancel
             </b-button>
@@ -57,21 +61,7 @@ export default {
     mixins: [api],
 
     beforeMount() {
-        Modals.EventBus.$on('show::modal::' + this.modalId, (data) => {
-            // this.product = data['product'];
-            //
-            // this.newProduct = {
-            //     sku: '',
-            //     name: '',
-            //     price: '0.00',
-            // };
-            //
-            // if (this.product) {
-            //     this.newProduct.sku = this.product.sku;
-            //     this.newProduct.name = this.product.name;
-            //     this.newProduct.price = this.product.price;
-            // }
-
+        Modals.EventBus.$on('show::modal::' + this.modalId, () => {
             this.$bvModal.show(this.modalId);
         })
     },
@@ -111,6 +101,7 @@ export default {
                     ) {
                         this.notifySuccess('Products imported successfully');
                         this.refreshList = true;
+                        this.csv = null;
                         this.$bvModal.hide(this.modalId);
                     }
                 })

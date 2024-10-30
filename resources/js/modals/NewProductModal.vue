@@ -15,8 +15,8 @@
         <template #modal-footer>
             <div class="d-flex justify-content-between w-100 m-0">
                 <div>
-                    <b-button variant="secondary" class="float-right" @click="openImportProductsModal">
-                        Import products
+                    <b-button variant="primary" class="float-right" @click="openImportProductsModal">
+                        Import CSV File
                     </b-button>
                 </div>
                 <div class="d-flex">
@@ -83,7 +83,7 @@ export default {
     methods: {
         createNewProduct() {
             this.apiPostProducts(this.newProduct)
-                .then(response => {
+                .then(() => {
                     this.$bvModal.hide(this.modalId);
                 })
                 .catch(error => {
