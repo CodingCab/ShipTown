@@ -1,5 +1,5 @@
 <template>
-    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" @hidden="emitNotification" size="xl" scrollable no-fade>
+    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" @hidden="emitNotification" size="md" scrollable no-fade>
         <template #modal-header>
             <span>New Product</span>
         </template>

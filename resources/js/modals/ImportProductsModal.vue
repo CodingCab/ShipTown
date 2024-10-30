@@ -38,13 +38,18 @@
         </button>
 
         <template #modal-footer>
-
-            <b-button variant="primary" class="float-right mr-2" href="/templates/product_import_template.csv" target="_blank">
-                Download Template
-            </b-button>
-            <b-button variant="secondary" class="float-right mr-2" @click="$bvModal.hide(modalId);">
-                Cancel
-            </b-button>
+            <div class="d-flex justify-content-between w-100 m-0">
+                <div>
+                    <b-button variant="primary" class="float-left mr-2" href="/templates/product_import_template.csv" target="_blank">
+                        Download Template
+                    </b-button>
+                </div>
+                <div class="d-flex">
+                    <b-button variant="secondary" class="float-right mr-2" @click="$bvModal.hide(modalId);">
+                        Cancel
+                    </b-button>
+                </div>
+            </div>
         </template>
     </b-modal>
 </template>
