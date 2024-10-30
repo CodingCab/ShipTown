@@ -12,7 +12,6 @@
 </div>
 @endsection
 
-
 @section('css')
     <style>
         .setting-list{
