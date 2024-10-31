@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'https://shiptown.test'
+    url: 'https://demo.myshiptown.com'
 paths:
   /api/activities:
     get:
@@ -27,7 +27,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiActivities
@@ -35,7 +35,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -46,11 +46,11 @@ paths:
                 log_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ozupomecw
+                  example: bhhusiszbqpigms
                 description:
                   type: string
                   description: ''
-                  example: 'Expedita vel dolore molestias distinctio eveniet.'
+                  example: 'Facere autem distinctio qui ut molestias placeat possimus.'
                 properties:
                   type: object
                   description: ''
@@ -65,7 +65,7 @@ paths:
                 subject_id:
                   type: integer
                   description: 'This field is required when <code>subject_type</code> is present.'
-                  example: 10
+                  example: 7
               required:
                 - description
   /api/admin/user/roles:
@@ -88,7 +88,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/admin/users:
     get:
       summary: ''
@@ -109,7 +109,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiAdminUsers
@@ -117,7 +117,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -128,15 +128,15 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: xldx
+                  example: fwibxe
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: shanie21@example.net
+                  example: ysipes@example.org
                 role_id:
                   type: string
                   description: ''
-                  example: molestiae
+                  example: quia
                 warehouse_id:
                   type: string
                   description: ''
@@ -148,7 +148,7 @@ paths:
                 default_dashboard_uri:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ojaypdouuhpxdkgcxuv
+                  example: qrxvmnaqeeldzuik
               required:
                 - name
                 - email
@@ -173,7 +173,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     put:
       summary: ''
       operationId: putApiAdminUsersId
@@ -181,7 +181,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -192,19 +192,19 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: xyst
+                  example: q
                 default_dashboard_uri:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: swpzr
+                  example: uzyuqhbzfhlmaomqgguarztf
                 role_id:
                   type: integer
                   description: ''
-                  example: 15
+                  example: 3
                 printer_id:
                   type: number
                   description: ''
-                  example: 15.29596567
+                  example: 0.1089792
                 warehouse_id:
                   type: string
                   description: ''
@@ -222,13 +222,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the user.'
-        example: 30
+        example: 1
         required: true
         schema:
           type: integer
@@ -252,7 +252,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiConfigurations
@@ -260,7 +260,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -271,7 +271,7 @@ paths:
                 business_name:
                   type: string
                   description: 'Must not be greater than 200 characters.'
-                  example: p
+                  example: fugo
   /api/csv-import:
     post:
       summary: ''
@@ -280,7 +280,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
   /api/csv-import/data-collections:
     post:
       summary: ''
@@ -289,7 +289,16 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
+  /api/csv-import/products:
+    post:
+      summary: ''
+      operationId: postApiCsvImportProducts
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - API
   /api/data-collector-actions/add-product:
     post:
       summary: ''
@@ -298,7 +307,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -309,19 +318,19 @@ paths:
                 data_collection_id:
                   type: string
                   description: ''
-                  example: est
+                  example: qui
                 sku_or_alias:
                   type: string
                   description: ''
-                  example: aut
+                  example: magnam
                 quantity_scanned:
                   type: number
                   description: ''
-                  example: 26.982447
+                  example: 1.951863368
                 quantity_requested:
                   type: number
                   description: ''
-                  example: 59.8141138
+                  example: 651758887.864
               required:
                 - data_collection_id
                 - sku_or_alias
@@ -333,7 +342,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -344,7 +353,29 @@ paths:
                 data_collection_id:
                   type: integer
                   description: ''
-                  example: 20
+                  example: 2
+              required:
+                - data_collection_id
+  /api/data-collector-actions/import-as-sale-inventory-movement:
+    post:
+      summary: ''
+      operationId: postApiDataCollectorActionsImportAsSaleInventoryMovement
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data_collection_id:
+                  type: integer
+                  description: ''
+                  example: 10
               required:
                 - data_collection_id
   /api/data-collector-records:
@@ -367,7 +398,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiDataCollectorRecords
@@ -375,7 +406,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -386,15 +417,15 @@ paths:
                 data_collection_id:
                   type: string
                   description: ''
-                  example: cupiditate
+                  example: quia
                 inventory_id:
                   type: string
                   description: ''
-                  example: unde
+                  example: repudiandae
                 product_id:
                   type: string
                   description: ''
-                  example: omnis
+                  example: necessitatibus
                 warehouse_id:
                   type: string
                   description: ''
@@ -402,15 +433,15 @@ paths:
                 warehouse_code:
                   type: string
                   description: ''
-                  example: quod
+                  example: voluptatem
                 quantity_requested:
                   type: number
                   description: ''
-                  example: 199.179669061
+                  example: 10200656.8
                 quantity_scanned:
                   type: number
                   description: ''
-                  example: 94760.84805
+                  example: 93.170745
               required:
                 - data_collection_id
                 - inventory_id
@@ -436,7 +467,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiDataCollector
@@ -444,7 +475,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -455,23 +486,23 @@ paths:
                 warehouse_id:
                   type: string
                   description: ''
-                  example: nihil
+                  example: necessitatibus
                 warehouse_code:
                   type: string
                   description: ''
-                  example: ut
+                  example: iusto
                 name:
                   type: string
                   description: ''
-                  example: exercitationem
+                  example: hic
                 custom_uuid:
                   type: string
                   description: ''
-                  example: c3a93e13-bd08-39c1-889d-1f2c2fdd4906
+                  example: 3df8cac0-17d1-34ac-bf00-7bff9616a355
                 type:
                   type: string
                   description: ''
-                  example: App\Models\DataCollectionTransferIn
+                  example: App\Models\DataCollectionTransaction
                   enum:
                     - App\Models\DataCollectionTransferIn
                     - App\Models\DataCollectionTransferOut
@@ -480,7 +511,7 @@ paths:
                 destination_warehouse_id:
                   type: integer
                   description: ''
-                  example: 9
+                  example: 17
               required:
                 - warehouse_id
                 - warehouse_code
@@ -493,7 +524,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -504,11 +535,11 @@ paths:
                 destination_warehouse_id:
                   type: integer
                   description: 'This field is required when <code>action</code> is <code>transfer_to_scanned</code>.'
-                  example: 3
+                  example: 20
                 action:
                   type: string
                   description: ''
-                  example: import_as_stocktake
+                  example: auto_scan_all_requested
                   enum:
                     - transfer_in_scanned
                     - transfer_out_scanned
@@ -519,11 +550,11 @@ paths:
                 custom_uuid:
                   type: string
                   description: ''
-                  example: 2ea56c6a-a47a-352c-bb65-1a4713accdab
+                  example: f65eadae-6edb-3689-9b9b-284a83a87335
                 name:
                   type: string
                   description: ''
-                  example: officiis
+                  example: excepturi
     delete:
       summary: ''
       operationId: deleteApiDataCollectorId
@@ -531,13 +562,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the data collector.'
-        example: occaecati
+        example: consequatur
         required: true
         schema:
           type: string
@@ -561,7 +592,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiDataCollectorComments
@@ -569,7 +600,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -580,11 +611,11 @@ paths:
                 data_collection_id:
                   type: number
                   description: ''
-                  example: 37903602.828461
+                  example: 14.339529
                 comment:
                   type: string
                   description: ''
-                  example: omnis
+                  example: quas
               required:
                 - data_collection_id
                 - comment
@@ -608,7 +639,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiDataCollectorPaymentTypes
@@ -616,7 +647,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -627,11 +658,11 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: yvdjvwcrvhfpxbhyrrv
+                  example: itgsfrhybnznzhc
                 code:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: v
+                  example: eiuyfzgoeeohv
               required:
                 - name
                 - code
@@ -643,13 +674,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the data collector payment type.'
-        example: sequi
+        example: molestiae
         required: true
         schema:
           type: string
@@ -673,7 +704,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiDataCollectorPayments
@@ -681,7 +712,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -692,15 +723,15 @@ paths:
                 transaction_id:
                   type: number
                   description: ''
-                  example: 1.0
+                  example: 131.0
                 payment_type_id:
                   type: number
                   description: ''
-                  example: 646084960.0
+                  example: 88.0
                 amount:
                   type: number
                   description: ''
-                  example: 799.3783
+                  example: 0.0
               required:
                 - transaction_id
                 - payment_type_id
@@ -713,7 +744,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -724,17 +755,17 @@ paths:
                 payment_type_id:
                   type: number
                   description: ''
-                  example: 3.536
+                  example: 3243266.3441292
                 amount:
                   type: number
                   description: ''
-                  example: 44.33166
+                  example: 402890.5129
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the data collector payment.'
-        example: perferendis
+        example: repudiandae
         required: true
         schema:
           type: string
@@ -758,7 +789,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/inventory-movements:
     get:
       summary: ''
@@ -779,7 +810,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiInventoryMovements
@@ -787,7 +818,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -798,19 +829,19 @@ paths:
                 warehouse_id:
                   type: integer
                   description: ''
-                  example: 17
+                  example: 9
                 product_id:
                   type: integer
                   description: ''
-                  example: 11
+                  example: 18
                 quantity:
                   type: number
                   description: 'Must not be one of <code>0</code>.'
-                  example: 561776.2671
+                  example: 278360.9323
                 description:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: 'Ea ad itaque suscipit ut qui.'
+                  example: 'Repellendus quasi aut minus a debitis iure.'
               required:
                 - warehouse_id
                 - product_id
@@ -836,7 +867,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiInventory
@@ -844,7 +875,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -855,23 +886,23 @@ paths:
                 id:
                   type: integer
                   description: ''
-                  example: 12
+                  example: 17
                 reorder_point:
                   type: number
                   description: ''
-                  example: 83582860.97832
+                  example: 19209031.0795
                 restock_level:
                   type: number
                   description: ''
-                  example: 456.0
+                  example: 4815168.0
                 shelve_location:
                   type: string
                   description: ''
-                  example: similique
+                  example: excepturi
                 shelf_location:
                   type: string
                   description: ''
-                  example: quidem
+                  example: doloribus
               required:
                 - id
   /api/jobs:
@@ -894,7 +925,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiJobs
@@ -902,7 +933,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -913,7 +944,7 @@ paths:
                 job_id:
                   type: number
                   description: ''
-                  example: 13808644.420948
+                  example: 2853767.1679787
               required:
                 - job_id
   /api/logs:
@@ -936,7 +967,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/mail-templates:
     get:
       summary: ''
@@ -957,7 +988,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   '/api/mail-templates/{id}':
     put:
       summary: ''
@@ -966,7 +997,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -977,24 +1008,24 @@ paths:
                 subject:
                   type: string
                   description: 'Must not be greater than 300 characters.'
-                  example: usxlrzikzl
+                  example: nsdgzgzqseqfpentgddevgqp
                 html_template:
                   type: string
                   description: ''
-                  example: ad
+                  example: perferendis
                 text_template:
                   type: string
                   description: ''
-                  example: sunt
+                  example: consectetur
                 reply_to:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: llynch@example.com
+                  example: ndickens@example.com
                 to:
                   type: array
                   description: 'Must be a valid email address.'
                   example:
-                    - elaina.lueilwitz@example.com
+                    - brionna46@example.net
                   items:
                     type: string
               required:
@@ -1029,7 +1060,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   '/api/modules/{id}':
     put:
       summary: ''
@@ -1038,7 +1069,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -1055,7 +1086,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the module.'
-        example: 571
+        example: 1
         required: true
         schema:
           type: integer
@@ -1079,7 +1110,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   '/api/modules/active-orders-inventory-reservations/configuration/{id}':
     put:
       summary: ''
@@ -1088,7 +1119,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1099,7 +1130,7 @@ paths:
                 warehouse_id:
                   type: string
                   description: ''
-                  example: corrupti
+                  example: quibusdam
               required:
                 - warehouse_id
     parameters:
@@ -1107,7 +1138,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the configuration.'
-        example: quod
+        example: est
         required: true
         schema:
           type: string
@@ -1131,7 +1162,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesApi2cartConnections
@@ -1139,7 +1170,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1150,19 +1181,19 @@ paths:
                 location_id:
                   type: string
                   description: ''
-                  example: minus
+                  example: at
                 url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.pfeffer.net/aut-rerum-quis-neque-quas'
+                  example: 'http://www.mertz.org/'
                 type:
                   type: string
                   description: ''
-                  example: quae
+                  example: enim
                 bridge_api_key:
                   type: string
                   description: ''
-                  example: reiciendis
+                  example: iure
               required:
                 - location_id
                 - url
@@ -1176,7 +1207,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
@@ -1206,7 +1237,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1217,266 +1248,13 @@ paths:
                 sku:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: nzngiqzksembzrwrqokp
+                  example: kgrgrixaqiwiucadey
                 connection_id:
                   type: integer
                   description: ''
-                  example: 16
+                  example: 8
               required:
                 - sku
-  /api/modules/automations:
-    get:
-      summary: ''
-      operationId: getApiModulesAutomations
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - Endpoints
-    post:
-      summary: ''
-      operationId: postApiModulesAutomations
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: 'Must be at least 3 characters. Must not be greater than 200 characters.'
-                  example: utodvqos
-                description:
-                  type: string
-                  description: ''
-                  example: 'Qui voluptates sit harum et libero architecto.'
-                enabled:
-                  type: boolean
-                  description: ''
-                  example: true
-                priority:
-                  type: number
-                  description: ''
-                  example: 451.607503297
-                conditions:
-                  type: array
-                  description: ''
-                  example:
-                    - []
-                  items:
-                    type: object
-                    properties:
-                      condition_class:
-                        type: string
-                        description: ''
-                        example: App\Modules\Automations\src\Conditions\Order\StatusCodeInCondition
-                        enum:
-                          - App\Modules\Automations\src\Conditions\Order\IsActiveCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\CanFulfillFromLocationCondition
-                          - App\Modules\Automations\src\Conditions\Order\CanNotFulfillFromLocationCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\LabelTemplateInCondition
-                          - App\Modules\Automations\src\Conditions\Order\CourierLabelTemplateIsNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\LineCountEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\TotalQuantityToShipEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsPartiallyPaidCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPaidCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPickedCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPackedCondition
-                          - App\Modules\Automations\src\Conditions\Order\OrderNumberEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\OrderNumberContainsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HasTagsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HasAnyShipmentCondition
-                          - App\Modules\Automations\src\Conditions\Order\DoesntHaveTagsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HoursSincePlacedAtCondition
-                          - App\Modules\Automations\src\Conditions\Order\HoursSinceLastUpdatedAtCondition
-                      condition_value:
-                        type: string
-                        description: ''
-                        example: nostrum
-                actions:
-                  type: array
-                  description: ''
-                  example:
-                    - []
-                  items:
-                    type: object
-                    properties:
-                      action_class:
-                        type: string
-                        description: ''
-                        example: App\Modules\Automations\src\Actions\Order\SplitBundleSkuAction
-                        enum:
-                          - App\Modules\Automations\src\Actions\Order\SetStatusCodeAction
-                          - App\Modules\Automations\src\Actions\Order\AddOrderCommentAction
-                          - App\Modules\Automations\src\Actions\Order\LogMessageAction
-                          - App\Modules\Automations\src\Actions\Order\SetLabelTemplateAction
-                          - App\Modules\Automations\src\Actions\Order\SplitOrderToWarehouseCodeAction
-                          - App\Modules\Automations\src\Actions\Order\ShipRemainingProductsAction
-                          - App\Modules\Automations\src\Actions\Order\PushToBoxTopOrderAction
-                          - App\Modules\Automations\src\Actions\Order\SendOrderEmailAction
-                          - App\Modules\Automations\src\Actions\Order\SplitBundleSkuAction
-                          - App\Modules\Automations\src\Actions\Order\AttachTagsAction
-                          - App\Modules\Automations\src\Actions\Order\DetachTagsAction
-                          - App\Modules\Slack\src\Automations\SendSlackNotificationAction
-                      action_value:
-                        type: string
-                        description: ''
-                        example: incidunt
-              required:
-                - name
-                - enabled
-                - priority
-  '/api/modules/automations/{id}':
-    put:
-      summary: ''
-      operationId: putApiModulesAutomationsId
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: 'Must be at least 3 characters. Must not be greater than 200 characters.'
-                  example: zurbmjgtsqchzvuaym
-                description:
-                  type: string
-                  description: ''
-                  example: 'Blanditiis beatae quis perspiciatis architecto et fuga quia.'
-                enabled:
-                  type: boolean
-                  description: ''
-                  example: true
-                priority:
-                  type: number
-                  description: ''
-                  example: 3217252.0
-                conditions:
-                  type: array
-                  description: ''
-                  example: null
-                  items:
-                    type: object
-                    properties:
-                      condition_class:
-                        type: string
-                        description: ''
-                        example: App\Modules\Automations\src\Conditions\Order\CourierLabelTemplateIsNotInCondition
-                        enum:
-                          - App\Modules\Automations\src\Conditions\Order\IsActiveCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\StatusCodeNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\CanFulfillFromLocationCondition
-                          - App\Modules\Automations\src\Conditions\Order\CanNotFulfillFromLocationCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeInCondition
-                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\LabelTemplateInCondition
-                          - App\Modules\Automations\src\Conditions\Order\CourierLabelTemplateIsNotInCondition
-                          - App\Modules\Automations\src\Conditions\Order\LineCountEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\TotalQuantityToShipEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsPartiallyPaidCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPaidCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPickedCondition
-                          - App\Modules\Automations\src\Conditions\Order\IsFullyPackedCondition
-                          - App\Modules\Automations\src\Conditions\Order\OrderNumberEqualsCondition
-                          - App\Modules\Automations\src\Conditions\Order\OrderNumberContainsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HasTagsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HasAnyShipmentCondition
-                          - App\Modules\Automations\src\Conditions\Order\DoesntHaveTagsCondition
-                          - App\Modules\Automations\src\Conditions\Order\HoursSincePlacedAtCondition
-                          - App\Modules\Automations\src\Conditions\Order\HoursSinceLastUpdatedAtCondition
-                      condition_value:
-                        type: string
-                        description: ''
-                        example: rem
-                actions:
-                  type: array
-                  description: ''
-                  example: null
-                  items:
-                    type: object
-                    properties:
-                      action_class:
-                        type: string
-                        description: ''
-                        example: App\Modules\Automations\src\Actions\Order\SetStatusCodeAction
-                        enum:
-                          - App\Modules\Automations\src\Actions\Order\SetStatusCodeAction
-                          - App\Modules\Automations\src\Actions\Order\AddOrderCommentAction
-                          - App\Modules\Automations\src\Actions\Order\LogMessageAction
-                          - App\Modules\Automations\src\Actions\Order\SetLabelTemplateAction
-                          - App\Modules\Automations\src\Actions\Order\SplitOrderToWarehouseCodeAction
-                          - App\Modules\Automations\src\Actions\Order\ShipRemainingProductsAction
-                          - App\Modules\Automations\src\Actions\Order\PushToBoxTopOrderAction
-                          - App\Modules\Automations\src\Actions\Order\SendOrderEmailAction
-                          - App\Modules\Automations\src\Actions\Order\SplitBundleSkuAction
-                          - App\Modules\Automations\src\Actions\Order\AttachTagsAction
-                          - App\Modules\Automations\src\Actions\Order\DetachTagsAction
-                          - App\Modules\Slack\src\Automations\SendSlackNotificationAction
-                      action_value:
-                        type: string
-                        description: ''
-                        example: est
-              required:
-                - name
-                - enabled
-                - priority
-    delete:
-      summary: ''
-      operationId: deleteApiModulesAutomationsId
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the automation.'
-        example: dolorem
-        required: true
-        schema:
-          type: string
   /api/modules/automations/config:
     get:
       summary: ''
@@ -1497,7 +1275,280 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
+  /api/modules/automations:
+    get:
+      summary: ''
+      operationId: getApiModulesAutomations
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - API
+    post:
+      summary: ''
+      operationId: postApiModulesAutomations
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 200 characters.'
+                  example: nzjydjrfnqqxemuwebhqvntxf
+                description:
+                  type: string
+                  description: ''
+                  example: 'Sit id accusamus iste voluptatibus autem.'
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                priority:
+                  type: number
+                  description: ''
+                  example: 1199175.28348
+                conditions:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      condition_class:
+                        type: string
+                        description: ''
+                        example: App\Modules\Automations\src\Conditions\Order\LabelTemplateInCondition
+                        enum:
+                          - App\Modules\Automations\src\Conditions\Order\IsActiveCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\CanFulfillFromLocationCondition
+                          - App\Modules\Automations\src\Conditions\Order\CanNotFulfillFromLocationCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\LabelTemplateInCondition
+                          - App\Modules\Automations\src\Conditions\Order\CourierLabelTemplateIsNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\LineCountEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\TotalQuantityToShipEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsPartiallyPaidCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPaidCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPickedCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPackedCondition
+                          - App\Modules\Automations\src\Conditions\Order\OrderNumberEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\OrderNumberContainsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HasTagsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HasAnyShipmentCondition
+                          - App\Modules\Automations\src\Conditions\Order\DoesntHaveTagsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HoursSincePlacedAtCondition
+                          - App\Modules\Automations\src\Conditions\Order\HoursSinceLastUpdatedAtCondition
+                      condition_value:
+                        type: string
+                        description: ''
+                        example: impedit
+                actions:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      action_class:
+                        type: string
+                        description: ''
+                        example: App\Modules\Slack\src\Automations\SendSlackNotificationAction
+                        enum:
+                          - App\Modules\Automations\src\Actions\Order\SetStatusCodeAction
+                          - App\Modules\Automations\src\Actions\Order\AddOrderCommentAction
+                          - App\Modules\Automations\src\Actions\Order\LogMessageAction
+                          - App\Modules\Automations\src\Actions\Order\SetLabelTemplateAction
+                          - App\Modules\Automations\src\Actions\Order\SplitOrderToWarehouseCodeAction
+                          - App\Modules\Automations\src\Actions\Order\ShipRemainingProductsAction
+                          - App\Modules\Automations\src\Actions\Order\PushToBoxTopOrderAction
+                          - App\Modules\Automations\src\Actions\Order\SendOrderEmailAction
+                          - App\Modules\Automations\src\Actions\Order\SplitBundleSkuAction
+                          - App\Modules\Automations\src\Actions\Order\AttachTagsAction
+                          - App\Modules\Automations\src\Actions\Order\DetachTagsAction
+                          - App\Modules\Slack\src\Automations\SendSlackNotificationAction
+                      action_value:
+                        type: string
+                        description: ''
+                        example: sint
+              required:
+                - name
+                - enabled
+                - priority
+  '/api/modules/automations/{id}':
+    get:
+      summary: ''
+      operationId: getApiModulesAutomationsId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - API
+    put:
+      summary: ''
+      operationId: putApiModulesAutomationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 200 characters.'
+                  example: vafzw
+                description:
+                  type: string
+                  description: ''
+                  example: 'Possimus quis sit voluptate laborum ea ipsam.'
+                enabled:
+                  type: boolean
+                  description: ''
+                  example: false
+                priority:
+                  type: number
+                  description: ''
+                  example: 8783534.927
+                conditions:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: object
+                    properties:
+                      condition_class:
+                        type: string
+                        description: ''
+                        example: App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeNotInCondition
+                        enum:
+                          - App\Modules\Automations\src\Conditions\Order\IsActiveCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\StatusCodeNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\CanFulfillFromLocationCondition
+                          - App\Modules\Automations\src\Conditions\Order\CanNotFulfillFromLocationCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingMethodNameInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeInCondition
+                          - App\Modules\Automations\src\Conditions\Order\ShippingAddressCountryCodeNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\LabelTemplateInCondition
+                          - App\Modules\Automations\src\Conditions\Order\CourierLabelTemplateIsNotInCondition
+                          - App\Modules\Automations\src\Conditions\Order\LineCountEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\TotalQuantityToShipEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsPartiallyPaidCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPaidCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPickedCondition
+                          - App\Modules\Automations\src\Conditions\Order\IsFullyPackedCondition
+                          - App\Modules\Automations\src\Conditions\Order\OrderNumberEqualsCondition
+                          - App\Modules\Automations\src\Conditions\Order\OrderNumberContainsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HasTagsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HasAnyShipmentCondition
+                          - App\Modules\Automations\src\Conditions\Order\DoesntHaveTagsCondition
+                          - App\Modules\Automations\src\Conditions\Order\HoursSincePlacedAtCondition
+                          - App\Modules\Automations\src\Conditions\Order\HoursSinceLastUpdatedAtCondition
+                      condition_value:
+                        type: string
+                        description: ''
+                        example: aliquam
+                actions:
+                  type: array
+                  description: ''
+                  example: null
+                  items:
+                    type: object
+                    properties:
+                      action_class:
+                        type: string
+                        description: ''
+                        example: App\Modules\Automations\src\Actions\Order\SendOrderEmailAction
+                        enum:
+                          - App\Modules\Automations\src\Actions\Order\SetStatusCodeAction
+                          - App\Modules\Automations\src\Actions\Order\AddOrderCommentAction
+                          - App\Modules\Automations\src\Actions\Order\LogMessageAction
+                          - App\Modules\Automations\src\Actions\Order\SetLabelTemplateAction
+                          - App\Modules\Automations\src\Actions\Order\SplitOrderToWarehouseCodeAction
+                          - App\Modules\Automations\src\Actions\Order\ShipRemainingProductsAction
+                          - App\Modules\Automations\src\Actions\Order\PushToBoxTopOrderAction
+                          - App\Modules\Automations\src\Actions\Order\SendOrderEmailAction
+                          - App\Modules\Automations\src\Actions\Order\SplitBundleSkuAction
+                          - App\Modules\Automations\src\Actions\Order\AttachTagsAction
+                          - App\Modules\Automations\src\Actions\Order\DetachTagsAction
+                          - App\Modules\Slack\src\Automations\SendSlackNotificationAction
+                      action_value:
+                        type: string
+                        description: ''
+                        example: aspernatur
+              required:
+                - name
+                - enabled
+                - priority
+    delete:
+      summary: ''
+      operationId: deleteApiModulesAutomationsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - API
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the automation.'
+        example: a
+        required: true
+        schema:
+          type: string
   /api/modules/autostatus/picking/configuration:
     get:
       summary: ''
@@ -1518,7 +1569,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesAutostatusPickingConfiguration
@@ -1526,7 +1577,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -1537,11 +1588,11 @@ paths:
                 max_batch_size:
                   type: integer
                   description: ''
-                  example: 1
+                  example: 20
                 max_order_age:
                   type: integer
                   description: ''
-                  example: 7
+                  example: 20
   /api/modules/dpd-ireland/connections:
     get:
       summary: ''
@@ -1562,7 +1613,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesDpdIrelandConnections
@@ -1570,7 +1621,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1581,15 +1632,15 @@ paths:
                 user:
                   type: string
                   description: ''
-                  example: veritatis
+                  example: nihil
                 token:
                   type: string
                   description: ''
-                  example: hic
+                  example: non
                 password:
                   type: string
                   description: ''
-                  example: 'A](Xwa7m`'
+                  example: '"Q|ilQ|vw'
                 live:
                   type: boolean
                   description: ''
@@ -1597,35 +1648,35 @@ paths:
                 contact:
                   type: string
                   description: ''
-                  example: sint
+                  example: qui
                 contact_telephone:
                   type: string
                   description: ''
-                  example: corporis
+                  example: amet
                 contact_email:
                   type: string
                   description: ''
-                  example: flatley.larissa@example.net
+                  example: legros.carmela@example.com
                 business_name:
                   type: string
                   description: ''
-                  example: numquam
+                  example: cum
                 address_line_1:
                   type: string
                   description: ''
-                  example: eaque
+                  example: tenetur
                 address_line_2:
                   type: string
                   description: ''
-                  example: dolorem
+                  example: nulla
                 address_line_3:
                   type: string
                   description: ''
-                  example: optio
+                  example: quae
                 address_line_4:
                   type: string
                   description: ''
-                  example: provident
+                  example: nisi
                 country_code:
                   type: string
                   description: ''
@@ -1653,13 +1704,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the connection.'
-        example: perspiciatis
+        example: sit
         required: true
         schema:
           type: string
@@ -1683,7 +1734,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesDpdUkDpdUkConnections
@@ -1691,7 +1742,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1702,15 +1753,15 @@ paths:
                 account_number:
                   type: string
                   description: ''
-                  example: cumque
+                  example: animi
                 username:
                   type: string
                   description: ''
-                  example: nisi
+                  example: perspiciatis
                 password:
                   type: string
                   description: ''
-                  example: y`C|Tx.dWYVPLFtIk_=
+                  example: 'gpWkv$C>L3!ro,B-5U!'
                 collection_address:
                   type: object
                   description: ''
@@ -1719,71 +1770,71 @@ paths:
                     company:
                       type: string
                       description: ''
-                      example: dicta
+                      example: minima
                     full_name:
                       type: string
                       description: ''
-                      example: occaecati
+                      example: enim
                     first_name:
                       type: string
                       description: ''
-                      example: placeat
+                      example: ullam
                     last_name:
                       type: string
                       description: ''
-                      example: expedita
+                      example: vero
                     email:
                       type: string
                       description: ''
-                      example: dortha.koelpin@example.net
+                      example: delpha.lemke@example.net
                     address1:
                       type: string
                       description: ''
-                      example: et
+                      example: quia
                     address2:
                       type: string
                       description: ''
-                      example: quia
+                      example: quis
                     postcode:
                       type: string
                       description: ''
-                      example: enim
+                      example: aut
                     city:
                       type: string
                       description: ''
-                      example: voluptas
+                      example: qui
                     state_code:
                       type: string
                       description: ''
-                      example: sed
+                      example: quibusdam
                     state_name:
                       type: string
                       description: ''
-                      example: asperiores
+                      example: repellendus
                     country_code:
                       type: string
                       description: ''
-                      example: aut
+                      example: aliquid
                     country_name:
                       type: string
                       description: ''
-                      example: exercitationem
+                      example: est
                     phone:
                       type: string
                       description: ''
-                      example: facilis
+                      example: cum
                     fax:
                       type: string
                       description: ''
-                      example: excepturi
+                      example: ea
                     website:
                       type: string
                       description: ''
-                      example: non
+                      example: consequatur
                     region:
                       type: string
                       description: ''
-                      example: sit
+                      example: consectetur
               required:
                 - account_number
                 - username
@@ -1797,13 +1848,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the dpd uk connection.'
-        example: recusandae
+        example: dolorem
         required: true
         schema:
           type: string
@@ -1827,7 +1878,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesMagentoApiConnections
@@ -1835,7 +1886,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1846,11 +1897,11 @@ paths:
                 base_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://monahan.com/sequi-aliquam-et-earum-sed-nisi-dicta'
+                  example: 'http://kulas.net/sequi-nobis-quis-cum-magni-non-ipsa-reiciendis'
                 magento_store_id:
                   type: number
                   description: ''
-                  example: 1.0
+                  example: 521588.4303323
                 tag:
                   type: string
                   description: ''
@@ -1862,7 +1913,7 @@ paths:
                 api_access_token:
                   type: string
                   description: ''
-                  example: voluptas
+                  example: vel
               required:
                 - base_url
                 - magento_store_id
@@ -1875,7 +1926,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -1886,23 +1937,23 @@ paths:
                 base_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.lowe.com/accusantium-odit-quis-alias-modi-rem-iusto-tenetur'
+                  example: 'http://www.zulauf.biz/aliquam-nam-sunt-corporis-quod-commodi.html'
                 magento_store_id:
                   type: number
                   description: ''
-                  example: 522878755.58
+                  example: 165102588.14207
                 tag:
                   type: string
                   description: ''
-                  example: rerum
+                  example: a
                 pricing_source_warehouse_id:
                   type: string
                   description: ''
-                  example: ipsa
+                  example: totam
                 api_access_token:
                   type: string
                   description: ''
-                  example: quasi
+                  example: quo
               required:
                 - base_url
                 - magento_store_id
@@ -1916,13 +1967,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the connection.'
-        example: 3
+        example: 13
         required: true
         schema:
           type: integer
@@ -1946,7 +1997,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesMagento2msiConnections
@@ -1954,7 +2005,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
   '/api/modules/magento2msi/connections/{id}':
     put:
       summary: ''
@@ -1963,7 +2014,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     delete:
       summary: ''
       operationId: deleteApiModulesMagento2msiConnectionsId
@@ -1971,7 +2022,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
@@ -2001,7 +2052,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesPrintnodeClients
@@ -2009,7 +2060,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -2029,13 +2080,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the client.'
-        example: 7
+        example: 13
         required: true
         schema:
           type: integer
@@ -2059,7 +2110,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/modules/printnode/printjobs:
     post:
       summary: ''
@@ -2068,7 +2119,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2079,23 +2130,23 @@ paths:
                 printer_id:
                   type: integer
                   description: ''
-                  example: 6
+                  example: 8
                 title:
                   type: string
                   description: ''
-                  example: et
+                  example: delectus
                 content_type:
                   type: string
                   description: ''
-                  example: sunt
+                  example: minima
                 content:
                   type: string
                   description: ''
-                  example: labore
+                  example: aut
                 expire_after:
                   type: integer
                   description: ''
-                  example: 18
+                  example: 7
                 pdf_url:
                   type: string
                   description: ''
@@ -2122,7 +2173,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesRms_apiConnections
@@ -2130,7 +2181,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -2145,7 +2196,7 @@ paths:
                 url:
                   type: string
                   description: 'This field is required when <code>id</code> is <code>null</code>.  Must be a valid URL.'
-                  example: 'http://reichert.com/numquam-pariatur-ex-quo.html'
+                  example: 'http://www.ryan.com/'
                 username:
                   type: string
                   description: 'This field is required when <code>id</code> is <code>null</code>.'
@@ -2157,7 +2208,7 @@ paths:
                 warehouse_code:
                   type: string
                   description: 'Must not be greater than 5 characters.'
-                  example: blneg
+                  example: jft
   '/api/modules/rms_api/connections/{id}':
     delete:
       summary: ''
@@ -2166,13 +2217,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the connection.'
-        example: 13
+        example: 20
         required: true
         schema:
           type: integer
@@ -2196,7 +2247,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesSlackConfig
@@ -2204,7 +2255,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -2215,7 +2266,7 @@ paths:
                 incoming_webhook_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.hirthe.com/'
+                  example: 'http://schamberger.com/iure-error-rerum-quia-ea-totam-vel'
   /api/modules/stocktake-suggestions/configuration:
     get:
       summary: ''
@@ -2236,7 +2287,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesStocktakeSuggestionsConfiguration
@@ -2244,7 +2295,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
   /api/modules/webhooks/subscriptions:
     get:
       summary: ''
@@ -2265,7 +2316,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiModulesWebhooksSubscriptions
@@ -2273,7 +2324,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2284,7 +2335,7 @@ paths:
                 endpoint:
                   type: string
                   description: 'Must start with one of <code>https://</code>.'
-                  example: 'https://hpyn'
+                  example: 'https://vuqe'
               required:
                 - endpoint
   /api/navigation-menu:
@@ -2307,7 +2358,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiNavigationMenu
@@ -2315,7 +2366,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2326,15 +2377,15 @@ paths:
                 name:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
-                  example: stmkejjmmdoxy
+                  example: web
                 url:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 999 characters.'
-                  example: 'https://www.connelly.org/minus-itaque-iste-velit-soluta'
+                  example: 'http://vandervort.net/enim-aut-autem-velit-omnis-quod-id-magnam.html'
                 group:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
-                  example: ipgfqjp
+                  example: iaeundnoz
                   enum:
                     - picklist
                     - packlist
@@ -2351,7 +2402,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2362,15 +2413,15 @@ paths:
                 name:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
-                  example: sctobdmnkjzxxczxobjl
+                  example: dvcvqektvefyhdhumfdnqm
                 url:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 999 characters.'
-                  example: 'http://rowe.com/'
+                  example: 'https://www.schultz.info/quia-odit-inventore-earum'
                 group:
                   type: string
                   description: 'Must be at least 3 characters. Must not be greater than 100 characters.'
-                  example: fkqfypzafypxv
+                  example: nqvsuogzhdi
                   enum:
                     - picklist
                     - packlist
@@ -2386,13 +2437,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the navigation menu.'
-        example: 116
+        example: 1
         required: true
         schema:
           type: integer
@@ -2404,7 +2455,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2415,67 +2466,67 @@ paths:
                 email:
                   type: string
                   description: 'Must be a valid email address. Must not be greater than 255 characters.'
-                  example: hanna.schaden@example.org
+                  example: erdman.dedrick@example.com
                 phone:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ojdsjdpuctrrzxltlyfxfxt
+                  example: xgicgzgrasgupqs
                 first_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: vqc
+                  example: vcztlfactruuqmygaze
                 last_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: zasgmxusiuuwvccyqsjc
+                  example: nzgybrymfnjbe
                 company:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: nrvstaxqqsiknikms
+                  example: lnorrxzewmoyknfnhoscqknz
                 address1:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: w
+                  example: capr
                 address2:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: cpnynniglxvgiikenkfj
+                  example: lbzpjieycoyz
                 postcode:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ulzldceug
+                  example: kxhgvflrqdhuc
                 city:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: xzfz
+                  example: wgpufjkbfzsnxftnmgc
                 country_code:
                   type: string
                   description: 'Must be 2 characters.'
-                  example: zj
+                  example: gw
                 country_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: 'y'
+                  example: ypiezw
                 fax:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: kandrckctgnulahzrjzyiswo
+                  example: cvnvgq
                 region:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: kfxoqazycptrsvieti
+                  example: pwheswkwtcnnofnuoujpsk
                 state_code:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ordgmnzaz
+                  example: pzstb
                 state_name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: jzsyrmmiq
+                  example: amouwghktsconmimtbfxldsed
                 website:
                   type: string
                   description: 'Must be a valid URL. Must not be greater than 255 characters.'
-                  example: ncv
+                  example: lvbizxvzgfcfct
               required:
                 - email
                 - phone
@@ -2498,7 +2549,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the address.'
-        example: 1
+        example: 12
         required: true
         schema:
           type: integer
@@ -2522,7 +2573,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiOrderComments
@@ -2530,7 +2581,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2541,11 +2592,11 @@ paths:
                 order_id:
                   type: number
                   description: ''
-                  example: 43.841489
+                  example: 2554.142
                 comment:
                   type: string
                   description: ''
-                  example: libero
+                  example: sunt
               required:
                 - order_id
                 - comment
@@ -2569,7 +2620,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/order/products:
     get:
       summary: ''
@@ -2590,7 +2641,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   '/api/order/products/{id}':
     put:
       summary: ''
@@ -2599,7 +2650,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
@@ -2629,7 +2680,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiOrderShipments
@@ -2637,7 +2688,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2648,11 +2699,11 @@ paths:
                 order_id:
                   type: number
                   description: ''
-                  example: 63.81858088
+                  example: 118322.33184618
                 shipping_number:
                   type: string
                   description: ''
-                  example: ipsa
+                  example: eum
               required:
                 - order_id
                 - shipping_number
@@ -2676,7 +2727,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiOrdersAddresses
@@ -2684,7 +2735,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2695,51 +2746,51 @@ paths:
                 first_name:
                   type: string
                   description: ''
-                  example: voluptatem
+                  example: totam
                 last_name:
                   type: string
                   description: ''
-                  example: neque
+                  example: est
                 gender:
                   type: string
                   description: ''
-                  example: ex
+                  example: qui
                 address1:
                   type: string
                   description: ''
-                  example: animi
+                  example: iste
                 address2:
                   type: string
                   description: ''
-                  example: labore
+                  example: id
                 postcode:
                   type: string
                   description: ''
-                  example: odio
+                  example: eaque
                 city:
                   type: string
                   description: ''
-                  example: optio
+                  example: repudiandae
                 country_code:
                   type: string
                   description: ''
-                  example: vel
+                  example: exercitationem
                 country_name:
                   type: string
                   description: ''
-                  example: ea
+                  example: rem
                 company:
                   type: string
                   description: ''
-                  example: sapiente
+                  example: quia
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: swaniawski.ivory@example.com
+                  example: pablo29@example.com
                 phone:
                   type: string
                   description: ''
-                  example: quaerat
+                  example: officiis
               required:
                 - first_name
                 - last_name
@@ -2772,7 +2823,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiOrdersStatuses
@@ -2780,7 +2831,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2795,7 +2846,7 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: zeukfweswhpqikirmygfjl
+                  example: pkpiucuczghznacsd
               required:
                 - name
   '/api/orders-statuses/{id}':
@@ -2806,7 +2857,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -2817,7 +2868,7 @@ paths:
                 order_active:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 order_on_hold:
                   type: boolean
                   description: ''
@@ -2825,7 +2876,7 @@ paths:
                 hidden:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
                 sync_ecommerce:
                   type: boolean
                   description: ''
@@ -2837,13 +2888,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the orders status.'
-        example: explicabo
+        example: facere
         required: true
         schema:
           type: string
@@ -2867,7 +2918,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiOrders
@@ -2875,7 +2926,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -2886,7 +2937,7 @@ paths:
                 order_number:
                   type: string
                   description: ''
-                  example: consectetur
+                  example: accusamus
                 label_template:
                   type: string
                   description: ''
@@ -2902,19 +2953,19 @@ paths:
                       sku:
                         type: string
                         description: ''
-                        example: omnis
+                        example: commodi
                       name:
                         type: string
                         description: ''
-                        example: quasi
+                        example: sed
                       quantity:
                         type: number
                         description: ''
-                        example: 39701.09
+                        example: 127824.4514342
                       price:
                         type: number
                         description: ''
-                        example: 237989.452
+                        example: 117087246.7597
                     required:
                       - sku
                       - name
@@ -2943,7 +2994,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     put:
       summary: ''
       operationId: putApiOrdersId
@@ -2951,7 +3002,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -2974,21 +3025,21 @@ paths:
                 packed_at:
                   type: string
                   description: 'Must be a valid date.'
-                  example: '2024-10-16T11:48:51'
+                  example: '2024-10-31T22:53:16'
                 packer_user_id:
                   type: integer
                   description: ''
-                  example: 7
+                  example: 12
                 is_packed:
                   type: boolean
                   description: ''
-                  example: true
+                  example: false
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the order.'
-        example: 2
+        example: 7
         required: true
         schema:
           type: integer
@@ -3000,7 +3051,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -3011,27 +3062,27 @@ paths:
                 sku_shipped:
                   type: string
                   description: ''
-                  example: et
+                  example: velit
                 product_id:
                   type: integer
                   description: ''
-                  example: 2
+                  example: 18
                 order_id:
                   type: integer
                   description: ''
-                  example: 10
+                  example: 1
                 order_product_id:
                   type: integer
                   description: ''
-                  example: 11
+                  example: 15
                 warehouse_id:
                   type: integer
                   description: ''
-                  example: 6
+                  example: 18
                 quantity_shipped:
                   type: number
                   description: ''
-                  example: 8392500.91
+                  example: 9018336.278
                 order_shipment_id:
                   type: integer
                   description: ''
@@ -3056,7 +3107,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3067,7 +3118,7 @@ paths:
                 filter:
                   type: string
                   description: ''
-                  example: ea
+                  example: quia
               required:
                 - filter
   /api/picklist:
@@ -3090,7 +3141,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/picklist/picks:
     post:
       summary: ''
@@ -3099,7 +3150,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -3110,16 +3161,16 @@ paths:
                 quantity_picked:
                   type: number
                   description: 'This field is required when <code>quantity_skipped_picking</code> is not present.'
-                  example: 4469.86062212
+                  example: 9877.97122
                 quantity_skipped_picking:
                   type: number
                   description: 'This field is required when <code>quantity_picked</code> is not present.'
-                  example: 89.0
+                  example: 1036870.6
                 order_product_ids:
                   type: array
                   description: ''
                   example:
-                    - 57923844.653
+                    - 3162517.84487
                   items:
                     type: number
   '/api/picklist/picks/{id}':
@@ -3130,13 +3181,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the pick.'
-        example: 2
+        example: 10
         required: true
         schema:
           type: integer
@@ -3148,7 +3199,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3159,11 +3210,11 @@ paths:
                 printer_id:
                   type: string
                   description: ''
-                  example: in
+                  example: autem
                 content:
                   type: string
                   description: ''
-                  example: id
+                  example: placeat
               required:
                 - printer_id
                 - content
@@ -3187,7 +3238,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/product/tags:
     get:
       summary: ''
@@ -3208,7 +3259,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/products-aliases:
     get:
       summary: ''
@@ -3229,7 +3280,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiProductsAliases
@@ -3237,7 +3288,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3248,11 +3299,11 @@ paths:
                 product_id:
                   type: integer
                   description: ''
-                  example: 1
+                  example: 12
                 alias:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ajhuogoogxjm
+                  example: avisdxhvemu
               required:
                 - product_id
                 - alias
@@ -3276,7 +3327,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiProducts
@@ -3284,7 +3335,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3295,15 +3346,15 @@ paths:
                 sku:
                   type: string
                   description: 'Must not be greater than 50 characters.'
-                  example: lpdzmoffmpnhr
+                  example: qvlj
                 name:
                   type: string
                   description: 'Must not be greater than 100 characters.'
-                  example: z
+                  example: csrdvpbs
                 price:
                   type: number
                   description: ''
-                  example: 835409595.60737
+                  example: 4030802.6856
               required:
                 - sku
                 - name
@@ -3328,7 +3379,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiQuantityDiscountProduct
@@ -3336,7 +3387,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3347,11 +3398,11 @@ paths:
                 quantity_discount_id:
                   type: string
                   description: ''
-                  example: illum
+                  example: nulla
                 product_id:
                   type: string
                   description: ''
-                  example: neque
+                  example: ut
               required:
                 - quantity_discount_id
                 - product_id
@@ -3363,13 +3414,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the quantity discount product.'
-        example: 11
+        example: 18
         required: true
         schema:
           type: integer
@@ -3393,7 +3444,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiQuantityDiscounts
@@ -3401,7 +3452,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3412,11 +3463,11 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: mpkr
+                  example: ibjyvhptujtujnnlglouqpxbm
                 job_class:
                   type: string
                   description: ''
-                  example: App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPercentDiscount
+                  example: App\Modules\DataCollectorQuantityDiscounts\src\Jobs\VolumePurchasePriceDiscount
                   enum:
                     - App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPercentDiscount
                     - App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPriceDiscount
@@ -3434,7 +3485,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3445,7 +3496,7 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: bzawxzcdxronfgodskdasr
+                  example: tgaquvz
                 configuration:
                   type: object
                   description: ''
@@ -3454,7 +3505,7 @@ paths:
                 job_class:
                   type: string
                   description: ''
-                  example: App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPercentDiscount
+                  example: App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXGetYForZPriceDiscount
                   enum:
                     - App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPercentDiscount
                     - App\Modules\DataCollectorQuantityDiscounts\src\Jobs\BuyXForYPriceDiscount
@@ -3472,13 +3523,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the quantity discount.'
-        example: quidem
+        example: beatae
         required: true
         schema:
           type: string
@@ -3502,7 +3553,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/reports/inventory:
     get:
       summary: ''
@@ -3523,7 +3574,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/reports/picks:
     get:
       summary: ''
@@ -3544,7 +3595,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/reports/stocktake-suggestions:
     get:
       summary: ''
@@ -3565,7 +3616,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/restocking:
     get:
       summary: ''
@@ -3586,7 +3637,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/settings/modules/automations/run:
     post:
       summary: ''
@@ -3595,7 +3646,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3606,7 +3657,7 @@ paths:
                 automation_id:
                   type: integer
                   description: ''
-                  example: 17
+                  example: 19
               required:
                 - automation_id
   /api/settings/user/me:
@@ -3629,7 +3680,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiSettingsUserMe
@@ -3637,7 +3688,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -3648,15 +3699,15 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: officiis
+                  example: dolorum
                 printer_id:
                   type: number
                   description: ''
-                  example: 3492360.877759
+                  example: 32.016
                 address_label_template:
                   type: string
                   description: ''
-                  example: et
+                  example: quam
                 ask_for_shipping_number:
                   type: boolean
                   description: ''
@@ -3669,7 +3720,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3680,7 +3731,7 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: molestias
+                  example: illo
                 config:
                   type: object
                   description: ''
@@ -3696,7 +3747,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3707,7 +3758,7 @@ paths:
                 name:
                   type: string
                   description: ''
-                  example: optio
+                  example: facere
                 config:
                   type: object
                   description: ''
@@ -3720,7 +3771,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the widget.'
-        example: beatae
+        example: voluptas
         required: true
         schema:
           type: string
@@ -3732,7 +3783,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3743,19 +3794,19 @@ paths:
                 order_id:
                   type: string
                   description: ''
-                  example: non
+                  example: sequi
                 shipping_number:
                   type: string
                   description: ''
-                  example: delectus
+                  example: doloremque
                 carrier:
                   type: string
                   description: ''
-                  example: at
+                  example: adipisci
                 service:
                   type: string
                   description: ''
-                  example: est
+                  example: sed
               required:
                 - order_id
                 - shipping_number
@@ -3767,7 +3818,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3778,11 +3829,11 @@ paths:
                 shipping_service_code:
                   type: string
                   description: ''
-                  example: at
+                  example: et
                 order_id:
                   type: string
                   description: ''
-                  example: eum
+                  example: voluptate
               required:
                 - shipping_service_code
                 - order_id
@@ -3806,7 +3857,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/stocktake-suggestions-details:
     get:
       summary: ''
@@ -3827,7 +3878,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/stocktake-suggestions:
     get:
       summary: ''
@@ -3848,7 +3899,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
   /api/stocktakes:
     post:
       summary: ''
@@ -3857,7 +3908,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3868,15 +3919,15 @@ paths:
                 warehouse_id:
                   type: integer
                   description: ''
-                  example: 3
+                  example: 20
                 product_id:
                   type: integer
                   description: ''
-                  example: 9
+                  example: 8
                 new_quantity:
                   type: number
                   description: ''
-                  example: 5.76
+                  example: 196307692.0
               required:
                 - warehouse_id
                 - product_id
@@ -3889,7 +3940,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -3900,17 +3951,17 @@ paths:
                 shipping_address_id:
                   type: integer
                   description: ''
-                  example: 7
+                  example: 1
                 billing_address_id:
                   type: integer
                   description: ''
-                  example: 2
+                  example: 15
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the transaction.'
-        example: est
+        example: earum
         required: true
         schema:
           type: string
@@ -3934,7 +3985,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Endpoints
+        - API
     post:
       summary: ''
       operationId: postApiWarehouses
@@ -3942,7 +3993,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -3953,11 +4004,11 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: raxwedxrwickry
+                  example: cpggdeogynwqsccwylu
                 code:
                   type: string
                   description: 'Must not be greater than 5 characters.'
-                  example: hqxx
+                  example: e
               required:
                 - name
                 - code
@@ -3969,7 +4020,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -3980,11 +4031,11 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 250 characters.'
-                  example: zvw
+                  example: yrvvvzqlrddw
                 code:
                   type: string
                   description: 'Must not be greater than 5 characters.'
-                  example: r
+                  example: rlvx
                 tags:
                   type: object
                   description: ''
@@ -3997,13 +4048,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the warehouse.'
-        example: 22
+        example: 1
         required: true
         schema:
           type: integer
@@ -4015,7 +4066,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
   /api/pdf/preview:
     post:
       summary: ''
@@ -4024,7 +4075,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
   /api/pdf/print:
     post:
       summary: ''
@@ -4033,7 +4084,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -4054,15 +4105,15 @@ paths:
                 product_sku:
                   type: string
                   description: ''
-                  example: dolore
+                  example: culpa
                 template:
                   type: string
                   description: ''
-                  example: nostrum
+                  example: quae
                 printer_id:
                   type: integer
                   description: ''
-                  example: 8
+                  example: 13
               required:
                 - template
                 - printer_id
@@ -4074,7 +4125,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: true
         content:
@@ -4085,11 +4136,11 @@ paths:
                 id:
                   type: integer
                   description: ''
-                  example: 12
+                  example: 1
                 printer_id:
                   type: integer
                   description: ''
-                  example: 12
+                  example: 8
               required:
                 - id
                 - printer_id
@@ -4101,7 +4152,7 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
       requestBody:
         required: false
         content:
@@ -4112,7 +4163,7 @@ paths:
                 id:
                   type: integer
                   description: ''
-                  example: 4
+                  example: 7
   '/api/print/order/{order_number}/{view}':
     put:
       summary: ''
@@ -4121,13 +4172,13 @@ paths:
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - API
     parameters:
       -
         in: path
         name: order_number
         description: ''
-        example: 3
+        example: 13
         required: true
         schema:
           type: integer
@@ -4135,20 +4186,20 @@ paths:
         in: path
         name: view
         description: ''
-        example: veritatis
+        example: velit
         required: true
         schema:
           type: string
 tags:
   -
-    name: Endpoints
+    name: API
     description: ''
 components:
   securitySchemes:
     default:
       type: http
       scheme: bearer
-      description: 'You can retrieve your token by visiting your dashboard and clicking <a href="/settings/api" target="_blank"><strong>Generate API Token</strong></a>.'
+      description: 'You can retrieve your token by visiting <a href="/settings/api" target="_blank"><strong>Menu > Setting > API > Create API Token</strong></a>.'
 security:
   -
     default: []

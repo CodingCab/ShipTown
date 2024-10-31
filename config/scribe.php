@@ -19,7 +19,7 @@ return [
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => null,
+    'base_url' => 'https://demo.myshiptown.com',
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -244,7 +244,7 @@ return [
          * Any extra authentication-related info for your users. For instance, you can describe how to find or generate their auth credentials.
          * Markdown and HTML are supported.
          */
-        'extra_info' => 'You can retrieve your token by visiting your dashboard and clicking <a href="/settings/api" target="_blank"><strong>Generate API Token</strong></a>.',
+        'extra_info' => 'You can retrieve your token by visiting <a href="/settings/api" target="_blank"><strong>Menu > Setting > API > Create API Token</strong></a>.',
     ],
 
     /*
@@ -252,9 +252,6 @@ return [
      */
     'intro_text' => <<<'INTRO'
 This documentation aims to provide all the information you need to work with our API.
-
-<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
-You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
 INTRO
     ,
 
@@ -378,7 +375,7 @@ INTRO
     'external' => ['html_attributes' => []],
     'groups' => [
         // Endpoints which don't have a @group will be placed in this default group.
-        'default' => 'Endpoints',
+        'default' => 'API',
         // By default, Scribe will sort groups alphabetically, and endpoints in the order their routes are defined.
         // You can override this by listing the groups, subgroups and endpoints here in the order you want them.
         // See https://scribe.knuckles.wtf/blog/laravel-v4#easier-sorting and https://scribe.knuckles.wtf/laravel/reference/config#order for details
