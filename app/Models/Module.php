@@ -14,6 +14,9 @@ use Spatie\QueryBuilder\QueryBuilder;
  * @property int $id
  * @property string $service_provider_class
  * @property bool $enabled
+ * @property string $name
+ * @property string $description
+ * @property string $settings_link
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
@@ -26,11 +29,11 @@ class Module extends BaseModel
         'enabled',
         'name',
         'description',
+        'settings_link',
     ];
 
     protected $appends = [
-        'enabled' => false,
-        'settings_link' => '',
+        'enabled' => false
     ];
 
     protected function casts(): array
