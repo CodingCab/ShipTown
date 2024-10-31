@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductAliasStoreRequest;
+use App\Http\Requests\ProductAliasUpdateRequest;
 use App\Http\Resources\ProductAliasResource;
 use App\Models\ProductAlias;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -22,5 +23,12 @@ class ProductAliasController extends Controller
         $product = ProductAlias::query()->updateOrCreate(['alias' => $request->validated('alias')], $request->validated());
 
         return ProductAliasResource::make($product);
+    }
+
+    public function update(ProductAliasUpdateRequest $request, ProductAlias $productsAlias)
+    {
+        $productsAlias->update($request->validated());
+
+        return ProductAliasResource::make($productsAlias);
     }
 }
