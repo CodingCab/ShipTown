@@ -1,21 +1,33 @@
 <template>
-    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modal_id" @hidden="emitNotification" size="xl" scrollable no-fade>
+    <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" @hidden="emitNotification" size="md" scrollable no-fade>
         <template #modal-header>
             <span>New Product</span>
         </template>
 
         <div class="container">
-            <input id="newProductSku" type="text" :disabled="! isCreatingProduct" v-model="newProduct.sku" class="form-control mb-2" placeholder="Product SKU">
-            <input id="newProductName" type="text" v-model="newProduct.name" class="form-control mb-2" placeholder="Product Name">
-            <input id="newProductPrice" type="number" :disabled="! isCreatingProduct" v-model="newProduct.price" class="form-control" placeholder="Product Price">
+            <input id="newProductSku" type="text" :disabled="! isCreatingProduct" v-model="newProduct.sku"
+                   class="form-control mb-2" placeholder="Product SKU">
+            <input id="newProductName" type="text" v-model="newProduct.name" class="form-control mb-2"
+                   placeholder="Product Name">
+            <input id="newProductPrice" type="number" :disabled="! isCreatingProduct" v-model="newProduct.price"
+                   class="form-control" placeholder="Product Price">
         </div>
         <template #modal-footer>
-            <b-button variant="secondary" class="float-right" @click="$bvModal.hide(modal_id);">
-                Cancel
-            </b-button>
-            <b-button variant="primary" class="float-right" @click="createNewProduct">
-                Create
-            </b-button>
+            <div class="d-flex justify-content-between w-100 m-0">
+                <div>
+                    <b-button variant="primary" class="float-right" @click="openImportProductsModal">
+                        Import CSV File
+                    </b-button>
+                </div>
+                <div class="d-flex">
+                    <b-button variant="secondary" class="float-right mr-2" @click="$bvModal.hide(modalId);">
+                        Cancel
+                    </b-button>
+                    <b-button variant="primary" class="float-right" @click="createNewProduct">
+                        Create
+                    </b-button>
+                </div>
+            </div>
         </template>
     </b-modal>
 </template>
@@ -31,7 +43,7 @@ export default {
     mixins: [api],
 
     beforeMount() {
-        Modals.EventBus.$on('show::modal::'+ this.modal_id , (data) => {
+        Modals.EventBus.$on('show::modal::' + this.modalId, (data) => {
             this.product = data['product'];
 
             this.newProduct = {
@@ -46,7 +58,7 @@ export default {
                 this.newProduct.price = this.product.price;
             }
 
-            this.$bvModal.show(this.modal_id);
+            this.$bvModal.show(this.modalId);
         })
     },
 
@@ -57,7 +69,7 @@ export default {
                 name: '',
                 price: '',
             },
-            modal_id: 'new-product-modal',
+            modalId: 'new-product-modal',
             product: undefined
         }
     },
@@ -71,16 +83,21 @@ export default {
     methods: {
         createNewProduct() {
             this.apiPostProducts(this.newProduct)
-                .then(response => {
-                    this.$bvModal.hide(this.modal_id);
+                .then(() => {
+                    this.$bvModal.hide(this.modalId);
                 })
                 .catch(error => {
                     this.displayApiCallError(error);
                 })
         },
 
+        openImportProductsModal() {
+            this.$bvModal.hide(this.modalId);
+            this.$modal.showImportProductsModal();
+        },
+
         emitNotification() {
-            Modals.EventBus.$emit('hide::modal::'+ this.modal_id, this.newProduct);
+            Modals.EventBus.$emit('hide::modal::' + this.modalId, this.newProduct);
         }
     }
 };

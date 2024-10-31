@@ -193,6 +193,7 @@ Vue.component('data-collection-choose-payment-type-modal', require('./modals/Dat
 Vue.component('data-collection-add-payment-modal', require('./modals/DataCollectionAddPaymentModal.vue').default);
 Vue.component('data-collection-transaction-status-modal', require('./modals/DataCollectionTransactionStatusModal.vue').default);
 Vue.component('module-data-collector-payments-new-payment-type-modal', require('./modals/ModuleDataCollectorPaymentsNewPaymentModal.vue').default);
+Vue.component('import-products-modal', require('./modals/ImportProductsModal.vue').default);
 
 Vue.component('stocktake-suggestions-page', require('./components/Settings/Modules/StocktakeSuggestionsPage.vue').default);
 Vue.component('activity-log-page', require('./components/ActivityLogPage.vue').default);

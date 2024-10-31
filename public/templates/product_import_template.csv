@@ -1,0 +1,2 @@
+sku;name;department;category;price;sale_price;sale_price_start_date;sale_price_end_date;commodity_code;supplier
+45;Test Product;Services;Test Category;85.85;27.29;2023-10-26;2024-10-11;6109100010;ShipTown

@@ -121,6 +121,10 @@ export default {
             return axios.post('/api/csv-import/data-collections', data);
         },
 
+        apiPostCsvImportProducts(data) {
+            return axios.post('/api/csv-import/products', data);
+        },
+
         apiPostDataCollection(data) {
             return axios.post('/api/data-collector', data);
         },

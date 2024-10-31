@@ -2,7 +2,7 @@
     <b-modal body-class="ml-0 mr-0 pl-1 pr-1" :id="modalId" title="Select or create new shipping/billing address"
              size="xl" scrollable no-fade>
         <template #modal-header>
-            <span>New Product</span>
+            <span>New Address</span>
         </template>
 
         <div class="container">

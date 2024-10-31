@@ -22,6 +22,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('configurations', Api\ConfigurationController::class, ['index', 'store']);
     RouteService::apiResource('csv-import', Api\CsvImportController::class, ['store']);
     RouteService::apiResource('csv-import/data-collections', Api\CsvImport\DataCollectionsImportController::class, ['store']);
+    RouteService::apiResource('csv-import/products', Api\CsvImport\ProductsImportController::class, ['store']);
     RouteService::apiResource('data-collector-actions/add-product', Api\DataCollectorActions\AddProductController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-stocktake', Api\DataCollectorActions\ImportAsStocktakeController::class, ['store']);
     RouteService::apiResource('data-collector-actions/import-as-sale-inventory-movement', Api\DataCollectorActions\ImportAsSaleInventoryMovementController::class, ['store']);

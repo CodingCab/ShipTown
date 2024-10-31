@@ -66,6 +66,10 @@ const Modals = {
             showTransactionStatusModal() {
                 this.show('data-collection-transaction-status-modal');
             },
+
+            showImportProductsModal() {
+                this.show('import-products-modal');
+            }
         }
     }
 }
