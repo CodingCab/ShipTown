@@ -70,6 +70,10 @@ export default {
             return axios.post('/api/products-aliases', data);
         },
 
+        apiPutProductsAliases: function (id, data) {
+            return axios.put('/api/products-aliases/' + id, data);
+        },
+
         apiGetProductsPrices: function (params) {
             return axios.get('/api/products-prices', {params: params});
         },

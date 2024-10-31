@@ -217,9 +217,18 @@
                                 <input id="newProductAliasInput" type="text" class="form-control small newProductAliasInput mb-2"
                                        placeholder="Add new alias here"
                                        @keyup.enter="addAliasToProduct">
-                                <div v-for="alias in product.aliases" :key="alias.id">
-                                    <div class="badge mb-2">{{ alias.alias }}</div>
-                                </div>
+                                <table>
+                                    <tr v-for="alias in product.aliases" :key="alias.id">
+                                        <td>
+                                            <div class="badge mb-2">{{ alias.alias }}</div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control small quantityPackAliasInput mb-2"
+                                                placeholder="Pack quantity here"
+                                                @keyup.enter="changeQuantityAlias(alias)" v-model="alias.quantity">
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </template>
 
@@ -502,7 +511,17 @@
                         this.displayApiCallError(error);
                     });
                 return null;
-            }
+            },
+
+            changeQuantityAlias(alias) {
+                this.apiPutProductsAliases(alias.id, {quantity: alias.quantity})
+                    .then(() => {
+                    })
+                    .catch((error) => {
+                        this.displayApiCallError(error);
+                    });
+                return null;
+            },
         }
     }
 </script>
@@ -514,7 +533,8 @@ li {
 .badge {
     font-family: "Lato",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
 }
-.table th, .table td {;
+
+.table th, .table td {
     padding: 0.0rem;
 }
 
@@ -525,7 +545,11 @@ li {
     outline: 0 none;
 }
 
-.newProductAliasInput{
+.newProductAliasInput {
+    font-size: 8pt;
+}
+
+.quantityPackAliasInput {
     font-size: 8pt;
 }
 

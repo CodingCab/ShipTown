@@ -14,7 +14,7 @@ class ProductAliasUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'quantity' => 'required|integer',
+            'quantity' => 'required|numeric',
         ];
     }
 }
