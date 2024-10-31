@@ -192,6 +192,7 @@ Vue.component('new-address-modal', require('./modals/NewAddressModal.vue').defau
 Vue.component('data-collection-choose-payment-type-modal', require('./modals/DataCollectionChoosePaymentTypeModal.vue').default);
 Vue.component('data-collection-add-payment-modal', require('./modals/DataCollectionAddPaymentModal.vue').default);
 Vue.component('module-data-collector-payments-new-payment-type-modal', require('./modals/ModuleDataCollectorPaymentsNewPaymentModal.vue').default);
+Vue.component('module-vat-rates-create-update-vat-rate-modal', require('./modals/CreateUpdateVatRateModal.vue').default);
 
 Vue.component('stocktake-suggestions-page', require('./components/Settings/Modules/StocktakeSuggestionsPage.vue').default);
 Vue.component('activity-log-page', require('./components/ActivityLogPage.vue').default);
@@ -264,6 +265,7 @@ Vue.component('quantity-discounts-configuration-page', require('./components/Set
 Vue.component('quantity-discounts-edit-page', require('./components/Settings/QuantityDiscountEditPage.vue').default);
 Vue.component('report-order', require('./components/Reports/ReportOrder.vue').default);
 Vue.component('data-collector-payments-configuration-page', require('./components/Settings/DataCollectorPaymentsConfigurationPage.vue').default);
+Vue.component('vat-rates-configuration-page', require('./components/Settings/VatRatesConfigurationPage.vue').default);
 
 Vue.prototype.$eventBus = new Vue();
 

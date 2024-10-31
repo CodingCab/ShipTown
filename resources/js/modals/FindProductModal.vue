@@ -70,7 +70,7 @@ export default {
 
             const params = {};
             params['filter[search]'] = this.searchText;
-            params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals';
+            params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals,taxRate';
             params['sort'] = this.getUrlParameter('sort', '-quantity');
 
             this.apiGetProducts(params)

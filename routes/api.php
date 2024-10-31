@@ -90,6 +90,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('stocktakes', Api\StocktakesController::class, ['store']);
     RouteService::apiResource('transactions', Api\TransactionController::class, ['update']);
     RouteService::apiResource('warehouses', Api\WarehouseController::class);
+    RouteService::apiResource('vat-rates', Api\VatRateController::class);
 });
 
 Route::post('pdf/download', [Api\PDF\PdfDownloadController::class, 'update']);

@@ -6,6 +6,7 @@ use App\BaseModel;
 use App\Events\Product\ProductTagAttachedEvent;
 use App\Events\Product\ProductTagDetachedEvent;
 use App\Modules\InventoryMovementsStatistics\src\Models\InventoryMovementsStatistic;
+use App\Modules\VatRates\src\Models\VatRate;
 use App\Traits\HasTagsTrait;
 use App\Traits\LogsActivityTrait;
 use App\User;
@@ -39,6 +40,8 @@ use Spatie\Tags\Tag;
  * @property float $sale_price
  * @property Carbon $sale_price_start_date
  * @property Carbon $sale_price_end_date
+ * @property string commodity_code
+ * @property string default_tax_code
  * @property float $quantity
  * @property float $quantity_reserved
  * @property float $quantity_available
@@ -86,7 +89,6 @@ use Spatie\Tags\Tag;
  *
  * @property-read Collection|ProductPrice[] $prices
  * @property-read int|null $prices_count
- * @property string commodity_code
  *
  * @method static Builder|Product hasTags($tags)
  * @method static Builder|Product whereQuantityAvailable($value)
@@ -117,6 +119,7 @@ class Product extends BaseModel
         'sale_price',
         'sale_price_start_date',
         'sale_price_end_date',
+        'default_tax_code',
         'quantity_reserved',
         'quantity',
         'supplier',
@@ -199,6 +202,7 @@ class Product extends BaseModel
                 'inventory.warehouse',
                 'inventoryMovementsStatistics',
                 'inventoryTotals',
+                'taxRate',
             ]);
     }
 
@@ -325,6 +329,11 @@ class Product extends BaseModel
     public function aliases(): HasMany
     {
         return $this->hasMany(ProductAlias::class);
+    }
+
+    public function taxRate(): HasOne
+    {
+        return $this->hasOne(VatRate::class, 'code', 'default_tax_code');
     }
 
     public static function findBySKU(string $sku): Model|Builder|null

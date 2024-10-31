@@ -41,7 +41,7 @@ export default {
         loadProduct(product_id) {
             let params = {
                 'filter[id]': product_id,
-                'include': 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals',
+                'include': 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals,taxRate',
             };
 
             this.apiGetProducts(params)

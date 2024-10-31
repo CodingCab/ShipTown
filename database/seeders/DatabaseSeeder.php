@@ -62,6 +62,7 @@ class DatabaseSeeder extends Seeder
             RestockingReportSeeder::class,
 
             PaymentTypesSeeder::class,
+            VatRatesSeeder::class,
             //            DataCollectionsSeeder::class,
             //            RmsapiConnectionSeeder::class,
             //            AutomationsSeeder::class,

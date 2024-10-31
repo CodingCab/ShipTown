@@ -151,7 +151,7 @@ export default {
         removePaymentType(id) {
             this.showLoading();
 
-            this.apiDeletePaymentType(id)
+            this.apiDeleteVatRate(id)
                 .then(() => {
                     this.reloadPaymentTypesList();
                 })

@@ -125,7 +125,7 @@
                 params['filter[search]'] = this.getUrlParameter('sku') ?? this.getUrlParameter('search');
                 params['filter[has_tags]'] = this.getUrlParameter('has_tags');
                 params['filter[without_tags]'] = this.getUrlParameter('without_tags');
-                params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals';
+                params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals,taxRate';
                 params['per_page'] = this.per_page;
                 params['page'] = page;
                 params['sort'] = this.getUrlParameter('sort', '-quantity');
@@ -161,7 +161,7 @@
             findProductsWithExactSku: function() {
                 const params = { ...this.$router.currentRoute.query};
                 params['filter[sku_or_alias]'] = this.getUrlParameter('sku') ?? this.getUrlParameter('search');
-                params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals';
+                params['include'] = 'inventory,tags,prices,aliases,inventory.warehouse,inventoryMovementsStatistics,inventoryTotals,taxRate';
                 params['per_page'] = 1;
 
                 this.apiGetProducts(params)

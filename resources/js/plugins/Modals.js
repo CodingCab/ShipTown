@@ -62,6 +62,10 @@ const Modals = {
             showNewPaymentTypeModal(paymentType = null) {
                 this.show('module-data-collector-payments-new-payment-type-modal', {'paymentType': paymentType});
             },
+
+            showCreateUpdateVatRateModal(id = 0, vatRate = null) {
+                this.show('module-vat-rates-create-update-vat-rate-modal', {'id': id, 'vatRate': vatRate});
+            },
         }
     }
 }

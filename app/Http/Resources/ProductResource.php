@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Product;
+use App\Modules\VatRates\src\Models\VatRate;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,8 @@ class ProductResource extends JsonResource
             'sale_price' => $this->sale_price,
             'sale_price_start_date' => $this->sale_price_start_date,
             'sale_price_end_date' => $this->sale_price_end_date,
+            'commodity_code' => $this->commodity_code,
+            'default_tax_code' => $this->default_tax_code,
             'quantity' => $this->quantity,
             'quantity_reserved' => $this->quantity_reserved,
             'deleted_at' => $this->deleted_at,
@@ -42,6 +45,9 @@ class ProductResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'inventoryMovementsStatistics' => JsonResource::collection($this->whenLoaded('inventoryMovementsStatistics')),
             'inventoryTotals' => JsonResource::collection($this->whenLoaded('inventoryTotals')),
+            'taxRate' => $this->whenNotNull($this->taxRate, function () {
+                return new VatRateResource($this->taxRate);
+            }),
         ];
     }
 }

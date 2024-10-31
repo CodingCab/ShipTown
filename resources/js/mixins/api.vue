@@ -585,6 +585,19 @@ export default {
         apiPutTransactionPayment: function (id, data) {
             return axios.put('/api/data-collector-payments/' + id, data);
         },
+
+        apiGetVatRates: function (params) {
+            return axios.get('/api/vat-rates', {params: params});
+        },
+        apiPostVatRate: function (data) {
+            return axios.post('/api/vat-rates', data);
+        },
+        apiPutVatRate: function (data) {
+            return axios.put('/api/vat-rates/' + data.id, data);
+        },
+        apiDeleteVatRate: function (id) {
+            return axios.delete('/api/vat-rates/' + id);
+        },
     }
 }
 </script>
