@@ -39,8 +39,8 @@ const Modals = {
                 this.show('new-quantity-discount-modal', {'discount': discount});
             },
 
-            showSetTransactionPrinterModal(printer = null) {
-                this.show('set-transaction-printer-modal', {'printer': printer});
+            showSetTransactionPrinterModal(printer = null, openTransactionStatusModal = false) {
+                this.show('set-transaction-printer-modal', {printer, openTransactionStatusModal});
             },
 
             showFindAddressModal() {
@@ -55,12 +55,16 @@ const Modals = {
                 this.show('data-collection-choose-payment-type-modal', {'paymentType': paymentType});
             },
 
-            showAddPaymentModal(paymentDetails = null) {
-                this.show('data-collection-data-collection-add-payment-modal', {'paymentDetails': paymentDetails});
+            showAddPaymentModal() {
+                this.show('data-collection-add-payment-modal');
             },
 
             showNewPaymentTypeModal(paymentType = null) {
                 this.show('module-data-collector-payments-new-payment-type-modal', {'paymentType': paymentType});
+            },
+
+            showTransactionStatusModal() {
+                this.show('data-collection-transaction-status-modal');
             },
         }
     }
