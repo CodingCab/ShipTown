@@ -78,6 +78,7 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
                 'enabled' => self::$autoEnable,
                 'name' => self::$module_name,
                 'description' => self::$module_description,
+                'settings_link' => self::$settings_link,
             ]);
 
             return $module->enabled;
@@ -101,6 +102,7 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
             'enabled' => false,
             'name' => self::$module_name,
             'description' => self::$module_description,
+            'settings_link' => self::$settings_link,
         ]);
 
         if ($module->enabled) {
@@ -154,6 +156,7 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
                 'enabled' => $moduleServiceProvider::$autoEnable,
                 'name' => $moduleServiceProvider::$module_name,
                 'description' => $moduleServiceProvider::$module_description,
+                'settings_link' => $moduleServiceProvider::$settings_link,
             ]);
 
             return true;
@@ -172,6 +175,7 @@ abstract class BaseModuleServiceProvider extends EventServiceProvider
             'enabled' => false,
             'name' => self::$module_name,
             'description' => self::$module_description,
+            'settings_link' => self::$settings_link,
         ]);
 
         if ($module->enabled) {
