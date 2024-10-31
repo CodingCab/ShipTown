@@ -22,6 +22,7 @@ class ModuleReport extends Report
             'enabled' => 'modules.enabled',
             'name' => 'modules.name',
             'description' => 'modules.description',
+            'settings_link' => 'modules.settings_link',
         ];
 
         $this->addFilter(

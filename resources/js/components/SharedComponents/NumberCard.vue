@@ -1,5 +1,5 @@
 <template>
-    <text-card :label="label" :text="numberFormatted" :min-width="minWidth"></text-card>
+    <text-card :label="label" :text="numberFormatted" :min-width="minWidth" :id="id"></text-card>
 </template>
 
 <script>
@@ -8,10 +8,12 @@
     export default {
         mixins: [helpers],
         name: "NumberCard",
-
         props: {
             label: null,
             number: null,
+            id: {
+                type: String,
+            },
             minWidth: {
                 type: String,
                 default: '70px'
