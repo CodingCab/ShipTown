@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
 
 class DispatchImportOrdersJobs implements ShouldQueue
 {
@@ -22,7 +23,10 @@ class DispatchImportOrdersJobs implements ShouldQueue
     public function handle(): void
     {
         foreach (Api2cartConnection::all() as $api2cartConnection) {
-            ImportOrdersJobs::dispatch($api2cartConnection);
+            Bus::chain([
+                ImportOrdersJobs::dispatch($api2cartConnection),
+                ProcessImportedOrdersJob::dispatch($api2cartConnection)
+            ]);
         }
     }
 }

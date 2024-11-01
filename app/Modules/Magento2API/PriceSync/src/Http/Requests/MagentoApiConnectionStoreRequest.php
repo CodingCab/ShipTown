@@ -21,10 +21,13 @@ class MagentoApiConnectionStoreRequest extends FormRequest
     {
         return [
             'base_url' => 'required|url',
-            'magento_store_id' => 'required|numeric',
             'tag' => 'nullable',
+            'magento_store_id' => 'nullable|numeric',
             'pricing_source_warehouse_id' => 'nullable|exists:warehouses,id',
-            'api_access_token' => 'required',
+            'consumer_key' => 'required|string',
+            'consumer_secret' => 'required|string',
+            'api_access_token' => 'required|string',
+            'access_token_secret' => 'required|string',
         ];
     }
 }

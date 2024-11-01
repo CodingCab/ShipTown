@@ -30,7 +30,10 @@ class ImportOrdersJobs extends UniqueJob
         return implode('-', [parent::uniqueId(), $this->api2cartConnection->id]);
     }
 
-    public function handle()
+    /**
+     * @throws GuzzleException
+     */
+    public function handle(): void
     {
         $this->importOrders($this->api2cartConnection);
 

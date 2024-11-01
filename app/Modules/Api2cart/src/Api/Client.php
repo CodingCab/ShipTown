@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Log;
 
 class Client
 {
+    public static function getCartList(): RequestResponse
+    {
+        return Client::GET('', 'account.cart.list.json', []);
+    }
+
     /**
      * @throws GuzzleException
      */
@@ -15,8 +20,11 @@ class Client
     {
         $query = array_merge($params, [
             'api_key' => self::getApiKey(),
-            'store_key' => $store_key,
         ]);
+
+        if (!empty($store_key)) {
+            $query = array_merge($query, ['store_key' => $store_key]);
+        }
 
         $response = new RequestResponse(
             self::getGuzzleClient()->get($uri, [

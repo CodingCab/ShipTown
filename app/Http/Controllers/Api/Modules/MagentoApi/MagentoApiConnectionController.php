@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MagentoApiConnectionUpdateRequest;
 use App\Http\Resources\MagentoConnectionResource;
 use App\Models\Configuration;
+use App\Modules\Api2cart\src\Api\Client;
+use App\Modules\Api2cart\src\Jobs\DispatchImportOrdersJobs;
+use App\Modules\Api2cart\src\Models\Api2cartConnection;
+use App\Modules\Api2cart\src\Services\Api2cartService;
 use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionDestroyRequest;
 use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionIndexRequest;
 use App\Modules\Magento2API\PriceSync\src\Http\Requests\MagentoApiConnectionStoreRequest;
@@ -24,6 +28,27 @@ class MagentoApiConnectionController extends Controller
 
     public function store(MagentoApiConnectionStoreRequest $request): MagentoConnectionResource
     {
+        $response = Client::POST('', 'account.cart.add.json', [
+            "store_url" => $request->validated('base_url'),
+            "cart_id" => "Magento2Api",
+            "verify" => true,
+            "magento_consumer_key" => $request->validated('consumer_key'),
+            "magento_consumer_secret" => $request->validated('consumer_secret'),
+            "magento_access_token" => $request->validated('api_access_token'),
+            "magento_token_secret" => $request->validated('access_token_secret')
+        ]);
+
+        if (!$response->isSuccess()) {
+            abort(400, $response->getReturnMessage());
+        }
+
+        $jsonResponse = json_decode($response->getAsJson());
+
+        Api2cartConnection::create([
+            'url' => $request->validated('base_url'),
+            'bridge_api_key' => data_get($jsonResponse, 'result.store_key')
+        ]);
+
         $connection = new MagentoConnection;
         $connection->fill($request->only($connection->getFillable()));
 
@@ -35,6 +60,8 @@ class MagentoApiConnectionController extends Controller
         $connection->save();
 
         Configuration::query()->update(['ecommerce_connected' => true]);
+
+        DispatchImportOrdersJobs::dispatchAfterResponse();
 
         return new MagentoConnectionResource($connection);
     }

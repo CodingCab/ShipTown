@@ -15,14 +15,14 @@
         <div class="col-md-3 d-flex align-items-center bg-white px-5">
             <div class="w-100">
                 <div class="mb-4">
-                    <h4>Setup Magento API</h4>
+                    <h5>Magento 2 API Connection</h5>
                 </div>
 
                 <ValidationObserver ref="form">
                     <form class="form" @submit.prevent="submit" ref="loadingContainer">
 
                         <div class="form-group">
-                            <label class="form-label" for="base_url">Base URL</label>
+                            <label class="form-label" for="base_url">Store URL</label>
                             <ValidationProvider vid="base_url" name="base_url" v-slot="{ errors }">
                             <input v-model="config.base_url" :class="{
                                         'form-control': true,
@@ -34,13 +34,26 @@
                             </ValidationProvider>
                         </div>
 
+<!--                        <div class="form-group">-->
+<!--                            <label class="form-label" for="magento_store_id">Store ID</label>-->
+<!--                            <ValidationProvider vid="magento_store_id" name="magento_store_id" v-slot="{ errors }">-->
+<!--                                <input v-model="config.magento_store_id" :class="{-->
+<!--                                    'form-control': true,-->
+<!--                                    'is-invalid': errors.length > 0,-->
+<!--                                }" id="magento_store_id" type="number" required>-->
+<!--                                <div class="invalid-feedback">-->
+<!--                                    {{ errors[0] }}-->
+<!--                                </div>-->
+<!--                            </ValidationProvider>-->
+<!--                        </div>-->
+
                         <div class="form-group">
-                            <label class="form-label" for="magento_store_id">Store ID</label>
-                            <ValidationProvider vid="magento_store_id" name="magento_store_id" v-slot="{ errors }">
-                                <input v-model="config.magento_store_id" :class="{
+                            <label class="form-label" for="consumer_key">Consumer Key</label>
+                            <ValidationProvider vid="consumer_key" name="consumer_key" v-slot="{ errors }">
+                                <input v-model="config.consumer_key" id="consumer_key" type="password" required :class="{
                                     'form-control': true,
                                     'is-invalid': errors.length > 0,
-                                }" id="magento_store_id" type="number" required>
+                                }">
                                 <div class="invalid-feedback">
                                     {{ errors[0] }}
                                 </div>
@@ -48,9 +61,35 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="api_access_token">API Access Token</label>
+                            <label class="form-label" for="consumer_secret">Consumer Secret</label>
+                            <ValidationProvider vid="consumer_secret" name="consumer_secret" v-slot="{ errors }">
+                                <input v-model="config.consumer_secret" id="consumer_secret" type="password" required :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors.length > 0,
+                                }">
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="api_access_token">Access Token</label>
                             <ValidationProvider vid="api_access_token" name="api_access_token" v-slot="{ errors }">
-                                <input v-model="config.api_access_token" id="api_access_token" type="text" required :class="{
+                                <input v-model="config.api_access_token" id="api_access_token" type="password" required :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors.length > 0,
+                                }">
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="api_access_token">Access Token Secret</label>
+                            <ValidationProvider vid="access_token_secret" name="access_token_secret" v-slot="{ errors }">
+                                <input v-model="config.access_token_secret" id="access_token_secret" type="password" required :class="{
                                     'form-control': true,
                                     'is-invalid': errors.length > 0,
                                 }">
@@ -83,6 +122,10 @@ export default {
         return {
             config: {
                 base_url: '',
+                consumer_key: '',
+                consumer_secret: '',
+                api_access_token: '',
+                access_token_secret: '',
             },
         };
     },
@@ -90,17 +133,14 @@ export default {
     methods: {
         submit() {
             this.showLoading();
+
             this.apiPostMagentoApiConnection({...this.config})
                 .then(({ data }) => {
                     this.$snotify.success('Connection created.');
                     window.location.href = '/';
                 })
                 .catch((error) => {
-                    if (error.response) {
-                        if (error.response.status === 422) {
-                            this.$refs.form.setErrors(error.response.data.errors);
-                        }
-                    }
+                    this.displayApiCallError(error);
                 })
                 .finally(this.hideLoading);
         },

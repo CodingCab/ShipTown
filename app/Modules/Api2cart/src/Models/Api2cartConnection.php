@@ -71,7 +71,7 @@ class Api2cartConnection extends Model
     public function __construct(array $attributes = [])
     {
         $this->setRawAttributes([
-            'last_synced_modified_at' => Carbon::now(),
+            'last_synced_modified_at' => Carbon::now()->subMonths(6),
         ], true);
 
         parent::__construct($attributes);
