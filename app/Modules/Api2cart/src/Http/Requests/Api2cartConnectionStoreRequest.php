@@ -20,10 +20,19 @@ class Api2cartConnectionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'location_id' => 'required',
-            'url' => 'required|url',
-            'type' => 'required',
-            'bridge_api_key' => 'required',
+            'store_url' => 'required|url',
+            'cart_id' => 'required|in:Magento2Api,Shopify',
+            'verify' => 'sometimes|boolean',
+
+            "magento_consumer_key" => 'sometimes|string',
+            "magento_consumer_secret" => 'sometimes|string',
+            "magento_access_token" => 'sometimes|string',
+            "magento_token_secret" => 'sometimes|string',
+
+            "shopify_access_token" => "sometimes|string",
+            "shopify_api_key" => "sometimes|string",
+            "shopify_api_password" => "sometimes|string",
+//            "shopify_shared_secret" => "sometimes|string",
         ];
     }
 }

@@ -15,19 +15,19 @@
         <div class="col-md-3 d-flex align-items-center bg-white px-5">
             <div class="w-100">
                 <div class="mb-4">
-                    <h4>Setup Magento API</h4>
+                    <h4>Connect Shopify</h4>
                 </div>
 
                 <ValidationObserver ref="form">
                     <form class="form" @submit.prevent="submit" ref="loadingContainer">
 
                         <div class="form-group">
-                            <label class="form-label" for="base_url">Base URL</label>
-                            <ValidationProvider vid="base_url" name="base_url" v-slot="{ errors }">
-                            <input v-model="config.base_url" :class="{
-                                        'form-control': true,
-                                        'is-invalid': errors.length > 0,
-                                    }" id="base_url" type="url" required>
+                            <label class="form-label" for="store_url">Store URL</label>
+                            <ValidationProvider vid="store_url" name="store_url" v-slot="{ errors }">
+                            <input v-model="config.store_url" id="store_url" type="url" required :class="{
+                                'form-control': true,
+                                'is-invalid': errors.length > 0,
+                            }">
                             <div class="invalid-feedback">
                                 {{ errors[0] }}
                             </div>
@@ -35,12 +35,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="magento_store_id">Store ID</label>
-                            <ValidationProvider vid="magento_store_id" name="magento_store_id" v-slot="{ errors }">
-                                <input v-model="config.magento_store_id" :class="{
+                            <label class="form-label" for="shopify_access_token">Admin API access token</label>
+                            <ValidationProvider vid="shopify_access_token" name="shopify_access_token" v-slot="{ errors }">
+                                <input v-model="config.shopify_access_token" id="shopify_access_token" type="text" required :class="{
                                     'form-control': true,
                                     'is-invalid': errors.length > 0,
-                                }" id="magento_store_id" type="number" required>
+                                }">
                                 <div class="invalid-feedback">
                                     {{ errors[0] }}
                                 </div>
@@ -48,9 +48,22 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="api_access_token">API Access Token</label>
-                            <ValidationProvider vid="api_access_token" name="api_access_token" v-slot="{ errors }">
-                                <input v-model="config.api_access_token" id="api_access_token" type="text" required :class="{
+                            <label class="form-label" for="shopify_api_key">API key</label>
+                            <ValidationProvider vid="shopify_api_key" name="shopify_api_key" v-slot="{ errors }">
+                                <input v-model="config.shopify_api_key" id="shopify_api_key" type="text" required :class="{
+                                    'form-control': true,
+                                    'is-invalid': errors.length > 0,
+                                }">
+                                <div class="invalid-feedback">
+                                    {{ errors[0] }}
+                                </div>
+                            </ValidationProvider>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="shopify_api_password">API secret key</label>
+                            <ValidationProvider vid="shopify_api_password" name="shopify_api_password" v-slot="{ errors }">
+                                <input v-model="config.shopify_api_password" id="shopify_api_password" type="text" required :class="{
                                     'form-control': true,
                                     'is-invalid': errors.length > 0,
                                 }">
@@ -63,7 +76,6 @@
                     </form>
                 </ValidationObserver>
                 <b-button @click="submit" variant="primary" class="btn btn-primary btn-block">Connect</b-button>
-<!--                        <button class="btn btn-primary btn-block" type="submit">Save</button>-->
             </div>
         </div>
     </div>
@@ -83,7 +95,11 @@ export default {
     data() {
         return {
             config: {
-                base_url: '',
+                store_url: '',
+                cart_id: 'Shopify',
+                shopify_access_token: '',
+                shopify_api_key: '',
+                shopify_api_password: '',
             },
         };
     },
@@ -91,7 +107,7 @@ export default {
     methods: {
         submit() {
             this.showLoading();
-            this.apiPostMagentoApiConnection({...this.config})
+            this.apiPostApi2cartConnection({...this.config})
                 .then(({ data }) => {
                     this.$snotify.success('Connection created.');
                     window.location.href = '/';
