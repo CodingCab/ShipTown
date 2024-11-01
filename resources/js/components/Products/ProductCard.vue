@@ -223,9 +223,13 @@
                                             <div class="badge mb-2">{{ alias.alias }}</div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control small quantityPackAliasInput mb-2"
+                                            <input type="number"
+                                                class="form-control small quantityPackAliasInput mb-2"
                                                 placeholder="Pack quantity here"
-                                                @keyup.enter="changeQuantityAlias(alias)" v-model="alias.quantity">
+                                                @change="changeQuantityAlias(alias)"
+                                                @focus="$event.target.select()"
+                                                v-model.number="alias.quantity"
+                                            />
                                         </td>
                                     </tr>
                                 </table>
@@ -501,10 +505,8 @@
                 };
 
                 this.apiPostProductsAliases(params)
-                    .then(() => {
-                        this.product.aliases.push({
-                            alias: document.getElementById('newProductAliasInput').value
-                        });
+                    .then((response) => {
+                        this.product.aliases.push(response.data.data);
                         document.getElementById('newProductAliasInput').value = '';
                     })
                     .catch((error) => {
@@ -516,7 +518,6 @@
             changeQuantityAlias(alias) {
                 this.apiPutProductsAliases(alias.id, {quantity: alias.quantity})
                     .then(() => {
-                        this.notifySuccess('Alias quantity updated');
                     })
                     .catch((error) => {
                         this.displayApiCallError(error);

@@ -21,6 +21,7 @@ class ProductAliasController extends Controller
     public function store(ProductAliasStoreRequest $request)
     {
         $product = ProductAlias::query()->updateOrCreate(['alias' => $request->validated('alias')], $request->validated());
+        $product->refresh();
 
         return ProductAliasResource::make($product);
     }
