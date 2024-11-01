@@ -80,6 +80,7 @@
                 inventory: null,
                 prices: null,
                 dataCollectionRecord: null,
+                productAliases: null,
             };
         },
 
@@ -118,7 +119,7 @@
             loadProduct: function () {
                 this.apiGetProducts({
                     'filter[sku_or_alias]': this.sku_or_alias,
-                    'include': 'inventory,prices',
+                    'include': 'inventory,prices,aliases',
                 })
                 .then(response => {
                     if (response.data.data.length === 0) {
@@ -128,6 +129,9 @@
                     this.product = response.data.data[0];
                     this.inventory = this.product['inventory'];
                     this.prices = this.product['prices'];
+
+                    const productAlias = this.product['aliases'].find(alias => alias['alias'] === this.sku_or_alias);
+                    this.quantity_to_add = productAlias?.quantity
 
                     this.$bvModal.show('data-collector-quantity-request-modal');
                 })

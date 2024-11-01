@@ -71,7 +71,7 @@ Route::name('api.')->group(function () {
     RouteService::apiResource('print-jobs', Api\PrintJobController::class, ['store']);
     RouteService::apiResource('product/aliases', Api\ProductAliasController::class, ['index']);
     RouteService::apiResource('product/tags', Api\ProductTagController::class, ['index']);
-    RouteService::apiResource('products-aliases', Api\ProductAliasController::class, ['index', 'store']);
+    RouteService::apiResource('products-aliases', Api\ProductAliasController::class, ['index', 'store', 'update']);
     RouteService::apiResource('products', Api\ProductController::class, ['index', 'store']);
     RouteService::apiResource('quantity-discount-product', Api\QuantityDiscountProductsController::class, ['index', 'store', 'destroy']);
     RouteService::apiResource('quantity-discounts', Api\QuantityDiscountsController::class);

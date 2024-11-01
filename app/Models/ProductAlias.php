@@ -41,6 +41,7 @@ class ProductAlias extends Model
     protected $fillable = [
         'product_id',
         'alias',
+        'quantity',
     ];
 
     public function product(): BelongsTo
