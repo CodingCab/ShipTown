@@ -116,11 +116,44 @@
         <stocktake-input v-bind:auto-focus-after="100" ></stocktake-input>
         <hr>
         <button class="btn btn-primary btn-block" @click="downloadFile">{{ downloadButtonText }}</button>
+        <button class="btn btn-primary btn-block" @click="showMemorizeReportModal">Memorize Report</button>
         <template #modal-footer>
             <b-button variant="secondary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
                 Cancel
             </b-button>
             <b-button variant="primary" class="float-right" @click="$bvModal.hide('quick-actions-modal');">
+                OK
+            </b-button>
+        </template>
+    </b-modal>
+
+    <b-modal
+        title="Memorize Report"
+        id="memorize-report-modal"
+        no-fade
+        @hidden="setFocusElementById('barcode-input')"
+    >
+        <ValidationObserver ref="form">
+            <form class="form" ref="loadingContainer">
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label" for="name">Name</label>
+                    <div class="col-sm-9">
+                        <ValidationProvider vid="name" name="name" v-slot="{ errors }">
+                            <input v-model="memorizeName" :class="{
+                                'form-control': true,
+                                'is-invalid': errors.length > 0,
+                            }" id="memorize-name" required>
+                            <div class="invalid-feedback">{{ errors[0] }}</div>
+                        </ValidationProvider>
+                    </div>
+                </div>
+            </form>
+        </ValidationObserver>
+        <template #modal-footer>
+            <b-button variant="secondary" class="float-right" @click="$bvModal.hide('memorize-report-modal');">
+                Cancel
+            </b-button>
+            <b-button variant="primary" class="float-right" @click="memorizeReport">
                 OK
             </b-button>
         </template>
@@ -157,12 +190,23 @@
     import helpers from "../../helpers";
     import ProductSkuButton from "../SharedComponents/ProductSkuButton.vue";
 
+    import { ValidationObserver, ValidationProvider } from "vee-validate";
+
     export default {
         mixins: [loadingOverlay, url, api, helpers],
 
         components: {
             ProductSkuButton,
-            IconArrowRight, IconArrowLeft, IconSortAsc, IconSortDesc, IconFilter, ModalDateBetweenSelector, ReportHead},
+            IconArrowRight,
+            IconArrowLeft,
+            IconSortAsc,
+            IconSortDesc,
+            IconFilter,
+            ModalDateBetweenSelector,
+            ReportHead,
+            ValidationProvider,
+            ValidationObserver,
+        },
 
         props: {
             metaString: String,
@@ -184,6 +228,7 @@
                 hasMoreRecords: true,
 
                 breadcrumbs: '',
+                memorizeName: '',
             }
         },
 
@@ -450,7 +495,31 @@
 
             showShowHideColumnsModal() {
                 this.$bvModal.show('show-hide-columns-local-modal');
-            }
+            },
+
+            showMemorizeReportModal() {
+                this.$bvModal.hide('quick-actions-modal');
+                this.$bvModal.show('memorize-report-modal');
+                this.setFocusElementById('memorize-name');
+                this.memorizeName = '';
+            },
+
+            async memorizeReport() {
+                const isValid = await this.$refs.form.validate();
+                if (isValid) {
+                    this.apiPostNavigationMenu({
+                        name: this.memorizeName,
+                        url: this.$router.currentRoute.fullPath,
+                        group: 'reports',
+                    })
+                    .then(() => {
+                        this.notifySuccess('Report has been saved');
+                    })
+                    .finally(() => {
+                        this.$bvModal.hide('memorize-report-modal');
+                    })
+                }
+            },
         },
 
         computed: {
@@ -464,8 +533,8 @@
             },
 
             isUrlSortDesc() {
-                return this.getUrlParameter('sort', ' ').startsWith('-');
-            }
+                return this.getUrlParameter('sort', ' ').startsWith('-')
+            },
         }
     }
 
