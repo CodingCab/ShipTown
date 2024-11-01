@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\InventoryMovements\src\Jobs;
+namespace Tests\Modules\InventoryMovements\src\Jobs;
 
 use App\Models\Inventory;
 use App\Models\InventoryMovement;
