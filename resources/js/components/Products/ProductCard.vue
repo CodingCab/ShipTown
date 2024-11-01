@@ -516,6 +516,7 @@
             changeQuantityAlias(alias) {
                 this.apiPutProductsAliases(alias.id, {quantity: alias.quantity})
                     .then(() => {
+                        this.notifySuccess('Alias quantity updated');
                     })
                     .catch((error) => {
                         this.displayApiCallError(error);
