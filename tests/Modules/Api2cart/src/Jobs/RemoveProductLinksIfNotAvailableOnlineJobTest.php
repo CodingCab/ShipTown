@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Api2cart\src\Jobs;
+namespace Tests\Modules\Api2cart\src\Jobs;
 
 use App\Models\Product;
 use App\Modules\Api2cart\src\Jobs\RemoveProductLinksIfNotAvailableOnlineJob;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Magento2API\PriceSync\src\Jobs;
+namespace Tests\Modules\Magento2API\PriceSync\src\Jobs;
 
 use App;
 use App\Abstracts\JobTestAbstract;

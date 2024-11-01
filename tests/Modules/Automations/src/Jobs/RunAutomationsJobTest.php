@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Automations\src\Jobs;
+namespace Tests\Modules\Automations\src\Jobs;
 
 use App\Models\Order;
 use App\Models\OrderProduct;

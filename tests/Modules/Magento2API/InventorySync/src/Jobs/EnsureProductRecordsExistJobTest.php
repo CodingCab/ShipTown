@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Magento2API\InventorySync\src\Jobs;
+namespace Tests\Modules\Magento2API\InventorySync\src\Jobs;
 
 use Tests\TestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Modules;
+namespace Tests\Modules;
 
 use App\Events\EveryDayEvent;
 use App\Events\EveryFiveMinutesEvent;

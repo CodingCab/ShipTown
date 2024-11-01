@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Magento2API;
+namespace Tests\Modules\Magento2API;
 
 use App\Events\EveryDayEvent;
 use App\Events\EveryFiveMinutesEvent;
